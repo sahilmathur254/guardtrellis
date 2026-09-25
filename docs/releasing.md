@@ -1,7 +1,11 @@
 # Releasing GuardTrellis
 
-Version `0.1.0a1` is an alpha candidate; publication is tracked in
-[#4](https://github.com/sahilmathur254/guardtrellis/issues/4). The release workflow is
+Version `0.1.0a1` was published on 2026-09-25 to
+[PyPI](https://pypi.org/project/guardtrellis/0.1.0a1/). Its
+[GitHub prerelease](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.0a1) and
+[#4](https://github.com/sahilmathur254/guardtrellis/issues/4) retain the release evidence.
+The instructions below describe the process for future releases; use the new candidate's
+version and rehearsal run rather than rerunning the completed alpha upload. The release workflow is
 `.github/workflows/release.yml`. It validates on pull requests and offers three manual
 targets: `validate`, `testpypi`, and `pypi`. It never publishes on a push, pull request, or tag.
 
