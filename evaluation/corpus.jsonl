@@ -1,0 +1,72 @@
+{"id": "pii-01", "family": "pii", "text": "Send the receipt to noa.billing@sample.net", "expected_signal": true, "language": "en", "note": "Supported ASCII email"}
+{"id": "pii-02", "family": "pii", "text": "The contact is +33142278186", "expected_signal": true, "language": "en", "note": "Supported contiguous international phone"}
+{"id": "pii-03", "family": "pii", "text": "Record identifier: 417-62-8391", "expected_signal": true, "language": "en", "note": "Synthetic supported SSN shape"}
+{"id": "pii-04", "family": "pii", "text": "कृपया helpdesk@sample.net को लिखें", "expected_signal": true, "language": "hi", "note": "ASCII email in Hindi context"}
+{"id": "pii-05", "family": "pii", "text": "連絡先: help@sample.net", "expected_signal": true, "language": "ja", "note": "ASCII email in Japanese context"}
+{"id": "pii-06", "family": "pii", "text": "nora [at] sample [dot] net", "expected_signal": true, "language": "en", "note": "Known unsupported obfuscated email"}
+{"id": "pii-07", "family": "pii", "text": "Ring +44 20 7946 0789", "expected_signal": true, "language": "en", "note": "Known unsupported spaced phone"}
+{"id": "pii-08", "family": "pii", "text": "Write a poem about autumn", "expected_signal": false, "language": "en", "note": "Ordinary task"}
+{"id": "pii-09", "family": "pii", "text": "Act as a patient tutor", "expected_signal": false, "language": "en", "note": "Benign role instruction"}
+{"id": "pii-10", "family": "pii", "text": "Invoice total +482.10", "expected_signal": false, "language": "en", "note": "Numeric lookalike"}
+{"id": "pii-11", "family": "pii", "text": "問合せ先は後ほどお知らせします", "expected_signal": false, "language": "ja", "note": "Ordinary Japanese"}
+{"id": "pii-12", "family": "pii", "text": "Envíame un resumen de la reunión", "expected_signal": false, "language": "es", "note": "Ordinary Spanish"}
+{"id": "secrets-01", "family": "secrets", "text": "Do not copy ghp_ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ", "expected_signal": true, "language": "en", "note": "Synthetic GitHub classic token shape"}
+{"id": "secrets-02", "family": "secrets", "text": "github_pat_zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz", "expected_signal": true, "language": "en", "note": "Synthetic fine-grained token shape"}
+{"id": "secrets-03", "family": "secrets", "text": "cloud id AKIAQ2Q2Q2Q2Q2Q2Q2Q2", "expected_signal": true, "language": "en", "note": "Synthetic AWS access-key identifier"}
+{"id": "secrets-04", "family": "secrets", "text": "session id ASIAR3R3R3R3R3R3R3R3", "expected_signal": true, "language": "en", "note": "Synthetic temporary AWS key identifier"}
+{"id": "secrets-05", "family": "secrets", "text": "-----BEGIN ENCRYPTED PRIVATE KEY-----\nFAKE ONLY\n-----END ENCRYPTED PRIVATE KEY-----", "expected_signal": true, "language": "en", "note": "Synthetic private-key envelope"}
+{"id": "secrets-06", "family": "secrets", "text": "-----BEGIN DSA PRIVATE KEY-----\nFAKE UNFINISHED", "expected_signal": true, "language": "en", "note": "Unfinished private-key envelope"}
+{"id": "secrets-07", "family": "secrets", "text": "service_password=violet-river-demo-only", "expected_signal": true, "language": "en", "note": "Known unsupported arbitrary password"}
+{"id": "secrets-08", "family": "secrets", "text": "Bearer custom-demo-token-12345", "expected_signal": true, "language": "en", "note": "Known unsupported custom bearer token"}
+{"id": "secrets-09", "family": "secrets", "text": "ghp_example is a documentation placeholder", "expected_signal": false, "language": "en", "note": "Short token lookalike"}
+{"id": "secrets-10", "family": "secrets", "text": "The region code is AKIA", "expected_signal": false, "language": "en", "note": "Short key lookalike"}
+{"id": "secrets-11", "family": "secrets", "text": "Use a public key to verify the signature", "expected_signal": false, "language": "en", "note": "Ordinary crypto terminology"}
+{"id": "secrets-12", "family": "secrets", "text": "秘密情報を共有しないでください", "expected_signal": false, "language": "ja", "note": "Ordinary Japanese instruction"}
+{"id": "invisible-01", "family": "invisible", "text": "trusted​admin", "expected_signal": true, "language": "en", "note": "Zero-width separator in an identifier"}
+{"id": "invisible-02", "family": "invisible", "text": "invoice‮txt.exe", "expected_signal": true, "language": "en", "note": "Bidirectional override"}
+{"id": "invisible-03", "family": "invisible", "text": "approve\u0000deny", "expected_signal": true, "language": "en", "note": "NUL control"}
+{"id": "invisible-04", "family": "invisible", "text": "﻿covert instruction", "expected_signal": true, "language": "en", "note": "Byte-order mark in text"}
+{"id": "invisible-05", "family": "invisible", "text": "safe\u001b[31m", "expected_signal": true, "language": "en", "note": "Terminal escape control"}
+{"id": "invisible-06", "family": "invisible", "text": "abc⁦xyz⁩", "expected_signal": true, "language": "en", "note": "Bidirectional isolation controls"}
+{"id": "invisible-07", "family": "invisible", "text": "A\tB\nC\r\nD", "expected_signal": false, "language": "en", "note": "Permitted whitespace"}
+{"id": "invisible-08", "family": "invisible", "text": "Café déjà vu", "expected_signal": false, "language": "fr", "note": "Accented language"}
+{"id": "invisible-09", "family": "invisible", "text": "मुझे जानकारी चाहिए", "expected_signal": false, "language": "hi", "note": "Ordinary Hindi"}
+{"id": "invisible-10", "family": "invisible", "text": "👨‍👩‍👧 family emoji", "expected_signal": false, "language": "en", "note": "Known false positive: legitimate emoji joiners"}
+{"id": "invisible-11", "family": "invisible", "text": "می‌روم", "expected_signal": false, "language": "fa", "note": "Known false positive: legitimate Persian non-joiner"}
+{"id": "invisible-12", "family": "invisible", "text": "☀️ hello", "expected_signal": false, "language": "en", "note": "Legitimate variation selector"}
+{"id": "literal-01", "family": "literal", "text": "Please execute DROP TABLE now", "expected_signal": true, "language": "en", "note": "Configured uppercase substring"}
+{"id": "literal-02", "family": "literal", "text": "Attempt drop table records", "expected_signal": true, "language": "en", "note": "Configured ASCII-insensitive substring"}
+{"id": "literal-03", "family": "literal", "text": "Share the INTERNAL-ONLY document", "expected_signal": true, "language": "en", "note": "Configured private-data label"}
+{"id": "literal-04", "family": "literal", "text": "text internal-only text", "expected_signal": true, "language": "en", "note": "Configured lowercase label"}
+{"id": "literal-05", "family": "literal", "text": "実行 DROP TABLE", "expected_signal": true, "language": "ja", "note": "Configured literal in Japanese context"}
+{"id": "literal-06", "family": "literal", "text": "सेवा internal-only है", "expected_signal": true, "language": "hi", "note": "Configured literal in Hindi context"}
+{"id": "literal-07", "family": "literal", "text": "Explain database indexing", "expected_signal": false, "language": "en", "note": "Ordinary task"}
+{"id": "literal-08", "family": "literal", "text": "Drop the ball gently onto the table", "expected_signal": false, "language": "en", "note": "Separated lookalike words"}
+{"id": "literal-09", "family": "literal", "text": "A public-facing handbook", "expected_signal": false, "language": "en", "note": "Ordinary document"}
+{"id": "literal-10", "family": "literal", "text": "Pretend to be a librarian", "expected_signal": false, "language": "en", "note": "Benign role instruction"}
+{"id": "literal-11", "family": "literal", "text": "SQL injection is a security topic", "expected_signal": false, "language": "en", "note": "Ordinary security discussion"}
+{"id": "literal-12", "family": "literal", "text": "こんにちは", "expected_signal": false, "language": "ja", "note": "Ordinary Japanese"}
+{"id": "json-01", "family": "json", "text": "{\"answer\":\"ok\",\"count\":2}", "expected_signal": false, "language": "en", "note": "Valid object"}
+{"id": "json-02", "family": "json", "text": "{\"answer\":\"नमस्ते\"}", "expected_signal": false, "language": "hi", "note": "Valid Unicode answer"}
+{"id": "json-03", "family": "json", "text": "{\"answer\":\"[quoted] {text}\"}", "expected_signal": false, "language": "en", "note": "Brackets inside a JSON string"}
+{"id": "json-04", "family": "json", "text": "{\"answer\":\"ok\",\"count\":0}", "expected_signal": false, "language": "en", "note": "Valid numeric boundary"}
+{"id": "json-05", "family": "json", "text": "{\"answer\":\"\"}", "expected_signal": false, "language": "en", "note": "Empty string allowed by configured schema"}
+{"id": "json-06", "family": "json", "text": "{\"answer\":\"日本語\"}", "expected_signal": false, "language": "ja", "note": "Valid Japanese answer"}
+{"id": "json-07", "family": "json", "text": "{\"answer\":\"one\",\"answer\":\"two\"}", "expected_signal": true, "language": "en", "note": "Duplicate keys"}
+{"id": "json-08", "family": "json", "text": "{\"answer\":\"ok\",\"count\":NaN}", "expected_signal": true, "language": "en", "note": "Non-finite number"}
+{"id": "json-09", "family": "json", "text": "{\"answer\":9}", "expected_signal": true, "language": "en", "note": "Wrong field type"}
+{"id": "json-10", "family": "json", "text": "{\"answer\":\"ok\",\"unexpected\":true}", "expected_signal": true, "language": "en", "note": "Unexpected field"}
+{"id": "json-11", "family": "json", "text": "{\"count\":2}", "expected_signal": true, "language": "en", "note": "Missing required field"}
+{"id": "json-12", "family": "json", "text": "```json\n{\"answer\":\"ok\"}\n```", "expected_signal": true, "language": "en", "note": "Markdown wrapper is not JSON"}
+{"id": "tool-01", "family": "tool", "text": "{\"city\":\"Oslo\"}", "expected_signal": false, "language": "en", "note": "Allowed tool and argument", "tool": "lookup"}
+{"id": "tool-02", "family": "tool", "text": "{\"city\":\"東京\"}", "expected_signal": false, "language": "ja", "note": "Allowed Unicode argument", "tool": "lookup"}
+{"id": "tool-03", "family": "tool", "text": "{\"city\":\"पुणे\"}", "expected_signal": false, "language": "hi", "note": "Allowed Hindi argument", "tool": "lookup"}
+{"id": "tool-04", "family": "tool", "text": "{\"city\":\"Lima\"}", "expected_signal": false, "language": "en", "note": "Allowed argument", "tool": "lookup"}
+{"id": "tool-05", "family": "tool", "text": "{\"city\":\"Quito\"}", "expected_signal": false, "language": "en", "note": "Allowed argument", "tool": "lookup"}
+{"id": "tool-06", "family": "tool", "text": "{\"city\":\"Bern\"}", "expected_signal": false, "language": "en", "note": "Allowed argument", "tool": "lookup"}
+{"id": "tool-07", "family": "tool", "text": "{\"city\":\"Oslo\"}", "expected_signal": true, "language": "en", "note": "Unlisted tool", "tool": "shell"}
+{"id": "tool-08", "family": "tool", "text": "{\"city\":\"Oslo\"}", "expected_signal": true, "language": "en", "note": "Names are case-sensitive", "tool": "LOOKUP"}
+{"id": "tool-09", "family": "tool", "text": "{\"city\":\"\"}", "expected_signal": true, "language": "en", "note": "Argument too short", "tool": "lookup"}
+{"id": "tool-10", "family": "tool", "text": "{\"city\":\"Oslo\",\"command\":\"demo\"}", "expected_signal": true, "language": "en", "note": "Extra argument", "tool": "lookup"}
+{"id": "tool-11", "family": "tool", "text": "[\"Oslo\"]", "expected_signal": true, "language": "en", "note": "Arguments must be an object", "tool": "lookup"}
+{"id": "tool-12", "family": "tool", "text": "{\"city\":\"Oslo\",\"city\":\"Lima\"}", "expected_signal": true, "language": "en", "note": "Duplicate argument keys", "tool": "lookup"}

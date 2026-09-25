@@ -1,0 +1,39 @@
+name: checks
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install uv
+        run: python -m pip install 'uv==0.8.17'
+      - name: Install locked dependencies and optional examples
+        run: uv sync --frozen --all-extras --group dev --python '${{ matrix.python }}'
+      - name: Test behavior and runnable examples
+        run: uv run --frozen pytest
+      - name: Check lint, formatting, and types
+        run: |
+          uv run --frozen ruff check .
+          uv run --frozen ruff format --check .
+          uv run --frozen mypy
+      - name: Reproduce smoke evaluation
+        run: uv run --frozen python evaluation/run.py --report-dir '${{ runner.temp }}/guardtrellis-eval'
+      - name: Build and install both distributions outside the checkout
+        run: |
+          uv build
+          uv run --frozen python scripts/smoke_dist.py
