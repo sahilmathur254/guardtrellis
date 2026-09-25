@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Optional OpenAI Responses callback example with a credential-free HTTP mock, tested
+  input/output boundaries, and a separately opted-in one-request live smoke. Adds the
+  `openai` extra without changing core dependencies or public Guard APIs. Live verification
+  is pending; see the [integration guide](docs/openai.md). This is not in `0.1.0a1` on PyPI.
+
 ## 0.1.0a1 — 2026-09-25
 
 The first alpha is available on [PyPI](https://pypi.org/project/guardtrellis/0.1.0a1/).

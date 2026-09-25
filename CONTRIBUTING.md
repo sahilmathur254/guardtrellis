@@ -77,8 +77,11 @@ for understanding and validating submitted code.
 Tests run against the installed editable package. Optional example tests skip when extras
 are absent; the CI matrix installs all extras, so those tests must run there. Distribution
 smokes install the wheel and source archive in fresh temporary environments outside this
-directory, verify core installs exclude frameworks, then install extras and execute all
-three examples against each installed artifact. Build the sdist
+directory, verify core installs exclude frameworks and provider SDKs, then install extras and
+execute all four examples against each installed artifact. The OpenAI example uses an
+in-memory HTTP mock, including when credentials exist in the environment. See its
+[integration guide](docs/openai.md) for the separately opted-in, maintainer-approved live smoke;
+normal pytest and CI never make live provider calls. Build the sdist
 and wheel after updating packaged documentation or evaluation results.
 
 The CI matrix covers these combinations:
@@ -90,7 +93,7 @@ The CI matrix covers these combinations:
 | Windows Server 2025 (`windows-2025`) | x64 | 3.12 |
 
 Every combination runs the full tests with extras, lint/format/type checks, the synthetic
-evaluation, and fresh wheel/sdist installation checks with all three examples. Each job has
+evaluation, and fresh wheel/sdist installation checks with all four examples. Each job has
 a 15-minute limit; failures do not cancel the other matrix jobs. Bash runs workflow commands
 on all runners so a failed command stops its step; Python and its subprocesses run natively
 on each OS. The macOS and Windows jobs initially cover one Python version each.

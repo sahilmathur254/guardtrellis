@@ -71,6 +71,10 @@ request-body limits at ingress, concurrency controls, and appropriate deployment
 The LangGraph example validates before initial graph state and before generated output is
 returned to state; it uses no checkpointer and disables tracing during its demo invocation.
 Moving checks into a graph after sensitive state is captured would be too late.
+The optional [OpenAI example](openai.md) defaults to an HTTP mock. Its live path sends only
+checked input to the provider and checks complete output, with explicit timeouts and no
+automatic retries; provider processing/billing and external instrumentation remain outside
+Guard's control. Live evidence is pending and must be recorded separately from mock results.
 
 See [async execution limitations](api.md#limits-and-asynchronous-work) and the retained
 failures in the [synthetic evaluation](../evaluation/REPORT.md). Local tests and synthetic

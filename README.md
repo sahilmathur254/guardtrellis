@@ -104,6 +104,7 @@ uv sync --all-extras --group dev
 uv run python examples/plain_callable.py
 uv run python examples/fastapi_app.py       # Local TestClient demo, no server needed
 uv run python examples/langgraph_app.py     # Local graph, no provider credentials
+uv run python examples/openai_app.py        # Real SDK, in-memory HTTP mock by default
 uv run pytest
 uv run ruff check .
 uv run ruff format --check .
@@ -116,6 +117,12 @@ uv run python scripts/smoke_dist.py
 FastAPI and LangGraph are optional extras (`.[fastapi]`, `.[langgraph]`). LangGraph input
 checks run **before** text enters graph state. The example also checks model output before
 returning it to graph state. Instrumentation around callbacks may still capture raw data.
+
+The optional OpenAI example (`.[openai]`) uses the Responses API through a guarded callback.
+Its default mode and ordinary tests make no provider calls. See the
+[OpenAI integration guide](docs/openai.md) for setup, privacy/failure boundaries, and the
+separately approved one-request live smoke. This extra and example are unreleased source
+additions, not part of the published `0.1.0a1` artifacts; live verification is pending.
 
 See [API details](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/api.md),
 [limitations and trust boundaries](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/limitations.md),
