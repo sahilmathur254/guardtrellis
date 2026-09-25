@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Roadmap and ready work
+    url: https://github.com/users/sahilmathur254/projects/3
+    about: Check existing priorities and scoped tasks before proposing new work.
+  - name: Contribution guide
+    url: https://github.com/sahilmathur254/guardtrellis/blob/main/CONTRIBUTING.md
+    about: Set up the project, choose an issue, and submit a focused pull request.

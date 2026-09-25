@@ -6,7 +6,11 @@ and proposed tool calls. Policies are explicit, composable, and independent of m
 **Alpha: 0.1.0a1.** Install from source; this package has not been released on PyPI.
 Supported Python: 3.11–3.14. Apache-2.0 licensed.
 
+Use an activated virtual environment, then clone and install the source:
+
 ```sh
+git clone https://github.com/sahilmathur254/guardtrellis.git
+cd guardtrellis
 python -m pip install -e .
 python examples/plain_callable.py
 ```
@@ -111,3 +115,16 @@ See [API details](docs/api.md), [limitations and trust boundaries](docs/limitati
 [evaluation methodology](evaluation/README.md), [measured smoke results](evaluation/REPORT.md),
 and [contribution guidance](CONTRIBUTING.md). These checks do not provide comprehensive
 prompt-injection prevention, factual verification, regulatory compliance, or a tool sandbox.
+
+## Roadmap and contributions
+
+Use the public [GitHub Project](https://github.com/users/sahilmathur254/projects/3) to find
+ready work and track progress. The [roadmap](ROADMAP.md) explains the release milestones,
+dependencies, and longer-term proposals. Start with a
+[good first issue](https://github.com/sahilmathur254/guardtrellis/labels/good%20first%20issue)
+or a [help wanted issue](https://github.com/sahilmathur254/guardtrellis/labels/help%20wanted),
+then follow the [contributor workflow](CONTRIBUTING.md).
+
+The next distribution milestone is a PyPI alpha after packaging review and a TestPyPI
+rehearsal. See the [release checklist](docs/releasing.md); the package remains source-only
+until that release is verified.

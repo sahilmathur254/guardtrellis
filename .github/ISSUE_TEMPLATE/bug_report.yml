@@ -1,0 +1,39 @@
+name: Bug report
+description: Report a reproducible problem using fabricated or sanitized data.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Search existing issues first. Use fabricated input and remove credentials,
+        personal data, and raw provider logs before submitting a reproduction.
+  - type: input
+    id: environment
+    attributes:
+      label: Version and environment
+      description: GuardTrellis version or commit, Python version, OS, and relevant optional packages.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include a small runnable example and installation command using safe synthetic data.
+      render: python
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: Link the documented contract or explain the expected outcome.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include a sanitized result or error and whether it reproduces consistently.
+    validations:
+      required: true

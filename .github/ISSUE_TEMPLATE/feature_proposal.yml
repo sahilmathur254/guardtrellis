@@ -1,0 +1,36 @@
+name: Feature or documentation proposal
+description: Propose a scoped improvement with a concrete caller use case.
+title: "[Proposal]: "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check ROADMAP.md and the public project for related work. Discuss a substantial
+        API or dependency change before implementation. Use synthetic examples only.
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem
+      description: Who needs this, what are they trying to do, and where does the current behavior fall short?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed scope and alternatives
+      description: Describe the smallest useful change and whether an application recipe would be sufficient.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria and validation
+      description: State observable outcomes, examples, failure cases, and relevant limitations.
+    validations:
+      required: true
+  - type: textarea
+    id: related
+    attributes:
+      label: Related work and dependencies
+      description: Link existing issues, proposals, documentation, or prerequisites.
