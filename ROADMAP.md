@@ -15,7 +15,9 @@ and dependencies. Horizons are an order of work, not promised dates. Updated 202
 The [completed MVP](https://github.com/sahilmathur254/guardtrellis/issues/1) provides sync/async
 orchestration, six checking capabilities, metadata-only diagnostics, explicit stage boundaries,
 and credential-free callable, FastAPI, and LangGraph examples. The source is Apache-2.0 licensed.
-CI validates Python 3.11–3.14 on Linux, including installation of both distribution formats.
+CI validates Python 3.11–3.14 on Linux and Python 3.12 on macOS 15 ARM64 and Windows Server
+2025 x64, including installation of both distribution formats. See the
+[contributor guide](CONTRIBUTING.md) for the matrix and checks.
 
 The current alpha, [0.1.0a1](https://pypi.org/project/guardtrellis/0.1.0a1/), is available on PyPI:
 

@@ -81,9 +81,23 @@ directory, verify core installs exclude frameworks, then install extras and exec
 three examples against each installed artifact. Build the sdist
 and wheel after updating packaged documentation or evaluation results.
 
-The workflow checks Python 3.11, 3.12, 3.13, and 3.14 on Linux. Check the run for the commit
-under review; local success does not establish remote CI success. Synthetic evaluation limitations
-and reported false positives/misses are part of the deliverable, not tests to tune away.
+The CI matrix covers these combinations:
+
+| Runner | Architecture | Python |
+| --- | --- | --- |
+| Linux (`ubuntu-latest`) | x64 | 3.11, 3.12, 3.13, 3.14 |
+| macOS 15 (`macos-15`) | ARM64 | 3.12 |
+| Windows Server 2025 (`windows-2025`) | x64 | 3.12 |
+
+Every combination runs the full tests with extras, lint/format/type checks, the synthetic
+evaluation, and fresh wheel/sdist installation checks with all three examples. Each job has
+a 15-minute limit; failures do not cancel the other matrix jobs. Bash runs workflow commands
+on all runners so a failed command stops its step; Python and its subprocesses run natively
+on each OS. The macOS and Windows jobs initially cover one Python version each.
+
+Check the run for the commit under review, including its runner image details; local success
+does not establish remote CI success. Synthetic evaluation limitations and reported false
+positives/misses are part of the deliverable, not tests to tune away.
 Do not include real credentials or personal data in tests, fixtures, or reports.
 
 ## Releases and licensing
