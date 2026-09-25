@@ -1,84 +1,158 @@
 # Releasing GuardTrellis
 
-The repository contains version `0.1.0a1`; no package release has been verified on PyPI.
-This is the maintainer checklist for the first alpha, not an upload workflow or a record
-that the steps below have happened. Track the work in the [roadmap](../ROADMAP.md).
+Version `0.1.0a1` is an alpha candidate; publication is tracked in
+[#4](https://github.com/sahilmathur254/guardtrellis/issues/4). The release workflow is
+`.github/workflows/release.yml`. It validates on pull requests and offers three manual
+targets: `validate`, `testpypi`, and `pypi`. It never publishes on a push, pull request, or tag.
 
-## Release timing
+## What the workflow does
 
-Publish the alpha once the metadata/release notes and publishing workflow are reviewed,
-a TestPyPI rehearsal passes, and the maintainer approves the exact release. The remaining
-feature roadmap need not be complete. Early users should see an explicit experimental
-version, the supported formats, and the current evaluation limitations.
+1. **Validate:** build one wheel and one source archive, run strict Twine metadata checks,
+   and install both outside the checkout with core and optional example smokes. Record
+   their SHA-256 hashes, package version, source commit, and workflow run ID in `release.json`.
+2. **TestPyPI:** on an explicit dispatch from this repository's `main`, require successful
+   push CI for that commit and a reviewer-protected `testpypi` environment. Build/validate
+   the candidate, await environment approval, and upload with Trusted Publishing. Download
+   the actual index files, match both hashes, and smoke-test those downloads. Only then
+   retain the unchanged files as the `testpypi-verified` workflow artifact.
+3. **PyPI:** on a separate dispatch, require a successful TestPyPI run from this same
+   `main` commit. Retrieve its `testpypi-verified` artifact, check the recorded run/commit,
+   versions, metadata, and hashes, and await the `pypi` environment approval. Upload those
+   same files without rebuilding. Verify their public PyPI hashes and fresh installations.
 
-A stable `0.1.0` is a later compatibility and support decision informed by adopter feedback,
-broader validation, and unresolved defects. Passing a synthetic corpus does not establish
-production safety. Source installation from the public repository is available now.
+Publishing jobs only download the candidate, check its hashes, and invoke the pinned PyPA
+action. They have `id-token: write`; build/install/verification jobs do not. No long-lived
+PyPI token is required. Dependencies for installation smokes come from ordinary PyPI;
+the candidate itself is the exact file downloaded from the selected index, so TestPyPI
+does not participate in dependency resolution. Both index verification paths are bounded
+and fail if files are missing, changed, yanked, or unexpected.
 
-## Prepare the candidate
+GitHub artifacts are retained for 30 days. Keep the workflow run links and download the
+verified bundle for the release record. Promotion requires the source commit to remain
+unchanged between rehearsal and production dispatch; coordinate merges during that interval.
+The workflow does not create a GitHub release or tag automatically.
 
-- [ ] Confirm the chosen version is available and agrees in `pyproject.toml` and
-  `src/guardtrellis/__init__.py`; update the lockfile if project metadata requires it.
-- [ ] Add verified project URLs and release notes; inspect README rendering and links
-  outside GitHub. Keep the Apache-2.0 license and alpha classifier in the artifacts.
-- [ ] Review the exact commit and its passing CI on all supported Python versions.
-- [ ] Build wheel and sdist from that commit, validate their metadata with
-  `python -m twine check --strict dist/*` in a release-validation environment, and run
-  `scripts/smoke_dist.py` against the freshly built files.
-- [ ] Record source commit, artifact SHA-256 hashes, validation commands, and results.
-  Carry those checked artifacts into publication; rebuilding produces a new candidate
-  that must be validated again.
+## Prepare and review
 
-## Configure publishing
+The alpha can ship after these release checks pass; later feature-roadmap items need not
+be complete. A stable `0.1.0` requires a later compatibility/support decision informed by
+adopter feedback and broader validation. Synthetic results do not establish production safety.
 
-Prefer [PyPI Trusted Publishing](https://docs.pypi.org/trusted-publishers/), which exchanges
-the workflow's OIDC identity for short-lived publishing credentials. It avoids storing
-a long-lived PyPI API token in the repository or GitHub secrets.
+```sh
+uv sync --frozen --all-extras --group dev --group release
+uv run --frozen pytest -W error
+uv run --frozen ruff check .
+uv run --frozen ruff format --check .
+uv run --frozen mypy
+uv run --frozen python evaluation/run.py --report-dir /tmp/guardtrellis-release-eval
+uv build
+uv run --frozen --group release python -m twine check --strict dist/*
+uv run --frozen python scripts/smoke_dist.py
+```
 
-The workflow and account configuration still need to be implemented and approved. Record
-the exact repository owner (`sahilmathur254`), repository (`guardtrellis`), workflow filename,
-and environment name before configuring trust. Limit publish permissions to the jobs that
-need them; separate TestPyPI from production and require a maintainer release decision.
-Normal pushes and pull requests must not upload packages.
+Use a clean checkout and a build directory containing only this candidate's wheel/sdist.
+Keep versions in `pyproject.toml` and `src/guardtrellis/__init__.py` consistent. Inspect the
+packaged README, URLs, license, and [changelog](../CHANGELOG.md). The manifest validator also
+checks the package versions and expected metadata inside both distributions. Review passing
+Python 3.11–3.14 CI on the exact commit; a local pass alone does not establish that.
+Both build targets explicitly use Core Metadata 2.4 for compatibility. Twine 7 is locked in
+the separate `release` dependency group and is not a runtime dependency.
 
-For a new package, a
-[pending publisher](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/)
-can create the project on its first successful upload. A PyPI profile or pending publisher
-does not reserve the package name. Configure TestPyPI and PyPI separately; they are separate
-services with separate accounts. Recheck name availability when preparing the release.
+Pull requests run the publication-free candidate path. After merging the reviewed workflow,
+a maintainer can perform the same dry run from the default branch:
 
-## Rehearse on TestPyPI
+```sh
+gh workflow run release.yml --ref main -f target=validate
+```
 
-- [ ] Obtain approval for the rehearsal and its publisher/environment configuration.
-- [ ] Upload the checked artifacts to TestPyPI through the reviewed workflow.
-- [ ] Install the candidate in a fresh environment outside the checkout. TestPyPI may not
-  contain runtime dependencies: install those from regular PyPI, then install the candidate
-  from TestPyPI with `--no-deps`, and run `pip check`.
-- [ ] Verify the installed version, core API, privacy/failure behavior, and optional examples.
-  Exercise both wheel and sdist installation; document which index supplied each artifact.
-- [ ] Inspect the package description, links, dependency metadata, and license on TestPyPI.
-  Keep hashes and results with the release evidence.
+The `candidate` artifact contains `dist/`, `release.json`, and `SHA256SUMS`. The manifest also
+appears in the workflow summary. No accounts or publishing credentials are needed for validation.
 
-Follow the [TestPyPI guide](https://packaging.python.org/en/latest/guides/using-testpypi/)
-for index-specific behavior. Do not mix TestPyPI into normal dependency resolution using
-an extra index for this rehearsal. TestPyPI content is temporary and is not the user-facing
-distribution channel.
+## One-time account and environment setup
 
-## Publish and verify
+This configuration is a maintainer action and is not performed by committing the workflow.
+Get explicit approval before changing trust/permissions or uploading a package.
 
-- [ ] Review rehearsal evidence and obtain the maintainer's explicit PyPI release approval.
-- [ ] Publish the approved wheel and sdist to PyPI; retain their hashes and workflow run.
-- [ ] Download from PyPI into a fresh environment and verify hashes, metadata, installed
-  version, a core smoke call, and the intended optional installs.
-- [ ] Create a matching Git tag and GitHub prerelease pointing to the reviewed commit,
-  with release notes, limitations, and verification evidence.
-- [ ] Replace source-only wording after availability is verified and link the actual package.
-  For the proposed first alpha, document `python -m pip install 'guardtrellis==0.1.0a1'`
-  only once that version exists. An explicit prerelease version or `--pre` opts users into
-  prerelease installation; see [pip's prerelease behavior](https://pip.pypa.io/en/stable/cli/pip_install/#pre-release-versions).
-- [ ] Close the release issue and update the roadmap status using the verified package URL.
+Create the GitHub environments `testpypi` and `pypi` in this repository. For each:
 
-If rehearsal fails, fix and revalidate the candidate before production publication. If a
-published version is defective, document the problem and prepare a corrected version; do
-not assume an uploaded filename can be overwritten. A maintainer may consider yanking a
-broken release under [PyPI's documented behavior](https://docs.pypi.org/project-management/yanking/).
+- Require a reviewer, initially `sahilmathur254`, and restrict deployment branches to `main`.
+- Disable administrator bypass. If the owner is the only reviewer and dispatches the release,
+  allow that owner to approve their own deployment; otherwise a second reviewer is needed.
+- Keep approvals separate between the rehearsal and the production release.
+
+The workflow checks that required reviewers are configured before it schedules publication;
+a missing environment fails the preflight instead of silently relying on an unprotected one.
+
+Register separate pending GitHub Trusted Publishers on the two indexes using these exact values:
+
+| Field | TestPyPI | PyPI |
+| --- | --- | --- |
+| Project name | `guardtrellis` | `guardtrellis` |
+| GitHub owner | `sahilmathur254` | `sahilmathur254` |
+| Repository | `guardtrellis` | `guardtrellis` |
+| Workflow filename | `release.yml` | `release.yml` |
+| Environment | `testpypi` | `pypi` |
+
+Use the account's Publishing page on [TestPyPI](https://test.pypi.org/manage/account/publishing/)
+and [PyPI](https://pypi.org/manage/account/publishing/). TestPyPI has a separate account/database.
+The field takes `release.yml`, not its repository directory path. A profile or pending publisher
+does not reserve a package name; recheck availability before publishing. Follow
+[PyPI's pending-publisher instructions](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/)
+and [GitHub environment guidance](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments).
+
+## Rehearse, then promote
+
+After the maintainer approves the candidate and TestPyPI upload, and the exact `main` commit's
+push CI has succeeded:
+
+```sh
+gh workflow run release.yml --ref main -f target=testpypi
+```
+
+Approve the `testpypi` deployment in Actions. Inspect the completed run's logs, package
+description on TestPyPI, and `testpypi-verified` artifact. Record the numeric run ID and
+review both downloaded-artifact installation results before deciding to publish to PyPI.
+
+After a separate production release approval, replace `REHEARSAL_RUN_ID` below with that
+successful run ID. Do not advance `main` between these two dispatches:
+
+```sh
+gh workflow run release.yml --ref main -f target=pypi -f rehearsal_run_id=REHEARSAL_RUN_ID
+```
+
+Approve the `pypi` deployment only after reviewing the candidate manifest. Success includes
+verification of the public PyPI files and both installations, not just a successful upload.
+The resulting `pypi-verified` artifact retains the original TestPyPI candidate manifest/hashes.
+
+Then create tag `v0.1.0a1` and a GitHub **prerelease** at the manifest's exact commit. Confirm
+the tag's version matches the packaged version and that it resolves to that commit. Include
+the changelog, retained limitations, both workflow runs, and artifact hashes in the release notes.
+The tag is a record of the reviewed release; pushing it does not trigger another upload.
+
+Only after availability is verified, document the public installation command
+`python -m pip install 'guardtrellis==0.1.0a1'`, update source-only status in the roadmap and
+contributor guide, and close the release issue with the verified package URL. An explicit
+prerelease version or `--pre` opts users into a prerelease; see
+[pip's documented behavior](https://pip.pypa.io/en/stable/cli/pip_install/#pre-release-versions).
+
+## Failure and recovery
+
+- A failed build, metadata/hash check, or installation cannot reach a publishing job. Fix
+  the cause, review the new commit, and revalidate. Before any upload, workflow changes can
+  be reverted without changing index state.
+- If upload succeeded but index verification failed, inspect the recorded hashes and index
+  state, then rerun only the failed verification job. Do not repeat a completed upload or
+  a completed workflow; artifact names and uploaded filenames are deliberately not overwritten.
+- If an upload only partially succeeded, inspect the exact files before deciding on recovery.
+  The workflow does not use `skip-existing` to hide mismatches. A new corrected alpha version
+  is the simple recovery path when the published candidate cannot be completed unchanged.
+- If the commit changes or the verified GitHub artifact expires, automatic promotion stops.
+  Do not substitute a rebuild for the verified files; prepare a new candidate/version or
+  obtain a separately reviewed recovery plan.
+- For a defective PyPI release, document the problem and publish a corrected version. A
+  maintainer can consider [yanking](https://docs.pypi.org/project-management/yanking/) the
+  affected release; deletion or overwriting is not a rollback strategy.
+
+Primary references: [Trusted Publishing](https://docs.pypi.org/trusted-publishers/using-a-publisher/),
+[PyPA publishing action](https://github.com/pypa/gh-action-pypi-publish), and
+[TestPyPI](https://packaging.python.org/en/latest/guides/using-testpypi/).
