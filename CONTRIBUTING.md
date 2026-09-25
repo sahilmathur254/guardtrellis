@@ -32,8 +32,8 @@ directory, verify core installs exclude frameworks, then install extras and exec
 three examples against each installed artifact. Build the sdist
 and wheel after updating packaged documentation or evaluation results.
 
-The workflow checks Python 3.11, 3.12, 3.13, and 3.14 on Linux. Remote CI is only configured;
-its success must not be claimed until it actually runs. Synthetic evaluation limitations
+The workflow checks Python 3.11, 3.12, 3.13, and 3.14 on Linux. Check the run for the commit
+under review; local success does not establish remote CI success. Synthetic evaluation limitations
 and reported false positives/misses are part of the deliverable, not tests to tune away.
 Do not include real credentials or personal data in tests, fixtures, or reports.
 
