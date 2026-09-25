@@ -1,0 +1,222 @@
+name: release
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Validate only, rehearse on TestPyPI, or promote a verified rehearsal to PyPI
+        type: choice
+        options: [validate, testpypi, pypi]
+        default: validate
+        required: true
+      rehearsal_run_id:
+        description: Successful TestPyPI run ID from this exact main commit (required for PyPI)
+        type: string
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.event_name == 'workflow_dispatch' && 'manual' || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  candidate:
+    if: github.event_name == 'pull_request' || inputs.target != 'pypi'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: "3.12"
+      - name: Check publication prerequisites
+        if: github.event_name == 'workflow_dispatch' && inputs.target == 'testpypi'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          test "$GITHUB_REPOSITORY" = sahilmathur254/guardtrellis
+          test "$GITHUB_REF" = refs/heads/main
+          gh run list --repo "$GITHUB_REPOSITORY" --workflow ci.yml --commit "$GITHUB_SHA" \
+            --event push --limit 1 --json status,conclusion,headSha |
+            jq -e --arg sha "$GITHUB_SHA" 'length == 1 and .[0].headSha == $sha and .[0].status == "completed" and .[0].conclusion == "success"'
+          gh api "repos/$GITHUB_REPOSITORY/environments/testpypi" |
+            jq -e 'any(.protection_rules[]; .type == "required_reviewers" and (.reviewers | length > 0))'
+      - name: Install release tooling
+        run: |
+          python -m pip install 'uv==0.8.17'
+          uv sync --frozen --no-dev --group release
+      - name: Build and validate both distributions
+        run: |
+          uv build
+          uv run --frozen --no-dev --group release python -m twine check --strict dist/*
+          uv run --frozen --no-dev --group release python scripts/smoke_dist.py
+          uv run --frozen --no-dev --group release python scripts/release_artifacts.py create \
+            --bundle "$RUNNER_TEMP/candidate" --commit "$GITHUB_SHA" --run-id "$GITHUB_RUN_ID"
+          cat "$RUNNER_TEMP/candidate/release.json" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: candidate
+          path: ${{ runner.temp }}/candidate/
+          if-no-files-found: error
+          retention-days: 30
+
+  testpypi:
+    needs: candidate
+    if: github.event_name == 'workflow_dispatch' && inputs.target == 'testpypi'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/project/guardtrellis/
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: candidate
+          path: release-bundle
+      - name: Check artifact hashes
+        working-directory: release-bundle
+        run: sha256sum --check SHA256SUMS
+      - name: Publish the checked files to TestPyPI
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
+        with:
+          packages-dir: release-bundle/dist/
+          repository-url: https://test.pypi.org/legacy/
+
+  verify-testpypi:
+    needs: testpypi
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: candidate
+          path: ${{ runner.temp }}/candidate
+      - name: Download the actual index files and smoke-test installations
+        run: |
+          python -m pip install 'uv==0.8.17'
+          python scripts/release_artifacts.py fetch --bundle "$RUNNER_TEMP/candidate" \
+            --commit "$GITHUB_SHA" --index testpypi --destination "$RUNNER_TEMP/testpypi-dist"
+          python scripts/smoke_dist.py --dist-dir "$RUNNER_TEMP/testpypi-dist"
+      - name: Retain the unchanged candidate only after the rehearsal succeeds
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: testpypi-verified
+          path: ${{ runner.temp }}/candidate/
+          if-no-files-found: error
+          retention-days: 30
+
+  promote:
+    if: github.event_name == 'workflow_dispatch' && inputs.target == 'pypi'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: "3.12"
+      - name: Require a successful rehearsal from the same main commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REHEARSAL_RUN_ID: ${{ inputs.rehearsal_run_id }}
+        run: |
+          test "$GITHUB_REPOSITORY" = sahilmathur254/guardtrellis
+          test "$GITHUB_REF" = refs/heads/main
+          [[ "$REHEARSAL_RUN_ID" =~ ^[0-9]+$ ]]
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REHEARSAL_RUN_ID" |
+            jq -e --arg sha "$GITHUB_SHA" --arg repo "$GITHUB_REPOSITORY" '
+              .status == "completed" and .conclusion == "success" and
+              .event == "workflow_dispatch" and .path == ".github/workflows/release.yml" and
+              .head_branch == "main" and .head_sha == $sha and .head_repository.full_name == $repo'
+          gh api "repos/$GITHUB_REPOSITORY/environments/pypi" |
+            jq -e 'any(.protection_rules[]; .type == "required_reviewers" and (.reviewers | length > 0))'
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: testpypi-verified
+          path: ${{ runner.temp }}/candidate
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.rehearsal_run_id }}
+      - name: Verify provenance, package metadata, and hashes before promotion
+        env:
+          REHEARSAL_RUN_ID: ${{ inputs.rehearsal_run_id }}
+        run: |
+          python scripts/release_artifacts.py verify --bundle "$RUNNER_TEMP/candidate" \
+            --commit "$GITHUB_SHA" --run-id "$REHEARSAL_RUN_ID"
+          cat "$RUNNER_TEMP/candidate/release.json" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: pypi-candidate
+          path: ${{ runner.temp }}/candidate/
+          if-no-files-found: error
+          retention-days: 30
+
+  pypi:
+    needs: promote
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: pypi
+      url: https://pypi.org/project/guardtrellis/
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: pypi-candidate
+          path: release-bundle
+      - name: Check artifact hashes
+        working-directory: release-bundle
+        run: sha256sum --check SHA256SUMS
+      - name: Publish the rehearsed files to PyPI
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
+        with:
+          packages-dir: release-bundle/dist/
+
+  verify-pypi:
+    needs: pypi
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: pypi-candidate
+          path: ${{ runner.temp }}/candidate
+      - name: Verify public PyPI artifacts and fresh installations
+        run: |
+          python -m pip install 'uv==0.8.17'
+          python scripts/release_artifacts.py fetch --bundle "$RUNNER_TEMP/candidate" \
+            --commit "$GITHUB_SHA" --index pypi --destination "$RUNNER_TEMP/pypi-dist"
+          python scripts/smoke_dist.py --dist-dir "$RUNNER_TEMP/pypi-dist"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: pypi-verified
+          path: ${{ runner.temp }}/candidate/
+          if-no-files-found: error
+          retention-days: 30

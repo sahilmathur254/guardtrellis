@@ -3,6 +3,7 @@
 Run `uv build` first. Dependencies must be cached when running with UV_OFFLINE=1.
 """
 
+import argparse
 import os
 import shutil
 import subprocess
@@ -24,13 +25,20 @@ assert Guard(input_scanners=[PIIScanner()]).scan('a@example.org').text == '[PII]
 invalid = Guard(output_scanners=[JSONScanner()]).scan('{invalid}', stage=Stage.OUTPUT)
 assert invalid.action == Action.BLOCK
 assert ToolGuard({'search': {'type':'object'}}).validate('search', '{}').accepted
+calls = []
+rejected = Guard(input_scanners=[JSONScanner()]).run('invalid JSON', calls.append)
+assert not calls and rejected.text is None and rejected.action == Action.BLOCK
 print('Installed package smoke passed:', guardtrellis.__version__)
 """
 
 
 def main() -> None:
-    wheels = list((ROOT / "dist").glob("*.whl"))
-    sdists = list((ROOT / "dist").glob("*.tar.gz"))
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--dist-dir", type=Path, default=ROOT / "dist")
+    args = parser.parse_args()
+    directory = args.dist_dir.resolve()
+    wheels = list(directory.glob("*.whl"))
+    sdists = list(directory.glob("*.tar.gz"))
     if len(wheels) != 1 or len(sdists) != 1:
         raise SystemExit("Expected exactly one wheel and one source distribution in dist/")
     for artifact in wheels + sdists:
@@ -40,10 +48,20 @@ def main() -> None:
             python = environment / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
             subprocess.run(["uv", "venv", "--python", sys.executable, str(environment)], check=True)
             subprocess.run(
-                ["uv", "pip", "install", "--python", str(python), str(artifact)],
+                [
+                    "uv",
+                    "pip",
+                    "install",
+                    "--python",
+                    str(python),
+                    "--index-url",
+                    "https://pypi.org/simple",
+                    str(artifact),
+                ],
                 cwd=work,
                 check=True,
             )
+            subprocess.run(["uv", "pip", "check", "--python", str(python)], check=True)
             subprocess.run([str(python), "-I", "-c", SMOKE], cwd=work, check=True)
             example = work / "plain_callable.py"
             shutil.copyfile(ROOT / "examples/plain_callable.py", example)
@@ -56,11 +74,14 @@ def main() -> None:
                     "install",
                     "--python",
                     str(python),
+                    "--index-url",
+                    "https://pypi.org/simple",
                     f"{artifact}[fastapi,langgraph]",
                 ],
                 cwd=work,
                 check=True,
             )
+            subprocess.run(["uv", "pip", "check", "--python", str(python)], check=True)
             for filename in ("fastapi_app.py", "langgraph_app.py"):
                 example = work / filename
                 shutil.copyfile(ROOT / "examples" / filename, example)

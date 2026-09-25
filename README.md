@@ -3,8 +3,9 @@
 A small Python SDK for local checks around model inputs, complete outputs, retrieved text,
 and proposed tool calls. Policies are explicit, composable, and independent of model providers.
 
-**Alpha: 0.1.0a1.** Install from source; this package has not been released on PyPI.
-Supported Python: 3.11–3.14. Apache-2.0 licensed.
+**Alpha: 0.1.0a1.** APIs may change before a stable release.
+Supported Python: 3.11–3.14. Apache-2.0 licensed. Verified package availability is tracked
+in the [first alpha release issue](https://github.com/sahilmathur254/guardtrellis/issues/4).
 
 Use an activated virtual environment, then clone and install the source:
 
@@ -111,20 +112,23 @@ FastAPI and LangGraph are optional extras (`.[fastapi]`, `.[langgraph]`). LangGr
 checks run **before** text enters graph state. The example also checks model output before
 returning it to graph state. Instrumentation around callbacks may still capture raw data.
 
-See [API details](docs/api.md), [limitations and trust boundaries](docs/limitations.md),
-[evaluation methodology](evaluation/README.md), [measured smoke results](evaluation/REPORT.md),
-and [contribution guidance](CONTRIBUTING.md). These checks do not provide comprehensive
+See [API details](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/api.md),
+[limitations and trust boundaries](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/limitations.md),
+[evaluation methodology](https://github.com/sahilmathur254/guardtrellis/blob/main/evaluation/README.md),
+[measured smoke results](https://github.com/sahilmathur254/guardtrellis/blob/main/evaluation/REPORT.md),
+and [contribution guidance](https://github.com/sahilmathur254/guardtrellis/blob/main/CONTRIBUTING.md).
+These checks do not provide comprehensive
 prompt-injection prevention, factual verification, regulatory compliance, or a tool sandbox.
 
 ## Roadmap and contributions
 
 Use the public [GitHub Project](https://github.com/users/sahilmathur254/projects/3) to find
-ready work and track progress. The [roadmap](ROADMAP.md) explains the release milestones,
+ready work and track progress. The [roadmap](https://github.com/sahilmathur254/guardtrellis/blob/main/ROADMAP.md) explains the release milestones,
 dependencies, and longer-term proposals. Start with a
 [good first issue](https://github.com/sahilmathur254/guardtrellis/labels/good%20first%20issue)
 or a [help wanted issue](https://github.com/sahilmathur254/guardtrellis/labels/help%20wanted),
-then follow the [contributor workflow](CONTRIBUTING.md).
+then follow the [contributor workflow](https://github.com/sahilmathur254/guardtrellis/blob/main/CONTRIBUTING.md).
 
-The next distribution milestone is a PyPI alpha after packaging review and a TestPyPI
-rehearsal. See the [release checklist](docs/releasing.md); the package remains source-only
-until that release is verified.
+See the [changelog](https://github.com/sahilmathur254/guardtrellis/blob/main/CHANGELOG.md)
+for version-specific behavior and the [release guide](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/releasing.md)
+for packaging checks, TestPyPI rehearsal, and maintainer-approved publication.
