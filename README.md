@@ -4,17 +4,18 @@ A small Python SDK for local checks around model inputs, complete outputs, retri
 and proposed tool calls. Policies are explicit, composable, and independent of model providers.
 
 **Alpha: 0.1.0a1.** APIs may change before a stable release.
-Supported Python: 3.11–3.14. Apache-2.0 licensed. Verified package availability is tracked
-in the [first alpha release issue](https://github.com/sahilmathur254/guardtrellis/issues/4).
+Supported Python: 3.11–3.14. Apache-2.0 licensed. Available on
+[PyPI](https://pypi.org/project/guardtrellis/0.1.0a1/), with
+[release notes and verified artifacts](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.0a1).
 
-Use an activated virtual environment, then clone and install the source:
+Install the exact alpha version in an activated virtual environment:
 
 ```sh
-git clone https://github.com/sahilmathur254/guardtrellis.git
-cd guardtrellis
-python -m pip install -e .
-python examples/plain_callable.py
+python -m pip install 'guardtrellis==0.1.0a1'
 ```
+
+The explicit version opts into this prerelease. Optional integrations are available with
+`'guardtrellis[fastapi]==0.1.0a1'` or `'guardtrellis[langgraph]==0.1.0a1'`.
 
 ```python
 from guardtrellis import Guard, PIIScanner, SecretScanner
@@ -94,7 +95,11 @@ and application concurrency limits when execution must be forcibly bounded.
 
 ## Examples and development
 
+Clone the source to run the examples or contribute:
+
 ```sh
+git clone https://github.com/sahilmathur254/guardtrellis.git
+cd guardtrellis
 uv sync --all-extras --group dev
 uv run python examples/plain_callable.py
 uv run python examples/fastapi_app.py       # Local TestClient demo, no server needed

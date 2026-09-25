@@ -1,9 +1,11 @@
 # Changelog
 
-## 0.1.0a1 — release candidate
+## 0.1.0a1 — 2026-09-25
 
-The first alpha is prepared from source. Publication and its verification are tracked in
-[#4](https://github.com/sahilmathur254/guardtrellis/issues/4); this entry does not claim an upload.
+The first alpha is available on [PyPI](https://pypi.org/project/guardtrellis/0.1.0a1/).
+The [GitHub prerelease](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.0a1)
+records the exact source commit, unchanged rehearsed artifacts, and verification evidence.
+Publication is tracked in [#4](https://github.com/sahilmathur254/guardtrellis/issues/4).
 
 ### Included
 

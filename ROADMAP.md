@@ -17,34 +17,40 @@ orchestration, six checking capabilities, metadata-only diagnostics, explicit st
 and credential-free callable, FastAPI, and LangGraph examples. The source is Apache-2.0 licensed.
 CI validates Python 3.11–3.14 on Linux, including installation of both distribution formats.
 
-The current version is `0.1.0a1`, available from source. No PyPI package has been published.
+The current alpha, [0.1.0a1](https://pypi.org/project/guardtrellis/0.1.0a1/), is available on PyPI:
+
+```sh
+python -m pip install 'guardtrellis==0.1.0a1'
+```
+
 See the [quickstart](README.md), [API contracts](docs/api.md), and [limitations](docs/limitations.md)
 before integrating. The [72-case synthetic evaluation](evaluation/REPORT.md) retains its misses
 and false positives; it is not an independent benchmark or a production-readiness claim.
 
-## Now: first PyPI alpha
+## Completed: first PyPI alpha
 
 [Milestone: First PyPI alpha](https://github.com/sahilmathur254/guardtrellis/milestone/1)
 
 Make the existing implementation easy to install and honest about its maturity. New scanner
 families, streaming, and the entire validation roadmap are not prerequisites for the alpha.
 
-| Work | Outcome | Dependency |
+| Work | Outcome | Status |
 | --- | --- | --- |
-| [#2 Package metadata and release notes](https://github.com/sahilmathur254/guardtrellis/issues/2) | Verified package URLs, readable description, version agreement, and inspected artifacts. Good first issue. | Ready to start |
-| [#3 Reviewed publishing workflow](https://github.com/sahilmathur254/guardtrellis/issues/3) | An explicit TestPyPI/PyPI artifact flow using Trusted Publishing, with maintainer-controlled publication. | Ready to prepare; account changes need maintainer coordination |
-| [#4 First alpha publication](https://github.com/sahilmathur254/guardtrellis/issues/4) | Verified TestPyPI rehearsal, an approved PyPI alpha, and a matching GitHub prerelease. | #2, #3, and a maintainer release decision |
+| [#2 Package metadata and release notes](https://github.com/sahilmathur254/guardtrellis/issues/2) | Verified package URLs, readable description, version agreement, and inspected artifacts. | Complete |
+| [#3 Reviewed publishing workflow](https://github.com/sahilmathur254/guardtrellis/issues/3) | An explicit TestPyPI/PyPI artifact flow using Trusted Publishing, with maintainer-controlled publication. | Complete |
+| [#4 First alpha publication](https://github.com/sahilmathur254/guardtrellis/issues/4) | Verified TestPyPI rehearsal, an approved PyPI alpha, and a matching GitHub prerelease. | Complete |
 
 **Exit criteria:** the approved version installs from PyPI outside the checkout; its artifacts,
 metadata, examples, and limitations have been checked; release evidence is linked from the issue.
-The proposed version is `0.1.0a1`, subject to availability when publishing. Follow the
-[release checklist](docs/releasing.md). Creating a PyPI profile does not complete this milestone.
+These criteria were met for `0.1.0a1` on 2026-09-25. The
+[prerelease](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.0a1) records the
+source commit, hashes, and verification runs. Future releases follow the [release checklist](docs/releasing.md).
 
-## Next: broader validation
+## Now: broader validation
 
 [Milestone: Broader validation](https://github.com/sahilmathur254/guardtrellis/milestone/2)
 
-These tasks can start independently while the alpha is being prepared.
+These tasks can start independently while users evaluate the published alpha.
 
 | Work | Outcome |
 | --- | --- |
@@ -87,8 +93,7 @@ rehydration, hosted services, and broad semantic safety claims require separate 
 ## Contribute and maintain the roadmap
 
 Start in the Project's **Ready to contribute** view, read the issue, and comment before starting.
-[#2](https://github.com/sahilmathur254/guardtrellis/issues/2) and
-[#5](https://github.com/sahilmathur254/guardtrellis/issues/5) are small entry points.
+[#5](https://github.com/sahilmathur254/guardtrellis/issues/5) is a small entry point.
 Use the [contributor guide](CONTRIBUTING.md) for setup, validation, and the fork/PR workflow.
 
 Status moves through **Backlog → Ready → In progress → In review → Done**. Use **Blocked**

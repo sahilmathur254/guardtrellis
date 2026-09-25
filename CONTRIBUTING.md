@@ -89,5 +89,7 @@ Do not include real credentials or personal data in tests, fixtures, or reports.
 ## Releases and licensing
 
 Package publication is maintainer work and follows the [release checklist](docs/releasing.md).
-No PyPI release is available yet. A merged contribution does not itself trigger publication.
+The first alpha, [0.1.0a1](https://pypi.org/project/guardtrellis/0.1.0a1/), is available on PyPI;
+install it with `python -m pip install 'guardtrellis==0.1.0a1'` to evaluate the published version.
+A merged contribution does not itself trigger publication.
 The project is Apache-2.0 licensed; preserve applicable notices when adding third-party material.
