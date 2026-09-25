@@ -7,12 +7,23 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    name: test (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 15
+    defaults:
+      run:
+        # Fail on any command in a multi-command step, including on Windows.
+        shell: bash
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest]
         python: ["3.11", "3.12", "3.13", "3.14"]
+        include:
+          - os: macos-15
+            python: "3.12"
+          - os: windows-2025
+            python: "3.12"
     steps:
       - uses: actions/checkout@v7
         with:
