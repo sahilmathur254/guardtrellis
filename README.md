@@ -137,6 +137,7 @@ See [API details](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/
 [limitations and trust boundaries](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/limitations.md),
 [evaluation methodology](https://github.com/sahilmathur254/guardtrellis/blob/main/evaluation/README.md),
 [measured smoke results](https://github.com/sahilmathur254/guardtrellis/blob/main/evaluation/REPORT.md),
+[resource measurements and host controls](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/resource_limits.md),
 and [contribution guidance](https://github.com/sahilmathur254/guardtrellis/blob/main/CONTRIBUTING.md).
 These checks do not provide comprehensive
 prompt-injection prevention, factual verification, regulatory compliance, or a tool sandbox.

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Reproducible offline resource measurements in bounded child processes, with retained
+  CPU/wall stops, input/finding/depth boundary cases, expensive schemas, and cancellation
+  observations. Includes host-control guidance and a separate reviewed local baseline;
+  no core runtime limits or detection rules change.
+
 ## 0.1.0a2 — unreleased candidate
 
 - Optional OpenAI Responses callback example with a credential-free HTTP mock, tested

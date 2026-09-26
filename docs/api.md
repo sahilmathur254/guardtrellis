@@ -89,6 +89,10 @@ if it suppresses cancellation. Apply admission limits, provider-native timeouts,
 isolation where these behaviors are unacceptable. Synchronous entry points do not enforce
 execution deadlines. Guard does not provide concurrency or rate limiting.
 
+The [bounded resource measurements](resource_limits.md) reproduce input/finding limits,
+expensive schema behavior, and work continuing after timeout or cancellation. Use the
+recorded observations to choose host controls; they are not a production capacity estimate.
+
 ## JSON and tool calls
 
 `JSONScanner()` accepts all JSON top-level types unless `require_object=True`. No Markdown
