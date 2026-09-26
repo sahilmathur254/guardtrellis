@@ -83,7 +83,12 @@ def main() -> None:
                 check=True,
             )
             subprocess.run(["uv", "pip", "check", "--python", str(python)], check=True)
-            for filename in ("fastapi_app.py", "langgraph_app.py", "openai_app.py"):
+            for filename in (
+                "fastapi_app.py",
+                "langgraph_app.py",
+                "openai_app.py",
+                "azure_openai_app.py",
+            ):
                 example = work / filename
                 shutil.copyfile(ROOT / "examples" / filename, example)
                 subprocess.run([str(python), "-I", str(example)], cwd=work, check=True)

@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
         ("fastapi_app.py", "fastapi"),
         ("langgraph_app.py", "langgraph"),
         ("openai_app.py", "openai"),
+        ("azure_openai_app.py", "openai"),
     ],
 )
 def test_example_script_runs(script, module):

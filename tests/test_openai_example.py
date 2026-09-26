@@ -82,6 +82,16 @@ def test_blocked_complete_output_is_never_delivered(provider):
     assert token not in str(error.value)
 
 
+@pytest.mark.parametrize("usage", ["Fabricated private metadata", None, -1, True])
+def test_malformed_usage_cannot_leak_into_metadata_report(provider, usage):
+    model, _, response = provider
+    response["usage"]["input_tokens"] = usage
+    result = demo.make_guard().run("Fabricated test", model)
+    assert result.action == Action.ERROR and result.text is None
+    assert model.usage is None
+    assert "Fabricated private metadata" not in repr(result.diagnostics())
+
+
 @pytest.mark.parametrize("status", ["incomplete", "failed", "cancelled", "in_progress"])
 def test_noncompleted_response_is_an_error(provider, status):
     model, _, response = provider

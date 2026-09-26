@@ -1,11 +1,20 @@
 # Changelog
 
-## Unreleased
+## 0.1.0a2 — unreleased candidate
 
 - Optional OpenAI Responses callback example with a credential-free HTTP mock, tested
   input/output boundaries, and a separately opted-in one-request live smoke. Adds the
   `openai` extra without changing core dependencies or public Guard APIs. Live verification
   is pending; see the [integration guide](docs/openai.md). This is not in `0.1.0a1` on PyPI.
+- Standalone Azure OpenAI Chat Completions example using the same optional SDK extra,
+  with mocked HTTP boundary/failure tests and a separate, explicitly opted-in bounded
+  live command. Azure live verification is also pending; see its [guide](docs/azure_openai.md).
+- CI installation coverage for macOS and Windows alongside Linux Python 3.11–3.14.
+- Clarified which synthetic evaluation fixtures and baselines belong in version control.
+
+No core Guard/scanner API or detection-rule changes. The recorded `0.1.0a1` synthetic
+baseline is retained. This candidate still needs approved live provider evidence, review,
+and the existing TestPyPI rehearsal/PyPI promotion checks before publication.
 
 ## 0.1.0a1 — 2026-09-25
 

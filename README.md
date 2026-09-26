@@ -3,10 +3,11 @@
 A small Python SDK for local checks around model inputs, complete outputs, retrieved text,
 and proposed tool calls. Policies are explicit, composable, and independent of model providers.
 
-**Alpha: 0.1.0a1.** APIs may change before a stable release.
+**Published alpha: 0.1.0a1.** APIs may change before a stable release.
 Supported Python: 3.11–3.14. Apache-2.0 licensed. Available on
 [PyPI](https://pypi.org/project/guardtrellis/0.1.0a1/), with
 [release notes and verified artifacts](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.0a1).
+This source checkout prepares `0.1.0a2`; that candidate is not yet published.
 
 Install the exact alpha version in an activated virtual environment:
 
@@ -105,11 +106,12 @@ uv run python examples/plain_callable.py
 uv run python examples/fastapi_app.py       # Local TestClient demo, no server needed
 uv run python examples/langgraph_app.py     # Local graph, no provider credentials
 uv run python examples/openai_app.py        # Real SDK, in-memory HTTP mock by default
+uv run python examples/azure_openai_app.py  # Azure SDK, in-memory HTTP mock by default
 uv run pytest
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy
-uv run python evaluation/run.py
+uv run python evaluation/run.py --report-dir /tmp/guardtrellis-eval
 uv build
 uv run python scripts/smoke_dist.py
 ```
@@ -118,11 +120,12 @@ FastAPI and LangGraph are optional extras (`.[fastapi]`, `.[langgraph]`). LangGr
 checks run **before** text enters graph state. The example also checks model output before
 returning it to graph state. Instrumentation around callbacks may still capture raw data.
 
-The optional OpenAI example (`.[openai]`) uses the Responses API through a guarded callback.
-Its default mode and ordinary tests make no provider calls. See the
-[OpenAI integration guide](docs/openai.md) for setup, privacy/failure boundaries, and the
-separately approved one-request live smoke. This extra and example are unreleased source
-additions, not part of the published `0.1.0a1` artifacts; live verification is pending.
+The optional provider examples (`.[openai]`) use direct OpenAI Responses or Azure OpenAI
+Chat Completions through guarded callbacks. Their default modes and ordinary tests make
+no provider calls. See the [OpenAI guide](docs/openai.md) and [Azure guide](docs/azure_openai.md)
+for setup, privacy/failure boundaries, and separately approved one-request live smokes.
+This extra and these examples are part of the unpublished `0.1.0a2` candidate, not the
+published `0.1.0a1` artifacts. Live verification of both paths is pending.
 
 See [API details](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/api.md),
 [limitations and trust boundaries](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/limitations.md),

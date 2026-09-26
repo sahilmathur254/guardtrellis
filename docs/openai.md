@@ -4,7 +4,7 @@ This source example connects `Guard.run` to the OpenAI Responses API using the o
 OpenAI Python SDK. It uses the same callback for a credential-free HTTP mock and an
 explicitly opted-in live smoke. The GuardTrellis core has no provider dependency.
 
-The example and `openai` extra are **unreleased source additions**; they are not included
+The example and `openai` extra are part of the **unpublished `0.1.0a2` candidate**; they are not included
 in the published `0.1.0a1` artifacts. Clone the repository as described in the
 [README](../README.md#examples-and-development), then run:
 
@@ -84,8 +84,7 @@ missing. Model access, billing, networking, and provider behavior can prevent li
 The live command prints only JSON metadata: UTC date, Python/package versions, configured
 model, request attempts, output-token cap, token usage if available, and Guard diagnostics.
 It prints no prompts, response contents, credentials, raw errors, or request IDs. Record the
-exact source commit separately so an unreleased checkout is not mistaken for the published
-package just because their version strings currently match.
+exact source commit separately; a package version alone does not identify an unreleased checkout.
 
 ## Failure, logging, and side-effect boundaries
 
@@ -120,7 +119,8 @@ retention, or callback side effects. `store=False` opts out of stored response s
 does not establish Zero Data Retention. Review OpenAI's
 [data controls](https://developers.openai.com/api/docs/guides/your-data) for the account in use.
 This example uses a fixed official API endpoint; `OPENAI_BASE_URL` does not override it.
-It does not validate Azure OpenAI or other compatible endpoints.
+The separate [Azure OpenAI example](azure_openai.md) uses Chat Completions; running one
+example does not validate the other or arbitrary compatible endpoints.
 
 ## Verification and live evidence
 

@@ -39,7 +39,7 @@ uv run pytest
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy
-uv run python evaluation/run.py
+uv run python evaluation/run.py --report-dir /tmp/guardtrellis-eval
 uv build
 uv run python scripts/smoke_dist.py
 ```
@@ -78,9 +78,9 @@ Tests run against the installed editable package. Optional example tests skip wh
 are absent; the CI matrix installs all extras, so those tests must run there. Distribution
 smokes install the wheel and source archive in fresh temporary environments outside this
 directory, verify core installs exclude frameworks and provider SDKs, then install extras and
-execute all four examples against each installed artifact. The OpenAI example uses an
-in-memory HTTP mock, including when credentials exist in the environment. See its
-[integration guide](docs/openai.md) for the separately opted-in, maintainer-approved live smoke;
+execute all five examples against each installed artifact. The OpenAI and Azure examples use
+in-memory HTTP mocks, including when credentials exist in the environment. See the
+[OpenAI](docs/openai.md) and [Azure](docs/azure_openai.md) guides for separately opted-in live smokes;
 normal pytest and CI never make live provider calls. Build the sdist
 and wheel after updating packaged documentation or evaluation results.
 
@@ -93,7 +93,7 @@ The CI matrix covers these combinations:
 | Windows Server 2025 (`windows-2025`) | x64 | 3.12 |
 
 Every combination runs the full tests with extras, lint/format/type checks, the synthetic
-evaluation, and fresh wheel/sdist installation checks with all four examples. Each job has
+evaluation, and fresh wheel/sdist installation checks with all five examples. Each job has
 a 15-minute limit; failures do not cancel the other matrix jobs. Bash runs workflow commands
 on all runners so a failed command stops its step; Python and its subprocesses run natively
 on each OS. The macOS and Windows jobs initially cover one Python version each.

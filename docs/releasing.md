@@ -38,6 +38,13 @@ The workflow does not create a GitHub release or tag automatically.
 
 ## Prepare and review
 
+The source currently prepares **`0.1.0a2`**, which is not published. Before promoting this
+candidate, record approved live evidence for at least one of the provider examples in
+[#8](https://github.com/sahilmathur254/guardtrellis/issues/8). Both examples are currently
+mock-verified only; keep the untested path explicitly labelled. Review the
+[candidate changelog](../CHANGELOG.md#010a2--unreleased-candidate), exact-commit CI, and
+publication-free candidate artifacts, then follow the separate approvals below.
+
 The alpha can ship after these release checks pass; later feature-roadmap items need not
 be complete. A stable `0.1.0` requires a later compatibility/support decision informed by
 adopter feedback and broader validation. Synthetic results do not establish production safety.
@@ -128,13 +135,14 @@ Approve the `pypi` deployment only after reviewing the candidate manifest. Succe
 verification of the public PyPI files and both installations, not just a successful upload.
 The resulting `pypi-verified` artifact retains the original TestPyPI candidate manifest/hashes.
 
-Then create tag `v0.1.0a1` and a GitHub **prerelease** at the manifest's exact commit. Confirm
+Then create the matching version tag (for example, `v0.1.0a2`) and a GitHub **prerelease**
+at the manifest's exact commit. Confirm
 the tag's version matches the packaged version and that it resolves to that commit. Include
 the changelog, retained limitations, both workflow runs, and artifact hashes in the release notes.
 The tag is a record of the reviewed release; pushing it does not trigger another upload.
 
 Only after availability is verified, document the public installation command
-`python -m pip install 'guardtrellis==0.1.0a1'`, update source-only status in the roadmap and
+`python -m pip install 'guardtrellis==0.1.0a2'` for this candidate, update source-only status in the roadmap and
 contributor guide, and close the release issue with the verified package URL. An explicit
 prerelease version or `--pre` opts users into a prerelease; see
 [pip's documented behavior](https://pip.pypa.io/en/stable/cli/pip_install/#pre-release-versions).

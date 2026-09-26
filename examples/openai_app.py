@@ -71,11 +71,14 @@ class OpenAIModel:
         if not text.strip():
             raise ValueError("Provider returned empty text")
         if response.usage is not None:
-            self.usage = {
+            usage = {
                 "input_tokens": response.usage.input_tokens,
                 "output_tokens": response.usage.output_tokens,
                 "total_tokens": response.usage.total_tokens,
             }
+            if any(type(value) is not int or value < 0 for value in usage.values()):
+                raise ValueError("Provider returned invalid usage metadata")
+            self.usage = usage
         return text
 
 

@@ -42,6 +42,7 @@ jobs:
           uv run --frozen ruff check .
           uv run --frozen ruff format --check .
           uv run --frozen mypy
+          uv run --frozen mypy examples/openai_app.py examples/azure_openai_app.py
       - name: Reproduce smoke evaluation
         run: uv run --frozen python evaluation/run.py --report-dir '${{ runner.temp }}/guardtrellis-eval'
       - name: Build and install both distributions outside the checkout
