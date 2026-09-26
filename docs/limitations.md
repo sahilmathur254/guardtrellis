@@ -76,10 +76,10 @@ default to HTTP mocks.
 Their live paths send only checked input to the provider and check complete output,
 with explicit timeouts and no
 automatic retries; provider processing/billing and external instrumentation remain outside
-Guard's control. Live evidence for these paths is pending and must be recorded separately
-from mock results.
+Guard's control. One [Gemini live smoke](gemini.md#recorded-live-smoke-2026-09-26) passed;
+OpenAI and Azure remain mock-verified only. Evidence for one API/model does not verify others.
 
 See [async execution limitations](api.md#limits-and-asynchronous-work) and the retained
 failures in the [synthetic evaluation](../evaluation/REPORT.md). Local tests and synthetic
 measurements establish observed behavior only. Independent evaluation, production workload
-testing, broader format coverage, and real provider integration remain future work.
+testing, broader format coverage, and additional live integrations remain future work.

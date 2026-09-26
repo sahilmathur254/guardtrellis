@@ -130,7 +130,8 @@ published `0.1.0a1` artifacts. Live verification of both paths is pending.
 
 The separate [Gemini example](docs/gemini.md) uses the optional `.[gemini]` extra and also
 defaults to mocked HTTP. Its one-request live smoke can use an approved Gemini Free Tier
-project with the documented model and limits. Live verification is pending.
+project with the documented model and limits. A maintainer-approved live smoke passed on
+2026-09-26; the guide records the exact source, versions, token counts, and evidence limits.
 
 See [API details](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/api.md),
 [limitations and trust boundaries](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/limitations.md),

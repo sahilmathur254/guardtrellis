@@ -12,12 +12,14 @@
 - CI installation coverage for macOS and Windows alongside Linux Python 3.11–3.14.
 - Optional Gemini Developer API example with a separate `gemini` extra, mocked boundary
   tests, and a one-request live smoke for an approved Free Tier project. See the
-  [Gemini guide](docs/gemini.md); live verification is pending.
+  [Gemini guide](docs/gemini.md#recorded-live-smoke-2026-09-26) for the passing one-request
+  live smoke on 2026-09-26 (10 input and 5 output tokens).
 - Clarified which synthetic evaluation fixtures and baselines belong in version control.
 
 No core Guard/scanner API or detection-rule changes. The recorded `0.1.0a1` synthetic
-baseline is retained. This candidate still needs approved live provider evidence, review,
-and the existing TestPyPI rehearsal/PyPI promotion checks before publication.
+baseline is retained. Gemini supplies the recorded live provider evidence; OpenAI and
+Azure remain mock-verified only. This candidate still needs review and the existing
+TestPyPI rehearsal/PyPI promotion checks before publication.
 
 ## 0.1.0a1 — 2026-09-25
 

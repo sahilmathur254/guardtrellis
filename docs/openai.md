@@ -134,9 +134,11 @@ the mocked example with extras against each installed artifact.
 After an approved live run, record the maintainer approval, UTC date, exact commit, package
 versions, model, request count, outcome, and token usage from the metadata report in
 [#8](https://github.com/sahilmathur254/guardtrellis/issues/8). The only payloads are the
-fabricated prompt and synthetic blocked signature documented above. Do not close #8 until
-that evidence is present. One live smoke establishes that specific integration path, not
-general detection quality, production readiness, or model-output reliability.
+fabricated prompt and synthetic blocked signature documented above. The separate
+[Gemini live smoke](gemini.md#recorded-live-smoke-2026-09-26) supplies evidence for #8's
+one-provider criterion; it does not verify this OpenAI path. One live smoke establishes
+that specific integration path, not general detection quality, production readiness,
+or model-output reliability.
 
 Official references: [OpenAI Python SDK setup](https://developers.openai.com/api/docs/libraries),
 [Responses API](https://developers.openai.com/api/reference/resources/responses/methods/create).

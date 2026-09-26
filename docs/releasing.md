@@ -38,10 +38,10 @@ The workflow does not create a GitHub release or tag automatically.
 
 ## Prepare and review
 
-The source currently prepares **`0.1.0a2`**, which is not published. Before promoting this
-candidate, record approved live evidence for at least one of the provider examples in
-[#8](https://github.com/sahilmathur254/guardtrellis/issues/8). OpenAI, Azure, and Gemini examples
-are currently mock-verified only; keep untested paths explicitly labelled. Review the
+The source currently prepares **`0.1.0a2`**, which is not published. The
+[recorded Gemini smoke](gemini.md#recorded-live-smoke-2026-09-26) supplies approved live
+evidence for one provider in [#8](https://github.com/sahilmathur254/guardtrellis/issues/8).
+OpenAI and Azure remain mock-verified only; keep those paths explicitly labelled. Review the
 [candidate changelog](../CHANGELOG.md#010a2--unreleased-candidate), exact-commit CI, and
 publication-free candidate artifacts, then follow the separate approvals below.
 

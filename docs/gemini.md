@@ -98,11 +98,39 @@ actual HTTP serialization, redaction, zero requests for blocked input, checked c
 output, malformed/unsupported responses, generic failures, and no retry/redirect/tool loop.
 Distribution smokes check core installs exclude the SDK, then run all examples with extras.
 
-**Live verification is pending.** Record an approved run's date, exact source commit,
-script digest, versions, request/token counts, and outcome before citing it as live evidence
-for [#8](https://github.com/sahilmathur254/guardtrellis/issues/8). A Gemini result verifies
-that specific API/model path, not the separate OpenAI/Azure examples, general detection
-quality, or production reliability.
+### Recorded live smoke: 2026-09-26
+
+The maintainer authorized one synthetic request using a privately supplied key for a
+Free Tier project. The exact command above passed with the following metadata:
+
+| Evidence | Value |
+| --- | --- |
+| UTC date | `2026-09-26T12:46:30.274314+00:00` |
+| Tested source | [`d722ec2c044f5f84c8033c00b6f60bdd45515340`](https://github.com/sahilmathur254/guardtrellis/commit/d722ec2c044f5f84c8033c00b6f60bdd45515340) |
+| Example SHA-256 | `10dbf0f79782f21f4cf61ee6cb7c25fcf6c642fb9280a03f5d38fc1f30605474` |
+| Python / GuardTrellis | `3.12.0` / `0.1.0a2` from the source commit above |
+| Google Gen AI SDK / httpx | `2.25.0` / `0.28.1` |
+| Model / API | `gemini-3.5-flash-lite` / Developer API GenerateContent `v1beta` |
+| Generation request attempts | `1`, with retries and redirects disabled |
+| Output-token cap | `128` |
+| Reported input / output / total tokens | `10` / `5` / `15` |
+| Reported thought tokens | Not supplied; not inferred as zero |
+| Synthetic secret input | `BLOCK`, zero callback requests |
+| Fabricated email input | `REDACT` before the SDK request |
+| Complete provider output | `ALLOW` after output checks |
+| Overall result / command exit | Accepted, `REDACT` / `0` |
+| Standard error | Empty |
+
+The report contained metadata only; no raw response, key, account identifier, or provider
+response ID was retained in this record. The Free Tier selection was supplied by the
+maintainer; API usage metadata is not an independent billing statement. The example's
+code and lockfile identify the tested path even though the candidate remains unpublished.
+
+This evidence supports the live-smoke criterion of
+[#8](https://github.com/sahilmathur254/guardtrellis/issues/8). Output redaction/blocking and
+failure cases were verified with mocks; the live response needed no output redaction.
+This one result does not verify the separate OpenAI/Azure examples, other models, general
+detection quality, or production reliability. Future live runs require separate approval.
 
 References: [Google Gen AI SDK](https://googleapis.github.io/python-genai/),
 [GenerateContent API](https://ai.google.dev/api/generate-content),
