@@ -57,3 +57,7 @@ The exact dependency resolution is in `uv.lock`. Changing corpus labels or detec
 requires a documented reason, a new report, and retention of failures rather than silently
 converting them into passing examples. Larger independent corpora and real deployment
 measurements remain future work.
+
+The separate [resource measurement harness](../docs/resource_limits.md) covers large inputs,
+selected expensive schemas, and cancellation in bounded child processes. Its report in
+`resource_limits/` does not replace this detector corpus or establish production capacity.
