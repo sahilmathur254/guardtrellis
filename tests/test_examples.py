@@ -10,7 +10,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @pytest.mark.parametrize(
     "script,module",
-    [("plain_callable.py", None), ("fastapi_app.py", "fastapi"), ("langgraph_app.py", "langgraph")],
+    [
+        ("plain_callable.py", None),
+        ("fastapi_app.py", "fastapi"),
+        ("langgraph_app.py", "langgraph"),
+        ("openai_app.py", "openai"),
+        ("azure_openai_app.py", "openai"),
+        ("gemini_app.py", "google.genai"),
+    ],
 )
 def test_example_script_runs(script, module):
     if module:

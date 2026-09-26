@@ -16,11 +16,14 @@ SMOKE = """
 from pathlib import Path
 import guardtrellis
 from importlib.util import find_spec
+from importlib.metadata import distributions
 from guardtrellis import Action, Guard, JSONScanner, PIIScanner, Stage, ToolGuard
 
 assert 'site-packages' in str(Path(guardtrellis.__file__).resolve())
 assert Path(guardtrellis.__file__).with_name('py.typed').is_file()
 assert find_spec('fastapi') is None and find_spec('langgraph') is None
+assert find_spec('openai') is None and find_spec('httpx') is None
+assert 'google-genai' not in {package.metadata['Name'] for package in distributions()}
 assert Guard(input_scanners=[PIIScanner()]).scan('a@example.org').text == '[PII]'
 invalid = Guard(output_scanners=[JSONScanner()]).scan('{invalid}', stage=Stage.OUTPUT)
 assert invalid.action == Action.BLOCK
@@ -76,13 +79,19 @@ def main() -> None:
                     str(python),
                     "--index-url",
                     "https://pypi.org/simple",
-                    f"{artifact}[fastapi,langgraph]",
+                    f"{artifact}[fastapi,langgraph,openai,gemini]",
                 ],
                 cwd=work,
                 check=True,
             )
             subprocess.run(["uv", "pip", "check", "--python", str(python)], check=True)
-            for filename in ("fastapi_app.py", "langgraph_app.py"):
+            for filename in (
+                "fastapi_app.py",
+                "langgraph_app.py",
+                "openai_app.py",
+                "azure_openai_app.py",
+                "gemini_app.py",
+            ):
                 example = work / filename
                 shutil.copyfile(ROOT / "examples" / filename, example)
                 subprocess.run([str(python), "-I", str(example)], cwd=work, check=True)

@@ -3,10 +3,11 @@
 A small Python SDK for local checks around model inputs, complete outputs, retrieved text,
 and proposed tool calls. Policies are explicit, composable, and independent of model providers.
 
-**Alpha: 0.1.0a1.** APIs may change before a stable release.
+**Published alpha: 0.1.0a1.** APIs may change before a stable release.
 Supported Python: 3.11–3.14. Apache-2.0 licensed. Available on
 [PyPI](https://pypi.org/project/guardtrellis/0.1.0a1/), with
 [release notes and verified artifacts](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.0a1).
+This source checkout prepares `0.1.0a2`; that candidate is not yet published.
 
 Install the exact alpha version in an activated virtual environment:
 
@@ -104,11 +105,14 @@ uv sync --all-extras --group dev
 uv run python examples/plain_callable.py
 uv run python examples/fastapi_app.py       # Local TestClient demo, no server needed
 uv run python examples/langgraph_app.py     # Local graph, no provider credentials
+uv run python examples/openai_app.py        # Real SDK, in-memory HTTP mock by default
+uv run python examples/azure_openai_app.py  # Azure SDK, in-memory HTTP mock by default
+uv run python examples/gemini_app.py        # Gemini SDK, in-memory HTTP mock by default
 uv run pytest
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy
-uv run python evaluation/run.py
+uv run python evaluation/run.py --report-dir /tmp/guardtrellis-eval
 uv build
 uv run python scripts/smoke_dist.py
 ```
@@ -116,6 +120,18 @@ uv run python scripts/smoke_dist.py
 FastAPI and LangGraph are optional extras (`.[fastapi]`, `.[langgraph]`). LangGraph input
 checks run **before** text enters graph state. The example also checks model output before
 returning it to graph state. Instrumentation around callbacks may still capture raw data.
+
+The optional provider examples (`.[openai]`) use direct OpenAI Responses or Azure OpenAI
+Chat Completions through guarded callbacks. Their default modes and ordinary tests make
+no provider calls. See the [OpenAI guide](docs/openai.md) and [Azure guide](docs/azure_openai.md)
+for setup, privacy/failure boundaries, and separately approved one-request live smokes.
+This extra and these examples are part of the unpublished `0.1.0a2` candidate, not the
+published `0.1.0a1` artifacts. Live verification of both paths is pending.
+
+The separate [Gemini example](docs/gemini.md) uses the optional `.[gemini]` extra and also
+defaults to mocked HTTP. Its one-request live smoke can use an approved Gemini Free Tier
+project with the documented model and limits. A maintainer-approved live smoke passed on
+2026-09-26; the guide records the exact source, versions, token counts, and evidence limits.
 
 See [API details](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/api.md),
 [limitations and trust boundaries](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/limitations.md),

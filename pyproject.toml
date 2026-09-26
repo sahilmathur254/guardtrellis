@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "guardtrellis"
-version = "0.1.0a1"
+version = "0.1.0a2"
 description = "Composable local checks around model inputs, outputs, retrieval, and tools"
 authors = [{ name = "Sahil Mathur" }]
 readme = "README.md"
@@ -32,6 +32,11 @@ Roadmap = "https://github.com/users/sahilmathur254/projects/3"
 [project.optional-dependencies]
 fastapi = ["fastapi>=0.115,<1", "httpx>=0.27,<1", "uvicorn>=0.30,<1"]
 langgraph = ["langgraph>=1,<2", "langsmith>=0.3,<1"]
+openai = [
+    "httpx>=0.27,<1",
+    "openai>=2,<3",
+]
+gemini = ["google-genai>=2.25,<3", "httpx>=0.28.1,<1"]
 
 [dependency-groups]
 dev = ["pytest>=8.3,<10", "pytest-asyncio>=0.24,<2", "ruff>=0.11,<1", "mypy>=1.15,<2", "types-jsonschema>=4.23"]

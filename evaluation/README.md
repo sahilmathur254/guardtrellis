@@ -9,10 +9,25 @@ Every token/key-shaped value is fabricated. No real credentials or personal reco
 belong in this corpus.
 
 ```sh
-uv run python evaluation/run.py
 # Keep a comparison without replacing the recorded run:
 uv run python evaluation/run.py --iterations 100 --report-dir /tmp/guardtrellis-comparison
 ```
+
+## What belongs in Git
+
+Keep the synthetic corpus, runner, methodology, and reviewed baseline (`REPORT.md` and
+`results.json`) in version control. They let contributors reproduce the stated scope,
+compare changes, and inspect known misses and false positives. Public availability is
+intentional; these authored cases are not a secret or held-out security test set.
+
+Keep private datasets, application transcripts, raw provider responses, credentials,
+machine-local logs, and exploratory runs outside the checkout. Use `--report-dir` as above
+for routine comparisons. Omitting it overwrites the tracked baseline; do that only when
+intentionally preparing a reviewed baseline update with its corpus/source/runtime provenance.
+The recorded `0.1.0a1` baseline remains historical evidence while `0.1.0a2` is prepared;
+it must not be relabelled as a new run. Review generated reports before publishing them.
+
+## Method and limits
 
 Each record has a stable ID, family, text, language tag, expected signal, and rationale.
 `expected_signal: true` means sensitive data or a configured policy/validation violation.
