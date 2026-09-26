@@ -40,8 +40,8 @@ The workflow does not create a GitHub release or tag automatically.
 
 The source currently prepares **`0.1.0a2`**, which is not published. Before promoting this
 candidate, record approved live evidence for at least one of the provider examples in
-[#8](https://github.com/sahilmathur254/guardtrellis/issues/8). Both examples are currently
-mock-verified only; keep the untested path explicitly labelled. Review the
+[#8](https://github.com/sahilmathur254/guardtrellis/issues/8). OpenAI, Azure, and Gemini examples
+are currently mock-verified only; keep untested paths explicitly labelled. Review the
 [candidate changelog](../CHANGELOG.md#010a2--unreleased-candidate), exact-commit CI, and
 publication-free candidate artifacts, then follow the separate approvals below.
 

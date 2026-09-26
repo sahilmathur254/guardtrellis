@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
         ("langgraph_app.py", "langgraph"),
         ("openai_app.py", "openai"),
         ("azure_openai_app.py", "openai"),
+        ("gemini_app.py", "google.genai"),
     ],
 )
 def test_example_script_runs(script, module):

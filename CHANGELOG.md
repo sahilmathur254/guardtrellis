@@ -10,6 +10,9 @@
   with mocked HTTP boundary/failure tests and a separate, explicitly opted-in bounded
   live command. Azure live verification is also pending; see its [guide](docs/azure_openai.md).
 - CI installation coverage for macOS and Windows alongside Linux Python 3.11–3.14.
+- Optional Gemini Developer API example with a separate `gemini` extra, mocked boundary
+  tests, and a one-request live smoke for an approved Free Tier project. See the
+  [Gemini guide](docs/gemini.md); live verification is pending.
 - Clarified which synthetic evaluation fixtures and baselines belong in version control.
 
 No core Guard/scanner API or detection-rule changes. The recorded `0.1.0a1` synthetic

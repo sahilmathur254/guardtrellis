@@ -107,6 +107,7 @@ uv run python examples/fastapi_app.py       # Local TestClient demo, no server n
 uv run python examples/langgraph_app.py     # Local graph, no provider credentials
 uv run python examples/openai_app.py        # Real SDK, in-memory HTTP mock by default
 uv run python examples/azure_openai_app.py  # Azure SDK, in-memory HTTP mock by default
+uv run python examples/gemini_app.py        # Gemini SDK, in-memory HTTP mock by default
 uv run pytest
 uv run ruff check .
 uv run ruff format --check .
@@ -126,6 +127,10 @@ no provider calls. See the [OpenAI guide](docs/openai.md) and [Azure guide](docs
 for setup, privacy/failure boundaries, and separately approved one-request live smokes.
 This extra and these examples are part of the unpublished `0.1.0a2` candidate, not the
 published `0.1.0a1` artifacts. Live verification of both paths is pending.
+
+The separate [Gemini example](docs/gemini.md) uses the optional `.[gemini]` extra and also
+defaults to mocked HTTP. Its one-request live smoke can use an approved Gemini Free Tier
+project with the documented model and limits. Live verification is pending.
 
 See [API details](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/api.md),
 [limitations and trust boundaries](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/limitations.md),

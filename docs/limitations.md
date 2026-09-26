@@ -71,11 +71,12 @@ request-body limits at ingress, concurrency controls, and appropriate deployment
 The LangGraph example validates before initial graph state and before generated output is
 returned to state; it uses no checkpointer and disables tracing during its demo invocation.
 Moving checks into a graph after sensitive state is captured would be too late.
-The optional [OpenAI](openai.md) and [Azure](azure_openai.md) examples default to HTTP mocks.
+The optional [OpenAI](openai.md), [Azure](azure_openai.md), and [Gemini](gemini.md) examples
+default to HTTP mocks.
 Their live paths send only checked input to the provider and check complete output,
 with explicit timeouts and no
 automatic retries; provider processing/billing and external instrumentation remain outside
-Guard's control. Live evidence for both paths is pending and must be recorded separately
+Guard's control. Live evidence for these paths is pending and must be recorded separately
 from mock results.
 
 See [async execution limitations](api.md#limits-and-asynchronous-work) and the retained
