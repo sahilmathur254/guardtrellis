@@ -1,0 +1,2937 @@
+{
+  "format_version": 1,
+  "metadata": {
+    "generated_at_utc": "2026-09-26T13:24:33.608836+00:00",
+    "runner_sha256": "50a689dc52935d3e94ebda49b8232765d685baaa6c5a1371807f70f99c3d29b4",
+    "package_source_sha256": "ebeae1335f6f465bcda8e9bb4e569a4e0cfd39872680fd5718f4f2d5ba08880a",
+    "lock_sha256": "452c414fe73c5554ffbd8368de0ce1e34fb653897ab42d6c9fe429a3fb120d89",
+    "python": "3.12.0",
+    "implementation": "CPython",
+    "system": "Darwin",
+    "os_release": "25.6.0",
+    "machine": "arm64",
+    "dependencies": {
+      "guardtrellis": "0.1.0a2",
+      "jsonschema": "4.26.0",
+      "referencing": "0.37.0",
+      "attrs": "26.1.0",
+      "rpds-py": "2026.6.3",
+      "jsonschema-specifications": "2025.9.1"
+    }
+  },
+  "configuration": {
+    "repetitions": 3,
+    "wall_seconds": 5.0,
+    "cpu_seconds": 2,
+    "memory_mib": 512,
+    "scenario_names": [
+      "text_at_limit",
+      "text_over_limit",
+      "pii_at_finding_limit",
+      "pii_over_finding_limit",
+      "literal_max_configuration",
+      "json_at_default_depth",
+      "json_over_default_depth",
+      "json_at_maximum_depth",
+      "json_over_maximum_depth",
+      "schema_at_size_limit",
+      "nested_schema",
+      "reference_fanout_small",
+      "reference_fanout_large",
+      "wide_anyof_mismatch",
+      "unique_object_array",
+      "sync_callback_timeout",
+      "sync_scanner_timeout",
+      "caller_cancels_sync_callback",
+      "callback_suppresses_cancellation",
+      "callback_blocks_event_loop",
+      "supervisor_wall_timeout"
+    ]
+  },
+  "cases": [
+    {
+      "scenario": {
+        "name": "text_at_limit",
+        "kind": "text",
+        "size": 100000,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 76.97724993340671,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.015250174328684807
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.015250174328684807,
+        "operation_ms": 6.668250076472759,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 61.977,
+        "peak_rss_bytes": 38633472
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "text_at_limit",
+        "kind": "text",
+        "size": 100000,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 76.88133302144706,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.014375196769833565
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.014375196769833565,
+        "operation_ms": 6.757583003491163,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 63.937999999999995,
+        "peak_rss_bytes": 38617088
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "text_at_limit",
+        "kind": "text",
+        "size": 100000,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 124.62112493813038,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.014082994312047958
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.014082994312047958,
+        "operation_ms": 6.776917027309537,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 63.083,
+        "peak_rss_bytes": 38682624
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "text_over_limit",
+        "kind": "text",
+        "size": 100001,
+        "expected_action": "error"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 77.27716700173914,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "input_chars": 100001
+        },
+        "setup_ms": 0.014750054106116295
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "input_chars": 100001
+        },
+        "setup_ms": 0.014750054106116295,
+        "operation_ms": 0.005083158612251282,
+        "action": "error",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "text_limit_exceeded"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 60.351,
+        "peak_rss_bytes": 38567936
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "text_over_limit",
+        "kind": "text",
+        "size": 100001,
+        "expected_action": "error"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 74.8724159784615,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "input_chars": 100001
+        },
+        "setup_ms": 0.013708136975765228
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "input_chars": 100001
+        },
+        "setup_ms": 0.013708136975765228,
+        "operation_ms": 0.004624947905540466,
+        "action": "error",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "text_limit_exceeded"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 55.440000000000005,
+        "peak_rss_bytes": 38649856
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "text_over_limit",
+        "kind": "text",
+        "size": 100001,
+        "expected_action": "error"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 73.59512499533594,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "input_chars": 100001
+        },
+        "setup_ms": 0.014832941815257072
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "input_chars": 100001
+        },
+        "setup_ms": 0.014832941815257072,
+        "operation_ms": 0.00500003807246685,
+        "action": "error",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "text_limit_exceeded"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 55.995999999999995,
+        "peak_rss_bytes": 38469632
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "pii_at_finding_limit",
+        "kind": "pii",
+        "size": 256,
+        "expected_action": "redact"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 74.59116587415338,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "email_occurrences": 256,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.010124873369932175
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "email_occurrences": 256,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.010124873369932175,
+        "operation_ms": 4.569999873638153,
+        "action": "redact",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 256,
+        "finding_codes": [
+          "pii_email"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 59.442,
+        "peak_rss_bytes": 39059456
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "pii_at_finding_limit",
+        "kind": "pii",
+        "size": 256,
+        "expected_action": "redact"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 76.91975007764995,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "email_occurrences": 256,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.009584007784724236
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "email_occurrences": 256,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.009584007784724236,
+        "operation_ms": 4.674000199884176,
+        "action": "redact",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 256,
+        "finding_codes": [
+          "pii_email"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 59.85,
+        "peak_rss_bytes": 39075840
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "pii_at_finding_limit",
+        "kind": "pii",
+        "size": 256,
+        "expected_action": "redact"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 76.94420800544322,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "email_occurrences": 256,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.01058308407664299
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "email_occurrences": 256,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.01058308407664299,
+        "operation_ms": 4.647833062335849,
+        "action": "redact",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 256,
+        "finding_codes": [
+          "pii_email"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 59.871,
+        "peak_rss_bytes": 39059456
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "pii_over_finding_limit",
+        "kind": "pii",
+        "size": 257,
+        "expected_action": "error"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 76.73120801337063,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "email_occurrences": 257,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.009708106517791748
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "email_occurrences": 257,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.009708106517791748,
+        "operation_ms": 0.20545907318592072,
+        "action": "error",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "finding_limit_exceeded"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 58.094,
+        "peak_rss_bytes": 38780928
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "pii_over_finding_limit",
+        "kind": "pii",
+        "size": 257,
+        "expected_action": "error"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 72.46366585604846,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "email_occurrences": 257,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.010207993909716606
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "email_occurrences": 257,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.010207993909716606,
+        "operation_ms": 0.19925017841160297,
+        "action": "error",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "finding_limit_exceeded"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 54.413999999999994,
+        "peak_rss_bytes": 38699008
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "pii_over_finding_limit",
+        "kind": "pii",
+        "size": 257,
+        "expected_action": "error"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 72.4297920241952,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "email_occurrences": 257,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.012584030628204346
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "email_occurrences": 257,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.012584030628204346,
+        "operation_ms": 0.2073750365525484,
+        "action": "error",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "finding_limit_exceeded"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 57.391999999999996,
+        "peak_rss_bytes": 38748160
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "literal_max_configuration",
+        "kind": "literal",
+        "size": 128,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 76.99220883660018,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "literal_count": 128,
+          "literal_chars_each": 1024,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.07612491026520729
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "literal_count": 128,
+          "literal_chars_each": 1024,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.07612491026520729,
+        "operation_ms": 4.789917031303048,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 63.019000000000005,
+        "peak_rss_bytes": 38797312
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "literal_max_configuration",
+        "kind": "literal",
+        "size": 128,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 75.11954102665186,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "literal_count": 128,
+          "literal_chars_each": 1024,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.07366691716015339
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "literal_count": 128,
+          "literal_chars_each": 1024,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.07366691716015339,
+        "operation_ms": 4.881500033661723,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 64.051,
+        "peak_rss_bytes": 38715392
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "literal_max_configuration",
+        "kind": "literal",
+        "size": 128,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 77.01187510974705,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "literal_count": 128,
+          "literal_chars_each": 1024,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.11649983935058117
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "literal_count": 128,
+          "literal_chars_each": 1024,
+          "input_chars": 100000
+        },
+        "setup_ms": 0.11649983935058117,
+        "operation_ms": 4.780417075380683,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 60.013999999999996,
+        "peak_rss_bytes": 38715392
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "json_at_default_depth",
+        "kind": "json",
+        "size": 32,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 76.93891716189682,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 32,
+          "max_depth": 32,
+          "input_chars": 65
+        },
+        "setup_ms": 0.006959075108170509
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 32,
+          "max_depth": 32,
+          "input_chars": 65
+        },
+        "setup_ms": 0.006959075108170509,
+        "operation_ms": 0.025290995836257935,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 54.223,
+        "peak_rss_bytes": 38551552
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "json_at_default_depth",
+        "kind": "json",
+        "size": 32,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 77.20816694200039,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 32,
+          "max_depth": 32,
+          "input_chars": 65
+        },
+        "setup_ms": 0.007458962500095367
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 32,
+          "max_depth": 32,
+          "input_chars": 65
+        },
+        "setup_ms": 0.007458962500095367,
+        "operation_ms": 0.029416987672448158,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 55.179,
+        "peak_rss_bytes": 38567936
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "json_at_default_depth",
+        "kind": "json",
+        "size": 32,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 77.0184169523418,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 32,
+          "max_depth": 32,
+          "input_chars": 65
+        },
+        "setup_ms": 0.010249903425574303
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 32,
+          "max_depth": 32,
+          "input_chars": 65
+        },
+        "setup_ms": 0.010249903425574303,
+        "operation_ms": 0.025333836674690247,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 53.391,
+        "peak_rss_bytes": 38715392
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "json_over_default_depth",
+        "kind": "json",
+        "size": 33,
+        "expected_action": "block"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 76.43737480975688,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 33,
+          "max_depth": 32,
+          "input_chars": 67
+        },
+        "setup_ms": 0.011791940778493881
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 33,
+          "max_depth": 32,
+          "input_chars": 67
+        },
+        "setup_ms": 0.011791940778493881,
+        "operation_ms": 0.06654183380305767,
+        "action": "block",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "json_too_deep"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 58.675,
+        "peak_rss_bytes": 38535168
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "json_over_default_depth",
+        "kind": "json",
+        "size": 33,
+        "expected_action": "block"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 70.89445786550641,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 33,
+          "max_depth": 32,
+          "input_chars": 67
+        },
+        "setup_ms": 0.007916009053587914
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 33,
+          "max_depth": 32,
+          "input_chars": 67
+        },
+        "setup_ms": 0.007916009053587914,
+        "operation_ms": 0.026541994884610176,
+        "action": "block",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "json_too_deep"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 55.624,
+        "peak_rss_bytes": 38633472
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "json_over_default_depth",
+        "kind": "json",
+        "size": 33,
+        "expected_action": "block"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 77.09341705776751,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 33,
+          "max_depth": 32,
+          "input_chars": 67
+        },
+        "setup_ms": 0.007125083357095718
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 33,
+          "max_depth": 32,
+          "input_chars": 67
+        },
+        "setup_ms": 0.007125083357095718,
+        "operation_ms": 0.025292159989476204,
+        "action": "block",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "json_too_deep"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 54.384,
+        "peak_rss_bytes": 38535168
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "json_at_maximum_depth",
+        "kind": "json",
+        "size": 64,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 71.22941594570875,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 64,
+          "max_depth": 64,
+          "input_chars": 129
+        },
+        "setup_ms": 0.007666880264878273
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 64,
+          "max_depth": 64,
+          "input_chars": 129
+        },
+        "setup_ms": 0.007666880264878273,
+        "operation_ms": 0.030790921300649643,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 55.684999999999995,
+        "peak_rss_bytes": 38764544
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "json_at_maximum_depth",
+        "kind": "json",
+        "size": 64,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 76.61929191090167,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 64,
+          "max_depth": 64,
+          "input_chars": 129
+        },
+        "setup_ms": 0.007166992872953415
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 64,
+          "max_depth": 64,
+          "input_chars": 129
+        },
+        "setup_ms": 0.007166992872953415,
+        "operation_ms": 0.02937507815659046,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 54.034,
+        "peak_rss_bytes": 38682624
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "json_at_maximum_depth",
+        "kind": "json",
+        "size": 64,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 70.84320788271725,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 64,
+          "max_depth": 64,
+          "input_chars": 129
+        },
+        "setup_ms": 0.01058308407664299
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 64,
+          "max_depth": 64,
+          "input_chars": 129
+        },
+        "setup_ms": 0.01058308407664299,
+        "operation_ms": 0.0353341456502676,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 55.565000000000005,
+        "peak_rss_bytes": 38567936
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "json_over_maximum_depth",
+        "kind": "json",
+        "size": 65,
+        "expected_action": "block"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 74.26958298310637,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 65,
+          "max_depth": 64,
+          "input_chars": 131
+        },
+        "setup_ms": 0.007708091288805008
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 65,
+          "max_depth": 64,
+          "input_chars": 131
+        },
+        "setup_ms": 0.007708091288805008,
+        "operation_ms": 0.025999965146183968,
+        "action": "block",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "json_too_deep"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 54.513,
+        "peak_rss_bytes": 38666240
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "json_over_maximum_depth",
+        "kind": "json",
+        "size": 65,
+        "expected_action": "block"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 76.82008296251297,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 65,
+          "max_depth": 64,
+          "input_chars": 131
+        },
+        "setup_ms": 0.007291091606020927
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 65,
+          "max_depth": 64,
+          "input_chars": 131
+        },
+        "setup_ms": 0.007291091606020927,
+        "operation_ms": 0.02666679210960865,
+        "action": "block",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "json_too_deep"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 54.510999999999996,
+        "peak_rss_bytes": 38699008
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "json_over_maximum_depth",
+        "kind": "json",
+        "size": 65,
+        "expected_action": "block"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 76.9865419715643,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 65,
+          "max_depth": 64,
+          "input_chars": 131
+        },
+        "setup_ms": 0.007333001121878624
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "container_depth": 65,
+          "max_depth": 64,
+          "input_chars": 131
+        },
+        "setup_ms": 0.007333001121878624,
+        "operation_ms": 0.026541994884610176,
+        "action": "block",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "json_too_deep"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 54.856,
+        "peak_rss_bytes": 38567936
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "schema_at_size_limit",
+        "kind": "schema_size",
+        "size": 100000,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 73.51737516000867,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_chars": 100000,
+          "input_chars": 1
+        },
+        "setup_ms": 1.7187499906867743
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_chars": 100000,
+          "input_chars": 1
+        },
+        "setup_ms": 1.7187499906867743,
+        "operation_ms": 0.02345792017877102,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 56.745999999999995,
+        "peak_rss_bytes": 38715392
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "schema_at_size_limit",
+        "kind": "schema_size",
+        "size": 100000,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 75.15416713431478,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_chars": 100000,
+          "input_chars": 1
+        },
+        "setup_ms": 1.8156659789383411
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_chars": 100000,
+          "input_chars": 1
+        },
+        "setup_ms": 1.8156659789383411,
+        "operation_ms": 0.024625100195407867,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 55.981,
+        "peak_rss_bytes": 38944768
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "schema_at_size_limit",
+        "kind": "schema_size",
+        "size": 100000,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 76.90400001592934,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_chars": 100000,
+          "input_chars": 1
+        },
+        "setup_ms": 1.717125065624714
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_chars": 100000,
+          "input_chars": 1
+        },
+        "setup_ms": 1.717125065624714,
+        "operation_ms": 0.024834182113409042,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 55.609,
+        "peak_rss_bytes": 39010304
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "nested_schema",
+        "kind": "nested",
+        "size": 24,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 132.07149994559586,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_array_depth": 24,
+          "schema_chars": 691,
+          "input_chars": 49
+        },
+        "setup_ms": 25.43462486937642
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_array_depth": 24,
+          "schema_chars": 691,
+          "input_chars": 49
+        },
+        "setup_ms": 25.43462486937642,
+        "operation_ms": 0.08120806887745857,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 79.253,
+        "peak_rss_bytes": 38813696
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "nested_schema",
+        "kind": "nested",
+        "size": 24,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 132.1390001103282,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_array_depth": 24,
+          "schema_chars": 691,
+          "input_chars": 49
+        },
+        "setup_ms": 25.500041898339987
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_array_depth": 24,
+          "schema_chars": 691,
+          "input_chars": 49
+        },
+        "setup_ms": 25.500041898339987,
+        "operation_ms": 0.0900421291589737,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 82.825,
+        "peak_rss_bytes": 38813696
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "nested_schema",
+        "kind": "nested",
+        "size": 24,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 131.10358291305602,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_array_depth": 24,
+          "schema_chars": 691,
+          "input_chars": 49
+        },
+        "setup_ms": 25.4463751334697
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_array_depth": 24,
+          "schema_chars": 691,
+          "input_chars": 49
+        },
+        "setup_ms": 25.4463751334697,
+        "operation_ms": 0.08804118260741234,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 83.103,
+        "peak_rss_bytes": 38682624
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "reference_fanout_small",
+        "kind": "references",
+        "size": 8,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 77.308707870543,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "reference_levels": 8,
+          "potential_leaf_visits": 256,
+          "schema_chars": 596,
+          "input_chars": 1
+        },
+        "setup_ms": 6.430750014260411
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "reference_levels": 8,
+          "potential_leaf_visits": 256,
+          "schema_chars": 596,
+          "input_chars": 1
+        },
+        "setup_ms": 6.430750014260411,
+        "operation_ms": 2.2100829519331455,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 66.802,
+        "peak_rss_bytes": 38666240
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "reference_fanout_small",
+        "kind": "references",
+        "size": 8,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 74.08045907504857,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "reference_levels": 8,
+          "potential_leaf_visits": 256,
+          "schema_chars": 596,
+          "input_chars": 1
+        },
+        "setup_ms": 6.498541915789247
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "reference_levels": 8,
+          "potential_leaf_visits": 256,
+          "schema_chars": 596,
+          "input_chars": 1
+        },
+        "setup_ms": 6.498541915789247,
+        "operation_ms": 2.2414589766412973,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 62.99399999999999,
+        "peak_rss_bytes": 38813696
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "reference_fanout_small",
+        "kind": "references",
+        "size": 8,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 76.94662502035499,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "reference_levels": 8,
+          "potential_leaf_visits": 256,
+          "schema_chars": 596,
+          "input_chars": 1
+        },
+        "setup_ms": 6.435290910303593
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "reference_levels": 8,
+          "potential_leaf_visits": 256,
+          "schema_chars": 596,
+          "input_chars": 1
+        },
+        "setup_ms": 6.435290910303593,
+        "operation_ms": 2.2666670847684145,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 62.445,
+        "peak_rss_bytes": 38617088
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "reference_fanout_large",
+        "kind": "references",
+        "size": 20,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "cpu_limit",
+      "wall_ms": 2038.076875032857,
+      "returncode": -24,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "reference_levels": 20,
+          "potential_leaf_visits": 1048576,
+          "schema_chars": 1432,
+          "input_chars": 1
+        },
+        "setup_ms": 15.600583050400019
+      },
+      "contract_matches": null,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "reference_fanout_large",
+        "kind": "references",
+        "size": 20,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "cpu_limit",
+      "wall_ms": 2026.9153339322656,
+      "returncode": -24,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "reference_levels": 20,
+          "potential_leaf_visits": 1048576,
+          "schema_chars": 1432,
+          "input_chars": 1
+        },
+        "setup_ms": 15.644292114302516
+      },
+      "contract_matches": null,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "reference_fanout_large",
+        "kind": "references",
+        "size": 20,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "cpu_limit",
+      "wall_ms": 2031.0649161692709,
+      "returncode": -24,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "reference_levels": 20,
+          "potential_leaf_visits": 1048576,
+          "schema_chars": 1432,
+          "input_chars": 1
+        },
+        "setup_ms": 15.676750103011727
+      },
+      "contract_matches": null,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "wide_anyof_mismatch",
+        "kind": "anyof",
+        "size": 128,
+        "expected_action": "block"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 129.61837509647012,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_branches": 128,
+          "schema_chars": 1949,
+          "input_chars": 2
+        },
+        "setup_ms": 23.684458108618855
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_branches": 128,
+          "schema_chars": 1949,
+          "input_chars": 2
+        },
+        "setup_ms": 23.684458108618855,
+        "operation_ms": 0.779041089117527,
+        "action": "block",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "json_schema_mismatch"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 80.866,
+        "peak_rss_bytes": 39141376
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "wide_anyof_mismatch",
+        "kind": "anyof",
+        "size": 128,
+        "expected_action": "block"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 128.6462089046836,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_branches": 128,
+          "schema_chars": 1949,
+          "input_chars": 2
+        },
+        "setup_ms": 23.701542057096958
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_branches": 128,
+          "schema_chars": 1949,
+          "input_chars": 2
+        },
+        "setup_ms": 23.701542057096958,
+        "operation_ms": 0.7519591599702835,
+        "action": "block",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "json_schema_mismatch"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 83.009,
+        "peak_rss_bytes": 39190528
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "wide_anyof_mismatch",
+        "kind": "anyof",
+        "size": 128,
+        "expected_action": "block"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 127.41716601885855,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_branches": 128,
+          "schema_chars": 1949,
+          "input_chars": 2
+        },
+        "setup_ms": 23.484665900468826
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "schema_branches": 128,
+          "schema_chars": 1949,
+          "input_chars": 2
+        },
+        "setup_ms": 23.484665900468826,
+        "operation_ms": 0.7512080483138561,
+        "action": "block",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "json_schema_mismatch"
+        ]
+      },
+      "resources": {
+        "process_cpu_ms": 80.716,
+        "peak_rss_bytes": 39108608
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "unique_object_array",
+        "kind": "unique",
+        "size": 500,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 182.54433409310877,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "array_items": 500,
+          "schema_chars": 67,
+          "input_chars": 5890
+        },
+        "setup_ms": 0.5645419005304575
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "array_items": 500,
+          "schema_chars": 67,
+          "input_chars": 5890
+        },
+        "setup_ms": 0.5645419005304575,
+        "operation_ms": 93.34470797330141,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 150.06900000000002,
+        "peak_rss_bytes": 38830080
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "unique_object_array",
+        "kind": "unique",
+        "size": 500,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 182.46008385904133,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "array_items": 500,
+          "schema_chars": 67,
+          "input_chars": 5890
+        },
+        "setup_ms": 0.580791849642992
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "array_items": 500,
+          "schema_chars": 67,
+          "input_chars": 5890
+        },
+        "setup_ms": 0.580791849642992,
+        "operation_ms": 91.67004097253084,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 148.626,
+        "peak_rss_bytes": 38830080
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "unique_object_array",
+        "kind": "unique",
+        "size": 500,
+        "expected_action": "allow"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 187.09295894950628,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "prepared": {
+        "dimensions": {
+          "max_chars": 100000,
+          "array_items": 500,
+          "schema_chars": 67,
+          "input_chars": 5890
+        },
+        "setup_ms": 0.5628750659525394
+      },
+      "observation": {
+        "dimensions": {
+          "max_chars": 100000,
+          "array_items": 500,
+          "schema_chars": 67,
+          "input_chars": 5890
+        },
+        "setup_ms": 0.5628750659525394,
+        "operation_ms": 90.70562478154898,
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": []
+      },
+      "resources": {
+        "process_cpu_ms": 147.71300000000002,
+        "peak_rss_bytes": 38780928
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "sync_callback_timeout",
+        "kind": "async",
+        "size": 0,
+        "expected_action": "error"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 182.60516598820686,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "observation": {
+        "dimensions": {
+          "input_chars": 1,
+          "guard_timeout_seconds": 0.1
+        },
+        "action": "error",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "callback_timeout"
+        ],
+        "operation_ms": 101.18470783345401,
+        "worker_started": true,
+        "worker_running_after_await": true,
+        "worker_finished_after_release": true,
+        "cleanup_ms": 0.21558301523327827
+      },
+      "resources": {
+        "process_cpu_ms": 59.355,
+        "peak_rss_bytes": 38879232
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "sync_callback_timeout",
+        "kind": "async",
+        "size": 0,
+        "expected_action": "error"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 187.26033391430974,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "observation": {
+        "dimensions": {
+          "input_chars": 1,
+          "guard_timeout_seconds": 0.1
+        },
+        "action": "error",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "callback_timeout"
+        ],
+        "operation_ms": 101.26270912587643,
+        "worker_started": true,
+        "worker_running_after_await": true,
+        "worker_finished_after_release": true,
+        "cleanup_ms": 0.27916720137000084
+      },
+      "resources": {
+        "process_cpu_ms": 67.32100000000001,
+        "peak_rss_bytes": 38879232
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "sync_callback_timeout",
+        "kind": "async",
+        "size": 0,
+        "expected_action": "error"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 184.69649995677173,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "observation": {
+        "dimensions": {
+          "input_chars": 1,
+          "guard_timeout_seconds": 0.1
+        },
+        "action": "error",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "callback_timeout"
+        ],
+        "operation_ms": 101.24433389864862,
+        "worker_started": true,
+        "worker_running_after_await": true,
+        "worker_finished_after_release": true,
+        "cleanup_ms": 0.27658301405608654
+      },
+      "resources": {
+        "process_cpu_ms": 65.70700000000001,
+        "peak_rss_bytes": 38813696
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "sync_scanner_timeout",
+        "kind": "async",
+        "size": 0,
+        "expected_action": "error"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 186.04041705839336,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "observation": {
+        "dimensions": {
+          "input_chars": 1,
+          "guard_timeout_seconds": 0.1
+        },
+        "action": "error",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "scanner_timeout"
+        ],
+        "operation_ms": 101.23425000347197,
+        "worker_started": true,
+        "worker_running_after_await": true,
+        "worker_finished_after_release": true,
+        "cleanup_ms": 0.263832975178957
+      },
+      "resources": {
+        "process_cpu_ms": 68.576,
+        "peak_rss_bytes": 38846464
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "sync_scanner_timeout",
+        "kind": "async",
+        "size": 0,
+        "expected_action": "error"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 231.96458304300904,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "observation": {
+        "dimensions": {
+          "input_chars": 1,
+          "guard_timeout_seconds": 0.1
+        },
+        "action": "error",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "scanner_timeout"
+        ],
+        "operation_ms": 100.37550004199147,
+        "worker_started": true,
+        "worker_running_after_await": true,
+        "worker_finished_after_release": true,
+        "cleanup_ms": 0.27012499049305916
+      },
+      "resources": {
+        "process_cpu_ms": 65.97500000000001,
+        "peak_rss_bytes": 38961152
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "sync_scanner_timeout",
+        "kind": "async",
+        "size": 0,
+        "expected_action": "error"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 239.81133406050503,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "observation": {
+        "dimensions": {
+          "input_chars": 1,
+          "guard_timeout_seconds": 0.1
+        },
+        "action": "error",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "scanner_timeout"
+        ],
+        "operation_ms": 101.24625009484589,
+        "worker_started": true,
+        "worker_running_after_await": true,
+        "worker_finished_after_release": true,
+        "cleanup_ms": 0.381499994546175
+      },
+      "resources": {
+        "process_cpu_ms": 74.28,
+        "peak_rss_bytes": 38928384
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "caller_cancels_sync_callback",
+        "kind": "async",
+        "size": 0,
+        "expected_action": null
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 128.41166695579886,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "observation": {
+        "dimensions": {
+          "input_chars": 1,
+          "guard_timeout_seconds": 3.0
+        },
+        "caller_cancellation_propagated": true,
+        "operation_ms": 0.04845811054110527,
+        "worker_started": true,
+        "worker_running_after_await": true,
+        "worker_finished_after_release": true,
+        "cleanup_ms": 0.14270818792283535
+      },
+      "resources": {
+        "process_cpu_ms": 70.71600000000001,
+        "peak_rss_bytes": 38912000
+      },
+      "contract_matches": null,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "caller_cancels_sync_callback",
+        "kind": "async",
+        "size": 0,
+        "expected_action": null
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 74.19937499798834,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "observation": {
+        "dimensions": {
+          "input_chars": 1,
+          "guard_timeout_seconds": 3.0
+        },
+        "caller_cancellation_propagated": true,
+        "operation_ms": 0.048582907766103745,
+        "worker_started": true,
+        "worker_running_after_await": true,
+        "worker_finished_after_release": true,
+        "cleanup_ms": 0.14204205945134163
+      },
+      "resources": {
+        "process_cpu_ms": 62.222,
+        "peak_rss_bytes": 38961152
+      },
+      "contract_matches": null,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "caller_cancels_sync_callback",
+        "kind": "async",
+        "size": 0,
+        "expected_action": null
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 77.20345887355506,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "observation": {
+        "dimensions": {
+          "input_chars": 1,
+          "guard_timeout_seconds": 3.0
+        },
+        "caller_cancellation_propagated": true,
+        "operation_ms": 0.047833193093538284,
+        "worker_started": true,
+        "worker_running_after_await": true,
+        "worker_finished_after_release": true,
+        "cleanup_ms": 0.13833306729793549
+      },
+      "resources": {
+        "process_cpu_ms": 57.227,
+        "peak_rss_bytes": 38797312
+      },
+      "contract_matches": null,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "callback_suppresses_cancellation",
+        "kind": "async",
+        "size": 0,
+        "expected_action": "error"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 184.62587497197092,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "observation": {
+        "dimensions": {
+          "input_chars": 1,
+          "guard_timeout_seconds": 0.1
+        },
+        "action": "error",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "callback_timeout"
+        ],
+        "operation_ms": 101.38258407823741,
+        "callback_running_after_await": true,
+        "callback_finished_after_release": true
+      },
+      "resources": {
+        "process_cpu_ms": 56.973000000000006,
+        "peak_rss_bytes": 38862848
+      },
+      "contract_matches": true,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "callback_suppresses_cancellation",
+        "kind": "async",
+        "size": 0,
+        "expected_action": "error"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 186.8795829359442,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "observation": {
+        "dimensions": {
+          "input_chars": 1,
+          "guard_timeout_seconds": 0.1
+        },
+        "action": "error",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "callback_timeout"
+        ],
+        "operation_ms": 101.19183291681111,
+        "callback_running_after_await": true,
+        "callback_finished_after_release": true
+      },
+      "resources": {
+        "process_cpu_ms": 64.358,
+        "peak_rss_bytes": 38928384
+      },
+      "contract_matches": true,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "callback_suppresses_cancellation",
+        "kind": "async",
+        "size": 0,
+        "expected_action": "error"
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 187.44087498635054,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "observation": {
+        "dimensions": {
+          "input_chars": 1,
+          "guard_timeout_seconds": 0.1
+        },
+        "action": "error",
+        "accepted": false,
+        "has_deliverable_text": false,
+        "finding_count": 1,
+        "finding_codes": [
+          "callback_timeout"
+        ],
+        "operation_ms": 101.27729107625782,
+        "callback_running_after_await": true,
+        "callback_finished_after_release": true
+      },
+      "resources": {
+        "process_cpu_ms": 66.955,
+        "peak_rss_bytes": 38846464
+      },
+      "contract_matches": true,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "callback_blocks_event_loop",
+        "kind": "async",
+        "size": 0,
+        "expected_action": null
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 455.1637079566717,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "observation": {
+        "dimensions": {
+          "input_chars": 1,
+          "guard_timeout_seconds": 0.1,
+          "event_loop_block_seconds": 0.3
+        },
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": [],
+        "operation_ms": 306.1939578037709
+      },
+      "resources": {
+        "process_cpu_ms": 68.793,
+        "peak_rss_bytes": 38862848
+      },
+      "contract_matches": null,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "callback_blocks_event_loop",
+        "kind": "async",
+        "size": 0,
+        "expected_action": null
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 458.14537489786744,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "observation": {
+        "dimensions": {
+          "input_chars": 1,
+          "guard_timeout_seconds": 0.1,
+          "event_loop_block_seconds": 0.3
+        },
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": [],
+        "operation_ms": 302.7857500128448
+      },
+      "resources": {
+        "process_cpu_ms": 80.341,
+        "peak_rss_bytes": 38895616
+      },
+      "contract_matches": null,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "callback_blocks_event_loop",
+        "kind": "async",
+        "size": 0,
+        "expected_action": null
+      },
+      "wall_budget_seconds": 5.0,
+      "status": "completed",
+      "wall_ms": 459.66387493535876,
+      "returncode": 0,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "observation": {
+        "dimensions": {
+          "input_chars": 1,
+          "guard_timeout_seconds": 0.1,
+          "event_loop_block_seconds": 0.3
+        },
+        "action": "allow",
+        "accepted": true,
+        "has_deliverable_text": true,
+        "finding_count": 0,
+        "finding_codes": [],
+        "operation_ms": 306.12404202111065
+      },
+      "resources": {
+        "process_cpu_ms": 86.85,
+        "peak_rss_bytes": 38715392
+      },
+      "contract_matches": null,
+      "repetition": 3
+    },
+    {
+      "scenario": {
+        "name": "supervisor_wall_timeout",
+        "kind": "supervisor",
+        "size": 0,
+        "expected_action": null
+      },
+      "wall_budget_seconds": 1.0,
+      "status": "wall_timeout",
+      "wall_ms": 1009.5716249197721,
+      "returncode": -9,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "contract_matches": null,
+      "repetition": 1
+    },
+    {
+      "scenario": {
+        "name": "supervisor_wall_timeout",
+        "kind": "supervisor",
+        "size": 0,
+        "expected_action": null
+      },
+      "wall_budget_seconds": 1.0,
+      "status": "wall_timeout",
+      "wall_ms": 1009.1620001476258,
+      "returncode": -9,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "contract_matches": null,
+      "repetition": 2
+    },
+    {
+      "scenario": {
+        "name": "supervisor_wall_timeout",
+        "kind": "supervisor",
+        "size": 0,
+        "expected_action": null
+      },
+      "wall_budget_seconds": 1.0,
+      "status": "wall_timeout",
+      "wall_ms": 1011.3658332265913,
+      "returncode": -9,
+      "child_reaped": true,
+      "stderr_bytes": 0,
+      "limits": {
+        "cpu_seconds": 2,
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "output_file_bytes": 65536
+      },
+      "contract_matches": null,
+      "repetition": 3
+    }
+  ],
+  "measurement_checks_passed": true
+}

@@ -8,7 +8,7 @@ contracts, failure behavior, and evidence for the formats they actually cover.
 The [public GitHub Project](https://github.com/users/sahilmathur254/projects/3) is the source
 of current status, priority, and ownership. This document explains direction and milestone
 exit criteria. Each linked issue contains its scope, starting files, acceptance criteria,
-and dependencies. Horizons are an order of work, not promised dates. Updated 2026-09-25.
+and dependencies. Horizons are an order of work, not promised dates. Updated 2026-09-26.
 
 ## Available now
 
@@ -59,8 +59,8 @@ These tasks can start independently while users evaluate the published alpha.
 | [#5 Retrieval and tool-call recipe](https://github.com/sahilmathur254/guardtrellis/issues/5) | A runnable, tested example that passes checked data across boundaries. Good first issue. |
 | [#6 macOS and Windows installation coverage](https://github.com/sahilmathur254/guardtrellis/issues/6) | Remote installation/example evidence on both platforms while retaining the Linux Python matrix. |
 | [#7 Multilingual and benign challenge fixtures](https://github.com/sahilmathur254/guardtrellis/issues/7) | Attributed, versioned evaluation cases with per-family results and retained failures. |
-| [#8 One real provider integration](https://github.com/sahilmathur254/guardtrellis/issues/8) | [Gemini live smoke passed](docs/gemini.md#recorded-live-smoke-2026-09-26) on 2026-09-26, with optional SDKs and mocked boundary tests in the `0.1.0a2` candidate. [OpenAI](docs/openai.md) and [Azure](docs/azure_openai.md) remain mock-verified. PR review and merge are pending. |
-| [#9 Resource-limit measurements](https://github.com/sahilmathur254/guardtrellis/issues/9) | Bounded stress measurements for large inputs, schemas, and async cancellation behavior. |
+| [#8 One real provider integration](https://github.com/sahilmathur254/guardtrellis/issues/8) | [Gemini live smoke passed](docs/gemini.md#recorded-live-smoke-2026-09-26) on 2026-09-26; [PR #16](https://github.com/sahilmathur254/guardtrellis/pull/16) merged. The `0.1.0a2` candidate remains unpublished. [OpenAI](docs/openai.md) and [Azure](docs/azure_openai.md) remain mock-verified. |
+| [#9 Resource-limit measurements](https://github.com/sahilmathur254/guardtrellis/issues/9) | [Bounded harness and host controls](docs/resource_limits.md), with a separate [local report](evaluation/resource_limits/REPORT.md) for large inputs, expensive schemas, and cancellation. Implementation is ready for review; issue completion awaits merge. |
 
 **Exit criteria:** each result is reproducible, its supported scope and limitations are documented,
 and relevant CI or measurement evidence is linked. Collect actual adopter feedback alongside

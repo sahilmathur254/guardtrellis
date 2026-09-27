@@ -79,7 +79,8 @@ automatic retries; provider processing/billing and external instrumentation rema
 Guard's control. One [Gemini live smoke](gemini.md#recorded-live-smoke-2026-09-26) passed;
 OpenAI and Azure remain mock-verified only. Evidence for one API/model does not verify others.
 
-See [async execution limitations](api.md#limits-and-asynchronous-work) and the retained
+See [async execution limitations](api.md#limits-and-asynchronous-work), the
+[bounded resource measurements and host controls](resource_limits.md), and the retained
 failures in the [synthetic evaluation](../evaluation/REPORT.md). Local tests and synthetic
 measurements establish observed behavior only. Independent evaluation, production workload
 testing, broader format coverage, and additional live integrations remain future work.

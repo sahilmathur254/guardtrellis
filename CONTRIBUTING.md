@@ -104,6 +104,12 @@ does not establish remote CI success. Synthetic evaluation limitations and repor
 positives/misses are part of the deliverable, not tests to tune away.
 Do not include real credentials or personal data in tests, fixtures, or reports.
 
+For changes to resource limits or cancellation, use the separate
+[bounded measurement harness](docs/resource_limits.md). It runs fixed scenarios in child
+processes with external deadlines and records incomplete work honestly. Tests check
+containment and outcomes without asserting performance thresholds. Keep exploratory
+reports outside the checkout; update the reviewed resource baseline only intentionally.
+
 ## Releases and licensing
 
 Package publication is maintainer work and follows the [release checklist](docs/releasing.md).
