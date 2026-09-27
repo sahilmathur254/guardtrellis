@@ -2,8 +2,7 @@
 
 This standalone example connects `Guard.run` to the Gemini Developer API through the
 official Google Gen AI Python SDK. The `gemini` extra is optional; the core GuardTrellis
-package has no provider SDK dependency. The example is part of the unpublished `0.1.0a2`
-candidate, not the `0.1.0a1` artifacts on PyPI.
+package has no provider SDK dependency. The example was introduced in `0.1.0a2`.
 
 ## Run without credentials
 
@@ -124,7 +123,7 @@ Free Tier project. The exact command above passed with the following metadata:
 The report contained metadata only; no raw response, key, account identifier, or provider
 response ID was retained in this record. The Free Tier selection was supplied by the
 maintainer; API usage metadata is not an independent billing statement. The example's
-code and lockfile identify the tested path even though the candidate remains unpublished.
+code and lockfile identify the tested path; this remains evidence from that recorded run.
 
 This evidence supports the live-smoke criterion of
 [#8](https://github.com/sahilmathur254/guardtrellis/issues/8). Output redaction/blocking and

@@ -3,7 +3,7 @@
 ## Supported versions
 
 GuardTrellis is an alpha Python library. Security maintenance targets `main` and the
-latest published alpha, currently `0.1.0a1`. Report the exact package version or commit
+latest [published alpha](https://pypi.org/project/guardtrellis/). Report the exact package version or commit
 you tested. Backports to older releases are not guaranteed.
 
 ## Report a vulnerability privately

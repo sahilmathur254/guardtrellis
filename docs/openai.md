@@ -4,8 +4,8 @@ This source example connects `Guard.run` to the OpenAI Responses API using the o
 OpenAI Python SDK. It uses the same callback for a credential-free HTTP mock and an
 explicitly opted-in live smoke. The GuardTrellis core has no provider dependency.
 
-The example and `openai` extra are part of the **unpublished `0.1.0a2` candidate**; they are not included
-in the published `0.1.0a1` artifacts. Clone the repository as described in the
+The example and `openai` extra were introduced in `0.1.0a2`.
+Clone the repository as described in the
 [README](../README.md#examples-and-development), then run:
 
 ```sh

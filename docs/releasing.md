@@ -1,23 +1,21 @@
 # Releasing GuardTrellis
 
-Version `0.1.0a1` was published on 2026-09-25 to
-[PyPI](https://pypi.org/project/guardtrellis/0.1.0a1/). Its
-[GitHub prerelease](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.0a1) and
-[#4](https://github.com/sahilmathur254/guardtrellis/issues/4) retain the release evidence.
-The instructions below describe the process for future releases; use the new candidate's
-version and rehearsal run rather than rerunning the completed alpha upload. The release workflow is
+Use [PyPI](https://pypi.org/project/guardtrellis/) for current availability and
+[release notes](https://github.com/sahilmathur254/guardtrellis/releases) for retained evidence.
+Use each new candidate's version and rehearsal run rather than rerunning a completed upload.
+The release workflow is
 `.github/workflows/release.yml`. It validates on pull requests and offers three manual
 targets: `validate`, `testpypi`, and `pypi`. It never publishes on a push, pull request, or tag.
 
 ## What the workflow does
 
-1. **Validate:** build one wheel and one source archive, run strict Twine metadata checks,
+1. **Validate:** check version agreement, build one wheel and one source archive, run strict Twine metadata checks,
    and install both outside the checkout with core and optional example smokes. Record
    their SHA-256 hashes, package version, source commit, and workflow run ID in `release.json`.
 2. **TestPyPI:** on an explicit dispatch from this repository's `main`, require successful
    push CI for that commit and a reviewer-protected `testpypi` environment. Build/validate
    the candidate, await environment approval, and upload with Trusted Publishing. Download
-   the actual index files, match both hashes, and smoke-test those downloads. Only then
+   the actual index files, match both hashes and the published description, and smoke-test those downloads. Only then
    retain the unchanged files as the `testpypi-verified` workflow artifact.
 3. **PyPI:** on a separate dispatch, require a successful TestPyPI run from this same
    `main` commit. Retrieve its `testpypi-verified` artifact, check the recorded run/commit,
@@ -38,18 +36,30 @@ The workflow does not create a GitHub release or tag automatically.
 
 ## Prepare and review
 
-The source currently prepares **`0.1.0a2`**, which is not published. The
-[recorded Gemini smoke](gemini.md#recorded-live-smoke-2026-09-26) supplies approved live
+The [recorded Gemini smoke](gemini.md#recorded-live-smoke-2026-09-26) supplies approved live
 evidence for one provider in [#8](https://github.com/sahilmathur254/guardtrellis/issues/8).
 OpenAI and Azure remain mock-verified only; keep those paths explicitly labelled. Review the
-[candidate changelog](../CHANGELOG.md#010a2--unreleased-candidate), exact-commit CI, and
+[candidate changelog](../CHANGELOG.md), exact-commit CI, and
 publication-free candidate artifacts, then follow the separate approvals below.
 
 The alpha can ship after these release checks pass; later feature-roadmap items need not
 be complete. A stable `0.1.0` requires a later compatibility/support decision informed by
 adopter feedback and broader validation. Synthetic results do not establish production safety.
 
+`pyproject.toml` is the version source of truth. Choose an unused version there, then run:
+
 ```sh
+python scripts/release_artifacts.py sync
+uv lock
+```
+
+The sync command generates `__version__` and the marked README release/install block,
+including optional-extra pins. Write the matching first entry in `CHANGELOG.md`, then
+run the checks below. Do not edit the generated block by hand. Historical changelog
+entries and evaluation/live-smoke reports retain the versions they actually describe.
+
+```sh
+python scripts/release_artifacts.py check
 uv sync --frozen --all-extras --group dev --group release
 uv run --frozen pytest -W error
 uv run --frozen ruff check .
@@ -62,9 +72,11 @@ uv run --frozen python scripts/smoke_dist.py
 ```
 
 Use a clean checkout and a build directory containing only this candidate's wheel/sdist.
-Keep versions in `pyproject.toml` and `src/guardtrellis/__init__.py` consistent. Inspect the
-packaged README, URLs, license, and [changelog](../CHANGELOG.md). The manifest validator also
-checks the package versions and expected metadata inside both distributions. Review passing
+The source check compares the module, generated README, exact installation pins, lockfile,
+and first changelog entry with `pyproject.toml`. It runs in CI and the release workflow.
+Inspect the packaged README, URLs, license, and [changelog](../CHANGELOG.md). The manifest
+validator also checks package versions, the exact Markdown description in both distributions,
+and the source archive's README, project metadata, and lockfile version. Review passing
 Python 3.11–3.14 CI on the exact commit; a local pass alone does not establish that.
 Both build targets explicitly use Core Metadata 2.4 for compatibility. Twine 7 is locked in
 the separate `release` dependency group and is not a runtime dependency.
@@ -135,15 +147,18 @@ Approve the `pypi` deployment only after reviewing the candidate manifest. Succe
 verification of the public PyPI files and both installations, not just a successful upload.
 The resulting `pypi-verified` artifact retains the original TestPyPI candidate manifest/hashes.
 
-Then create the matching version tag (for example, `v0.1.0a2`) and a GitHub **prerelease**
+Then create the matching version tag (`v` followed by the manifest version) and a GitHub **prerelease**
 at the manifest's exact commit. Confirm
 the tag's version matches the packaged version and that it resolves to that commit. Include
 the changelog, retained limitations, both workflow runs, and artifact hashes in the release notes.
 The tag is a record of the reviewed release; pushing it does not trigger another upload.
 
-Only after availability is verified, document the public installation command
-`python -m pip install 'guardtrellis==0.1.0a2'` for this candidate, update source-only status in the roadmap and
-contributor guide, and close the release issue with the verified package URL. An explicit
+The README installation command must already match the candidate **before building**:
+PyPI displays the README embedded in the uploaded package, so editing GitHub afterward
+does not repair a published description. Keep availability wording neutral until upload.
+Index verification checks the public name, version, Markdown content type, and description
+against the reviewed source, as well as both artifact hashes. After verification, announce
+the release and close any release issue with the verified package URL. An explicit
 prerelease version or `--pre` opts users into a prerelease; see
 [pip's documented behavior](https://pip.pypa.io/en/stable/cli/pip_install/#pre-release-versions).
 

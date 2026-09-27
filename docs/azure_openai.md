@@ -2,8 +2,7 @@
 
 This standalone source example uses `AzureOpenAI` from the optional OpenAI Python SDK
 with `Guard.run`. It calls Chat Completions and checks complete text before delivery.
-No provider SDK is added to the GuardTrellis core. This example is part of the unpublished
-`0.1.0a2` candidate, not the `0.1.0a1` artifacts on PyPI.
+No provider SDK is added to the GuardTrellis core. This example was introduced in `0.1.0a2`.
 
 ## Run without credentials
 

@@ -1,4 +1,4 @@
-"""Record, verify, and download the exact distributions used for an alpha release.
+"""Synchronize release versions and verify the exact distributions used for a release.
 
 This script never publishes. Index downloads use fixed PyPI endpoints and must match
 the manifest from a trusted workflow run before the installation smoke can use them.
@@ -25,29 +25,127 @@ INDEXES = {
     "testpypi": ("https://test.pypi.org", "test-files.pythonhosted.org"),
     "pypi": ("https://pypi.org", "files.pythonhosted.org"),
 }
+README_START = "<!-- guardtrellis-release:start -->"
+README_END = "<!-- guardtrellis-release:end -->"
+
+
+def version_assignment(source: str) -> ast.Assign:
+    assignments = [
+        node
+        for node in ast.parse(source).body
+        if isinstance(node, ast.Assign)
+        and any(
+            isinstance(target, ast.Name) and target.id == "__version__" for target in node.targets
+        )
+    ]
+    if len(assignments) != 1 or len(assignments[0].targets) != 1:
+        raise ValueError("Expected exactly one module version assignment")
+    return assignments[0]
 
 
 def module_version(source: str) -> str:
-    for node in ast.parse(source).body:
-        if isinstance(node, ast.Assign) and any(
-            isinstance(target, ast.Name) and target.id == "__version__" for target in node.targets
-        ):
-            value = ast.literal_eval(node.value)
-            if isinstance(value, str):
-                return value
-    raise ValueError("Module version is missing")
+    value = ast.literal_eval(version_assignment(source).value)
+    if not isinstance(value, str):
+        raise ValueError("Module version must be a literal string")
+    return value
 
 
-def project_version() -> str:
-    project = tomllib.loads((ROOT / "pyproject.toml").read_text())["project"]
+def canonical_project() -> dict:
+    project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]
     version = project["version"]
     if project["name"] != "guardtrellis" or not re.fullmatch(
         r"[0-9]+\.[0-9]+\.[0-9]+(?:(?:a|b|rc)[0-9]+)?", version
     ):
         raise ValueError("Unexpected project name or release version")
-    if module_version((ROOT / "src/guardtrellis/__init__.py").read_text()) != version:
-        raise ValueError("Project and module versions differ")
+    return project
+
+
+def release_block(project: dict) -> str:
+    version = project["version"]
+    extras = ",\n".join(
+        f"`'guardtrellis[{extra}]=={version}'`" for extra in project["optional-dependencies"]
+    )
+    return (
+        f"{README_START}\n"
+        f"**Version: `{version}`.** See [PyPI](https://pypi.org/project/guardtrellis/{version}/)\n"
+        "for availability and [release notes](https://github.com/sahilmathur254/guardtrellis/releases).\n"
+        "A source checkout may describe a candidate that has not been published yet.\n\n"
+        "Install this version in an activated virtual environment:\n\n"
+        "```sh\n"
+        f"python -m pip install 'guardtrellis=={version}'\n"
+        "```\n\n"
+        "An explicit version opts into a prerelease when applicable. Optional integrations:\n"
+        f"{extras}.\n"
+        f"{README_END}"
+    )
+
+
+def readme_span(readme: str) -> tuple[int, int]:
+    if readme.count(README_START) != 1 or readme.count(README_END) != 1:
+        raise ValueError("README must contain exactly one release block")
+    start, end = readme.index(README_START), readme.index(README_END)
+    if start >= end:
+        raise ValueError("README release markers are out of order")
+    return start, end + len(README_END)
+
+
+def sync() -> str:
+    """Generate version references from pyproject; validate both targets before writing."""
+    project = canonical_project()
+    version = project["version"]
+    module = ROOT / "src/guardtrellis/__init__.py"
+    source = module.read_text(encoding="utf-8")
+    node = version_assignment(source)
+    module_version(source)
+    lines = source.splitlines(keepends=True)
+    lines[node.lineno - 1 : node.end_lineno] = [f"__version__ = {json.dumps(version)}\n"]
+    readme_file = ROOT / "README.md"
+    readme = readme_file.read_text(encoding="utf-8")
+    start, end = readme_span(readme)
+    updated = readme[:start] + release_block(project) + readme[end:]
+    module.write_text("".join(lines), encoding="utf-8")
+    readme_file.write_text(updated, encoding="utf-8")
     return version
+
+
+def locked_version(source: str) -> str:
+    packages = [p for p in tomllib.loads(source)["package"] if p["name"] == "guardtrellis"]
+    if len(packages) != 1:
+        raise ValueError("Lockfile must contain exactly one GuardTrellis package")
+    return packages[0]["version"]
+
+
+def project_version() -> str:
+    project = canonical_project()
+    version = project["version"]
+    if (
+        module_version((ROOT / "src/guardtrellis/__init__.py").read_text(encoding="utf-8"))
+        != version
+    ):
+        raise ValueError("Project and module versions differ")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    start, end = readme_span(readme)
+    if readme[start:end] != release_block(project):
+        raise ValueError("README release block is stale; run scripts/release_artifacts.py sync")
+    pins = re.findall(r"guardtrellis(?:\[[\w,.-]+\])?\s*==\s*([\w.+-]+)", readme)
+    if any(pin != version for pin in pins):
+        raise ValueError("README contains a stale installation pin")
+    if locked_version((ROOT / "uv.lock").read_text(encoding="utf-8")) != version:
+        raise ValueError("Project and lockfile versions differ; run uv lock")
+    heading = re.search(
+        r"^## (.+)$", (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"), re.MULTILINE
+    )
+    if heading is None or not re.fullmatch(re.escape(version) + r"(?: — .+)?", heading[1]):
+        raise ValueError("First changelog entry must describe the current version")
+    return version
+
+
+def check_description(description: str, content_type: str) -> None:
+    expected = (ROOT / "README.md").read_text(encoding="utf-8")
+    if content_type != "text/markdown" or description.replace("\r\n", "\n").rstrip("\n") != (
+        expected.rstrip("\n")
+    ):
+        raise ValueError("Release description differs from the current Markdown README")
 
 
 def artifact_names(version: str) -> set[str]:
@@ -77,6 +175,11 @@ def check_metadata(file: Path, version: str) -> None:
 
             metadata = read("PKG-INFO")
             source = read("src/guardtrellis/__init__.py")
+            check_description(read("README.md").decode(), "text/markdown")
+            if tomllib.loads(read("pyproject.toml").decode())["project"] != canonical_project():
+                raise ValueError("Source archive project metadata differs from the source")
+            if locked_version(read("uv.lock").decode()) != version:
+                raise ValueError("Source archive lockfile version differs from the release")
             for name in ("LICENSE", "CHANGELOG.md", "ROADMAP.md", "docs/releasing.md"):
                 read(name)
     parsed = BytesParser().parsebytes(metadata)
@@ -88,18 +191,23 @@ def check_metadata(file: Path, version: str) -> None:
         raise ValueError("Distribution metadata has the wrong name or version")
     if module_version(source.decode()) != version:
         raise ValueError("Packaged module version differs from distribution metadata")
+    check_description(
+        parsed.get_payload(decode=True).decode("utf-8"), parsed.get("Description-Content-Type", "")
+    )
     if parsed["License-Expression"] != "Apache-2.0" or set(
         parsed.get("Requires-Python", "").split(",")
     ) != {">=3.11", "<3.15"}:
         raise ValueError("Distribution license or Python requirement differs from the release")
     urls = dict(value.split(", ", 1) for value in parsed.get_all("Project-URL", []))
-    expected_urls = tomllib.loads((ROOT / "pyproject.toml").read_text())["project"]["urls"]
+    expected_urls = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"][
+        "urls"
+    ]
     if urls != expected_urls:
         raise ValueError("Distribution project URLs differ from the source metadata")
 
 
 def verify(bundle: Path, commit: str, run_id: str | None = None) -> dict:
-    manifest = json.loads((bundle / "release.json").read_text())
+    manifest = json.loads((bundle / "release.json").read_text(encoding="utf-8"))
     version = project_version()
     if (
         manifest.get("schema") != 1
@@ -115,7 +223,7 @@ def verify(bundle: Path, commit: str, run_id: str | None = None) -> dict:
     if set(manifest["sha256"]) != expected:
         raise ValueError("Manifest must identify exactly the expected wheel and source archive")
     checksums = "".join(f"{sha}  dist/{name}\n" for name, sha in sorted(manifest["sha256"].items()))
-    if (bundle / "SHA256SUMS").read_text() != checksums:
+    if (bundle / "SHA256SUMS").read_text(encoding="utf-8") != checksums:
         raise ValueError("Checksum list differs from the release manifest")
     files = list((bundle / "dist").iterdir())
     if {file.name for file in files} != expected:
@@ -153,9 +261,10 @@ def create(bundle: Path, dist: Path, commit: str, run_id: str) -> dict:
         "run_id": run_id,
         "sha256": {file.name: digest(file) for file in sorted(files)},
     }
-    (bundle / "release.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    (bundle / "release.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     (bundle / "SHA256SUMS").write_text(
-        "".join(f"{sha}  dist/{name}\n" for name, sha in manifest["sha256"].items())
+        "".join(f"{sha}  dist/{name}\n" for name, sha in manifest["sha256"].items()),
+        encoding="utf-8",
     )
     return verify(bundle, commit, run_id)
 
@@ -177,6 +286,10 @@ def index_files(index: str, version: str, expected: dict[str, str]) -> list[dict
             metadata = json.loads(
                 read_url(f"{endpoint}/pypi/guardtrellis/{version}/json", 1_000_000)
             )
+            info = metadata["info"]
+            if info["name"] != "guardtrellis" or info["version"] != version:
+                raise ValueError("Index project name or version differs from the release")
+            check_description(info["description"], info["description_content_type"])
             files = metadata["urls"]
             names = [file["filename"] for file in files]
             if set(names) - set(expected) or len(names) != len(set(names)):
@@ -215,6 +328,8 @@ def fetch(bundle: Path, commit: str, index: str, destination: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     subcommands = parser.add_subparsers(dest="command", required=True)
+    subcommands.add_parser("sync", help="Generate module and README versions from pyproject.toml")
+    subcommands.add_parser("check", help="Check module, README, lockfile, and changelog agreement")
     for command in ("create", "verify", "fetch"):
         subparser = subcommands.add_parser(command)
         subparser.add_argument("--bundle", type=Path, required=True)
@@ -227,7 +342,11 @@ def main() -> None:
             subparser.add_argument("--index", choices=INDEXES, required=True)
             subparser.add_argument("--destination", type=Path, required=True)
     args = parser.parse_args()
-    if args.command == "create":
+    if args.command == "sync":
+        print(f"Synchronized {sync()}; run uv lock and update CHANGELOG.md before check")
+    elif args.command == "check":
+        print(f"Release source versions agree: {project_version()}")
+    elif args.command == "create":
         print(json.dumps(create(args.bundle, args.dist, args.commit, args.run_id), indent=2))
     elif args.command == "verify":
         print(json.dumps(verify(args.bundle, args.commit, args.run_id), indent=2))

@@ -113,7 +113,7 @@ reports outside the checkout; update the reviewed resource baseline only intenti
 ## Releases and licensing
 
 Package publication is maintainer work and follows the [release checklist](docs/releasing.md).
-The first alpha, [0.1.0a1](https://pypi.org/project/guardtrellis/0.1.0a1/), is available on PyPI;
-install it with `python -m pip install 'guardtrellis==0.1.0a1'` to evaluate the published version.
+See [PyPI](https://pypi.org/project/guardtrellis/) for the latest published version and
+the [README](README.md) for installation instructions matching this source checkout.
 A merged contribution does not itself trigger publication.
 The project is Apache-2.0 licensed; preserve applicable notices when adding third-party material.

@@ -1,18 +1,23 @@
 # Changelog
 
-## Unreleased
+## 0.1.0a3
+
+- Generate the module version and README installation instructions from `pyproject.toml`.
+  CI checks source, lockfile, and changelog agreement; release validation checks the README
+  embedded in both distributions and the description returned by TestPyPI and PyPI.
+  Corrects the stale `0.1.0a1` installation pin shipped in the `0.1.0a2` description.
 
 - Reproducible offline resource measurements in bounded child processes, with retained
   CPU/wall stops, input/finding/depth boundary cases, expensive schemas, and cancellation
   observations. Includes host-control guidance and a separate reviewed local baseline;
   no core runtime limits or detection rules change.
 
-## 0.1.0a2 — unreleased candidate
+## 0.1.0a2 — 2026-09-26
 
 - Optional OpenAI Responses callback example with a credential-free HTTP mock, tested
   input/output boundaries, and a separately opted-in one-request live smoke. Adds the
   `openai` extra without changing core dependencies or public Guard APIs. Live verification
-  is pending; see the [integration guide](docs/openai.md). This is not in `0.1.0a1` on PyPI.
+  is pending; see the [integration guide](docs/openai.md).
 - Standalone Azure OpenAI Chat Completions example using the same optional SDK extra,
   with mocked HTTP boundary/failure tests and a separate, explicitly opted-in bounded
   live command. Azure live verification is also pending; see its [guide](docs/azure_openai.md).
@@ -25,8 +30,10 @@
 
 No core Guard/scanner API or detection-rule changes. The recorded `0.1.0a1` synthetic
 baseline is retained. Gemini supplies the recorded live provider evidence; OpenAI and
-Azure remain mock-verified only. This candidate still needs review and the existing
-TestPyPI rehearsal/PyPI promotion checks before publication.
+Azure remain mock-verified only. Published after the
+[TestPyPI rehearsal](https://github.com/sahilmathur254/guardtrellis/actions/runs/36245484256)
+and [PyPI promotion](https://github.com/sahilmathur254/guardtrellis/actions/runs/36245714535).
+Its package description contains an outdated installation pin; use the latest release instead.
 
 ## 0.1.0a1 — 2026-09-25
 

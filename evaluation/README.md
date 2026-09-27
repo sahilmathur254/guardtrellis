@@ -24,7 +24,7 @@ Keep private datasets, application transcripts, raw provider responses, credenti
 machine-local logs, and exploratory runs outside the checkout. Use `--report-dir` as above
 for routine comparisons. Omitting it overwrites the tracked baseline; do that only when
 intentionally preparing a reviewed baseline update with its corpus/source/runtime provenance.
-The recorded `0.1.0a1` baseline remains historical evidence while `0.1.0a2` is prepared;
+The recorded `0.1.0a1` baseline remains historical evidence as new versions are released;
 it must not be relabelled as a new run. Review generated reports before publishing them.
 
 ## Method and limits
