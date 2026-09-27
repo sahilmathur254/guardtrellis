@@ -8,7 +8,7 @@ contracts, failure behavior, and evidence for the formats they actually cover.
 The [public GitHub Project](https://github.com/users/sahilmathur254/projects/3) is the source
 of current status, priority, and ownership. This document explains direction and milestone
 exit criteria. Each linked issue contains its scope, starting files, acceptance criteria,
-and dependencies. Horizons are an order of work, not promised dates. Updated 2026-09-26.
+and dependencies. Horizons are an order of work, not promised dates. Updated 2026-09-27.
 
 ## Available now
 
@@ -19,11 +19,9 @@ CI validates Python 3.11–3.14 on Linux and Python 3.12 on macOS 15 ARM64 and W
 2025 x64, including installation of both distribution formats. See the
 [contributor guide](CONTRIBUTING.md) for the matrix and checks.
 
-The current alpha, [0.1.0a1](https://pypi.org/project/guardtrellis/0.1.0a1/), is available on PyPI:
-
-```sh
-python -m pip install 'guardtrellis==0.1.0a1'
-```
+The latest published alpha is listed on [PyPI](https://pypi.org/project/guardtrellis/).
+The [README](README.md) contains installation instructions matching this source checkout;
+merged source changes may precede publication.
 
 See the [quickstart](README.md), [API contracts](docs/api.md), and [limitations](docs/limitations.md)
 before integrating. The [72-case synthetic evaluation](evaluation/REPORT.md) retains its misses
@@ -59,8 +57,8 @@ These tasks can start independently while users evaluate the published alpha.
 | [#5 Retrieval and tool-call recipe](https://github.com/sahilmathur254/guardtrellis/issues/5) | A runnable, tested example that passes checked data across boundaries. Good first issue. |
 | [#6 macOS and Windows installation coverage](https://github.com/sahilmathur254/guardtrellis/issues/6) | Remote installation/example evidence on both platforms while retaining the Linux Python matrix. |
 | [#7 Multilingual and benign challenge fixtures](https://github.com/sahilmathur254/guardtrellis/issues/7) | Attributed, versioned evaluation cases with per-family results and retained failures. |
-| [#8 One real provider integration](https://github.com/sahilmathur254/guardtrellis/issues/8) | [Gemini live smoke passed](docs/gemini.md#recorded-live-smoke-2026-09-26) on 2026-09-26; [PR #16](https://github.com/sahilmathur254/guardtrellis/pull/16) merged. The `0.1.0a2` candidate remains unpublished. [OpenAI](docs/openai.md) and [Azure](docs/azure_openai.md) remain mock-verified. |
-| [#9 Resource-limit measurements](https://github.com/sahilmathur254/guardtrellis/issues/9) | [Bounded harness and host controls](docs/resource_limits.md), with a separate [local report](evaluation/resource_limits/REPORT.md) for large inputs, expensive schemas, and cancellation. Implementation is ready for review; issue completion awaits merge. |
+| [#8 One real provider integration](https://github.com/sahilmathur254/guardtrellis/issues/8) | [Gemini live smoke passed](docs/gemini.md#recorded-live-smoke-2026-09-26) on 2026-09-26; included in `0.1.0a2`. [OpenAI](docs/openai.md) and [Azure](docs/azure_openai.md) remain mock-verified. |
+| [#9 Resource-limit measurements](https://github.com/sahilmathur254/guardtrellis/issues/9) | [Bounded harness and host controls](docs/resource_limits.md), with a separate [local report](evaluation/resource_limits/REPORT.md) for large inputs, expensive schemas, and cancellation. [PR #20](https://github.com/sahilmathur254/guardtrellis/pull/20) merged. |
 
 **Exit criteria:** each result is reproducible, its supported scope and limitations are documented,
 and relevant CI or measurement evidence is linked. Collect actual adopter feedback alongside

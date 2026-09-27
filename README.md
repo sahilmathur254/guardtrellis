@@ -3,20 +3,25 @@
 A small Python SDK for local checks around model inputs, complete outputs, retrieved text,
 and proposed tool calls. Policies are explicit, composable, and independent of model providers.
 
-**Published alpha: 0.1.0a1.** APIs may change before a stable release.
-Supported Python: 3.11–3.14. Apache-2.0 licensed. Available on
-[PyPI](https://pypi.org/project/guardtrellis/0.1.0a1/), with
-[release notes and verified artifacts](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.0a1).
-This source checkout prepares `0.1.0a2`; that candidate is not yet published.
+APIs may change before a stable release. Supported Python: 3.11–3.14. Apache-2.0 licensed.
 
-Install the exact alpha version in an activated virtual environment:
+<!-- guardtrellis-release:start -->
+**Version: `0.1.0a3`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.0a3/)
+for availability and [release notes](https://github.com/sahilmathur254/guardtrellis/releases).
+A source checkout may describe a candidate that has not been published yet.
+
+Install this version in an activated virtual environment:
 
 ```sh
-python -m pip install 'guardtrellis==0.1.0a1'
+python -m pip install 'guardtrellis==0.1.0a3'
 ```
 
-The explicit version opts into this prerelease. Optional integrations are available with
-`'guardtrellis[fastapi]==0.1.0a1'` or `'guardtrellis[langgraph]==0.1.0a1'`.
+An explicit version opts into a prerelease when applicable. Optional integrations:
+`'guardtrellis[fastapi]==0.1.0a3'`,
+`'guardtrellis[langgraph]==0.1.0a3'`,
+`'guardtrellis[openai]==0.1.0a3'`,
+`'guardtrellis[gemini]==0.1.0a3'`.
+<!-- guardtrellis-release:end -->
 
 ```python
 from guardtrellis import Guard, PIIScanner, SecretScanner
@@ -125,8 +130,8 @@ The optional provider examples (`.[openai]`) use direct OpenAI Responses or Azur
 Chat Completions through guarded callbacks. Their default modes and ordinary tests make
 no provider calls. See the [OpenAI guide](docs/openai.md) and [Azure guide](docs/azure_openai.md)
 for setup, privacy/failure boundaries, and separately approved one-request live smokes.
-This extra and these examples are part of the unpublished `0.1.0a2` candidate, not the
-published `0.1.0a1` artifacts. Live verification of both paths is pending.
+The optional extra and examples were introduced in `0.1.0a2`.
+Live verification of both paths is pending.
 
 The separate [Gemini example](docs/gemini.md) uses the optional `.[gemini]` extra and also
 defaults to mocked HTTP. Its one-request live smoke can use an approved Gemini Free Tier
