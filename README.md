@@ -108,6 +108,7 @@ git clone https://github.com/sahilmathur254/guardtrellis.git
 cd guardtrellis
 uv sync --all-extras --group dev
 uv run python examples/plain_callable.py
+uv run python examples/retrieval_tools.py   # Checked retrieval through a proposed tool call
 uv run python examples/fastapi_app.py       # Local TestClient demo, no server needed
 uv run python examples/langgraph_app.py     # Local graph, no provider credentials
 uv run python examples/openai_app.py        # Real SDK, in-memory HTTP mock by default
@@ -121,6 +122,9 @@ uv run python evaluation/run.py --report-dir /tmp/guardtrellis-eval
 uv build
 uv run python scripts/smoke_dist.py
 ```
+
+The [retrieval/tool-call recipe](docs/retrieval_tools.md) uses only core dependencies and
+shows checked data crossing both boundaries, rejected callbacks, and host authorization.
 
 FastAPI and LangGraph are optional extras (`.[fastapi]`, `.[langgraph]`). LangGraph input
 checks run **before** text enters graph state. The example also checks model output before

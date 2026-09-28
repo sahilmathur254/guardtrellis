@@ -78,9 +78,10 @@ def main() -> None:
             )
             subprocess.run(["uv", "pip", "check", "--python", str(python)], check=True)
             subprocess.run([str(python), "-I", "-c", SMOKE], cwd=work, check=True)
-            example = work / "plain_callable.py"
-            shutil.copyfile(ROOT / "examples/plain_callable.py", example)
-            subprocess.run([str(python), "-I", str(example)], cwd=work, check=True)
+            for filename in ("plain_callable.py", "retrieval_tools.py"):
+                example = work / filename
+                shutil.copyfile(ROOT / "examples" / filename, example)
+                subprocess.run([str(python), "-I", str(example)], cwd=work, check=True)
             # Other extras must not mask missing dependencies in the OpenAI examples.
             subprocess.run(
                 [
