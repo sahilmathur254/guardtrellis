@@ -42,9 +42,17 @@ OpenAI and Azure remain mock-verified only; keep those paths explicitly labelled
 [candidate changelog](../CHANGELOG.md), exact-commit CI, and
 publication-free candidate artifacts, then follow the separate approvals below.
 
-The alpha can ship after these release checks pass; later feature-roadmap items need not
-be complete. A stable `0.1.0` requires a later compatibility/support decision informed by
-adopter feedback and broader validation. Synthetic results do not establish production safety.
+For `0.1.0`, review the [compatibility and support policy](compatibility.md), alpha migration
+notes, and available validation/feedback, then record a go/no-go decision against the exact
+candidate commit. A separate written adopter report is not required. Later feature-roadmap
+items need not be complete; retained limitations must stay explicit. Synthetic results do
+not establish production safety.
+
+Preparation and publication are separate. A release-preparation PR can validate the final
+version and description without uploading anything. Before a later publication, merge the
+reviewed PR, wait for successful push CI on the resulting `main` commit, and use that commit
+for both index runs. Recheck the candidate and version availability on the day of publication.
+A passing candidate job or a planned release date does not authorize an upload.
 
 `pyproject.toml` is the version source of truth. Choose an unused version there, then run:
 
@@ -54,9 +62,9 @@ uv lock
 ```
 
 The sync command generates `__version__` and the marked README release/install block,
-including optional-extra pins. Write the matching first entry in `CHANGELOG.md`, then
-run the checks below. Do not edit the generated block by hand. Historical changelog
-entries and evaluation/live-smoke reports retain the versions they actually describe.
+including optional-extra pins. Write the matching first entry in `CHANGELOG.md` using the
+[changelog maintenance rules](../CONTRIBUTING.md#maintain-the-changelog), then run the checks
+below. Do not edit the generated block by hand. Historical changelog entries and evaluation/live-smoke reports retain the versions they actually describe.
 
 ```sh
 python scripts/release_artifacts.py check
@@ -147,9 +155,10 @@ Approve the `pypi` deployment only after reviewing the candidate manifest. Succe
 verification of the public PyPI files and both installations, not just a successful upload.
 The resulting `pypi-verified` artifact retains the original TestPyPI candidate manifest/hashes.
 
-Then create the matching version tag (`v` followed by the manifest version) and a GitHub **prerelease**
-at the manifest's exact commit. Confirm
-the tag's version matches the packaged version and that it resolves to that commit. Include
+Then create the matching version tag (`v` followed by the manifest version) and a GitHub
+release at the manifest's exact commit. For a final version such as `0.1.0`, create a normal
+release; mark alpha, beta, or release-candidate versions as **prereleases**.
+Confirm the tag's version matches the packaged version and that it resolves to that commit. Include
 the changelog, retained limitations, both workflow runs, and artifact hashes in the release notes.
 The tag is a record of the reviewed release; pushing it does not trigger another upload.
 
@@ -171,7 +180,7 @@ prerelease version or `--pre` opts users into a prerelease; see
   state, then rerun only the failed verification job. Do not repeat a completed upload or
   a completed workflow; artifact names and uploaded filenames are deliberately not overwritten.
 - If an upload only partially succeeded, inspect the exact files before deciding on recovery.
-  The workflow does not use `skip-existing` to hide mismatches. A new corrected alpha version
+  The workflow does not use `skip-existing` to hide mismatches. A new corrected version
   is the simple recovery path when the published candidate cannot be completed unchanged.
 - If the commit changes or the verified GitHub artifact expires, automatic promotion stops.
   Do not substitute a rebuild for the verified files; prepare a new candidate/version or

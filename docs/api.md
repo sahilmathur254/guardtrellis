@@ -1,5 +1,8 @@
 # API contracts
 
+The [compatibility policy](compatibility.md) defines the supported public surface and
+changes permitted across `0.1.x`. The contracts below retain their stated scope and limits.
+
 ## Integration and outcomes
 
 `Guard` is a reusable configuration, with per-call pipeline state. Built-in scanners do
@@ -108,7 +111,7 @@ Schemas use `jsonschema.Draft202012Validator`, with these explicit restrictions:
 - `$ref` and `$dynamicRef` must be fragment references starting with `#`. No network or
   filesystem retrieval is configured. Missing/cyclic unresolvable references yield ERROR.
 - `pattern` and `patternProperties` are rejected, including in nested schema positions.
-  There is no unsafe regex opt-in in this alpha. `format` is an annotation, not a check.
+  There is no unsafe regex opt-in. `format` is an annotation, not a check.
 - Configured schemas are snapshotted, limited to 100,000 serialized characters and depth 64,
   and checked at construction. Bad configurations raise a generic ValueError. Unknown
   annotation keywords follow jsonschema's behavior and are not extra validators.
