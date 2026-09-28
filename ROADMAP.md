@@ -54,7 +54,7 @@ These tasks can start independently while users evaluate the published alpha.
 
 | Work | Outcome |
 | --- | --- |
-| [#5 Retrieval and tool-call recipe](https://github.com/sahilmathur254/guardtrellis/issues/5) | A runnable, tested example that passes checked data across boundaries. Good first issue. |
+| [#5 Retrieval and tool-call recipe](https://github.com/sahilmathur254/guardtrellis/issues/5) | [Runnable core-only recipe](docs/retrieval_tools.md) with checked retrieval, validated tool arguments, rejection tests, and distribution smoke coverage. Prepared for review. |
 | [#6 macOS and Windows installation coverage](https://github.com/sahilmathur254/guardtrellis/issues/6) | Remote installation/example evidence on both platforms while retaining the Linux Python matrix. |
 | [#7 Multilingual and benign challenge fixtures](https://github.com/sahilmathur254/guardtrellis/issues/7) | Attributed, versioned evaluation cases with per-family results and retained failures. |
 | [#8 One real provider integration](https://github.com/sahilmathur254/guardtrellis/issues/8) | [Gemini live smoke passed](docs/gemini.md#recorded-live-smoke-2026-09-26) on 2026-09-26; included in `0.1.0a2`. [OpenAI](docs/openai.md) and [Azure](docs/azure_openai.md) remain mock-verified. |

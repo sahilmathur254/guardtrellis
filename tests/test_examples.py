@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
     "script,module",
     [
         ("plain_callable.py", None),
+        ("retrieval_tools.py", None),
         ("fastapi_app.py", "fastapi"),
         ("langgraph_app.py", "langgraph"),
         ("openai_app.py", "openai"),
