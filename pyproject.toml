@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "guardtrellis"
-version = "0.1.0a3"
-description = "Composable local checks around model inputs, outputs, retrieval, and tools"
+version = "0.1.0a4"
+description = "Provider-independent local checks for model inputs, outputs, retrieval, and tool calls"
 authors = [{ name = "Sahil Mathur" }]
 readme = "README.md"
 requires-python = ">=3.11,<3.15"

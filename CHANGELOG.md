@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.1.0a4 — 2026-09-28
+
+- Add a runnable retrieval/tool-call recipe using only core dependencies. It demonstrates
+  checking retrieved text before prompt assembly, validating proposed tool arguments, and
+  executing the checked call behind application-owned authorization. Rejection tests and
+  fresh distribution smokes cover the complete recipe.
+- Add a separate 40-case synthetic Unicode/PII development challenge set with provenance,
+  multilingual context, benign cases, escaped JSON pairs, and retained failures. Reports
+  include per-family/language results and action counts; the original 72-case corpus and
+  historical reports are preserved. These development results are not an independent benchmark.
+- Migrate the optional OpenAI/Azure examples to OpenAI SDK 3 and HTTPX2. The `openai` extra
+  now requires `openai>=3,<4` and `httpx2>=2.12,<3`. Custom transports, clients, and exception
+  handling must use HTTPX2; its default certificate trust comes from the operating system.
+  See the [migration guide](docs/openai.md#sdk-3-compatibility). Both provider paths remain
+  mock-verified; no new live provider verification is claimed.
+- Refresh the package description, versioned installation commands, guide links for PyPI,
+  and roadmap completion evidence.
+
+No core Guard/scanner API or detection-rule changes. This remains an experimental alpha;
+application authorization, execution limits, and output handling remain the host's responsibility.
+
 ## 0.1.0a3
 
 - Generate the module version and README installation instructions from `pyproject.toml`.

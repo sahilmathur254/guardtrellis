@@ -6,22 +6,37 @@ and proposed tool calls. Policies are explicit, composable, and independent of m
 APIs may change before a stable release. Supported Python: 3.11–3.14. Apache-2.0 licensed.
 
 <!-- guardtrellis-release:start -->
-**Version: `0.1.0a3`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.0a3/)
+**Version: `0.1.0a4`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.0a4/)
 for availability and [release notes](https://github.com/sahilmathur254/guardtrellis/releases).
 A source checkout may describe a candidate that has not been published yet.
 
 Install this version in an activated virtual environment:
 
 ```sh
-python -m pip install 'guardtrellis==0.1.0a3'
+python -m pip install 'guardtrellis==0.1.0a4'
 ```
 
 An explicit version opts into a prerelease when applicable. Optional integrations:
-`'guardtrellis[fastapi]==0.1.0a3'`,
-`'guardtrellis[langgraph]==0.1.0a3'`,
-`'guardtrellis[openai]==0.1.0a3'`,
-`'guardtrellis[gemini]==0.1.0a3'`.
+`'guardtrellis[fastapi]==0.1.0a4'`,
+`'guardtrellis[langgraph]==0.1.0a4'`,
+`'guardtrellis[openai]==0.1.0a4'`,
+`'guardtrellis[gemini]==0.1.0a4'`.
 <!-- guardtrellis-release:end -->
+
+## Included in this alpha
+
+- A [retrieval and tool-call recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/retrieval_tools.md)
+  that carries checked text and validated arguments through both boundaries using core dependencies.
+- A separate [40-case Unicode and PII development set](https://github.com/sahilmathur254/guardtrellis/blob/main/evaluation/challenges/README.md)
+  with synthetic provenance, multilingual context, benign cases, and retained misses and false positives.
+  The original 72-case smoke corpus and its historical results remain available.
+- OpenAI SDK 3 compatibility for the optional OpenAI and Azure examples, using HTTPX2.
+  See the [migration notes](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/openai.md#sdk-3-compatibility)
+  for custom clients and certificate trust changes.
+
+These additions do not change core scanner rules or establish broader detection accuracy.
+
+## Quickstart
 
 ```python
 from guardtrellis import Guard, PIIScanner, SecretScanner
@@ -123,8 +138,9 @@ uv build
 uv run python scripts/smoke_dist.py
 ```
 
-The [retrieval/tool-call recipe](docs/retrieval_tools.md) uses only core dependencies and
-shows checked data crossing both boundaries, rejected callbacks, and host authorization.
+The [retrieval/tool-call recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/retrieval_tools.md)
+uses only core dependencies and shows checked data crossing both boundaries, rejected callbacks,
+and host authorization.
 
 FastAPI and LangGraph are optional extras (`.[fastapi]`, `.[langgraph]`). LangGraph input
 checks run **before** text enters graph state. The example also checks model output before
@@ -132,13 +148,14 @@ returning it to graph state. Instrumentation around callbacks may still capture 
 
 The optional provider examples (`.[openai]`) use direct OpenAI Responses or Azure OpenAI
 Chat Completions through guarded callbacks. Their default modes and ordinary tests make
-no provider calls. See the [OpenAI guide](docs/openai.md) and [Azure guide](docs/azure_openai.md)
+no provider calls. See the [OpenAI guide](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/openai.md)
+and [Azure guide](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/azure_openai.md)
 for setup, privacy/failure boundaries, and separately approved one-request live smokes.
-The optional extra and examples were introduced in `0.1.0a2`.
-Live verification of both paths is pending.
+The `openai` extra now requires `openai>=3,<4` and `httpx2>=2.12,<3`; custom clients
+must follow the SDK 3 migration notes above. Live verification of both paths is pending.
 
-The separate [Gemini example](docs/gemini.md) uses the optional `.[gemini]` extra and also
-defaults to mocked HTTP. Its one-request live smoke can use an approved Gemini Free Tier
+The separate [Gemini example](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/gemini.md)
+uses the optional `.[gemini]` extra and also defaults to mocked HTTP. Its one-request live smoke can use an approved Gemini Free Tier
 project with the documented model and limits. A maintainer-approved live smoke passed on
 2026-09-26; the guide records the exact source, versions, token counts, and evidence limits.
 
