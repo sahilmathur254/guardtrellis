@@ -13,14 +13,14 @@ from datetime import UTC, datetime
 from importlib.metadata import version
 from pathlib import Path
 
-import httpx
+import httpx2
 from openai import AzureOpenAI
 
 from guardtrellis import Action, Guard, PIIScanner, SecretScanner
 
 MAX_COMPLETION_TOKENS = 128
 PROMPT = "Reply with exactly: Contact demo@example.org"
-TIMEOUT = httpx.Timeout(20.0, connect=5.0, write=5.0, pool=5.0)
+TIMEOUT = httpx2.Timeout(20.0, connect=5.0, write=5.0, pool=5.0)
 MOCK_ENDPOINT = "https://guardtrellis-example.openai.azure.com"
 MOCK_DEPLOYMENT = "example-deployment"
 MOCK_API_VERSION = "2024-10-21"
@@ -38,7 +38,7 @@ def make_client(
     api_key: str,
     endpoint: str,
     api_version: str,
-    transport: httpx.BaseTransport | None = None,
+    transport: httpx2.BaseTransport | None = None,
 ) -> AzureOpenAI:
     """Own this client with a context manager. A missing transport permits live HTTP."""
     return AzureOpenAI(
@@ -49,7 +49,7 @@ def make_client(
         default_headers={"OpenAI-Project": ""},
         max_retries=0,
         timeout=TIMEOUT,
-        http_client=httpx.Client(transport=transport, timeout=TIMEOUT, follow_redirects=False),
+        http_client=httpx2.Client(transport=transport, timeout=TIMEOUT, follow_redirects=False),
     )
 
 
@@ -108,9 +108,9 @@ def make_guard() -> Guard:
     )
 
 
-def mock_response(request: httpx.Request) -> httpx.Response:
+def mock_response(request: httpx2.Request) -> httpx2.Response:
     """Fabricated fixture served in memory, without socket access."""
-    return httpx.Response(
+    return httpx2.Response(
         200,
         json={
             "id": "chatcmpl_mock",
@@ -167,7 +167,7 @@ def main(argv: list[str] | None = None) -> int:
 
     # Only the standalone command changes logging; importing this module does not.
     logging.disable(logging.CRITICAL)
-    transport = None if args.live else httpx.MockTransport(mock_response)
+    transport = None if args.live else httpx2.MockTransport(mock_response)
     try:
         with make_client(
             api_key=api_key, endpoint=endpoint, api_version=api_version, transport=transport
@@ -189,7 +189,7 @@ def main(argv: list[str] | None = None) -> int:
                 "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                 "versions": {
                     "python": platform.python_version(),
-                    **{name: version(name) for name in ("guardtrellis", "openai", "httpx")},
+                    **{name: version(name) for name in ("guardtrellis", "openai", "httpx2")},
                 },
                 "requests": model.requests,
                 "max_completion_tokens": MAX_COMPLETION_TOKENS,
