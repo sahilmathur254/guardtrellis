@@ -22,10 +22,29 @@ intentional; these authored cases are not a secret or held-out security test set
 
 Keep private datasets, application transcripts, raw provider responses, credentials,
 machine-local logs, and exploratory runs outside the checkout. Use `--report-dir` as above
-for routine comparisons. Omitting it overwrites the tracked baseline; do that only when
-intentionally preparing a reviewed baseline update with its corpus/source/runtime provenance.
+for routine comparisons. It is now required and must name a new directory: the runner
+refuses to overwrite earlier reports. Prepare any new reviewed baseline in a separate,
+versioned directory with its corpus/source/runtime provenance.
 The recorded `0.1.0a1` baseline remains historical evidence as new versions are released;
 it must not be relabelled as a new run. Review generated reports before publishing them.
+
+## Versioned challenge additions
+
+The separate [Unicode and PII v1 challenge set](challenges/README.md) adds 40 authored
+development cases without changing the original corpus or its recorded results. It covers
+benign Unicode, multilingual context, contact-format variation, contextual lookalikes, and
+paired plain/escaped JSON representations. No detector changes accompany this set.
+
+```sh
+uv run --frozen python evaluation/run.py \
+  --corpus evaluation/challenges/unicode_pii_v1.jsonl \
+  --report-dir /tmp/guardtrellis-challenges-comparison
+```
+
+Both corpora use the same fixed policies and metrics. Current runs also report confusion
+matrices per family and language, action counts, accepted/rejected outcomes, Unicode database
+version, and lockfile digest. Warnings, redactions, blocks, and errors remain separate.
+Report schema 2 adds these fields; the original checked-in report remains unchanged.
 
 ## Method and limits
 
@@ -57,6 +76,17 @@ The exact dependency resolution is in `uv.lock`. Changing corpus labels or detec
 requires a documented reason, a new report, and retention of failures rather than silently
 converting them into passing examples. Larger independent corpora and real deployment
 measurements remain future work.
+
+New corpora require a `dataset_version`, `source`, `usage` (`development` or `held_out`),
+`format`, and `label_basis` on every case, in addition to the original fields. Only the exact
+historical corpus digest is accepted without those fields. Case IDs must be unique; labels
+must be booleans, with a known scanner family and a language tag. Run one dataset version
+at a time. A `held_out` label is an author assertion, not independent validation: contributors
+must explain who withheld cases from which development process. All current cases are
+development examples, were authored with knowledge of the implementation, and are public.
+
+The runner does not copy input text, delivered output, or arbitrary extra case fields into
+reports. Notes and provenance are authored public metadata; keep sensitive data out of them.
 
 The separate [resource measurement harness](../docs/resource_limits.md) covers large inputs,
 selected expensive schemas, and cancellation in bounded child processes. Its report in

@@ -1,0 +1,3 @@
+# Preserve fixture digests across platform checkouts.
+/evaluation/corpus.jsonl text eol=lf
+/evaluation/challenges/*.jsonl text eol=lf
