@@ -22,7 +22,8 @@ from guardtrellis import Action, Guard, JSONScanner, PIIScanner, Stage, ToolGuar
 assert 'site-packages' in str(Path(guardtrellis.__file__).resolve())
 assert Path(guardtrellis.__file__).with_name('py.typed').is_file()
 assert find_spec('fastapi') is None and find_spec('langgraph') is None
-assert find_spec('openai') is None and find_spec('httpx') is None
+assert find_spec('openai') is None
+assert find_spec('httpx') is None and find_spec('httpx2') is None
 assert 'google-genai' not in {package.metadata['Name'] for package in distributions()}
 assert Guard(input_scanners=[PIIScanner()]).scan('a@example.org').text == '[PII]'
 invalid = Guard(output_scanners=[JSONScanner()]).scan('{invalid}', stage=Stage.OUTPUT)
@@ -32,6 +33,17 @@ calls = []
 rejected = Guard(input_scanners=[JSONScanner()]).run('invalid JSON', calls.append)
 assert not calls and rejected.text is None and rejected.action == Action.BLOCK
 print('Installed package smoke passed:', guardtrellis.__version__)
+"""
+
+
+OPENAI_SMOKE = """
+from importlib.util import find_spec
+from importlib.metadata import version
+
+assert version('openai').split('.')[0] == '3'
+assert find_spec('httpx2') is not None and find_spec('httpx') is None
+assert find_spec('fastapi') is None and find_spec('langgraph') is None
+print('OpenAI-only extra smoke passed')
 """
 
 
@@ -69,6 +81,27 @@ def main() -> None:
             example = work / "plain_callable.py"
             shutil.copyfile(ROOT / "examples/plain_callable.py", example)
             subprocess.run([str(python), "-I", str(example)], cwd=work, check=True)
+            # Other extras must not mask missing dependencies in the OpenAI examples.
+            subprocess.run(
+                [
+                    "uv",
+                    "pip",
+                    "install",
+                    "--python",
+                    str(python),
+                    "--index-url",
+                    "https://pypi.org/simple",
+                    f"{artifact}[openai]",
+                ],
+                cwd=work,
+                check=True,
+            )
+            subprocess.run(["uv", "pip", "check", "--python", str(python)], check=True)
+            subprocess.run([str(python), "-I", "-c", OPENAI_SMOKE], cwd=work, check=True)
+            for filename in ("openai_app.py", "azure_openai_app.py"):
+                example = work / filename
+                shutil.copyfile(ROOT / "examples" / filename, example)
+                subprocess.run([str(python), "-I", str(example)], cwd=work, check=True)
             # Then exercise the optional integrations against the installed artifact too.
             subprocess.run(
                 [

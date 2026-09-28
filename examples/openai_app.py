@@ -10,7 +10,7 @@ import platform
 from datetime import UTC, datetime
 from importlib.metadata import version
 
-import httpx
+import httpx2
 from openai import OpenAI
 
 from guardtrellis import Action, Guard, PIIScanner, SecretScanner
@@ -18,17 +18,17 @@ from guardtrellis import Action, Guard, PIIScanner, SecretScanner
 MODEL = "gpt-5.6-luna"
 MAX_OUTPUT_TOKENS = 128
 PROMPT = "Reply with exactly: Contact demo@example.org"
-TIMEOUT = httpx.Timeout(20.0, connect=5.0, write=5.0, pool=5.0)
+TIMEOUT = httpx2.Timeout(20.0, connect=5.0, write=5.0, pool=5.0)
 
 
-def make_client(*, api_key: str, transport: httpx.BaseTransport | None = None) -> OpenAI:
+def make_client(*, api_key: str, transport: httpx2.BaseTransport | None = None) -> OpenAI:
     """Own this client with a context manager. A missing transport permits live HTTP."""
     return OpenAI(
         api_key=api_key,
         base_url="https://api.openai.com/v1",
         max_retries=0,
         timeout=TIMEOUT,
-        http_client=httpx.Client(transport=transport, timeout=TIMEOUT, follow_redirects=False),
+        http_client=httpx2.Client(transport=transport, timeout=TIMEOUT, follow_redirects=False),
     )
 
 
@@ -90,9 +90,9 @@ def make_guard() -> Guard:
     )
 
 
-def mock_response(request: httpx.Request) -> httpx.Response:
+def mock_response(request: httpx2.Request) -> httpx2.Response:
     """Fabricated provider response handled entirely in memory, with no socket access."""
-    return httpx.Response(
+    return httpx2.Response(
         200,
         json={
             "id": "resp_mock",
@@ -142,7 +142,7 @@ def main(argv: list[str] | None = None) -> int:
     # Standalone demo only: suppress standard SDK/HTTP logging, even with OPENAI_LOG=debug.
     # Importing this module does not change an application's logging configuration.
     logging.disable(logging.CRITICAL)
-    transport = None if args.live else httpx.MockTransport(mock_response)
+    transport = None if args.live else httpx2.MockTransport(mock_response)
     try:
         with make_client(api_key=api_key, transport=transport) as client:
             model = OpenAIModel(client)
@@ -161,7 +161,7 @@ def main(argv: list[str] | None = None) -> int:
                 "date_utc": datetime.now(UTC).isoformat(),
                 "versions": {
                     "python": platform.python_version(),
-                    **{name: version(name) for name in ("guardtrellis", "openai", "httpx")},
+                    **{name: version(name) for name in ("guardtrellis", "openai", "httpx2")},
                 },
                 "model": MODEL,
                 "requests": model.requests,
