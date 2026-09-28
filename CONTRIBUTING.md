@@ -104,6 +104,13 @@ does not establish remote CI success. Synthetic evaluation limitations and repor
 positives/misses are part of the deliverable, not tests to tune away.
 Do not include real credentials or personal data in tests, fixtures, or reports.
 
+For evaluation contributions, follow the [versioned challenge-set guide](evaluation/challenges/README.md).
+Record provenance, language, scenario-based labels, and development/held-out use. Compare
+per-family/language results and actions; keep detector changes separate from collecting
+fixtures. Evaluation commands require a new report directory and refuse to overwrite prior
+runs. CI runs both the historical smoke corpus and the Unicode/PII challenge set without
+requiring a particular detection score.
+
 For changes to resource limits or cancellation, use the separate
 [bounded measurement harness](docs/resource_limits.md). It runs fixed scenarios in child
 processes with external deadlines and records incomplete work honestly. Tests check
