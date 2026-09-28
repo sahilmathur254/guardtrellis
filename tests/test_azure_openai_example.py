@@ -10,7 +10,7 @@ from pathlib import Path
 import pytest
 
 pytest.importorskip("openai")
-import httpx
+import httpx2
 
 from examples import azure_openai_app as demo
 from guardtrellis import Action, Rejected
@@ -38,13 +38,13 @@ def isolate_auth_environment(monkeypatch):
 @pytest.fixture
 def provider():
     requests = []
-    response = demo.mock_response(httpx.Request("POST", "https://example.invalid")).json()
+    response = demo.mock_response(httpx2.Request("POST", "https://example.invalid")).json()
 
     def handle(request):
         requests.append(request)
-        return httpx.Response(200, json=response)
+        return httpx2.Response(200, json=response)
 
-    with demo.make_client(**CONFIG, transport=httpx.MockTransport(handle)) as client:
+    with demo.make_client(**CONFIG, transport=httpx2.MockTransport(handle)) as client:
         yield demo.AzureOpenAIModel(client, deployment=demo.MOCK_DEPLOYMENT), requests, response
 
 
@@ -165,18 +165,18 @@ def test_provider_failures_are_generic_without_retry_or_redirect(failure):
     def handle(request):
         requests.append(request)
         if failure == "timeout":
-            raise httpx.ReadTimeout(private, request=request)
+            raise httpx2.ReadTimeout(private, request=request)
         if failure == "connection":
-            raise httpx.ConnectError(private, request=request)
+            raise httpx2.ConnectError(private, request=request)
         if failure == "invalid_json":
-            return httpx.Response(200, text=private)
-        return httpx.Response(
+            return httpx2.Response(200, text=private)
+        return httpx2.Response(
             failure,
             headers={"location": "https://example.invalid/elsewhere"},
             json={"error": {"message": private, "type": "mock_error"}},
         )
 
-    with demo.make_client(**CONFIG, transport=httpx.MockTransport(handle)) as client:
+    with demo.make_client(**CONFIG, transport=httpx2.MockTransport(handle)) as client:
         result = demo.make_guard().run(
             "Fabricated test", demo.AzureOpenAIModel(client, deployment=demo.MOCK_DEPLOYMENT)
         )
@@ -248,7 +248,7 @@ def test_live_reporting_excludes_configuration_and_content_using_mock_http(monke
 
     def fake_live_client(**kwargs):
         assert kwargs["transport"] is None
-        return real_make_client(**(kwargs | {"transport": httpx.MockTransport(handle)}))
+        return real_make_client(**(kwargs | {"transport": httpx2.MockTransport(handle)}))
 
     monkeypatch.setattr(demo, "make_client", fake_live_client)
     previous_disable = logging.root.manager.disable
@@ -261,6 +261,7 @@ def test_live_reporting_excludes_configuration_and_content_using_mock_http(monke
     assert len(requests) == report["requests"] == 1
     assert report["passed"] and report["blocked_input_prevented_request"]
     assert report["mode"] == "live"  # Mocked reporting test, not real live evidence.
+    assert report["versions"]["httpx2"] and "httpx" not in report["versions"]
     assert report["versions"]["openai"] and len(report["script_sha256"]) == 64
     for private in (
         *CONFIG.values(),

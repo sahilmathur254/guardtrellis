@@ -77,9 +77,11 @@ for understanding and validating submitted code.
 Tests run against the installed editable package. Optional example tests skip when extras
 are absent; the CI matrix installs all extras, so those tests must run there. Distribution
 smokes install the wheel and source archive in fresh temporary environments outside this
-directory, verify core installs exclude frameworks and provider SDKs, then install extras and
-execute all seven examples against each installed artifact. The OpenAI, Azure, and Gemini examples use
-in-memory HTTP mocks, including when credentials exist in the environment. See the
+directory, verify core installs exclude frameworks, provider SDKs, and HTTP clients, then
+install only the OpenAI extra and execute both OpenAI examples without legacy HTTPX. Finally,
+they install all extras and execute all seven examples against each installed artifact. The
+OpenAI, Azure, and Gemini examples use in-memory HTTP mocks, including when credentials
+exist in the environment. See the
 [OpenAI](docs/openai.md), [Azure](docs/azure_openai.md), and [Gemini](docs/gemini.md) guides
 for separately opted-in live smokes;
 normal pytest and CI never make live provider calls. Build the sdist
@@ -103,6 +105,13 @@ Check the run for the commit under review, including its runner image details; l
 does not establish remote CI success. Synthetic evaluation limitations and reported false
 positives/misses are part of the deliverable, not tests to tune away.
 Do not include real credentials or personal data in tests, fixtures, or reports.
+
+For evaluation contributions, follow the [versioned challenge-set guide](evaluation/challenges/README.md).
+Record provenance, language, scenario-based labels, and development/held-out use. Compare
+per-family/language results and actions; keep detector changes separate from collecting
+fixtures. Evaluation commands require a new report directory and refuse to overwrite prior
+runs. CI runs both the historical smoke corpus and the Unicode/PII challenge set without
+requiring a particular detection score.
 
 For changes to resource limits or cancellation, use the separate
 [bounded measurement harness](docs/resource_limits.md). It runs fixed scenarios in child
