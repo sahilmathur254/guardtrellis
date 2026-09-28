@@ -10,7 +10,7 @@ from pathlib import Path
 import pytest
 
 pytest.importorskip("openai")
-import httpx
+import httpx2
 
 from examples import openai_app as demo
 from guardtrellis import Action, Rejected
@@ -21,14 +21,14 @@ ROOT = Path(__file__).resolve().parents[1]
 @pytest.fixture
 def provider():
     requests = []
-    response = demo.mock_response(httpx.Request("POST", "https://example.invalid")).json()
+    response = demo.mock_response(httpx2.Request("POST", "https://example.invalid")).json()
 
     def handle(request):
         requests.append(request)
-        return httpx.Response(200, json=response)
+        return httpx2.Response(200, json=response)
 
     with demo.make_client(
-        api_key="mock-not-a-credential", transport=httpx.MockTransport(handle)
+        api_key="mock-not-a-credential", transport=httpx2.MockTransport(handle)
     ) as c:
         yield demo.OpenAIModel(c), requests, response
 
@@ -133,13 +133,13 @@ def test_provider_failures_are_generic_and_do_not_retry(failure):
     def handle(request):
         requests.append(request)
         if failure == "timeout":
-            raise httpx.ReadTimeout(private, request=request)
+            raise httpx2.ReadTimeout(private, request=request)
         if failure == "connection":
-            raise httpx.ConnectError(private, request=request)
-        return httpx.Response(failure, json={"error": {"message": private, "type": "mock_error"}})
+            raise httpx2.ConnectError(private, request=request)
+        return httpx2.Response(failure, json={"error": {"message": private, "type": "mock_error"}})
 
     with demo.make_client(
-        api_key="mock-not-a-credential", transport=httpx.MockTransport(handle)
+        api_key="mock-not-a-credential", transport=httpx2.MockTransport(handle)
     ) as c:
         result = demo.make_guard().run("Fabricated test", demo.OpenAIModel(c))
     assert len(requests) == 1
@@ -153,10 +153,10 @@ def test_redirect_is_not_followed_or_delivered():
 
     def handle(request):
         requests.append(request)
-        return httpx.Response(307, headers={"location": "https://example.invalid/elsewhere"})
+        return httpx2.Response(307, headers={"location": "https://example.invalid/elsewhere"})
 
     with demo.make_client(
-        api_key="mock-not-a-credential", transport=httpx.MockTransport(handle)
+        api_key="mock-not-a-credential", transport=httpx2.MockTransport(handle)
     ) as c:
         result = demo.make_guard().run("Fabricated test", demo.OpenAIModel(c))
     assert len(requests) == 1
@@ -189,7 +189,7 @@ def test_live_reporting_is_metadata_only_using_mocked_http(monkeypatch, capsys):
 
     def fake_live_client(*, api_key, transport):
         assert transport is None
-        return real_make_client(api_key=api_key, transport=httpx.MockTransport(handle))
+        return real_make_client(api_key=api_key, transport=httpx2.MockTransport(handle))
 
     monkeypatch.setenv("GUARDTRELLIS_OPENAI_LIVE", "1")
     monkeypatch.setenv("OPENAI_API_KEY", "mock-key-never-print")
@@ -204,6 +204,7 @@ def test_live_reporting_is_metadata_only_using_mocked_http(monkeypatch, capsys):
     assert len(requests) == report["requests"] == 1
     assert report["blocked_input_prevented_request"] and report["passed"]
     assert report["mode"] == "live"  # This unit test itself is mocked, not live evidence.
+    assert report["versions"]["httpx2"] and "httpx" not in report["versions"]
     assert report["versions"]["openai"] and report["date_utc"]
     assert "demo@example.org" not in captured.out
     assert "mock-key-never-print" not in captured.out

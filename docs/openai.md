@@ -17,9 +17,27 @@ uv run --frozen --extra openai pytest tests/test_openai_example.py
 Alternatively, install `'.[openai]'` from the checkout into an activated virtual environment.
 Examples are source scripts, not installed console commands.
 
+## SDK 3 compatibility
+
+This source checkout requires `openai>=3,<4` and `httpx2>=2.12,<3` for the `openai`
+extra; the lockfile selects OpenAI 3.19.2. This also applies to the
+[Azure example](azure_openai.md). Re-sync the extra before running either source script.
+Older published GuardTrellis releases retain their own dependency requirements.
+
+When updating an application copied from the SDK 2 examples, replace its `httpx` imports,
+clients, timeouts, transports, request/response types, and mocked exceptions with `httpx2`.
+The examples' metadata reports now name `httpx2` as the HTTP package. Applications that
+still need `httpx` for another integration should keep that separate dependency.
+
+HTTPX2 uses the operating-system certificate trust store by default. Install the required
+system CA certificates, or supply a verified CA bundle with `SSL_CERT_FILE`; do not disable
+TLS verification. Mocked tests do not verify a deployment's certificate configuration.
+See the SDK's [HTTPX2 migration guide](https://github.com/openai/openai-python/blob/v3.19.2/httpx2.md)
+for custom client, instrumentation, and trust-store migration details.
+
 ## Default: no provider calls
 
-The default command uses the real SDK with `httpx.MockTransport`. It does not open a
+The default command uses the real SDK with `httpx2.MockTransport`. It does not open a
 network connection or require credentials. It stays mocked even if `OPENAI_API_KEY` and
 the live opt-in environment variable are present, unless `--live` is also passed.
 
@@ -127,8 +145,9 @@ example does not validate the other or arbitrary compatible endpoints.
 Normal CI always uses mocks, including the test of the live command's reporting path.
 Tests verify the actual serialized request, blocked input, complete-output redaction/blocking,
 failure privacy, no retry/redirect, explicit opt-in, and metadata-only live reporting.
-Wheel and source-distribution smokes verify the SDK is absent from core installs, then run
-the mocked example with extras against each installed artifact.
+Wheel and source-distribution smokes verify that provider SDKs and HTTP clients are absent
+from core installs, then run both OpenAI examples with only the `openai` extra installed.
+They run all examples again with every integration extra installed.
 
 **Live verification is pending.** No mocked result is evidence of a successful provider call.
 After an approved live run, record the maintainer approval, UTC date, exact commit, package

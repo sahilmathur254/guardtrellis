@@ -4,6 +4,10 @@ This standalone source example uses `AzureOpenAI` from the optional OpenAI Pytho
 with `Guard.run`. It calls Chat Completions and checks complete text before delivery.
 No provider SDK is added to the GuardTrellis core. This example was introduced in `0.1.0a2`.
 
+This source checkout uses OpenAI SDK 3 and HTTPX2. Before updating a copied example or
+custom client, follow the [SDK 3 migration notes](openai.md#sdk-3-compatibility), including
+the change to system certificate trust and `httpx2` metadata reporting.
+
 ## Run without credentials
 
 From the source checkout:
@@ -14,7 +18,7 @@ uv run --frozen --extra openai python examples/azure_openai_app.py
 uv run --frozen --extra openai pytest tests/test_azure_openai_example.py
 ```
 
-The default command uses the real SDK with `httpx.MockTransport`, without socket access.
+The default command uses the real SDK with `httpx2.MockTransport`, without socket access.
 It remains mocked even when live configuration exists in the environment. It first blocks
 a fabricated secret signature without invoking the callback, then redacts the email in
 `Reply with exactly: Contact demo@example.org` before the HTTP request. The mock returns
