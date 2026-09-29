@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.1
+
+- Add the GuardTrellis logo to the repository README and packaged PyPI description.
+  Include the original image in the source archive.
+- Make callback-timeout regression tests deterministic across platforms, covering both
+  callbacks that start before cancellation and coroutine cleanup when startup is delayed.
+
+No runtime API, dependency, or detection-rule changes from `0.1.0`.
+
 ## 0.1.0
 
 - Adopt a [compatibility and support policy](docs/compatibility.md) for the `0.1.x`
