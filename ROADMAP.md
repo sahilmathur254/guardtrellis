@@ -19,7 +19,7 @@ CI validates Python 3.11–3.14 on Linux and Python 3.12 on macOS 15 ARM64 and W
 2025 x64, including installation of both distribution formats. See the
 [contributor guide](CONTRIBUTING.md) for the matrix and checks.
 
-The latest published alpha is listed on [PyPI](https://pypi.org/project/guardtrellis/).
+The latest published release is listed on [PyPI](https://pypi.org/project/guardtrellis/).
 The [README](README.md) contains installation instructions matching this source checkout;
 merged source changes may precede publication.
 
@@ -64,19 +64,20 @@ These tasks can start independently while users evaluate the published alpha.
 and relevant CI or measurement evidence is linked. Collect actual adopter feedback alongside
 this work. Do not expand safety claims based only on more passing synthetic examples.
 
-## Next: stable 0.1.0 review
+## Now: stable 0.1.0 release preparation
 
 [Milestone: Stable 0.1.0 review](https://github.com/sahilmathur254/guardtrellis/milestone/3)
 
 [#10 Compatibility and release review](https://github.com/sahilmathur254/guardtrellis/issues/10)
-depends on the alpha and validation work above. Review at least one external integration
-report, resolve release-blocking defects, define public API compatibility expectations, and
-write migration notes for any alpha changes.
+builds on the completed alpha and validation work above. Review available adopter feedback,
+resolve release-blocking defects, and assess the [0.1.x compatibility policy](docs/compatibility.md)
+and [migration notes](docs/compatibility.md#upgrading-from-an-alpha). The source is prepared
+for `0.1.0`; package publication remains a separate maintainer action.
 
 **Exit criteria:** a maintainer records a go/no-go decision tied to a specific commit and its
 evidence. Remaining limitations are explicit. A stable version is a compatibility/support
-decision; it does not certify comprehensive detection or safe tool execution. The project can
-remain alpha if the evidence does not support a stable release.
+decision; it does not certify comprehensive detection or safe tool execution. Defer publication
+if the reviewed candidate does not meet these criteria.
 
 ## Later: proposals requiring design decisions
 
@@ -93,7 +94,7 @@ rehydration, hosted services, and broad semantic safety claims require separate 
 ## Contribute and maintain the roadmap
 
 Start in the Project's **Ready to contribute** view, read the issue, and comment before starting.
-[#5](https://github.com/sahilmathur254/guardtrellis/issues/5) is a small entry point.
+Choose an open issue whose scope and dependencies match the contribution.
 Use the [contributor guide](CONTRIBUTING.md) for setup, validation, and the fork/PR workflow.
 
 Status moves through **Backlog → Ready → In progress → In review → Done**. Use **Blocked**

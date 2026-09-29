@@ -3,27 +3,29 @@
 A small Python SDK for local checks around model inputs, complete outputs, retrieved text,
 and proposed tool calls. Policies are explicit, composable, and independent of model providers.
 
-APIs may change before a stable release. Supported Python: 3.11–3.14. Apache-2.0 licensed.
+The documented public API is supported across `0.1.x` under the
+[compatibility policy](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/compatibility.md).
+Supported Python: 3.11–3.14. Apache-2.0 licensed.
 
 <!-- guardtrellis-release:start -->
-**Version: `0.1.0a4`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.0a4/)
+**Version: `0.1.0`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.0/)
 for availability and [release notes](https://github.com/sahilmathur254/guardtrellis/releases).
 A source checkout may describe a candidate that has not been published yet.
 
 Install this version in an activated virtual environment:
 
 ```sh
-python -m pip install 'guardtrellis==0.1.0a4'
+python -m pip install 'guardtrellis==0.1.0'
 ```
 
 An explicit version opts into a prerelease when applicable. Optional integrations:
-`'guardtrellis[fastapi]==0.1.0a4'`,
-`'guardtrellis[langgraph]==0.1.0a4'`,
-`'guardtrellis[openai]==0.1.0a4'`,
-`'guardtrellis[gemini]==0.1.0a4'`.
+`'guardtrellis[fastapi]==0.1.0'`,
+`'guardtrellis[langgraph]==0.1.0'`,
+`'guardtrellis[openai]==0.1.0'`,
+`'guardtrellis[gemini]==0.1.0'`.
 <!-- guardtrellis-release:end -->
 
-## Included in this alpha
+## Included capabilities
 
 - A [retrieval and tool-call recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/retrieval_tools.md)
   that carries checked text and validated arguments through both boundaries using core dependencies.
@@ -34,7 +36,7 @@ An explicit version opts into a prerelease when applicable. Optional integration
   See the [migration notes](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/openai.md#sdk-3-compatibility)
   for custom clients and certificate trust changes.
 
-These additions do not change core scanner rules or establish broader detection accuracy.
+Synthetic results measure the recorded cases and do not establish broader detection accuracy.
 
 ## Quickstart
 

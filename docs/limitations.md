@@ -1,9 +1,11 @@
 # Limitations and trust boundaries
 
-GuardTrellis is an alpha library running **inside your application process**. Its checks
+GuardTrellis is a library running **inside your application process**. Its checks
 operate on text you explicitly pass in. It is not a firewall, agent runtime, authorization
 service, compliance certification, prompt-injection solution, factuality checker, or
-sandbox. This is an independent Python implementation; no Dart implementation was copied.
+sandbox. The [compatibility promise](compatibility.md) covers the documented API; it does
+not expand detection coverage or certify safe execution. This is an independent Python
+implementation; no Dart implementation was copied.
 
 The server-to-provider boundary is the relevant boundary when used in a Python backend.
 Client input has already left the end user's device before server-side redaction. Input

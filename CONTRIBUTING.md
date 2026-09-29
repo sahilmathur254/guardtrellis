@@ -60,8 +60,9 @@ and include validation evidence. Use `Fixes #NUMBER` when the PR completes the i
 `Refs #NUMBER` for partial work. Address review feedback before merge. Do not mark a roadmap
 item complete until its acceptance criteria are met and its completion evidence is linked.
 
-The current API is alpha and may change. Discuss public API or dependency changes before
-implementation and include migration notes when compatibility is affected.
+Follow the [0.1.x compatibility policy](docs/compatibility.md). Discuss public API or
+supported-dependency changes before implementation; keep existing documented calls and
+results compatible in patch releases. Include migration notes when compatibility is affected.
 
 Test behavior and failure boundaries: rejected content must not reach callbacks or normal
 results; scanner/callback failures must be explicit errors; no raw input belongs in logs,
@@ -118,6 +119,22 @@ For changes to resource limits or cancellation, use the separate
 processes with external deadlines and records incomplete work honestly. Tests check
 containment and outcomes without asserting performance thresholds. Keep exploratory
 reports outside the checkout; update the reviewed resource baseline only intentionally.
+
+## Maintain the changelog
+
+`CHANGELOG.md` is the canonical changelog. Every user-visible behavior, API, diagnostic,
+detection, supported-version, or dependency-requirement change needs a concise entry in the
+next release. Describe the effect on users, affected formats or dependencies, and any upgrade
+action. Internal-only refactors and typo fixes need an entry only when useful to adopters.
+
+Keep released entries and historical evaluation evidence intact. Add changes to the current
+source version's entry while it is unpublished. Once that version has shipped, coordinate the
+next version with the maintainer, add its heading above prior releases, and use the release
+sync/lock commands in [the release guide](docs/releasing.md#prepare-and-review). The first
+version heading must match `pyproject.toml`; a standalone `Unreleased` heading is not supported
+by the existing release checks. A date is optional; if included, use the actual publication
+date rather than a planned date. The changelog is packaged in the source archive and supplies
+the user-facing GitHub release notes.
 
 ## Releases and licensing
 

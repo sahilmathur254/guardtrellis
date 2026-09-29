@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.1.0
+
+- Adopt a [compatibility and support policy](docs/compatibility.md) for the `0.1.x`
+  final-release series: preserve documented public imports, call signatures, result fields,
+  action/stage meanings, and existing diagnostics; define detection-fix exceptions,
+  deprecation notices, supported Python versions, and dependency/maintenance expectations.
+- Prepare non-alpha package metadata and matching installation instructions. Update current
+  documentation to describe the compatibility promise while retaining historical alpha notes,
+  evaluation reports, and provider verification limits.
+- Define changelog maintenance rules for user-visible changes, compatibility/dependency
+  changes, detection fixes, and migration guidance. Distinguish normal GitHub releases from
+  prereleases in the publishing checklist.
+
+No core runtime or scanner-rule changes from `0.1.0a4`. Applications using its documented
+API need only update their version pin and run their application checks. Copied OpenAI/Azure
+SDK 2 adapters from earlier alphas still need the
+[SDK 3 migration](docs/openai.md#sdk-3-compatibility) already included in `0.1.0a4`.
+Detection coverage, serialized-JSON scanning, async cancellation, and host-owned authorization
+retain their [documented limitations](docs/limitations.md).
+
 ## 0.1.0a4 — 2026-09-28
 
 - Add a runnable retrieval/tool-call recipe using only core dependencies. It demonstrates
