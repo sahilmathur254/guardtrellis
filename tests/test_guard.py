@@ -2,10 +2,12 @@ import asyncio
 import gc
 import json
 import threading
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 
 import pytest
 
+import guardtrellis.guard as guard_module
 from guardtrellis import (
     Action,
     Check,
@@ -230,12 +232,23 @@ async def test_async_timeout_is_fail_closed():
     assert result.text is None
 
 
-async def test_callback_cannot_suppress_cancellation_to_turn_timeout_into_success():
+async def test_callback_cannot_suppress_cancellation_to_turn_timeout_into_success(monkeypatch):
+    started = asyncio.Event()
     done = asyncio.Event()
+    wait = asyncio.wait
+
+    async def expire_after_start(tasks, *, timeout):  # noqa: ASYNC109 - asyncio.wait signature
+        # Exercise cancellation suppression only after the callback is running.
+        # Executor startup time must not decide which scenario this test covers.
+        await asyncio.wait_for(started.wait(), 5)
+        return await wait(tasks, timeout=0)
+
+    monkeypatch.setattr(asyncio, "wait", expire_after_start)
 
     async def model(_):
         try:
-            await asyncio.sleep(10)
+            started.set()
+            await asyncio.Event().wait()
         except asyncio.CancelledError:
             done.set()
             return "late content"
@@ -244,7 +257,61 @@ async def test_callback_cannot_suppress_cancellation_to_turn_timeout_into_succes
     assert result.action == Action.ERROR
     assert result.output_result.findings[0].code == "callback_timeout"
     assert result.text is None
-    await asyncio.wait_for(done.wait(), 1)
+    await asyncio.wait_for(done.wait(), 5)
+
+
+async def test_callback_timeout_before_start_closes_queued_coroutine(monkeypatch):
+    loop = asyncio.get_running_loop()
+    worker_started = asyncio.Event()
+    release_worker = threading.Event()
+    disposed = asyncio.Event()
+    callback_started = False
+    discarded = []
+    run_in_executor = loop.run_in_executor
+    discard_worker_result = guard_module._discard_worker_result
+
+    def occupy_worker():
+        loop.call_soon_threadsafe(worker_started.set)
+        assert release_worker.wait(10), "Worker was not released during test cleanup"
+
+    async def model(_):
+        nonlocal callback_started
+        callback_started = True
+        return "late content"
+
+    def record_disposal(future):
+        discarded.append(future.result())
+        discard_worker_result(future)
+        disposed.set()
+
+    monkeypatch.setattr(guard_module, "_discard_worker_result", record_disposal)
+
+    with ThreadPoolExecutor(max_workers=1) as executor:
+
+        def submit(selected_executor, function, *args):
+            return run_in_executor(
+                executor if selected_executor is None else selected_executor, function, *args
+            )
+
+        monkeypatch.setattr(loop, "run_in_executor", submit)
+        blocker = run_in_executor(executor, occupy_worker)
+        try:
+            await asyncio.wait_for(worker_started.wait(), 5)
+            result = await Guard(timeout_seconds=0.03).arun("x", model)
+            assert result.action == Action.ERROR
+            assert result.output_result.findings[0].code == "callback_timeout"
+            assert result.text is None
+            assert not callback_started
+        finally:
+            release_worker.set()
+            await asyncio.wait_for(blocker, 5)
+            await asyncio.wait_for(disposed.wait(), 5)
+
+    assert not callback_started
+    assert len(discarded) == 1
+    with pytest.raises(RuntimeError):
+        discarded[0].send(None)
+    assert not callback_started
 
 
 async def test_timeout_does_not_claim_to_stop_worker_thread():
