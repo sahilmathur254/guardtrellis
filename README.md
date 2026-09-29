@@ -1,5 +1,9 @@
 # GuardTrellis
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/sahilmathur254/guardtrellis/main/docs/assets/guardtrellis-logo.png" alt="GuardTrellis logo: a woven shield with a green check mark" width="360">
+</p>
+
 A small Python SDK for local checks around model inputs, complete outputs, retrieved text,
 and proposed tool calls. Policies are explicit, composable, and independent of model providers.
 
@@ -8,21 +12,21 @@ The documented public API is supported across `0.1.x` under the
 Supported Python: 3.11–3.14. Apache-2.0 licensed.
 
 <!-- guardtrellis-release:start -->
-**Version: `0.1.0`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.0/)
+**Version: `0.1.1`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.1/)
 for availability and [release notes](https://github.com/sahilmathur254/guardtrellis/releases).
 A source checkout may describe a candidate that has not been published yet.
 
 Install this version in an activated virtual environment:
 
 ```sh
-python -m pip install 'guardtrellis==0.1.0'
+python -m pip install 'guardtrellis==0.1.1'
 ```
 
 An explicit version opts into a prerelease when applicable. Optional integrations:
-`'guardtrellis[fastapi]==0.1.0'`,
-`'guardtrellis[langgraph]==0.1.0'`,
-`'guardtrellis[openai]==0.1.0'`,
-`'guardtrellis[gemini]==0.1.0'`.
+`'guardtrellis[fastapi]==0.1.1'`,
+`'guardtrellis[langgraph]==0.1.1'`,
+`'guardtrellis[openai]==0.1.1'`,
+`'guardtrellis[gemini]==0.1.1'`.
 <!-- guardtrellis-release:end -->
 
 ## Included capabilities

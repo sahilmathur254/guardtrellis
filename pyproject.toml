@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "guardtrellis"
-version = "0.1.0"
+version = "0.1.1"
 description = "Provider-independent local checks for model inputs, outputs, retrieval, and tool calls"
 authors = [{ name = "Sahil Mathur" }]
 readme = "README.md"
