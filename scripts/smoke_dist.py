@@ -78,7 +78,7 @@ def main() -> None:
             )
             subprocess.run(["uv", "pip", "check", "--python", str(python)], check=True)
             subprocess.run([str(python), "-I", "-c", SMOKE], cwd=work, check=True)
-            for filename in ("plain_callable.py", "retrieval_tools.py"):
+            for filename in ("plain_callable.py", "retrieval_tools.py", "policy_operations.py"):
                 example = work / filename
                 shutil.copyfile(ROOT / "examples" / filename, example)
                 subprocess.run([str(python), "-I", str(example)], cwd=work, check=True)

@@ -1,0 +1,2474 @@
+{
+  "metadata": {
+    "report_schema": 1,
+    "generated_at_utc": "2026-09-29T15:58:51.536275+00:00",
+    "dataset_version": "policy-delivery-v1",
+    "usage": "development",
+    "independent_review": "none",
+    "native_language_review": "none",
+    "sources": [
+      "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0."
+    ],
+    "corpus_sha256": "ae0b9d7f183b3b77a52d595ee8b28dbda60ad95d6cae023663c2d583d64f9511",
+    "source_sha256": "ce14e7979cf9c1105f98e845e4a10c9b8c363a0759bffd48f607674b30d34ebd",
+    "runner_sha256": "5c11aa50754c053270179caa4d139a549cf0d6437702134469fb6fc4b1d2451d",
+    "lockfile_sha256": "6591feedf8314ab12622c1c29d958cd33210d49c3a680ae980c1cd6bfba67384",
+    "python": "3.12.0",
+    "platform": "Darwin",
+    "machine": "arm64",
+    "unicode_database": "15.0.0",
+    "guardtrellis": "0.1.2",
+    "jsonschema": "4.26.0",
+    "executions_per_case": 1,
+    "policy": "Fixed named synchronous profiles in run.py; local synthetic callbacks and dispatch recorders only. No decoded JSON-value scanning, network calls or performance claims."
+  },
+  "overall": {
+    "cases": 34,
+    "positive_cases": 30,
+    "negative_cases": 4,
+    "tp": 23,
+    "fp": 1,
+    "tn": 3,
+    "fn": 4,
+    "error": 3,
+    "expected_errors": 3,
+    "unexpected_errors": 0,
+    "harness_errors": 0,
+    "mismatched_cases": 5,
+    "privacy_failures": 0,
+    "actions": {
+      "allow": 7,
+      "warn": 1,
+      "redact": 7,
+      "block": 16,
+      "error": 3
+    },
+    "callbacks": 6,
+    "dispatches": 2
+  },
+  "families": {
+    "secrets": {
+      "cases": 8,
+      "positive_cases": 6,
+      "negative_cases": 2,
+      "tp": 5,
+      "fp": 1,
+      "tn": 1,
+      "fn": 1,
+      "error": 0,
+      "expected_errors": 0,
+      "unexpected_errors": 0,
+      "harness_errors": 0,
+      "mismatched_cases": 2,
+      "privacy_failures": 0,
+      "actions": {
+        "allow": 2,
+        "warn": 1,
+        "redact": 1,
+        "block": 4,
+        "error": 0
+      },
+      "callbacks": 0,
+      "dispatches": 0
+    },
+    "json": {
+      "cases": 6,
+      "positive_cases": 5,
+      "negative_cases": 1,
+      "tp": 4,
+      "fp": 0,
+      "tn": 1,
+      "fn": 1,
+      "error": 0,
+      "expected_errors": 0,
+      "unexpected_errors": 0,
+      "harness_errors": 0,
+      "mismatched_cases": 1,
+      "privacy_failures": 0,
+      "actions": {
+        "allow": 2,
+        "warn": 0,
+        "redact": 1,
+        "block": 3,
+        "error": 0
+      },
+      "callbacks": 0,
+      "dispatches": 0
+    },
+    "ordering": {
+      "cases": 4,
+      "positive_cases": 4,
+      "negative_cases": 0,
+      "tp": 4,
+      "fp": 0,
+      "tn": 0,
+      "fn": 0,
+      "error": 0,
+      "expected_errors": 0,
+      "unexpected_errors": 0,
+      "harness_errors": 0,
+      "mismatched_cases": 0,
+      "privacy_failures": 0,
+      "actions": {
+        "allow": 0,
+        "warn": 0,
+        "redact": 2,
+        "block": 2,
+        "error": 0
+      },
+      "callbacks": 0,
+      "dispatches": 0
+    },
+    "delivery": {
+      "cases": 6,
+      "positive_cases": 5,
+      "negative_cases": 1,
+      "tp": 4,
+      "fp": 0,
+      "tn": 1,
+      "fn": 1,
+      "error": 0,
+      "expected_errors": 0,
+      "unexpected_errors": 0,
+      "harness_errors": 0,
+      "mismatched_cases": 1,
+      "privacy_failures": 0,
+      "actions": {
+        "allow": 2,
+        "warn": 0,
+        "redact": 2,
+        "block": 2,
+        "error": 0
+      },
+      "callbacks": 5,
+      "dispatches": 0
+    },
+    "tool": {
+      "cases": 7,
+      "positive_cases": 7,
+      "negative_cases": 0,
+      "tp": 6,
+      "fp": 0,
+      "tn": 0,
+      "fn": 1,
+      "error": 0,
+      "expected_errors": 0,
+      "unexpected_errors": 0,
+      "harness_errors": 0,
+      "mismatched_cases": 1,
+      "privacy_failures": 0,
+      "actions": {
+        "allow": 1,
+        "warn": 0,
+        "redact": 1,
+        "block": 5,
+        "error": 0
+      },
+      "callbacks": 0,
+      "dispatches": 2
+    },
+    "errors": {
+      "cases": 3,
+      "positive_cases": 3,
+      "negative_cases": 0,
+      "tp": 0,
+      "fp": 0,
+      "tn": 0,
+      "fn": 0,
+      "error": 3,
+      "expected_errors": 3,
+      "unexpected_errors": 0,
+      "harness_errors": 0,
+      "mismatched_cases": 0,
+      "privacy_failures": 0,
+      "actions": {
+        "allow": 0,
+        "warn": 0,
+        "redact": 0,
+        "block": 0,
+        "error": 3
+      },
+      "callbacks": 1,
+      "dispatches": 0
+    }
+  },
+  "cases": [
+    {
+      "id": "secret-classic-block",
+      "family": "secrets",
+      "profile": "secret_block",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "Fabricated classic-token signature is presented as a credential; it should prevent delivery.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "stage": "input",
+        "findings": [
+          {
+            "code": "secret_github_classic",
+            "start": 12,
+            "end": 52,
+            "scanner": "secrets",
+            "scanner_index": 0,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "secrets",
+            "scanner_index": 0,
+            "action": "block",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "secret-classic-warn",
+      "family": "secrets",
+      "profile": "secret_warn",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "Warning policy intentionally permits the original fabricated credential-shaped input.",
+      "expected_signal": true,
+      "expected_action": "warn",
+      "observed_action": "warn",
+      "accepted": true,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": true,
+      "delivered_available": true,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "warn",
+        "stage": "input",
+        "findings": [
+          {
+            "code": "secret_github_classic",
+            "start": 12,
+            "end": 52,
+            "scanner": "secrets",
+            "scanner_index": 0,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "secrets",
+            "scanner_index": 0,
+            "action": "warn",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "secret-classic-redact",
+      "family": "secrets",
+      "profile": "secret_redact",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "Redaction policy should deliver only the replacement at the selected token span.",
+      "expected_signal": true,
+      "expected_action": "redact",
+      "observed_action": "redact",
+      "accepted": true,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": true,
+      "delivered_available": true,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "redact",
+        "stage": "input",
+        "findings": [
+          {
+            "code": "secret_github_classic",
+            "start": 12,
+            "end": 52,
+            "scanner": "secrets",
+            "scanner_index": 0,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "secrets",
+            "scanner_index": 0,
+            "action": "redact",
+            "revision_before": 0,
+            "revision_after": 1
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "secret-fine-grained-block",
+      "family": "secrets",
+      "profile": "secret_block",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "Fabricated fine-grained token signature is presented as a credential.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "stage": "input",
+        "findings": [
+          {
+            "code": "secret_github_fine_grained",
+            "start": 0,
+            "end": 93,
+            "scanner": "secrets",
+            "scanner_index": 0,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "secrets",
+            "scanner_index": 0,
+            "action": "block",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "secret-open-private-envelope",
+      "family": "secrets",
+      "profile": "secret_block",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "An incomplete private-key envelope should be blocked conservatively without verifying a key.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "stage": "input",
+        "findings": [
+          {
+            "code": "secret_private_key",
+            "start": 0,
+            "end": 47,
+            "scanner": "secrets",
+            "scanner_index": 0,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "secrets",
+            "scanner_index": 0,
+            "action": "block",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "secret-short-benign",
+      "family": "secrets",
+      "profile": "secret_block",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "A short explanatory prefix is not a credential-shaped value.",
+      "expected_signal": false,
+      "expected_action": "allow",
+      "observed_action": "allow",
+      "accepted": true,
+      "signal": false,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": true,
+      "delivered_available": true,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "allow",
+        "stage": "input",
+        "findings": [],
+        "trace": [
+          {
+            "scanner": "secrets",
+            "scanner_index": 0,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "tn",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "secret-documentation-lookalike",
+      "family": "secrets",
+      "profile": "secret_block",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "Explicitly non-secret teaching text is a benign contextual challenge even though a detector may match its signature.",
+      "expected_signal": false,
+      "expected_action": "allow",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": false,
+        "accepted": false,
+        "checked_text": false,
+        "callback_inputs": true,
+        "delivered": false,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "stage": "input",
+        "findings": [
+          {
+            "code": "secret_github_classic",
+            "start": 33,
+            "end": 73,
+            "scanner": "secrets",
+            "scanner_index": 0,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "secrets",
+            "scanner_index": 0,
+            "action": "block",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "fp",
+      "mismatches": [
+        "action",
+        "accepted",
+        "checked_text",
+        "delivered"
+      ],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "secret-unsupported-assignment",
+      "family": "secrets",
+      "profile": "secret_block",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "Scenario requests prevention of a password assignment; generic assignment detection is outside current signatures and a miss must remain visible.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "allow",
+      "accepted": true,
+      "signal": false,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": true,
+      "delivered_available": true,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": false,
+        "accepted": false,
+        "checked_text": false,
+        "callback_inputs": true,
+        "delivered": false,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "allow",
+        "stage": "input",
+        "findings": [],
+        "trace": [
+          {
+            "scanner": "secrets",
+            "scanner_index": 0,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "fn",
+      "mismatches": [
+        "action",
+        "accepted",
+        "checked_text",
+        "delivered"
+      ],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "json-email-redacted",
+      "family": "json",
+      "profile": "json_pii",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "json-plain",
+      "label_basis": "Redact a plain email inside valid JSON and check the transformed object schema.",
+      "expected_signal": true,
+      "expected_action": "redact",
+      "observed_action": "redact",
+      "accepted": true,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": true,
+      "delivered_available": true,
+      "checked_json_valid": true,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true,
+        "checked_json_valid": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "redact",
+        "stage": "input",
+        "findings": [
+          {
+            "code": "pii_email",
+            "start": 12,
+            "end": 25,
+            "scanner": "pii",
+            "scanner_index": 1,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "json",
+            "scanner_index": 0,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "pii",
+            "scanner_index": 1,
+            "action": "redact",
+            "revision_before": 0,
+            "revision_after": 1
+          },
+          {
+            "scanner": "json",
+            "scanner_index": 2,
+            "action": "allow",
+            "revision_before": 1,
+            "revision_after": 1
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "json-benign-valid",
+      "family": "json",
+      "profile": "json_pii",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "json-plain",
+      "label_basis": "Ordinary schema-conforming JSON should remain unchanged.",
+      "expected_signal": false,
+      "expected_action": "allow",
+      "observed_action": "allow",
+      "accepted": true,
+      "signal": false,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": true,
+      "delivered_available": true,
+      "checked_json_valid": true,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true,
+        "checked_json_valid": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "allow",
+        "stage": "input",
+        "findings": [],
+        "trace": [
+          {
+            "scanner": "json",
+            "scanner_index": 0,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "pii",
+            "scanner_index": 1,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "json",
+            "scanner_index": 2,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "tn",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "json-duplicate-key",
+      "family": "json",
+      "profile": "json_pii",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "json-duplicate-key",
+      "label_basis": "Duplicate keys must stop the pipeline before text transformation can hide ambiguity.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true,
+        "checked_json_valid": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "stage": "input",
+        "findings": [
+          {
+            "code": "json_duplicate_key",
+            "start": null,
+            "end": null,
+            "scanner": "json",
+            "scanner_index": 0,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "json",
+            "scanner_index": 0,
+            "action": "block",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "json-schema-type",
+      "family": "json",
+      "profile": "json_pii",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "json-plain",
+      "label_basis": "A number violates the message string schema even though the JSON syntax is valid.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true,
+        "checked_json_valid": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "stage": "input",
+        "findings": [
+          {
+            "code": "json_schema_mismatch",
+            "start": null,
+            "end": null,
+            "scanner": "json",
+            "scanner_index": 2,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "json",
+            "scanner_index": 0,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "pii",
+            "scanner_index": 1,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "json",
+            "scanner_index": 2,
+            "action": "block",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "json-redaction-schema-reject",
+      "family": "json",
+      "profile": "json_pii_min_length",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "json-plain",
+      "label_basis": "The original string meets minLength 6 but [PII] does not; schema validation after edits must withhold it.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true,
+        "checked_json_valid": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "stage": "input",
+        "findings": [
+          {
+            "code": "pii_email",
+            "start": 12,
+            "end": 25,
+            "scanner": "pii",
+            "scanner_index": 1,
+            "revision": 0
+          },
+          {
+            "code": "json_schema_mismatch",
+            "start": null,
+            "end": null,
+            "scanner": "json",
+            "scanner_index": 2,
+            "revision": 1
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "json",
+            "scanner_index": 0,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "pii",
+            "scanner_index": 1,
+            "action": "redact",
+            "revision_before": 0,
+            "revision_after": 1
+          },
+          {
+            "scanner": "json",
+            "scanner_index": 2,
+            "action": "block",
+            "revision_before": 1,
+            "revision_after": 1
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "json-escaped-email-miss",
+      "family": "json",
+      "profile": "json_pii",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "json-escaped",
+      "label_basis": "The decoded value is the same email as its plain pair; scenario expects redaction despite the raw-text decoding gap.",
+      "expected_signal": true,
+      "expected_action": "redact",
+      "observed_action": "allow",
+      "accepted": true,
+      "signal": false,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": true,
+      "delivered_available": true,
+      "checked_json_valid": true,
+      "comparisons": {
+        "action": false,
+        "accepted": true,
+        "checked_text": false,
+        "callback_inputs": true,
+        "delivered": false,
+        "dispatches": true,
+        "checked_json_valid": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "allow",
+        "stage": "input",
+        "findings": [],
+        "trace": [
+          {
+            "scanner": "json",
+            "scanner_index": 0,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "pii",
+            "scanner_index": 1,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "json",
+            "scanner_index": 2,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "fn",
+      "mismatches": [
+        "action",
+        "checked_text",
+        "delivered"
+      ],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "order-pii-then-literal",
+      "family": "ordering",
+      "profile": "pii_then_literal",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "A literal rule after redaction sees [PII] and blocks the transformed content.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "stage": "input",
+        "findings": [
+          {
+            "code": "pii_email",
+            "start": 8,
+            "end": 21,
+            "scanner": "pii",
+            "scanner_index": 0,
+            "revision": 0
+          },
+          {
+            "code": "literal_match",
+            "start": 8,
+            "end": 13,
+            "scanner": "literal",
+            "scanner_index": 1,
+            "revision": 1
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "pii",
+            "scanner_index": 0,
+            "action": "redact",
+            "revision_before": 0,
+            "revision_after": 1
+          },
+          {
+            "scanner": "literal",
+            "scanner_index": 1,
+            "action": "block",
+            "revision_before": 1,
+            "revision_after": 1
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "order-literal-then-pii",
+      "family": "ordering",
+      "profile": "literal_then_pii",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "A literal rule before redaction sees no replacement marker; subsequent PII redaction is delivered.",
+      "expected_signal": true,
+      "expected_action": "redact",
+      "observed_action": "redact",
+      "accepted": true,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": true,
+      "delivered_available": true,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "redact",
+        "stage": "input",
+        "findings": [
+          {
+            "code": "pii_email",
+            "start": 8,
+            "end": 21,
+            "scanner": "pii",
+            "scanner_index": 1,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "literal",
+            "scanner_index": 0,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "pii",
+            "scanner_index": 1,
+            "action": "redact",
+            "revision_before": 0,
+            "revision_after": 1
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "order-two-redaction-revisions",
+      "family": "ordering",
+      "profile": "two_redactions",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "Second finding offsets must refer to the already-redacted revision; only final checked text is delivered.",
+      "expected_signal": true,
+      "expected_action": "redact",
+      "observed_action": "redact",
+      "accepted": true,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": true,
+      "delivered_available": true,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true,
+        "findings": true,
+        "trace": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "redact",
+        "stage": "input",
+        "findings": [
+          {
+            "code": "pii_email",
+            "start": 8,
+            "end": 21,
+            "scanner": "pii",
+            "scanner_index": 0,
+            "revision": 0
+          },
+          {
+            "code": "literal_match",
+            "start": 14,
+            "end": 21,
+            "scanner": "literal",
+            "scanner_index": 1,
+            "revision": 1
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "pii",
+            "scanner_index": 0,
+            "action": "redact",
+            "revision_before": 0,
+            "revision_after": 1
+          },
+          {
+            "scanner": "literal",
+            "scanner_index": 1,
+            "action": "redact",
+            "revision_before": 1,
+            "revision_after": 2
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "order-warning-before-block",
+      "family": "ordering",
+      "profile": "warning_then_block",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "A warning permits the next scanner, whose credential block withholds all normal text.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "stage": "input",
+        "findings": [
+          {
+            "code": "invisible_control",
+            "start": 0,
+            "end": 1,
+            "scanner": "invisible",
+            "scanner_index": 0,
+            "revision": 0
+          },
+          {
+            "code": "secret_github_classic",
+            "start": 13,
+            "end": 53,
+            "scanner": "secrets",
+            "scanner_index": 1,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "invisible",
+            "scanner_index": 0,
+            "action": "warn",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "secrets",
+            "scanner_index": 1,
+            "action": "block",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "delivery-redact-both-stages",
+      "family": "delivery",
+      "profile": "run_pii",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "The callback receives checked input, then the caller receives independently checked callback output.",
+      "expected_signal": true,
+      "expected_action": "redact",
+      "observed_action": "redact",
+      "accepted": true,
+      "signal": true,
+      "callback_count": 1,
+      "dispatch_count": 0,
+      "checked_text_available": true,
+      "delivered_available": true,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "redact",
+        "input": {
+          "action": "redact",
+          "stage": "input",
+          "findings": [
+            {
+              "code": "pii_email",
+              "start": 4,
+              "end": 17,
+              "scanner": "pii",
+              "scanner_index": 0,
+              "revision": 0
+            }
+          ],
+          "trace": [
+            {
+              "scanner": "pii",
+              "scanner_index": 0,
+              "action": "redact",
+              "revision_before": 0,
+              "revision_after": 1
+            }
+          ]
+        },
+        "output": {
+          "action": "redact",
+          "stage": "output",
+          "findings": [
+            {
+              "code": "pii_email",
+              "start": 6,
+              "end": 19,
+              "scanner": "pii",
+              "scanner_index": 0,
+              "revision": 0
+            }
+          ],
+          "trace": [
+            {
+              "scanner": "pii",
+              "scanner_index": 0,
+              "action": "redact",
+              "revision_before": 0,
+              "revision_after": 1
+            }
+          ]
+        }
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "delivery-benign-callback",
+      "family": "delivery",
+      "profile": "run_pii",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "A benign callback receives the unchanged input and its ordinary response is returned.",
+      "expected_signal": false,
+      "expected_action": "allow",
+      "observed_action": "allow",
+      "accepted": true,
+      "signal": false,
+      "callback_count": 1,
+      "dispatch_count": 0,
+      "checked_text_available": true,
+      "delivered_available": true,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "allow",
+        "input": {
+          "action": "allow",
+          "stage": "input",
+          "findings": [],
+          "trace": [
+            {
+              "scanner": "pii",
+              "scanner_index": 0,
+              "action": "allow",
+              "revision_before": 0,
+              "revision_after": 0
+            }
+          ]
+        },
+        "output": {
+          "action": "allow",
+          "stage": "output",
+          "findings": [],
+          "trace": [
+            {
+              "scanner": "pii",
+              "scanner_index": 0,
+              "action": "allow",
+              "revision_before": 0,
+              "revision_after": 0
+            }
+          ]
+        }
+      },
+      "outcome": "tn",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "delivery-input-block",
+      "family": "delivery",
+      "profile": "run_secret_input",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "An input block must prevent callback invocation entirely.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "input": {
+          "action": "block",
+          "stage": "input",
+          "findings": [
+            {
+              "code": "secret_github_classic",
+              "start": 0,
+              "end": 40,
+              "scanner": "secrets",
+              "scanner_index": 0,
+              "revision": 0
+            }
+          ],
+          "trace": [
+            {
+              "scanner": "secrets",
+              "scanner_index": 0,
+              "action": "block",
+              "revision_before": 0,
+              "revision_after": 0
+            }
+          ]
+        },
+        "output": null
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "delivery-output-block",
+      "family": "delivery",
+      "profile": "run_secret_output",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "An output block occurs after callback invocation but must withhold the credential-shaped response.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 1,
+      "dispatch_count": 0,
+      "checked_text_available": true,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "input": {
+          "action": "allow",
+          "stage": "input",
+          "findings": [],
+          "trace": []
+        },
+        "output": {
+          "action": "block",
+          "stage": "output",
+          "findings": [
+            {
+              "code": "secret_github_classic",
+              "start": 0,
+              "end": 40,
+              "scanner": "secrets",
+              "scanner_index": 0,
+              "revision": 0
+            }
+          ],
+          "trace": [
+            {
+              "scanner": "secrets",
+              "scanner_index": 0,
+              "action": "block",
+              "revision_before": 0,
+              "revision_after": 0
+            }
+          ]
+        }
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "delivery-plain-phone",
+      "family": "delivery",
+      "profile": "run_pii",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "phone-contiguous",
+      "label_basis": "The contiguous fabricated phone should be redacted before the callback.",
+      "expected_signal": true,
+      "expected_action": "redact",
+      "observed_action": "redact",
+      "accepted": true,
+      "signal": true,
+      "callback_count": 1,
+      "dispatch_count": 0,
+      "checked_text_available": true,
+      "delivered_available": true,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "redact",
+        "input": {
+          "action": "redact",
+          "stage": "input",
+          "findings": [
+            {
+              "code": "pii_phone",
+              "start": 5,
+              "end": 17,
+              "scanner": "pii",
+              "scanner_index": 0,
+              "revision": 0
+            }
+          ],
+          "trace": [
+            {
+              "scanner": "pii",
+              "scanner_index": 0,
+              "action": "redact",
+              "revision_before": 0,
+              "revision_after": 1
+            }
+          ]
+        },
+        "output": {
+          "action": "allow",
+          "stage": "output",
+          "findings": [],
+          "trace": [
+            {
+              "scanner": "pii",
+              "scanner_index": 0,
+              "action": "allow",
+              "revision_before": 0,
+              "revision_after": 0
+            }
+          ]
+        }
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "delivery-spaced-phone-miss",
+      "family": "delivery",
+      "profile": "run_pii",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "phone-spaced",
+      "label_basis": "The spaced representation is the same fabricated contact; retaining a positive expectation exposes the unsupported format.",
+      "expected_signal": true,
+      "expected_action": "redact",
+      "observed_action": "allow",
+      "accepted": true,
+      "signal": false,
+      "callback_count": 1,
+      "dispatch_count": 0,
+      "checked_text_available": true,
+      "delivered_available": true,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": false,
+        "accepted": true,
+        "checked_text": false,
+        "callback_inputs": false,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "allow",
+        "input": {
+          "action": "allow",
+          "stage": "input",
+          "findings": [],
+          "trace": [
+            {
+              "scanner": "pii",
+              "scanner_index": 0,
+              "action": "allow",
+              "revision_before": 0,
+              "revision_after": 0
+            }
+          ]
+        },
+        "output": {
+          "action": "allow",
+          "stage": "output",
+          "findings": [],
+          "trace": [
+            {
+              "scanner": "pii",
+              "scanner_index": 0,
+              "action": "allow",
+              "revision_before": 0,
+              "revision_after": 0
+            }
+          ]
+        }
+      },
+      "outcome": "fn",
+      "mismatches": [
+        "action",
+        "checked_text",
+        "callback_inputs"
+      ],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "tool-redacted-dispatch",
+      "family": "tool",
+      "profile": "tool_pii",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "json-plain",
+      "label_basis": "The application recorder receives parsed checked arguments, never the original email.",
+      "expected_signal": true,
+      "expected_action": "redact",
+      "observed_action": "redact",
+      "accepted": true,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 1,
+      "checked_text_available": true,
+      "delivered_available": true,
+      "checked_json_valid": true,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true,
+        "checked_json_valid": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "redact",
+        "stage": "tool",
+        "findings": [
+          {
+            "code": "pii_email",
+            "start": 12,
+            "end": 25,
+            "scanner": "pii",
+            "scanner_index": 1,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "json",
+            "scanner_index": 0,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "pii",
+            "scanner_index": 1,
+            "action": "redact",
+            "revision_before": 0,
+            "revision_after": 1
+          },
+          {
+            "scanner": "json",
+            "scanner_index": 2,
+            "action": "allow",
+            "revision_before": 1,
+            "revision_after": 1
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "tool-unknown-name",
+      "family": "tool",
+      "profile": "tool_pii",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "json-plain",
+      "label_basis": "An unknown tool name must return no dispatchable name or arguments.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true,
+        "checked_json_valid": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "stage": "tool",
+        "findings": [
+          {
+            "code": "tool_not_allowed",
+            "start": null,
+            "end": null,
+            "scanner": "",
+            "scanner_index": -1,
+            "revision": 0
+          }
+        ],
+        "trace": []
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "tool-duplicate-key",
+      "family": "tool",
+      "profile": "tool_pii",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "json-duplicate-key",
+      "label_basis": "Duplicate-key syntax is rejected before the application recorder can run.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true,
+        "checked_json_valid": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "stage": "tool",
+        "findings": [
+          {
+            "code": "json_duplicate_key",
+            "start": null,
+            "end": null,
+            "scanner": "json",
+            "scanner_index": 0,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "json",
+            "scanner_index": 0,
+            "action": "block",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "tool-schema-type",
+      "family": "tool",
+      "profile": "tool_pii",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "json-plain",
+      "label_basis": "A structurally wrong argument must not be dispatched.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true,
+        "checked_json_valid": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "stage": "tool",
+        "findings": [
+          {
+            "code": "json_schema_mismatch",
+            "start": null,
+            "end": null,
+            "scanner": "json",
+            "scanner_index": 2,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "json",
+            "scanner_index": 0,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "pii",
+            "scanner_index": 1,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "json",
+            "scanner_index": 2,
+            "action": "block",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "tool-redaction-schema-reject",
+      "family": "tool",
+      "profile": "tool_pii_min_length",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "json-plain",
+      "label_basis": "Post-redaction schema failure must prevent dispatch even when the original schema would pass.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true,
+        "checked_json_valid": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "stage": "tool",
+        "findings": [
+          {
+            "code": "pii_email",
+            "start": 12,
+            "end": 25,
+            "scanner": "pii",
+            "scanner_index": 1,
+            "revision": 0
+          },
+          {
+            "code": "json_schema_mismatch",
+            "start": null,
+            "end": null,
+            "scanner": "json",
+            "scanner_index": 2,
+            "revision": 1
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "json",
+            "scanner_index": 0,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "pii",
+            "scanner_index": 1,
+            "action": "redact",
+            "revision_before": 0,
+            "revision_after": 1
+          },
+          {
+            "scanner": "json",
+            "scanner_index": 2,
+            "action": "block",
+            "revision_before": 1,
+            "revision_after": 1
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "tool-secret-block",
+      "family": "tool",
+      "profile": "tool_secret",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "json-plain",
+      "label_basis": "A secret signature in tool arguments blocks before application dispatch.",
+      "expected_signal": true,
+      "expected_action": "block",
+      "observed_action": "block",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true,
+        "checked_json_valid": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "block",
+        "stage": "tool",
+        "findings": [
+          {
+            "code": "secret_github_classic",
+            "start": 13,
+            "end": 53,
+            "scanner": "secrets",
+            "scanner_index": 1,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "json",
+            "scanner_index": 0,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "secrets",
+            "scanner_index": 1,
+            "action": "block",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "tp",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "tool-escaped-email-miss",
+      "family": "tool",
+      "profile": "tool_pii",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "json-escaped",
+      "label_basis": "Decoded tool arguments contain the same email as the plain pair; a raw-text miss can dispatch the original contact.",
+      "expected_signal": true,
+      "expected_action": "redact",
+      "observed_action": "allow",
+      "accepted": true,
+      "signal": false,
+      "callback_count": 0,
+      "dispatch_count": 1,
+      "checked_text_available": true,
+      "delivered_available": true,
+      "checked_json_valid": true,
+      "comparisons": {
+        "action": false,
+        "accepted": true,
+        "checked_text": false,
+        "callback_inputs": true,
+        "delivered": false,
+        "dispatches": false,
+        "checked_json_valid": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "allow",
+        "stage": "tool",
+        "findings": [],
+        "trace": [
+          {
+            "scanner": "json",
+            "scanner_index": 0,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "pii",
+            "scanner_index": 1,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "json",
+            "scanner_index": 2,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "fn",
+      "mismatches": [
+        "action",
+        "checked_text",
+        "delivered",
+        "dispatches"
+      ],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "error-input-scanner",
+      "family": "errors",
+      "profile": "run_scanner_error",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "An intentionally failing scanner includes input in its exception; SDK results must fail closed without echoing it.",
+      "expected_signal": true,
+      "expected_action": "error",
+      "observed_action": "error",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "error",
+        "input": {
+          "action": "error",
+          "stage": "input",
+          "findings": [
+            {
+              "code": "scanner_error",
+              "start": null,
+              "end": null,
+              "scanner": "fixture_failure",
+              "scanner_index": 0,
+              "revision": 0
+            }
+          ],
+          "trace": [
+            {
+              "scanner": "fixture_failure",
+              "scanner_index": 0,
+              "action": "error",
+              "revision_before": 0,
+              "revision_after": 0
+            }
+          ]
+        },
+        "output": null
+      },
+      "outcome": "error",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "error-callback",
+      "family": "errors",
+      "profile": "run_callback_error",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "plain-text",
+      "label_basis": "A callback failure occurs after invocation; the SDK error and rejection surfaces must omit its message.",
+      "expected_signal": true,
+      "expected_action": "error",
+      "observed_action": "error",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 1,
+      "dispatch_count": 0,
+      "checked_text_available": true,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "error",
+        "input": {
+          "action": "allow",
+          "stage": "input",
+          "findings": [],
+          "trace": []
+        },
+        "output": {
+          "action": "error",
+          "stage": "output",
+          "findings": [
+            {
+              "code": "callback_error",
+              "start": null,
+              "end": null,
+              "scanner": "guard",
+              "scanner_index": -1,
+              "revision": 0
+            }
+          ],
+          "trace": []
+        }
+      },
+      "outcome": "error",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    },
+    {
+      "id": "error-tool-scanner",
+      "family": "errors",
+      "profile": "tool_scanner_error",
+      "dataset_version": "policy-delivery-v1",
+      "source": "Original AI-assisted synthetic fixtures authored with Codex assistance; no real records or credentials; Apache-2.0.",
+      "usage": "development",
+      "language": "en",
+      "format": "json-plain",
+      "label_basis": "A scanner error on arguments must withhold dispatchable data and its exception payload.",
+      "expected_signal": true,
+      "expected_action": "error",
+      "observed_action": "error",
+      "accepted": false,
+      "signal": true,
+      "callback_count": 0,
+      "dispatch_count": 0,
+      "checked_text_available": false,
+      "delivered_available": false,
+      "checked_json_valid": null,
+      "comparisons": {
+        "action": true,
+        "accepted": true,
+        "checked_text": true,
+        "callback_inputs": true,
+        "delivered": true,
+        "dispatches": true,
+        "checked_json_valid": true
+      },
+      "diagnostics_safe": true,
+      "repr_safe": true,
+      "rejection_safe": true,
+      "diagnostics": {
+        "action": "error",
+        "stage": "tool",
+        "findings": [
+          {
+            "code": "scanner_error",
+            "start": null,
+            "end": null,
+            "scanner": "fixture_failure",
+            "scanner_index": 1,
+            "revision": 0
+          }
+        ],
+        "trace": [
+          {
+            "scanner": "json",
+            "scanner_index": 0,
+            "action": "allow",
+            "revision_before": 0,
+            "revision_after": 0
+          },
+          {
+            "scanner": "fixture_failure",
+            "scanner_index": 1,
+            "action": "error",
+            "revision_before": 0,
+            "revision_after": 0
+          }
+        ]
+      },
+      "outcome": "error",
+      "mismatches": [],
+      "privacy_failures": [],
+      "unexpected_error": false
+    }
+  ]
+}

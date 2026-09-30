@@ -12,25 +12,29 @@ The documented public API is supported across `0.1.x` under the
 Supported Python: 3.11–3.14. Apache-2.0 licensed.
 
 <!-- guardtrellis-release:start -->
-**Version: `0.1.1`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.1/)
+**Version: `0.1.2`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.2/)
 for availability and [release notes](https://github.com/sahilmathur254/guardtrellis/releases).
 A source checkout may describe a candidate that has not been published yet.
 
 Install this version in an activated virtual environment:
 
 ```sh
-python -m pip install 'guardtrellis==0.1.1'
+python -m pip install 'guardtrellis==0.1.2'
 ```
 
 An explicit version opts into a prerelease when applicable. Optional integrations:
-`'guardtrellis[fastapi]==0.1.1'`,
-`'guardtrellis[langgraph]==0.1.1'`,
-`'guardtrellis[openai]==0.1.1'`,
-`'guardtrellis[gemini]==0.1.1'`.
+`'guardtrellis[fastapi]==0.1.2'`,
+`'guardtrellis[langgraph]==0.1.2'`,
+`'guardtrellis[openai]==0.1.2'`,
+`'guardtrellis[gemini]==0.1.2'`.
 <!-- guardtrellis-release:end -->
 
 ## Included capabilities
 
+- A [policy and operations recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/policy_operations.md)
+  with distinct stage policies, checked-data handoff, metadata-only diagnostics, and host resource controls.
+- A separate [policy-combination evaluation](https://github.com/sahilmathur254/guardtrellis/blob/main/evaluation/policy_combinations/README.md)
+  measuring ordered checks, callback/tool delivery, and privacy surfaces against explicit synthetic expectations.
 - A [retrieval and tool-call recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/retrieval_tools.md)
   that carries checked text and validated arguments through both boundaries using core dependencies.
 - A separate [40-case Unicode and PII development set](https://github.com/sahilmathur254/guardtrellis/blob/main/evaluation/challenges/README.md)
@@ -130,6 +134,7 @@ cd guardtrellis
 uv sync --all-extras --group dev
 uv run python examples/plain_callable.py
 uv run python examples/retrieval_tools.py   # Checked retrieval through a proposed tool call
+uv run python examples/policy_operations.py # Stage policies and metadata-only operations
 uv run python examples/fastapi_app.py       # Local TestClient demo, no server needed
 uv run python examples/langgraph_app.py     # Local graph, no provider credentials
 uv run python examples/openai_app.py        # Real SDK, in-memory HTTP mock by default
@@ -140,6 +145,7 @@ uv run ruff check .
 uv run ruff format --check .
 uv run mypy
 uv run python evaluation/run.py --report-dir /tmp/guardtrellis-eval
+uv run python evaluation/policy_combinations/run.py --report-dir /tmp/guardtrellis-policies
 uv build
 uv run python scripts/smoke_dist.py
 ```
@@ -147,6 +153,10 @@ uv run python scripts/smoke_dist.py
 The [retrieval/tool-call recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/retrieval_tools.md)
 uses only core dependencies and shows checked data crossing both boundaries, rejected callbacks,
 and host authorization.
+
+The [policy and operations recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/policy_operations.md)
+extends this with stage-specific decisions, scanner ordering, callback failures, safe logging,
+and application concurrency/deadline guidance. It also uses only core dependencies.
 
 FastAPI and LangGraph are optional extras (`.[fastapi]`, `.[langgraph]`). LangGraph input
 checks run **before** text enters graph state. The example also checks model output before
