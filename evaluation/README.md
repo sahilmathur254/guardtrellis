@@ -91,3 +91,11 @@ reports. Notes and provenance are authored public metadata; keep sensitive data 
 The separate [resource measurement harness](../docs/resource_limits.md) covers large inputs,
 selected expensive schemas, and cancellation in bounded child processes. Its report in
 `resource_limits/` does not replace this detector corpus or establish production capacity.
+
+The separate [policy and delivery evaluation](policy_combinations/README.md) adds 34
+AI-assisted synthetic development scenarios for selected secret signatures, JSON and tool
+outcomes, scanner ordering, checked callback/dispatch data, revision-aware spans, and
+payload-safe diagnostic/error surfaces. It records intended delivery comparisons alongside
+detection outcomes without changing these historical corpora or baselines. A successful
+harness exit does not mean all scenario expectations passed; retained misses, false positives,
+and action/delivery mismatches must be read in its reports.

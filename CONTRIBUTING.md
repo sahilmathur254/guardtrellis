@@ -40,6 +40,7 @@ uv run ruff check .
 uv run ruff format --check .
 uv run mypy
 uv run python evaluation/run.py --report-dir /tmp/guardtrellis-eval
+uv run python evaluation/policy_combinations/run.py --report-dir /tmp/guardtrellis-policies
 uv build
 uv run python scripts/smoke_dist.py
 ```
@@ -80,7 +81,7 @@ are absent; the CI matrix installs all extras, so those tests must run there. Di
 smokes install the wheel and source archive in fresh temporary environments outside this
 directory, verify core installs exclude frameworks, provider SDKs, and HTTP clients, then
 install only the OpenAI extra and execute both OpenAI examples without legacy HTTPX. Finally,
-they install all extras and execute all seven examples against each installed artifact. The
+they install all extras and execute all eight examples against each installed artifact. The
 OpenAI, Azure, and Gemini examples use in-memory HTTP mocks, including when credentials
 exist in the environment. See the
 [OpenAI](docs/openai.md), [Azure](docs/azure_openai.md), and [Gemini](docs/gemini.md) guides
@@ -97,7 +98,7 @@ The CI matrix covers these combinations:
 | Windows Server 2025 (`windows-2025`) | x64 | 3.12 |
 
 Every combination runs the full tests with extras, lint/format/type checks, the synthetic
-evaluation, and fresh wheel/sdist installation checks with all seven examples. Each job has
+evaluation, and fresh wheel/sdist installation checks with all eight examples. Each job has
 a 15-minute limit; failures do not cancel the other matrix jobs. Bash runs workflow commands
 on all runners so a failed command stops its step; Python and its subprocesses run natively
 on each OS. The macOS and Windows jobs initially cover one Python version each.
@@ -113,6 +114,11 @@ per-family/language results and actions; keep detector changes separate from col
 fixtures. Evaluation commands require a new report directory and refuse to overwrite prior
 runs. CI runs both the historical smoke corpus and the Unicode/PII challenge set without
 requiring a particular detection score.
+
+The separate [policy-combination evaluation](evaluation/policy_combinations/README.md)
+checks scanner ordering and checked callback/tool delivery against explicit synthetic
+expectations. CI reproduces its outcomes too; known scenario mismatches stay visible and
+are not an accuracy gate. Unexpected errors and privacy/harness failures fail the run.
 
 For changes to resource limits or cancellation, use the separate
 [bounded measurement harness](docs/resource_limits.md). It runs fixed scenarios in child

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.2
+
+- Add a core-only policy/operations recipe showing separate input, retrieval, tool, and
+  output policies, checked-data handoff, metadata-only logging, and application resource
+  controls. Include rejection/failure tests and distribution smoke coverage.
+- Add a separate versioned synthetic evaluation for scanner combinations, secret signatures,
+  JSON/tool validation, and checked callback/tool delivery. Report detection and delivery
+  mismatches separately while retaining known misses, false positives, and historical corpora.
+- Expand the roadmap and propose a decoded-JSON values contract for maintainer review.
+  The proposal does not implement or change structured-value scanning.
+
+No core runtime API, dependency, or detection-rule changes from `0.1.1`.
+
 ## 0.1.1
 
 - Add the GuardTrellis logo to the repository README and packaged PyPI description.
