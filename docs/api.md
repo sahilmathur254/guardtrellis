@@ -127,4 +127,20 @@ argument dict. `require_call()` returns that checked pair. Execute that pair onl
 your own authorization checks; this package never dispatches tool code. Treat the returned
 arguments as read-only until use: later caller mutations are not revalidated.
 
+`avalidate()` applies `timeout_seconds` separately to the syntax scanner, each argument
+scanner, and the final schema scanner; it is not a deadline for the complete validation
+or tool execution. Scanner exceptions or malformed checks yield ERROR with
+`scanner_error`; an expired scanner wait yields ERROR with `scanner_timeout`. BLOCK and
+ERROR results expose neither a tool name nor arguments, and `require_call()` raises
+`Rejected`. Redaction is accepted only if the edited JSON still satisfies the schema.
+
+Caller cancellation propagates as `CancelledError`, without returning a dispatchable
+result. A timed-out or cancelled scanner may continue running in a thread or suppress
+coroutine cancellation; its late result cannot release a checked call. Scanners are
+trusted code: their own side effects are not undone or prevented by this handoff contract.
+The caller must await validation, authorize the checked pair, then dispatch that pair;
+dispatching original arguments or scheduling execution before validation bypasses it.
+Apply caller-owned execution budgets and isolation as described in
+[limits and asynchronous work](#limits-and-asynchronous-work).
+
 Reference behavior follows the upstream [jsonschema referencing documentation](https://python-jsonschema.readthedocs.io/en/stable/referencing/).
