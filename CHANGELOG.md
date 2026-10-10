@@ -2,6 +2,9 @@
 
 ## 0.1.2
 
+- Document and regression-test async tool handoff after redaction, rejection, scanner
+  failure, timeout, and caller cancellation, including late scanner completion.
+  Clarify per-scanner deadlines and caller-owned authorization/execution limits.
 - Add a core-only policy/operations recipe showing separate input, retrieval, tool, and
   output policies, checked-data handoff, metadata-only logging, and application resource
   controls. Include rejection/failure tests and distribution smoke coverage.
