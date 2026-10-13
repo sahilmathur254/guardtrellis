@@ -49,6 +49,9 @@ the actual characters passed to them. Tool argument text scanners likewise see J
 For semantic PII checks on structured values, decode and validate each relevant value
 before reserializing and performing the final tool/schema check. Do not assume scanning
 serialized JSON catches escaped or encoded sensitive values.
+The [decoded-query recipe](decoded_query.md) demonstrates this handoff for one bounded
+`search.query` string through the existing public APIs. It does not add recursive scanning,
+normalization, repeated escape decoding, or broader detector coverage.
 
 Ordering matters: redaction can obscure signals that a later scanner would have seen.
 Put blocking policies before redactors when they must see the original content. WARN is

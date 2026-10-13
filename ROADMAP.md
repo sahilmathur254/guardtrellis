@@ -47,7 +47,7 @@ observed integration gaps over adding scanner families or framework wrappers for
 
 | Order | Workstream | Next outcome | Tracking |
 | --- | --- | --- | --- |
-| First | Structured values | Implement the accepted bounded decoded `search.query` recipe using current public APIs. | Design [#11](https://github.com/sahilmathur254/guardtrellis/issues/11); implementation [#41](https://github.com/sahilmathur254/guardtrellis/issues/41) |
+| First | Structured values | Review the bounded decoded `search.query` recipe in the unpublished `0.1.3` source candidate. | Design [#11](https://github.com/sahilmathur254/guardtrellis/issues/11); implementation [#41](https://github.com/sahilmathur254/guardtrellis/issues/41) |
 | Completed; follow-ups as needed | Evaluation and coverage | Use the retained policy/delivery baseline to identify independently authored cases and small supported-format improvements. | [#29](https://github.com/sahilmathur254/guardtrellis/issues/29) closed; shipped in `0.1.2` |
 | Completed; follow-ups as needed | Integration recipes | Build on the policy/operations recipe and async checked-tool handoff evidence for concrete caller gaps. | [#30](https://github.com/sahilmathur254/guardtrellis/issues/30) and [#34](https://github.com/sahilmathur254/guardtrellis/issues/34) closed; shipped in `0.1.2` |
 | After a concrete workflow is agreed | Local policy testing | Define a small CLI for running configured checks and inspecting outcomes outside application code. | [#31](https://github.com/sahilmathur254/guardtrellis/issues/31); Next, P2, design first |
@@ -69,9 +69,10 @@ existing coverage gap to investigate first; it does not imply that every encodin
 
 The maintainer accepted the recipe-first decision for
 [#11](https://github.com/sahilmathur254/guardtrellis/issues/11) on 2026-10-13.
-Implement the fixed-field recipe using current public APIs in separately scoped
-[#41](https://github.com/sahilmathur254/guardtrellis/issues/41). Keep existing text scanning and
-`ToolGuard` semantics intact. The [decision record](docs/decoded_json_design.md) compares
+The [fixed-field recipe](docs/decoded_query.md), scoped in
+[#41](https://github.com/sahilmathur254/guardtrellis/issues/41), is implemented in the unpublished
+`0.1.3` source candidate using current public APIs. Existing text scanning and
+`ToolGuard` semantics stay intact. The [decision record](docs/decoded_json_design.md) compares
 the recipe with a values-only core option; the shared checker remains deferred until a
 concrete nested/multi-field caller requirement justifies it.
 

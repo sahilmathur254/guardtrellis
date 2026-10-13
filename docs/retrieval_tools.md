@@ -39,5 +39,8 @@ Synchronous scanning does not provide a hard execution deadline.
 Argument text scanners inspect serialized JSON characters. They do not recursively check
 decoded values, and escaped or encoded values can evade signatures. This example does not
 establish comprehensive PII redaction or safe tool execution. See the
+[decoded-query recipe](decoded_query.md) for a bounded application-owned check of one
+`search.query` string using the existing public APIs. It checks JSON escapes after decoding
+once and revalidates a fresh object before host authorization and execution. See also the
 [API contracts](api.md#json-and-tool-calls), [limitations](limitations.md), and
 [host resource controls](resource_limits.md).

@@ -5,6 +5,8 @@ This records the design decision for
 [#11](https://github.com/sahilmathur254/guardtrellis/issues/11).
 The `0.1.x` text scanners, `JSONScanner`, and `ToolGuard` keep their current behavior.
 The bounded recipe is scoped in [#41](https://github.com/sahilmathur254/guardtrellis/issues/41).
+Its [runnable guide](decoded_query.md) and [example](../examples/decoded_query.py) are included
+in the unpublished `0.1.3` source candidate.
 The general core contract below remains a proposal and requires a separate decision.
 
 ## Problem and concrete caller
@@ -258,8 +260,8 @@ general parser wrapper, async document deadline, or host adapter.
 
 **Acceptance criteria:**
 
-- Plain and escaped equivalent supported email/secret fixtures deliver identical checked
-  arguments; unsupported detector formats remain explicitly excluded.
+- Plain and escaped equivalent supported email/secret fixtures have equivalent policy
+  outcomes and identical checked arguments when accepted; unsupported formats remain excluded.
 - Unknown names, invalid/duplicate JSON, extra/wrong/oversized fields, non-finite values,
   unpaired input/replacement surrogates, scanner errors/malformed checks, and post-edit
   schema failures yield no actual dispatch or normal rejected payload.

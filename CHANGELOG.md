@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.3
+
+- Add a core-only decoded `search.query` recipe that checks equivalent plain/escaped
+  supported values using current public APIs, revalidates edited JSON, and dispatches
+  only final checked arguments after application authorization. Include bounded-input,
+  Unicode, scanner-failure, privacy, and no-dispatch tests and fresh distribution smokes.
+- Record the accepted recipe-first decoded-JSON decision. A shared nested/multi-field
+  checker remains deferred until a concrete caller need justifies a separate core API.
+
+No core runtime API, dependency, or detection-rule changes from `0.1.2`.
+This source candidate has not been published.
+
 ## 0.1.2
 
 - Document and regression-test async tool handoff after redaction, rejection, scanner
