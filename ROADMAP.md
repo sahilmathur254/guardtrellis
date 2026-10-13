@@ -8,7 +8,7 @@ contracts, failure behavior, and evidence for the formats they actually cover.
 The [public GitHub Project](https://github.com/users/sahilmathur254/projects/3) is the source
 of current status, priority, and ownership. This document explains direction and milestone
 exit criteria. Each linked issue contains its scope, starting files, acceptance criteria,
-and dependencies. Horizons are an order of work, not promised dates. Updated 2026-09-29.
+and dependencies. Horizons are an order of work, not promised dates. Updated 2026-10-13.
 
 The workstreams below are tracked on the Project in the agreed order. Design proposals and
 demand-led validation remain distinct from implementation-ready work; a tracking issue does
@@ -24,7 +24,10 @@ CI validates Python 3.11–3.14 on Linux and Python 3.12 on macOS 15 ARM64 and W
 [contributor guide](CONTRIBUTING.md) for the matrix and checks.
 
 As of this update, the latest release is
-[`0.1.1`](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.1).
+[`0.1.2`](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.2).
+It includes the policy/operations recipe, versioned policy/delivery evaluation, and async
+tool-handoff regression evidence. The decoded-JSON recipe-first decision is accepted;
+publication does not add decoded-value scanning to the current API.
 The [release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.0)
 documents the completed stable `0.1.0` publication and its verification evidence.
 The [0.1.x compatibility policy](docs/compatibility.md) now applies. Check
@@ -44,11 +47,12 @@ observed integration gaps over adding scanner families or framework wrappers for
 
 | Order | Workstream | Next outcome | Tracking |
 | --- | --- | --- | --- |
-| First | Structured values | Decide how to check decoded JSON strings without losing schema, privacy, or provenance guarantees. | Existing [#11](https://github.com/sahilmathur254/guardtrellis/issues/11); design before implementation |
-| In parallel | Evaluation and coverage | Broaden independent contributions and test combinations of checks, then use evidence to select small detector improvements. | [#29](https://github.com/sahilmathur254/guardtrellis/issues/29); Now, P1 |
-| In parallel | Integration recipes | Make policy ordering, checked-data handoff, and metadata-only operations easier to get right. | [#30](https://github.com/sahilmathur254/guardtrellis/issues/30); Now, P2 |
+| First | Structured values | Implement the accepted bounded decoded `search.query` recipe using current public APIs. | Design [#11](https://github.com/sahilmathur254/guardtrellis/issues/11); implementation [#41](https://github.com/sahilmathur254/guardtrellis/issues/41) |
+| Completed; follow-ups as needed | Evaluation and coverage | Use the retained policy/delivery baseline to identify independently authored cases and small supported-format improvements. | [#29](https://github.com/sahilmathur254/guardtrellis/issues/29) closed; shipped in `0.1.2` |
+| Completed; follow-ups as needed | Integration recipes | Build on the policy/operations recipe and async checked-tool handoff evidence for concrete caller gaps. | [#30](https://github.com/sahilmathur254/guardtrellis/issues/30) and [#34](https://github.com/sahilmathur254/guardtrellis/issues/34) closed; shipped in `0.1.2` |
 | After a concrete workflow is agreed | Local policy testing | Define a small CLI for running configured checks and inspecting outcomes outside application code. | [#31](https://github.com/sahilmathur254/guardtrellis/issues/31); Next, P2, design first |
 | As adopters need them | Optional provider coverage | Validate requested provider paths and add examples only for distinct integration behavior. | [#32](https://github.com/sahilmathur254/guardtrellis/issues/32); Later, P2 |
+| Later | Retrieval/tool policy research | Use sourced synthetic cases to decide which policies can be enforced and which controls remain host-owned. | [#35](https://github.com/sahilmathur254/guardtrellis/issues/35); Later, P2, design first |
 | Later | Streaming | Decide whether a bounded release model is useful and defensible for a named caller. | Existing [#12](https://github.com/sahilmathur254/guardtrellis/issues/12); exploratory |
 
 Maintain the current `0.1.x` series alongside this work. Patch fixes follow the existing
@@ -63,11 +67,13 @@ escaped JSON inputs with different detection outcomes. Applications using struct
 outputs or tool arguments need an explicit way to check decoded strings. This is the clearest
 existing coverage gap to investigate first; it does not imply that every encoding is supported.
 
-Use [#11](https://github.com/sahilmathur254/guardtrellis/issues/11) for the design decision.
-Compare a documented application recipe with an opt-in core API using a concrete caller
-example. Keep existing text scanning and `ToolGuard` semantics intact while evaluating both.
-The [decoded-JSON proposal](docs/decoded_json_design.md) defines a values-only option,
-its limits and alternatives; the maintainer decision remains pending.
+The maintainer accepted the recipe-first decision for
+[#11](https://github.com/sahilmathur254/guardtrellis/issues/11) on 2026-10-13.
+Implement the fixed-field recipe using current public APIs in separately scoped
+[#41](https://github.com/sahilmathur254/guardtrellis/issues/41). Keep existing text scanning and
+`ToolGuard` semantics intact. The [decision record](docs/decoded_json_design.md) compares
+the recipe with a values-only core option; the shared checker remains deferred until a
+concrete nested/multi-field caller requirement justifies it.
 
 **Design exit criteria:**
 
@@ -89,16 +95,19 @@ results to make the new behavior appear better.
 Starting points: [tool validation](src/guardtrellis/tools.py),
 [strict JSON checks](src/guardtrellis/json_check.py), and [API contracts](docs/api.md).
 
-## Next: stronger evaluation and targeted coverage
+## Completed batch and future evaluation contributions
 
-**Tracked in [#29](https://github.com/sahilmathur254/guardtrellis/issues/29).** The existing
+**Scoped batch completed in [#29](https://github.com/sahilmathur254/guardtrellis/issues/29)
+and published in `0.1.2`.** The [34-case policy/delivery evaluation](evaluation/policy_combinations/README.md)
+retains its mismatches and baseline; independently authored cases and detector changes remain
+possible future contributions and need separately scoped work. The existing
 corpora are development evidence. More fixtures alone do not make
 them independent or representative. Start with a bounded evaluation contribution, separate
 from any detector implementation.
 
-- Add benign and positive cases for secrets, JSON/tool behavior, and ordered scanner
-  combinations. Include redaction followed by another check, blocked input preventing a
-  callback, and rejection preventing tool dispatch.
+- Extend the retained cases for secrets, JSON/tool behavior, and ordered scanner
+  combinations when a new caller gap warrants it, keeping checked delivery and rejection
+  outcomes alongside detection results.
 - Seek independently authored cases and native-language review where language context
   affects the label. Record provenance, reviewer scope, and development versus held-out use;
   openly shared cases must not be described as a hidden independent test.
@@ -118,19 +127,21 @@ Existing text-policy evaluation can start independently. Decoded-value tests dep
 [challenge methodology](evaluation/challenges/README.md), and
 [resource harness](docs/resource_limits.md).
 
-## Next: practical policy and operations recipes
+## Completed policy and operations recipes
 
-**Tracked in [#30](https://github.com/sahilmathur254/guardtrellis/issues/30).** Extend the
-existing [retrieval/tool recipe](docs/retrieval_tools.md) with small,
-copyable examples of decisions that application developers currently have to assemble.
+**Completed in [#30](https://github.com/sahilmathur254/guardtrellis/issues/30), with async
+tool-handoff coverage in [#34](https://github.com/sahilmathur254/guardtrellis/issues/34);
+published in `0.1.2`.** The [policy/operations recipe](docs/policy_operations.md) builds on
+the [retrieval/tool recipe](docs/retrieval_tools.md) and demonstrates the following behaviors.
+Future examples should address a concrete caller problem and use a separately scoped issue.
 
-- Demonstrate different policies for input, retrieval, complete output, and tool arguments,
+- Demonstrates different policies for input, retrieval, complete output, and tool arguments,
   with blocking checks placed before redactors when they must inspect original content.
-- Show the behavior of `WARN`, `REDACT`, `BLOCK`, and `ERROR`, including consuming
+- Shows the behavior of `WARN`, `REDACT`, `BLOCK`, and `ERROR`, including consuming
   `require_text()` / `require_call()` results and avoiding accidental original-data reuse.
-- Add one metadata-only logging/metrics recipe using `diagnostics()`, with application-owned
+- Provides metadata-only logging/metrics using `diagnostics()`, with application-owned
   request IDs and no prompt, response, matched-value, or raw tool-argument logging.
-- Show host-owned concurrency limits and provider timeouts using the existing resource
+- Explains host-owned concurrency limits and provider timeouts using the existing resource
   guidance. Do not imply that cancelling an async wait terminates the underlying work.
 
 **Exit criteria:** each recipe has a specific caller problem, runs without credentials, and
@@ -138,7 +149,7 @@ includes rejection/error examples demonstrating the boundary it claims to enforc
 examples remain application-owned recipes, not new supported framework abstractions.
 Add optional dependencies only when a recipe needs them.
 
-This work can start on the current API. General decoded-value recipes should follow #11;
+The completed recipes use the current API. General decoded-value recipes should follow #11;
 do not quietly introduce a second structured-data contract through an example.
 
 ## Next: local policy testing interface

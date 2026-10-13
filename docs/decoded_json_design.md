@@ -1,9 +1,11 @@
-# Proposal: checking decoded JSON string values
+# Decoded JSON decision and deferred core proposal
 
-**Status: proposed, awaiting maintainer decision.** This is the design contribution for
-[#11](https://github.com/sahilmathur254/guardtrellis/issues/11), not an implemented API.
+**Status: recipe-first decision accepted on 2026-10-13; general core API deferred.**
+This records the design decision for
+[#11](https://github.com/sahilmathur254/guardtrellis/issues/11).
 The `0.1.x` text scanners, `JSONScanner`, and `ToolGuard` keep their current behavior.
-Implementation requires an accepted design and a separately scoped issue.
+The bounded recipe is scoped in [#41](https://github.com/sahilmathur254/guardtrellis/issues/41).
+The general core contract below remains a proposal and requires a separate decision.
 
 ## Problem and concrete caller
 
@@ -31,21 +33,54 @@ decoding does not add name recognition, arbitrary phone formats, or semantic inj
 
 ## Recommendation and alternatives
 
-Prefer a small, explicitly invoked **values-only checker** if the maintainer accepts this
-caller and the contract below. Keep it separate from text `Guard` and `ToolGuard`; a later
-tool adapter can compose it without silently changing existing serialized-text behavior.
-Do not introduce a policy language, recursive decoding framework, or automatic interception.
+Recommend an **application-owned fixed-field recipe on the current public API first**.
+The concrete caller above has one known `query` field; no confirmed nested/multi-field
+adopter requirement has been recorded in #11. A shared core values-only checker remains
+a possible later feature, rather than the next implementation commitment.
+
+If a shared checker becomes justified, keep it separate from text `Guard` and `ToolGuard`;
+a later tool adapter can compose it without silently changing existing serialized-text
+behavior. Do not introduce a policy language, recursive decoding framework, or automatic
+interception. The proposed general contract below remains subject to separate review.
 
 | Choice | Benefits | Costs and boundary |
 | --- | --- | --- |
-| Application-owned recipe for the named `query` field | Uses today's public API; application owns a narrow schema and handoff; no new public types. | Must first reject invalid/duplicate-key JSON, extract the intended field, scan it, build a fresh object, serialize, then revalidate and dispatch only that object. It needs its own bounded parser and error/provenance handling; importing private SDK helpers is not a supported recipe. |
+| Application-owned recipe for the named `query` field | Uses today's public API; application owns a narrow schema and handoff; no new public types. | Use a `ToolGuard` preflight without text policies for strict JSON/name/schema checks, then `Guard` on the decoded field, a fresh object, serialization, and final `ToolGuard` validation. The application must bound work, reject unpaired surrogates, handle failures, and preserve field provenance; no private parser helpers are needed for this fixed schema. |
 | Explicit core values-only checker | Shares parsing, traversal limits, all-or-nothing output, and decoded-value provenance across callers with nested structures. | Adds a new result/location contract, schema and serialization decisions, tests, and maintenance. Justified only if the shared guarantees are needed beyond one fixed field. |
 | Implicit decoding inside existing text scanners or `ToolGuard` | Fewer visible calls. | Changes existing offsets, ordering, output representation, and detection behavior. Reject this option for `0.1.x`. |
 
-The first option remains appropriate for a single fixed field. The recommendation for a
-shared checker is conditional on the maintainer confirming a nested/multi-field caller;
-absent that need, defer the API and scope a narrow public-API recipe instead. This document
-does not add a runnable workaround that appears to provide all these guarantees already.
+The first option serves the evidenced single-field scenario. Reconsider the shared checker
+when a named caller needs nested objects/arrays or multiple protected fields, and a comparison
+shows why application-owned handling is insufficient. Synthetic nested examples can test a
+design but do not themselves establish adopter demand. The decision adds no runtime feature;
+the separately scoped recipe uses existing public APIs.
+
+## Fixed-field feasibility evidence
+
+A local offline probe on 2026-10-10 used GuardTrellis `0.1.2` public imports only. It passed
+12 original synthetic cases: plain/escaped email equivalence, ordinary/escaped-equivalent
+duplicate names, wrong field type, extra field, oversized field, invalid JSON, unpaired
+surrogate, policy block, scanner exception, and schema rejection after an edit.
+The two accepted inputs produced the same `("search", {"query": "Contact [PII]"})` pair;
+each rejected case left the local dispatch recorder empty. Accepted-case repr/diagnostics
+and rejection messages were checked for the probe's synthetic canaries.
+
+The tested sequence was:
+
+1. Public `ToolGuard` with exact name `search`, a fixed object schema containing only a
+   required 1–200-character `query`, no argument text scanners, `max_chars=4096`, and
+   `max_depth=2`. Call `require_call()` before reading the decoded field. This preflight
+   checks shape and syntax; it has not applied the field's content policy.
+2. Reject unpaired surrogates in the decoded query. Run its ordered scanners through
+   `Guard.scan(..., stage=Stage.TOOL)` with `max_chars=200`; consume only `require_text()`.
+3. Reject unpaired replacement surrogates, build a fresh `{"query": checked_text}` object,
+   serialize it, and revalidate through the same `ToolGuard` before consuming its final
+   `require_call()` pair. Host authorization and dispatch follow that pair.
+
+This is narrow design feasibility evidence, not a shipped example, independent benchmark,
+complete boundary suite, or general structured-data implementation. The probe does not
+test nested traversal, cross-leaf ordering, all resource thresholds, or async document
+deadlines. Existing historical evaluation corpora and baselines remain unchanged.
 
 ## Proposed input, traversal, and policy contract
 
@@ -169,7 +204,7 @@ this is not a sanitizer for arbitrary configuration strings. No full mutable tre
 in the result, exception attributes, or repr. This is a logging boundary, not memory erasure:
 the caller and Python runtime may retain inputs, locals, and exception tracebacks.
 
-## Validation required before implementation is accepted
+## Validation required for a future core implementation
 
 | Case | Required observation |
 | --- | --- |
@@ -195,8 +230,51 @@ No performance threshold or production-capacity claim follows from the proposed 
 
 ## Decision record and versioning gate
 
-**Maintainer decision: pending.** Approval to contribute this proposal is not acceptance of
-the API. Review should record:
+**Maintainer decision: recipe-first accepted on 2026-10-13.** The maintainer confirmed the
+bounded single-field search scenario as the next contribution. No nested/multi-field adopter
+requirement has been established. The accepted decision is:
+
+| Decision | Accepted disposition |
+| --- | --- |
+| Immediate scope | Implement a fixed-field `search.query` recipe in #41, using current public APIs. |
+| General core API | Defer until a concrete nested/multi-field requirement and comparative evidence justify its maintenance cost. |
+| Current contracts | Preserve `Guard`, `JSONScanner`, `ToolGuard`, diagnostics, and serialized-text behavior. No implicit decoding or new public types. |
+| Versioning | The current-API recipe remains `0.1.x` work, prepared for unpublished `0.1.3`. If a structured core API is later accepted, review it at a `0.2.0` feature boundary; no publication or release date is authorized. |
+| General proposal | Retain values-only scope, scanner-major ordering, sync-only initial scope, numeric/Unicode semantics, aggregate budgets, and opaque provenance as review material, not accepted defaults. |
+
+The acceptance authorizes the recipe scoped in #41. It does not authorize a shared checker,
+implicit decoding in existing scanners, or broader nested/multi-field behavior. Reopen the
+core design question when a named caller requires those shared guarantees.
+
+### Accepted follow-up scope (#41)
+
+**Title:** Add a bounded decoded `search.query` recipe using public SDK APIs.
+
+**Scope:** one core-only, credential-free synchronous example plus documentation and
+behavior tests. Show public name/schema preflight, selected decoded-field scanning at TOOL,
+fresh-object serialization, final schema/name validation, and application authorization
+before a local dispatch recorder. Add no runtime API, provider dependency, nested traversal,
+general parser wrapper, async document deadline, or host adapter.
+
+**Acceptance criteria:**
+
+- Plain and escaped equivalent supported email/secret fixtures deliver identical checked
+  arguments; unsupported detector formats remain explicitly excluded.
+- Unknown names, invalid/duplicate JSON, extra/wrong/oversized fields, non-finite values,
+  unpaired input/replacement surrogates, scanner errors/malformed checks, and post-edit
+  schema failures yield no actual dispatch or normal rejected payload.
+- Positive dispatch consumes only the final checked pair after host authorization; a host
+  authorization denial invokes no tool. The preflight result is never used for dispatch.
+- Input, decoded field, transformed field, serialized output, and parser-depth bounds are
+  stated and tested at/below/above limits. Configuration limits are concrete, not capacity
+  claims; synchronous work has no hard deadline.
+- Repr, diagnostics, and rejection/error output exclude synthetic canary values and raw
+  exception messages. Field locations stay application-owned and distinct from wire offsets.
+- The example runs offline, ships in the source archive, participates in wheel/source
+  installation smokes, and passes the applicable repository checks. Retain existing corpora.
+
+The scoped implementation issue is [#41](https://github.com/sahilmathur254/guardtrellis/issues/41).
+If a later caller justifies the core option, its implementation issue must additionally record:
 
 - whether there is sufficient nested/multi-field caller need for a shared core checker, or
   whether to proceed only with the fixed-field recipe;
