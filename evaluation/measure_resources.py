@@ -348,13 +348,19 @@ def kill_and_reap(process):
 def run_case(case, *, wall_seconds=5.0, cpu_seconds=2, memory_mib=512):
     budget = min(wall_seconds, 1.0) if case.kind == "supervisor" else wall_seconds
     row = {"scenario": asdict(case), "wall_budget_seconds": budget, "status": "worker_error"}
+    executable = sys.executable
+    environment = child_environment()
+    if sys.platform == "win32":
+        # Like multiprocessing, supervise the interpreter rather than its venv launcher.
+        executable = sys._base_executable
+        environment["__PYVENV_LAUNCHER__"] = sys.executable
     with tempfile.TemporaryDirectory(prefix="guardtrellis-resource-") as directory:
         # Files avoid unbounded communicate() buffering; only bounded metadata is read back.
         with tempfile.TemporaryFile() as output, tempfile.TemporaryFile() as errors:
             before = time.perf_counter()
             process = subprocess.Popen(
                 [
-                    sys.executable,
+                    executable,
                     str(HERE),
                     "--worker",
                     case.name,
@@ -367,7 +373,7 @@ def run_case(case, *, wall_seconds=5.0, cpu_seconds=2, memory_mib=512):
                 stdout=output,
                 stderr=errors,
                 cwd=directory,
-                env=child_environment(),
+                env=environment,
                 start_new_session=os.name == "posix",
             )
             try:

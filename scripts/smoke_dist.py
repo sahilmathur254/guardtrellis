@@ -12,6 +12,13 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+CORE_EXAMPLES = (
+    "plain_callable.py",
+    "retrieval_tools.py",
+    "policy_operations.py",
+    "decoded_query.py",
+    "tool_result_handoff.py",
+)
 SMOKE = """
 from pathlib import Path
 import guardtrellis
@@ -78,13 +85,7 @@ def main() -> None:
             )
             subprocess.run(["uv", "pip", "check", "--python", str(python)], check=True)
             subprocess.run([str(python), "-I", "-c", SMOKE], cwd=work, check=True)
-            for filename in (
-                "plain_callable.py",
-                "retrieval_tools.py",
-                "policy_operations.py",
-                "decoded_query.py",
-                "tool_result_handoff.py",
-            ):
+            for filename in CORE_EXAMPLES:
                 example = work / filename
                 shutil.copyfile(ROOT / "examples" / filename, example)
                 subprocess.run([str(python), "-I", str(example)], cwd=work, check=True)
@@ -126,11 +127,7 @@ def main() -> None:
             )
             subprocess.run(["uv", "pip", "check", "--python", str(python)], check=True)
             for filename in (
-                "plain_callable.py",
-                "retrieval_tools.py",
-                "policy_operations.py",
-                "decoded_query.py",
-                "tool_result_handoff.py",
+                *CORE_EXAMPLES,
                 "fastapi_app.py",
                 "langgraph_app.py",
                 "openai_app.py",

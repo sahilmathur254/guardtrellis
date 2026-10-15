@@ -1,5 +1,9 @@
 # Changelog
 
+See [PyPI](https://pypi.org/project/guardtrellis/) for package availability and
+[GitHub releases](https://github.com/sahilmathur254/guardtrellis/releases) for published
+artifacts and verification evidence.
+
 ## 0.1.4
 
 - Add a core-only tool-result handoff recipe using the existing public API. Validate and
@@ -8,7 +12,6 @@
   original-return reuse, and fresh distribution installation coverage.
 
 No core runtime API, dependency-requirement, or detection-rule changes from `0.1.3`.
-This source candidate has not been published.
 
 ## 0.1.3
 
@@ -20,7 +23,6 @@ This source candidate has not been published.
   checker remains deferred until a concrete caller need justifies a separate core API.
 
 No core runtime API, dependency, or detection-rule changes from `0.1.2`.
-This source candidate has not been published.
 
 ## 0.1.2
 

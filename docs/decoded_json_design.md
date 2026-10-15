@@ -6,7 +6,7 @@ This records the design decision for
 The `0.1.x` text scanners, `JSONScanner`, and `ToolGuard` keep their current behavior.
 The bounded recipe is scoped in [#41](https://github.com/sahilmathur254/guardtrellis/issues/41).
 Its [runnable guide](decoded_query.md) and [example](../examples/decoded_query.py) are included
-in the unpublished `0.1.3` source candidate.
+in the [published `0.1.3` release](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.3).
 The general core contract below remains a proposal and requires a separate decision.
 
 ## Problem and concrete caller
@@ -241,7 +241,7 @@ requirement has been established. The accepted decision is:
 | Immediate scope | Implement a fixed-field `search.query` recipe in #41, using current public APIs. |
 | General core API | Defer until a concrete nested/multi-field requirement and comparative evidence justify its maintenance cost. |
 | Current contracts | Preserve `Guard`, `JSONScanner`, `ToolGuard`, diagnostics, and serialized-text behavior. No implicit decoding or new public types. |
-| Versioning | The current-API recipe remains `0.1.x` work, prepared for unpublished `0.1.3`. If a structured core API is later accepted, review it at a `0.2.0` feature boundary; no publication or release date is authorized. |
+| Versioning | At the 2026-10-13 decision, the current-API recipe was scoped for `0.1.3` in the `0.1.x` series; publication required separate approval. Any future structured core API needs review at a `0.2.0` feature boundary and a separate release decision. |
 | General proposal | Retain values-only scope, scanner-major ordering, sync-only initial scope, numeric/Unicode semantics, aggregate budgets, and opaque provenance as review material, not accepted defaults. |
 
 The acceptance authorizes the recipe scoped in #41. It does not authorize a shared checker,
