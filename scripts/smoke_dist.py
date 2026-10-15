@@ -83,6 +83,7 @@ def main() -> None:
                 "retrieval_tools.py",
                 "policy_operations.py",
                 "decoded_query.py",
+                "tool_result_handoff.py",
             ):
                 example = work / filename
                 shutil.copyfile(ROOT / "examples" / filename, example)
@@ -129,6 +130,7 @@ def main() -> None:
                 "retrieval_tools.py",
                 "policy_operations.py",
                 "decoded_query.py",
+                "tool_result_handoff.py",
                 "fastapi_app.py",
                 "langgraph_app.py",
                 "openai_app.py",
