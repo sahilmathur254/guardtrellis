@@ -2,6 +2,7 @@ import json
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 import pytest
 
@@ -54,13 +55,48 @@ def test_expensive_or_stuck_workers_are_bounded_and_reaped(name):
         assert row["status"] == "wall_timeout"
 
 
+def test_supervised_process_is_the_worker_and_preserves_the_environment(tmp_path, monkeypatch):
+    worker = tmp_path / "worker.py"
+    worker.write_text(
+        "import json, os, sys\n"
+        "import guardtrellis\n"
+        "print(json.dumps({'event': 'result', 'observation': {\n"
+        "    'action': 'allow', 'pid': os.getpid(), 'prefix': sys.prefix,\n"
+        "    'executable': sys.executable, 'version': guardtrellis.__version__,\n"
+        "}, 'resources': {}}))\n",
+        encoding="utf-8",
+    )
+    real_popen = subprocess.Popen
+    children = []
+
+    def popen(*args, **kwargs):
+        child = real_popen(*args, **kwargs)
+        children.append((child, Path(kwargs["cwd"])))
+        return child
+
+    monkeypatch.setattr(measurements, "HERE", worker)
+    monkeypatch.setattr(measurements.subprocess, "Popen", popen)
+    row = measurements.run_case(measurements.BY_NAME["text_at_limit"])
+    assert row["status"] == "completed", row
+    assert row["contract_matches"]
+    child, directory = children[0]
+    observation = row["observation"]
+    assert observation["pid"] == child.pid
+    assert observation["prefix"] == sys.prefix
+    assert observation["executable"] == sys.executable
+    assert observation["version"] == measurements.version("guardtrellis")
+    assert row["child_reaped"]
+    assert row["stderr_bytes"] == 0
+    assert not directory.exists()
+
+
 def test_parent_interrupt_kills_and_reaps_the_actual_child(monkeypatch):
     real_popen = subprocess.Popen
     children = []
 
     def popen(*args, **kwargs):
         child = real_popen(*args, **kwargs)
-        children.append(child)
+        children.append((child, Path(kwargs["cwd"])))
         real_wait = child.wait
         first_wait = True
 
@@ -78,11 +114,22 @@ def test_parent_interrupt_kills_and_reaps_the_actual_child(monkeypatch):
     with pytest.raises(KeyboardInterrupt):
         measurements.run_case(measurements.BY_NAME["supervisor_wall_timeout"])
     assert len(children) == 1
-    assert children[0].poll() is not None
+    child, directory = children[0]
+    assert child.poll() is not None
+    assert not directory.exists()
 
 
 def test_child_environment_does_not_inherit_credentials_or_python_hooks(monkeypatch):
-    for name in ("GEMINI_API_KEY", "OPENAI_API_KEY", "PYTHONPATH", "PYTHONSTARTUP", "HOME"):
+    for name in (
+        "GEMINI_API_KEY",
+        "OPENAI_API_KEY",
+        "PYTHONPATH",
+        "PYTHONSTARTUP",
+        "PYTHONHOME",
+        "PYTHONEXECUTABLE",
+        "__PYVENV_LAUNCHER__",
+        "HOME",
+    ):
         monkeypatch.setenv(name, "private-sentinel")
     env = measurements.child_environment()
     assert "private-sentinel" not in env.values()

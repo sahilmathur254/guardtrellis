@@ -55,8 +55,12 @@ and join them. A deliberate sleeping-worker case checks external termination and
 The wall budget is five seconds per child, including imports and setup after process
 creation. The supervisor self-check uses one second. Process creation and OS scheduling
 can delay enforcement; termination/reaping gets a separate five-second allowance. The
-parent kills the child's process group on POSIX, or the child on Windows. These fixed
-workers create threads, never nested processes. Ctrl-C and SIGTERM run the same cleanup;
+parent kills the child's process group on POSIX, or the interpreter on Windows. On Windows,
+it launches the base interpreter directly while preserving the current virtual environment,
+following [CPython's multiprocessing implementation](https://github.com/python/cpython/blob/3.12/Lib/multiprocessing/popen_spawn_win32.py).
+This avoids waiting on a virtual-environment launcher while its worker still holds the
+temporary working directory open. These fixed workers create threads, never nested processes.
+Ctrl-C and SIGTERM run the same cleanup;
 a killed parent or OS failure still requires an external supervisor. This is not a general
 process-tree sandbox. Python's [subprocess documentation](https://docs.python.org/3/library/subprocess.html#subprocess.Popen.wait)
 describes timeout and process-wait behavior.

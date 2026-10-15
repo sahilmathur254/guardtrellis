@@ -23,18 +23,18 @@ CI validates Python 3.11–3.14 on Linux and Python 3.12 on macOS 15 ARM64 and W
 2025 x64, including installation of both distribution formats. See the
 [contributor guide](CONTRIBUTING.md) for the matrix and checks.
 
-As of this update, the latest release is
-[`0.1.3`](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.3).
-It includes the policy/operations recipe, versioned policy/delivery evaluation, and async
-tool-handoff regression evidence, plus the bounded decoded-query recipe. The decoded-JSON
-recipe-first decision is accepted; publication does not add decoded-value scanning to the
-current API. The unpublished `0.1.4` source candidate adds a
+Check [PyPI](https://pypi.org/project/guardtrellis/) for current package availability and
+[GitHub releases](https://github.com/sahilmathur254/guardtrellis/releases) for publication
+and verification evidence. The policy/operations recipe, versioned policy/delivery evaluation,
+and async tool-handoff regression evidence shipped in `0.1.2`; the bounded decoded-query
+recipe shipped in `0.1.3`. The decoded-JSON recipe-first decision is accepted; publication
+does not add decoded-value scanning to the current API. The
 [checked tool-result handoff recipe](docs/tool_result_handoff.md) for
-[#44](https://github.com/sahilmathur254/guardtrellis/issues/44), using the existing API.
+[#44](https://github.com/sahilmathur254/guardtrellis/issues/44) shipped in `0.1.4`, using the
+existing API.
 The [release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.0)
 documents the completed stable `0.1.0` publication and its verification evidence.
-The [0.1.x compatibility policy](docs/compatibility.md) now applies. Check
-[PyPI](https://pypi.org/project/guardtrellis/) for current package availability.
+The [0.1.x compatibility policy](docs/compatibility.md) now applies.
 The [README](README.md) contains installation instructions matching this source checkout;
 merged source changes may precede publication.
 
@@ -50,7 +50,7 @@ observed integration gaps over adding scanner families or framework wrappers for
 
 | Order | Workstream | Next outcome | Tracking |
 | --- | --- | --- | --- |
-| Now | Tool-result handoff | Check returned tool text before the next model call or agent-state insertion, using the existing API. | [#44](https://github.com/sahilmathur254/guardtrellis/issues/44); unpublished `0.1.4` source candidate |
+| Completed; follow-ups as needed | Tool-result handoff | Use the checked tool-result recipe before the next model call or agent-state insertion, using the existing API. | [#44](https://github.com/sahilmathur254/guardtrellis/issues/44) closed; shipped in `0.1.4` |
 | Completed; shared API deferred | Structured values | Build on the bounded decoded `search.query` recipe shipped in `0.1.3`; require a concrete caller gap before a shared checker. | Design [#11](https://github.com/sahilmathur254/guardtrellis/issues/11); implementation [#41](https://github.com/sahilmathur254/guardtrellis/issues/41) closed |
 | Completed; follow-ups as needed | Evaluation and coverage | Use the retained policy/delivery baseline to identify independently authored cases and small supported-format improvements. | [#29](https://github.com/sahilmathur254/guardtrellis/issues/29) closed; shipped in `0.1.2` |
 | Completed; follow-ups as needed | Integration recipes | Build on the policy/operations recipe and async checked-tool handoff evidence for concrete caller gaps. | [#30](https://github.com/sahilmathur254/guardtrellis/issues/30) and [#34](https://github.com/sahilmathur254/guardtrellis/issues/34) closed; shipped in `0.1.2` |
