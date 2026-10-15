@@ -33,7 +33,10 @@ before installing optional integrations.
 
 This recipe checks retrieval and proposed tool calls. The host owns model/tool callback
 exceptions, identity, permissions, deadlines, execution budgets, and any checks on tool output
-before delivery. Callback exceptions propagate to the host; avoid logging their raw contents.
+before delivery. The [tool-result handoff recipe](tool_result_handoff.md) checks returned
+tool text at `Stage.RETRIEVAL` before another consumer, model prompt, or state insertion.
+It uses the current public APIs and does not add automatic interception. Callback exceptions
+in this retrieval/tool-call recipe propagate to the host; avoid logging their raw contents.
 Synchronous scanning does not provide a hard execution deadline.
 
 Argument text scanners inspect serialized JSON characters. They do not recursively check

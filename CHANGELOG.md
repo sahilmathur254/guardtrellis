@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.4
+
+- Add a core-only tool-result handoff recipe using the existing public API. Validate and
+  authorize the tool call, then check returned text before the next model or agent-state
+  consumer receives it. Include redaction, rejection, callback/scanner failure, privacy,
+  original-return reuse, and fresh distribution installation coverage.
+
+No core runtime API, dependency-requirement, or detection-rule changes from `0.1.3`.
+This source candidate has not been published.
+
 ## 0.1.3
 
 - Add a core-only decoded `search.query` recipe that checks equivalent plain/escaped

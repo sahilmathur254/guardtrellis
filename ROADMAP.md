@@ -8,7 +8,7 @@ contracts, failure behavior, and evidence for the formats they actually cover.
 The [public GitHub Project](https://github.com/users/sahilmathur254/projects/3) is the source
 of current status, priority, and ownership. This document explains direction and milestone
 exit criteria. Each linked issue contains its scope, starting files, acceptance criteria,
-and dependencies. Horizons are an order of work, not promised dates. Updated 2026-10-13.
+and dependencies. Horizons are an order of work, not promised dates. Updated 2026-10-15.
 
 The workstreams below are tracked on the Project in the agreed order. Design proposals and
 demand-led validation remain distinct from implementation-ready work; a tracking issue does
@@ -24,10 +24,13 @@ CI validates Python 3.11–3.14 on Linux and Python 3.12 on macOS 15 ARM64 and W
 [contributor guide](CONTRIBUTING.md) for the matrix and checks.
 
 As of this update, the latest release is
-[`0.1.2`](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.2).
+[`0.1.3`](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.3).
 It includes the policy/operations recipe, versioned policy/delivery evaluation, and async
-tool-handoff regression evidence. The decoded-JSON recipe-first decision is accepted;
-publication does not add decoded-value scanning to the current API.
+tool-handoff regression evidence, plus the bounded decoded-query recipe. The decoded-JSON
+recipe-first decision is accepted; publication does not add decoded-value scanning to the
+current API. The unpublished `0.1.4` source candidate adds a
+[checked tool-result handoff recipe](docs/tool_result_handoff.md) for
+[#44](https://github.com/sahilmathur254/guardtrellis/issues/44), using the existing API.
 The [release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.0)
 documents the completed stable `0.1.0` publication and its verification evidence.
 The [0.1.x compatibility policy](docs/compatibility.md) now applies. Check
@@ -47,7 +50,8 @@ observed integration gaps over adding scanner families or framework wrappers for
 
 | Order | Workstream | Next outcome | Tracking |
 | --- | --- | --- | --- |
-| First | Structured values | Review the bounded decoded `search.query` recipe in the unpublished `0.1.3` source candidate. | Design [#11](https://github.com/sahilmathur254/guardtrellis/issues/11); implementation [#41](https://github.com/sahilmathur254/guardtrellis/issues/41) |
+| Now | Tool-result handoff | Check returned tool text before the next model call or agent-state insertion, using the existing API. | [#44](https://github.com/sahilmathur254/guardtrellis/issues/44); unpublished `0.1.4` source candidate |
+| Completed; shared API deferred | Structured values | Build on the bounded decoded `search.query` recipe shipped in `0.1.3`; require a concrete caller gap before a shared checker. | Design [#11](https://github.com/sahilmathur254/guardtrellis/issues/11); implementation [#41](https://github.com/sahilmathur254/guardtrellis/issues/41) closed |
 | Completed; follow-ups as needed | Evaluation and coverage | Use the retained policy/delivery baseline to identify independently authored cases and small supported-format improvements. | [#29](https://github.com/sahilmathur254/guardtrellis/issues/29) closed; shipped in `0.1.2` |
 | Completed; follow-ups as needed | Integration recipes | Build on the policy/operations recipe and async checked-tool handoff evidence for concrete caller gaps. | [#30](https://github.com/sahilmathur254/guardtrellis/issues/30) and [#34](https://github.com/sahilmathur254/guardtrellis/issues/34) closed; shipped in `0.1.2` |
 | After a concrete workflow is agreed | Local policy testing | Define a small CLI for running configured checks and inspecting outcomes outside application code. | [#31](https://github.com/sahilmathur254/guardtrellis/issues/31); Next, P2, design first |
@@ -60,18 +64,18 @@ compatibility and changelog rules. New API surfaces need an explicit versioning 
 planned incompatible changes require migration guidance and a later minor release. These
 workstreams do not promise a `0.2.0` date or bundle every proposal into one release.
 
-## Next: decoded JSON values
+## Decoded JSON values: recipe shipped, shared API deferred
 
 The [Unicode/PII challenge set](evaluation/challenges/README.md) contains equivalent plain and
 escaped JSON inputs with different detection outcomes. Applications using structured model
-outputs or tool arguments need an explicit way to check decoded strings. This is the clearest
-existing coverage gap to investigate first; it does not imply that every encoding is supported.
+outputs or tool arguments need an explicit way to check decoded strings. The fixed-field
+recipe addresses one concrete caller; it does not imply that every encoding is supported.
 
 The maintainer accepted the recipe-first decision for
 [#11](https://github.com/sahilmathur254/guardtrellis/issues/11) on 2026-10-13.
 The [fixed-field recipe](docs/decoded_query.md), scoped in
-[#41](https://github.com/sahilmathur254/guardtrellis/issues/41), is implemented in the unpublished
-`0.1.3` source candidate using current public APIs. Existing text scanning and
+[#41](https://github.com/sahilmathur254/guardtrellis/issues/41), shipped in `0.1.3` using current
+public APIs. Existing text scanning and
 `ToolGuard` semantics stay intact. The [decision record](docs/decoded_json_design.md) compares
 the recipe with a values-only core option; the shared checker remains deferred until a
 concrete nested/multi-field caller requirement justifies it.

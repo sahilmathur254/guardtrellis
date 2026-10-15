@@ -12,21 +12,21 @@ The documented public API is supported across `0.1.x` under the
 Supported Python: 3.11–3.14. Apache-2.0 licensed.
 
 <!-- guardtrellis-release:start -->
-**Version: `0.1.3`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.3/)
+**Version: `0.1.4`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.4/)
 for availability and [release notes](https://github.com/sahilmathur254/guardtrellis/releases).
 A source checkout may describe a candidate that has not been published yet.
 
 Install this version in an activated virtual environment:
 
 ```sh
-python -m pip install 'guardtrellis==0.1.3'
+python -m pip install 'guardtrellis==0.1.4'
 ```
 
 An explicit version opts into a prerelease when applicable. Optional integrations:
-`'guardtrellis[fastapi]==0.1.3'`,
-`'guardtrellis[langgraph]==0.1.3'`,
-`'guardtrellis[openai]==0.1.3'`,
-`'guardtrellis[gemini]==0.1.3'`.
+`'guardtrellis[fastapi]==0.1.4'`,
+`'guardtrellis[langgraph]==0.1.4'`,
+`'guardtrellis[openai]==0.1.4'`,
+`'guardtrellis[gemini]==0.1.4'`.
 <!-- guardtrellis-release:end -->
 
 ## Included capabilities
@@ -39,6 +39,8 @@ An explicit version opts into a prerelease when applicable. Optional integration
   that carries checked text and validated arguments through both boundaries using core dependencies.
 - A [decoded-query recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/decoded_query.md)
   that checks one decoded `search.query` field before passing freshly validated arguments to a local callback.
+- A [tool-result handoff recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/tool_result_handoff.md)
+  that checks returned tool text before inserting it into agent state or passing it to another consumer.
 - A separate [40-case Unicode and PII development set](https://github.com/sahilmathur254/guardtrellis/blob/main/evaluation/challenges/README.md)
   with synthetic provenance, multilingual context, benign cases, and retained misses and false positives.
   The original 72-case smoke corpus and its historical results remain available.
@@ -138,6 +140,7 @@ uv run python examples/plain_callable.py
 uv run python examples/retrieval_tools.py   # Checked retrieval through a proposed tool call
 uv run python examples/policy_operations.py # Stage policies and metadata-only operations
 uv run python examples/decoded_query.py     # Checked decoded search query, including JSON escapes
+uv run python examples/tool_result_handoff.py # Checked tool return before the next consumer
 uv run python examples/fastapi_app.py       # Local TestClient demo, no server needed
 uv run python examples/langgraph_app.py     # Local graph, no provider credentials
 uv run python examples/openai_app.py        # Real SDK, in-memory HTTP mock by default
@@ -166,6 +169,11 @@ uses the existing public APIs to check a single decoded `search.query` string. I
 invalid original arguments before scanning, serializes a fresh checked object, validates it
 again, and authorizes the final call before local execution. It uses only core dependencies;
 it does not recursively scan arbitrary structured data or expand detector coverage.
+
+The [tool-result handoff recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/tool_result_handoff.md)
+validates and authorizes a call, executes it, then checks its returned text at `Stage.RETRIEVAL`
+before the next consumer receives it. It uses core dependencies and the current public APIs.
+The host must route every raw-return path through this check; it cannot undo execution side effects.
 
 FastAPI and LangGraph are optional extras (`.[fastapi]`, `.[langgraph]`). LangGraph input
 checks run **before** text enters graph state. The example also checks model output before

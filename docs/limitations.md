@@ -69,6 +69,14 @@ logs can expose it. Object repr suppression is not encryption or secure memory e
 Custom scanner names/codes must be static metadata, never raw content. Offsets/lengths can
 themselves reveal information. Do not log diagnostics where even such metadata is sensitive.
 
+Tool return values are a separate boundary from tool argument validation. Use an explicit
+`Stage.RETRIEVAL` check before inserting returned text into state, composing another prompt,
+or invoking another consumer, and pass only `require_text()` onward. The
+[tool-result handoff recipe](tool_result_handoff.md) demonstrates that ordering with current
+public APIs. Direct callbacks, caches, logging, tracing, and fallbacks that reuse the raw
+return can bypass it. The check cannot undo execution side effects or earlier data capture.
+Plain-text scanning does not recursively validate structured or non-text tool results.
+
 Custom scanners and callbacks are trusted code and may send data elsewhere. Libraries
 cannot prevent their side effects. Framework logging can precede validation. The FastAPI
 example hides request-validation echoes but is not a hardened service: add authentication,
