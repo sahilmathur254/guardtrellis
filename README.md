@@ -7,6 +7,8 @@
 A small Python SDK for local checks around model inputs, complete outputs, retrieved text,
 and proposed tool calls. Policies are explicit, composable, and independent of model providers.
 
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/guardtrellis?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/guardtrellis)
+
 The documented public API is supported across `0.1.x` under the
 [compatibility policy](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/compatibility.md).
 Supported Python: 3.11–3.14. Apache-2.0 licensed.
