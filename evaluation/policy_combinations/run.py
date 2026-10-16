@@ -5,14 +5,18 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import platform
 import re
+import statistics
 import sys
 import unicodedata
 from collections import Counter
 from datetime import UTC, datetime
 from importlib.metadata import version
+from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
+from time import perf_counter_ns
 
 import guardtrellis
 from guardtrellis import (
@@ -30,6 +34,11 @@ from guardtrellis import (
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 CORPUS = HERE / "policy_delivery_v1.jsonl"
+RECIPE_PATH = ROOT / "examples/decoded_query.py"
+RECIPE_SPEC = spec_from_file_location("evaluation_decoded_query_recipe", RECIPE_PATH)
+assert RECIPE_SPEC is not None and RECIPE_SPEC.loader is not None
+decoded_query = module_from_spec(RECIPE_SPEC)
+RECIPE_SPEC.loader.exec_module(decoded_query)
 FAMILIES = ("secrets", "json", "ordering", "delivery", "tool", "errors")
 PROFILES = {
     "secret_block": "scan",
@@ -42,6 +51,8 @@ PROFILES = {
     "two_redactions": "scan",
     "warning_then_block": "scan",
     "run_pii": "run",
+    "run_pii_warn": "run",
+    "run_pii_block": "run",
     "run_secret_input": "run",
     "run_secret_output": "run",
     "run_scanner_error": "run",
@@ -50,6 +61,8 @@ PROFILES = {
     "tool_pii_min_length": "tool",
     "tool_secret": "tool",
     "tool_scanner_error": "tool",
+    "tool_query_pii": "tool",
+    "decoded_query_pii": "decoded",
 }
 VALUE_SCHEMA = {
     "type": "object",
@@ -61,7 +74,24 @@ LONG_VALUE_SCHEMA = {
     **VALUE_SCHEMA,
     "properties": {"message": {"type": "string", "minLength": 6}},
 }
+QUERY_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "query": {"type": "string", "minLength": 1, "maxLength": decoded_query.MAX_QUERY_CHARS}
+    },
+    "required": ["query"],
+    "additionalProperties": False,
+}
 EXPECT_FIELDS = {"action", "accepted", "checked_text", "callback_inputs", "delivered", "dispatches"}
+OPTIONAL_EXPECT_FIELDS = {
+    "findings",
+    "trace",
+    "checked_json_valid",
+    "decoded_action",
+    "decoded_findings",
+    "decoded_trace",
+}
+OPTIONAL_PUBLIC_FIELDS = ("pair_id", "coverage_scope")
 PUBLIC_FIELDS = (
     "id",
     "family",
@@ -102,6 +132,11 @@ def policy(profile):
         return Guard(input_scanners=[InvisibleScanner(), SecretScanner()])
     if profile == "run_pii":
         return Guard(input_scanners=[pii], output_scanners=[PIIScanner()])
+    if profile in ("run_pii_warn", "run_pii_block"):
+        return Guard(
+            input_scanners=[PIIScanner(action=Action(profile.removeprefix("run_pii_")))],
+            output_scanners=[PIIScanner()],
+        )
     if profile == "run_secret_input":
         return Guard(input_scanners=[SecretScanner()])
     if profile == "run_secret_output":
@@ -110,6 +145,18 @@ def policy(profile):
         return Guard(input_scanners=[FailingScanner()])
     if profile == "run_callback_error":
         return Guard()
+    if profile == "tool_query_pii":
+        return ToolGuard(
+            {"search": QUERY_SCHEMA},
+            argument_scanners=[SecretScanner(), PIIScanner(formats=["email", "phone"])],
+            max_chars=decoded_query.MAX_JSON_CHARS,
+            max_depth=decoded_query.MAX_DEPTH,
+        )
+    if profile == "decoded_query_pii":
+        return Guard(
+            tool_scanners=[SecretScanner(), PIIScanner(formats=["email", "phone"])],
+            max_chars=decoded_query.MAX_QUERY_CHARS,
+        )
     if profile.startswith("tool_"):
         schema = LONG_VALUE_SCHEMA if profile.endswith("min_length") else VALUE_SCHEMA
         scanner = (
@@ -169,9 +216,7 @@ def load_cases(raw):
         expected = case.get("expected")
         if (
             not isinstance(expected, dict)
-            or not EXPECT_FIELDS
-            <= expected.keys()
-            <= EXPECT_FIELDS | {"findings", "trace", "checked_json_valid"}
+            or not EXPECT_FIELDS <= expected.keys() <= EXPECT_FIELDS | OPTIONAL_EXPECT_FIELDS
             or not isinstance(expected["action"], str)
             or expected["action"] not in {action.value for action in Action}
             or type(expected["accepted"]) is not bool
@@ -185,13 +230,30 @@ def load_cases(raw):
             and not isinstance(expected["delivered"], (str, dict))
             or any(
                 not isinstance(expected[key], list)
-                for key in ("findings", "trace")
+                for key in ("findings", "trace", "decoded_findings", "decoded_trace")
                 if key in expected
             )
             or expected.get("checked_json_valid") is not None
             and type(expected["checked_json_valid"]) is not bool
+            or expected.get("decoded_action") is not None
+            and (
+                not isinstance(expected["decoded_action"], str)
+                or expected["decoded_action"] not in {action.value for action in Action}
+            )
+            or case["profile"] != "decoded_query_pii"
+            and any(key.startswith("decoded_") for key in expected)
         ):
             raise ValueError(f"Invalid expectations in corpus row {number}")
+        if (
+            "pair_id" in case
+            and (
+                not isinstance(case["pair_id"], str)
+                or not re.fullmatch(r"[a-z0-9-]+", case["pair_id"])
+            )
+            or "coverage_scope" in case
+            and case["coverage_scope"] not in ("baseline", "proposed", "deferred", "benign")
+        ):
+            raise ValueError(f"Invalid pair or coverage scope in corpus row {number}")
         markers = case.get("privacy_markers")
         if (
             not isinstance(markers, list)
@@ -228,8 +290,128 @@ def contains_marker(value, markers):
     )
 
 
+def privacy_markers(case):
+    """Include bounded whole payloads as well as authored decoded/wire canaries.
+
+    Whole serialized JSON can retain noncanonical escapes that are absent from a
+    decoded email marker. Do not decode or normalize the payload to inspect it.
+    Very short values are excluded to avoid matching ordinary diagnostic metadata.
+    """
+    return list(
+        dict.fromkeys(
+            [
+                *case["privacy_markers"],
+                *(
+                    value
+                    for field in ("text", "response")
+                    if isinstance(value := case.get(field), str) and 8 <= len(value) <= 10_000
+                ),
+            ]
+        )
+    )
+
+
+def observe_decoded_query(case, guard):
+    """Observe the shipped recipe without assigning decoded spans to serialized text."""
+    decoded_results = []
+
+    class RecordedPolicy:
+        def scan(self, text, *, stage):
+            result = guard.scan(text, stage=stage)
+            decoded_results.append(result)
+            return result
+
+    handoff = None
+    rejection = ""
+    action_source = "handoff"
+    try:
+        handoff = decoded_query.check_query(
+            case.get("tool", "search"), case["text"], query_guard=RecordedPolicy()
+        )
+        result = handoff
+    except Rejected as error:
+        rejection = str(error)
+        if decoded_results and not decoded_results[-1].accepted:
+            result = decoded_results[-1]
+            action_source = "decoded-policy"
+        else:
+            # Recover a real SDK rejection for strict preflight failures. Recipe-owned
+            # postconditions have no SDK action: retain them as harness errors rather
+            # than inventing BLOCK/ERROR. Those cases are outside this comparison batch.
+            result = decoded_query.TOOLS.validate(case.get("tool", "search"), case["text"])
+            if result.accepted:
+                raise
+            action_source = "preflight"
+
+    decoded_result = decoded_results[-1] if decoded_results else None
+    decoded_diagnostics = decoded_result.diagnostics() if decoded_result else None
+    decoded_findings = decoded_diagnostics["findings"] if decoded_diagnostics else []
+    decoded_trace = decoded_diagnostics["trace"] if decoded_diagnostics else []
+    final_diagnostics = handoff.diagnostics() if handoff else result.diagnostics()
+    # A rejected decoded policy has no final serialized ToolResult. Do not put its
+    # decoded-string offsets in the ordinary serialized findings/trace fields.
+    final_findings = [] if action_source == "decoded-policy" else final_diagnostics["findings"]
+    final_trace = [] if action_source == "decoded-policy" else final_diagnostics["trace"]
+    dispatches = []
+    checked_text = None
+    delivered = None
+    checked_json_valid = None
+    if handoff is not None:
+        name, arguments = handoff.require_call()
+        assert name == "search"
+        dispatches.append(arguments)
+        checked_text = handoff.validation.text
+        delivered = arguments
+        checked_json_valid = Guard(input_scanners=[JSONScanner()]).scan(checked_text).accepted
+    diagnostics = {
+        "handoff": final_diagnostics if handoff else None,
+        "rejection": final_diagnostics if not handoff else None,
+        "decoded_query": decoded_diagnostics,
+    }
+    surfaces = {
+        "diagnostics_safe": diagnostics,
+        "repr_safe": [repr(result), *[repr(item) for item in decoded_results]],
+        "rejection_safe": rejection,
+    }
+    privacy = {
+        key: not contains_marker(value, privacy_markers(case)) for key, value in surfaces.items()
+    }
+    actual = {
+        "action": result.action.value,
+        "accepted": handoff is not None,
+        "checked_text": checked_text,
+        "callback_inputs": [],
+        "delivered": delivered,
+        "dispatches": dispatches,
+        "findings": final_findings,
+        "trace": final_trace,
+        "checked_json_valid": checked_json_valid,
+        "decoded_action": decoded_result.action.value if decoded_result else None,
+        "decoded_findings": decoded_findings,
+        "decoded_trace": decoded_trace,
+    }
+    return {
+        "observed_action": actual["action"],
+        "action_source": action_source,
+        "accepted": actual["accepted"],
+        "signal": bool(decoded_findings or final_findings),
+        "callback_count": 0,
+        "dispatch_count": len(dispatches),
+        "checked_text_available": checked_text is not None,
+        "delivered_available": delivered is not None,
+        "checked_json_valid": checked_json_valid,
+        "decoded_action": actual["decoded_action"],
+        "decoded_coordinate_space": "decoded-query-string",
+        "comparisons": {key: actual[key] == value for key, value in case["expected"].items()},
+        **privacy,
+        "diagnostics": diagnostics if privacy["diagnostics_safe"] else None,
+    }
+
+
 def observe(case):
     guard = policy(case["profile"])
+    if case["profile"] == "decoded_query_pii":
+        return observe_decoded_query(case, guard)
     callbacks, dispatches = [], []
 
     def callback(checked):
@@ -244,13 +426,14 @@ def observe(case):
         checked_text = result.input_result.text
         stages = [result.input_result, *([result.output_result] if result.output_result else [])]
     elif mode == "tool":
-        result = guard.validate(case.get("tool", "submit"), case["text"])
+        default_tool = "search" if case["profile"] == "tool_query_pii" else "submit"
+        result = guard.validate(case.get("tool", default_tool), case["text"])
         checked_text = result.validation.text
         stages = [result.validation]
         if result.accepted:
             name, arguments = result.require_call()
             # This synthetic application dispatches only checked data to a local recorder.
-            assert name == "submit"
+            assert name == ("search" if case["profile"] == "tool_query_pii" else "submit")
             dispatches.append(arguments)
     else:
         result = guard.scan(case["text"])
@@ -274,7 +457,7 @@ def observe(case):
         "rejection_safe": rejection,
     }
     privacy = {
-        key: not contains_marker(value, case["privacy_markers"]) for key, value in surfaces.items()
+        key: not contains_marker(value, privacy_markers(case)) for key, value in surfaces.items()
     }
     checked_json_valid = None
     if result.accepted and (mode == "tool" or case["profile"].startswith("json_")):
@@ -307,11 +490,32 @@ def observe(case):
     }
 
 
-def evaluate_cases(cases):
+def evaluate_cases(cases, iterations=1):
+    if type(iterations) is not int or not 1 <= iterations <= 1000:
+        raise ValueError("iterations must be between 1 and 1000")
     rows = []
     for case in cases:
+        samples = []
         try:
-            observed = observe(case)
+            observed = None
+            consistent = True
+            warmups = 3 if iterations > 1 else 0
+            for index in range(warmups + iterations):
+                before = perf_counter_ns()
+                current = observe(case)
+                elapsed = (perf_counter_ns() - before) / 1_000
+                if index >= warmups and iterations > 1:
+                    samples.append(elapsed)
+                if observed is not None and current != observed:
+                    consistent = False
+                observed = current
+            if not consistent:
+                observed = {
+                    "observed_action": "error",
+                    "harness_error": True,
+                    "inconsistent_observations": True,
+                    "comparisons": {},
+                }
         except Exception:
             # The exception may contain a payload. Record failure without rendering it.
             observed = {"observed_action": "error", "harness_error": True, "comparisons": {}}
@@ -324,6 +528,7 @@ def evaluate_cases(cases):
         rows.append(
             {
                 **{key: case[key] for key in PUBLIC_FIELDS},
+                **{key: case[key] for key in OPTIONAL_PUBLIC_FIELDS if key in case},
                 "expected_action": case["expected"]["action"],
                 **observed,
                 "outcome": outcome,
@@ -337,6 +542,7 @@ def evaluate_cases(cases):
                 ],
                 "unexpected_error": observed["observed_action"] == "error"
                 and case["expected"]["action"] != "error",
+                **({"latency_us": samples} if iterations > 1 else {}),
             }
         )
     return rows
@@ -345,7 +551,7 @@ def evaluate_cases(cases):
 def summarize(rows):
     outcomes = Counter(row["outcome"] for row in rows)
     actions = Counter(row["observed_action"] for row in rows)
-    return {
+    summary = {
         "cases": len(rows),
         "positive_cases": sum(row["expected_signal"] for row in rows),
         "negative_cases": sum(not row["expected_signal"] for row in rows),
@@ -371,9 +577,17 @@ def summarize(rows):
         "callbacks": sum(row.get("callback_count", 0) for row in rows),
         "dispatches": sum(row.get("dispatch_count", 0) for row in rows),
     }
+    latencies = sorted(sample for row in rows for sample in row.get("latency_us", []))
+    if latencies:
+        summary.update(
+            latency_p50_us=statistics.median(latencies),
+            latency_p95_us=latencies[math.ceil(len(latencies) * 0.95) - 1],
+            timed_observations=len(latencies),
+        )
+    return summary
 
 
-def build_report(cases, raw, rows):
+def build_report(cases, raw, rows, iterations=1):
     source_hash = hashlib.sha256()
     for path in sorted(Path(guardtrellis.__file__).parent.glob("*.py")):
         source_hash.update(path.name.encode("utf-8") + b"\0" + path.read_bytes())
@@ -400,7 +614,31 @@ def build_report(cases, raw, rows):
         "dispatch recorders only. No decoded JSON-value scanning, network calls "
         "or performance claims.",
     }
-    return {
+    expanded_profiles = {"run_pii_warn", "run_pii_block", "tool_query_pii", "decoded_query_pii"}
+    expanded = any(case["profile"] in expanded_profiles for case in cases)
+    if expanded:
+        metadata.update(
+            report_schema=2,
+            recipe_sha256=hashlib.sha256(RECIPE_PATH.read_bytes()).hexdigest(),
+            policy="Fixed named synchronous profiles in run.py; local synthetic callbacks "
+            "and dispatch recorders only. Raw query ToolGuard and configured decoded-query "
+            "recipe use SecretScanner then PII email/phone; the shipped recipe default "
+            "covers secrets/email. Decoded finding offsets are separate from serialized "
+            "handoff offsets. No network calls or general accuracy claims.",
+        )
+    if iterations > 1:
+        metadata.update(
+            report_schema=2,
+            executions_per_case=iterations + 3,
+            warmups_per_case=3,
+            timed_iterations_per_case=iterations,
+            iteration_limit=1000,
+            timing_scope="Setup-inclusive synchronous observations: policy construction, "
+            "SDK/recipe checks, local callbacks, exact comparisons and privacy checks. "
+            "Microseconds from perf_counter_ns; short synthetic inputs on this host, "
+            "not scanner-only timing, capacity evidence or a deadline guarantee.",
+        )
+    report = {
         "metadata": metadata,
         "overall": summarize(rows),
         "families": {
@@ -410,6 +648,13 @@ def build_report(cases, raw, rows):
         },
         "cases": rows,
     }
+    if expanded or iterations > 1:
+        for field in ("profile", "format", "coverage_scope"):
+            report[field + "s"] = {
+                value: summarize([row for row in rows if row.get(field) == value])
+                for value in sorted({row[field] for row in rows if field in row})
+            }
+    return report
 
 
 def markdown(report):
@@ -443,6 +688,46 @@ def markdown(report):
             f"| {data['expected_errors']}/{data['unexpected_errors']} "
             f"| {data['mismatched_cases']} |"
         )
+    if "recipe_sha256" in meta:
+        lines += [
+            "",
+            f"recipe_sha256: `{meta['recipe_sha256']}`.",
+            "Decoded recipe signals use the captured decoded query policy result;",
+            "the final serialized handoff can be ALLOW after decoded redaction.",
+            "Decoded offsets are half-open Python character indices in the query string",
+            "and are never merged into serialized ToolResult finding coordinates.",
+        ]
+    if "timing_scope" in meta:
+        lines += [
+            "",
+            "## Local observation timing",
+            "",
+            f"{meta['warmups_per_case']} warmups and {meta['timed_iterations_per_case']} "
+            f"timed iterations per case; maximum {meta['iteration_limit']} timed iterations.",
+            meta["timing_scope"],
+            "",
+            "| Profile | Timed observations | p50 µs | p95 µs |",
+            "| --- | --- | --- | --- |",
+        ]
+        for profile, group in report["profiles"].items():
+            if "timed_observations" in group:
+                lines.append(
+                    f"| {profile} | {group['timed_observations']} | "
+                    f"{group['latency_p50_us']:.2f} | {group['latency_p95_us']:.2f} |"
+                )
+    if "profiles" in report:
+        lines += [
+            "",
+            "## Coverage by profile",
+            "",
+            "| Profile | Cases | TP | FP | TN | FN | Mismatches |",
+            "| --- | --- | --- | --- | --- | --- | --- |",
+        ]
+        for profile, group in report["profiles"].items():
+            lines.append(
+                f"| {profile} | {group['cases']} | {group['tp']} | {group['fp']} | "
+                f"{group['tn']} | {group['fn']} | {group['mismatched_cases']} |"
+            )
     lines += [
         "",
         "## Actions and delivery",
@@ -499,7 +784,10 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--corpus", type=Path, default=CORPUS)
     parser.add_argument("--report-dir", type=Path, required=True)
+    parser.add_argument("--iterations", type=int, default=1)
     args = parser.parse_args(argv)
+    if not 1 <= args.iterations <= 1000:
+        parser.error("iterations must be between 1 and 1000")
     if args.report_dir.exists():
         parser.error("report directory already exists; choose a new directory to retain prior runs")
     try:
@@ -513,7 +801,7 @@ def main(argv=None):
             if isinstance(error, OSError | UnicodeError)
             else str(error)
         )
-    report = build_report(cases, raw, evaluate_cases(cases))
+    report = build_report(cases, raw, evaluate_cases(cases, args.iterations), args.iterations)
     args.report_dir.mkdir(parents=True, exist_ok=False)
     (args.report_dir / "REPORT.md").write_text(markdown(report), encoding="utf-8")
     (args.report_dir / "results.json").write_text(
