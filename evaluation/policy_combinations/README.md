@@ -1,5 +1,9 @@
 # Policy combinations and delivery, v1
 
+For the separate escaped-JSON and phone-format batch, see
+[Detection coverage v1](DETECTION_COVERAGE.md). It reuses this harness with a new corpus,
+explicit decoded-query policies, and its own baseline; the 34-case evidence below is retained.
+
 This separate development corpus addresses
 [#29](https://github.com/sahilmathur254/guardtrellis/issues/29) with 34 original,
 AI-assisted synthetic fixtures. Authorship used Codex assistance and knowledge of the

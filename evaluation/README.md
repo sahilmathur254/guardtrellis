@@ -99,3 +99,9 @@ payload-safe diagnostic/error surfaces. It records intended delivery comparisons
 detection outcomes without changing these historical corpora or baselines. A successful
 harness exit does not mean all scenario expectations passed; retained misses, false positives,
 and action/delivery mismatches must be read in its reports.
+
+The [detection coverage v1 batch](policy_combinations/DETECTION_COVERAGE.md), tracked in
+[#59](https://github.com/sahilmathur254/guardtrellis/issues/59), compares raw text,
+serialized JSON, and the existing decoded-query recipe before detector changes. It adds
+phone-format variation, benign lookalikes, and complete-redaction/delivery expectations.
+Its corpus and baseline are separate from the historical reports above.

@@ -57,6 +57,11 @@ jobs:
         run: |
           uv run --frozen python evaluation/policy_combinations/run.py \
             --report-dir '${{ runner.temp }}/guardtrellis-policy-combinations'
+      - name: Reproduce escaped-JSON and phone detection coverage
+        run: |
+          uv run --frozen python evaluation/policy_combinations/run.py \
+            --corpus evaluation/policy_combinations/detection_coverage_v1.jsonl \
+            --report-dir '${{ runner.temp }}/guardtrellis-detection-coverage'
       - name: Build and install both distributions outside the checkout
         run: |
           uv build
