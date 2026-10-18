@@ -330,7 +330,7 @@ def source_metadata(corpus):
         "dataset_version": "contact-workflow-v1",
         "usage": "authored-development-only",
         "sha256": {
-            str(path.relative_to(ROOT))
+            path.relative_to(ROOT).as_posix()
             if path.is_relative_to(ROOT)
             else "external_corpus": hashlib.sha256(path.read_bytes()).hexdigest()
             for path in paths

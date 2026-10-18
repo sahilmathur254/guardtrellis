@@ -174,6 +174,7 @@ def test_actual_cli_reports_source_hashes_and_refuses_existing_output(tmp_path):
     evidence = json.loads(before)
     assert evidence["metadata"]["usage"] == "authored-development-only"
     assert "examples/decoded_contact.py" in evidence["metadata"]["sha256"]
+    assert all("\\" not in key for key in evidence["metadata"]["sha256"])
     assert evidence["summary"]["contact_helper"]["known_limit_mismatches"] == 2
     second = subprocess.run(command, text=True, capture_output=True, check=False)
     assert second.returncode == 2
