@@ -4,6 +4,22 @@ See [PyPI](https://pypi.org/project/guardtrellis/) for package availability and
 [GitHub releases](https://github.com/sahilmathur254/guardtrellis/releases) for published
 artifacts and verification evidence.
 
+## 0.1.5
+
+- Add an application-owned decoded contact recipe for a fixed two-field schema using
+  existing public APIs. Check both decoded fields for secrets before PII redaction,
+  enforce whole-call limits, retain separate decoded provenance, and authorize only the
+  final schema-validated checked arguments. Include regression and fresh-install smokes.
+- Add a separate authored contact comparison and the retained 63-case escaped-JSON/phone
+  development baseline. Keep raw-text misses, formatted-phone limitations and exact-delivery
+  mismatches visible; these evaluations do not establish general detection accuracy.
+- Fix Windows temporary-directory cleanup in the resource evaluation worker and simplify
+  distribution smoke setup. Add a PyPI download badge outside the generated release block.
+
+No core runtime API, dependency-requirement, default-policy, or detection-rule changes from
+`0.1.4`. Applications must explicitly adopt the contact recipe; upgrading alone does not
+enable decoded-value inspection. Formatted-phone coverage remains a separate follow-up.
+
 ## 0.1.4
 
 - Add a core-only tool-result handoff recipe using the existing public API. Validate and

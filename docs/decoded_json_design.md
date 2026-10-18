@@ -1,6 +1,7 @@
 # Decoded JSON decision and deferred core proposal
 
-**Status: recipe-first decision accepted on 2026-10-13; general core API deferred.**
+**Status: recipe-first decision accepted on 2026-10-13; bounded contact follow-up
+accepted on 2026-10-18; general core API deferred.**
 This records the design decision for
 [#11](https://github.com/sahilmathur254/guardtrellis/issues/11).
 The `0.1.x` text scanners, `JSONScanner`, and `ToolGuard` keep their current behavior.
@@ -8,6 +9,9 @@ The bounded recipe is scoped in [#41](https://github.com/sahilmathur254/guardtre
 Its [runnable guide](decoded_query.md) and [example](../examples/decoded_query.py) are included
 in the [published `0.1.3` release](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.3).
 The general core contract below remains a proposal and requires a separate decision.
+The accepted [#50](https://github.com/sahilmathur254/guardtrellis/issues/50) follow-up
+compares a fixed two-field contact helper with the existing recipe; its
+[guide](decoded_contact.md) records the selected limits and checked handoff.
 
 ## Problem and concrete caller
 
@@ -33,7 +37,7 @@ not evidence of an external adopter or a requirement to intercept every tool inv
 It closes a representation gap for configured scanners, not the detectors' format gaps:
 decoding does not add name recognition, arbitrary phone formats, or semantic injection detection.
 
-## Recommendation and alternatives
+## Original recommendation and alternatives (2026-10-13)
 
 Recommend an **application-owned fixed-field recipe on the current public API first**.
 The concrete caller above has one known `query` field; no confirmed nested/multi-field
@@ -83,6 +87,49 @@ This is narrow design feasibility evidence, not a shipped example, independent b
 complete boundary suite, or general structured-data implementation. The probe does not
 test nested traversal, cross-leaf ordering, all resource thresholds, or async document
 deadlines. Existing historical evaluation corpora and baselines remain unchanged.
+
+## Accepted contact comparison (#50)
+
+**Maintainer decision: accepted on 2026-10-18.** After reviewing the versioned
+[escaped-JSON and phone baseline](../evaluation/policy_combinations/DETECTION_COVERAGE.md),
+the maintainer approved a second application-owned recipe before any SDK changes.
+The 12 raw serialized JSON cases retained six detection misses and six exact-outcome
+mismatches; the 12 configured decoded-query cases retained two of each. Those remaining
+misses are formatted-phone cases tracked separately in
+[#60](https://github.com/sahilmathur254/guardtrellis/issues/60). This authored development
+set supports a bounded comparison, not a general detection-accuracy claim.
+
+The selected helper is synchronous `check_contact` in
+[`examples/decoded_contact.py`](../examples/decoded_contact.py), using current public SDK
+APIs. Its exact tool name is `contact`; its object has only required nonempty `email`
+and `phone` strings, at most 254 and 64 Python characters respectively. These constraints
+validate shape and size, not email-address or phone-number validity. No adopter demand
+for a general structured-data API is established by adding this synthetic caller.
+
+| Decision | Accepted contact scope |
+| --- | --- |
+| Parsing and schema | One JSON decoding layer, strict decoded-key duplicate rejection, no extra fields, preflight schema/name validation, and rejection of unpaired surrogates. Literal backslash sequences are not decoded again. |
+| Fixed content policy | Secret checks on both original decoded fields before PII checks on either field; PII checks select the current email and contiguous international-phone patterns. Every invocation uses `Stage.TOOL`. No arbitrary scanner list or decoder configuration. |
+| Whole-call bounds | 4,096 input/output characters, depth two, 318 aggregate decoded characters before and after edits, four scanner calls, 1,024 cumulative scanned characters, and 16 findings. Field limits are rechecked after each scanner result. Overflow rejects the complete call. |
+| Checked delivery | Build fresh arguments from accepted checked values, revalidate the schema and serialized output, then authorize and execute only the final `require_call()` pair. Rejection or failure prevents dispatch; no partial value or original-argument fallback. |
+| Metadata | Keep opaque field IDs, pass indices, decoded revisions and decoded-string offsets separate from wire validation. Preserve aggregate REDACT even when final `ToolResult` validation reports ALLOW. Diagnostics omit payloads. |
+| Versioning | Current-API recipes, evaluation and documentation fit a `0.1.5` patch candidate; they do not change SDK detection behavior. A shared structured-data SDK API remains deferred to a separately reviewed `0.2.0` boundary. |
+
+The [contact guide](decoded_contact.md) provides the implementation contract and offline
+reproduction. Acceptance tests must cover plain/escaped equivalence, secret blocking,
+benign literal escapes, Unicode, duplicates, all limits, transformed-value/schema failures,
+and zero dispatch on rejection. Preserve historical baselines and add a separate comparison;
+retain #60's unsupported formatted-phone misses rather than relabelling them.
+
+Nested traversal, key scanning, new encodings, detector grammar changes, async document
+deadlines, and a shared SDK abstraction are outside this batch. The fixed synchronous
+counters do not impose a hard execution deadline. The general requirements below remain
+proposal material, including their larger configurable defaults; they are not the contact
+helper's contract.
+
+The separately scoped implementation issue is
+[#62](https://github.com/sahilmathur254/guardtrellis/issues/62). Acceptance of this design
+does not itself establish completed implementation, merged code, or publication.
 
 ## Proposed input, traversal, and policy contract
 
@@ -244,11 +291,11 @@ requirement has been established. The accepted decision is:
 | Versioning | At the 2026-10-13 decision, the current-API recipe was scoped for `0.1.3` in the `0.1.x` series; publication required separate approval. Any future structured core API needs review at a `0.2.0` feature boundary and a separate release decision. |
 | General proposal | Retain values-only scope, scanner-major ordering, sync-only initial scope, numeric/Unicode semantics, aggregate budgets, and opaque provenance as review material, not accepted defaults. |
 
-The acceptance authorizes the recipe scoped in #41. It does not authorize a shared checker,
-implicit decoding in existing scanners, or broader nested/multi-field behavior. Reopen the
+The 2026-10-13 acceptance authorizes the recipe scoped in #41. It does not authorize a
+shared checker, implicit decoding in existing scanners, or broader nested/multi-field behavior. Reopen the
 core design question when a named caller requires those shared guarantees.
 
-### Accepted follow-up scope (#41)
+### Accepted 2026-10-13 follow-up scope (#41)
 
 **Title:** Add a bounded decoded `search.query` recipe using public SDK APIs.
 

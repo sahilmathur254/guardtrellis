@@ -80,10 +80,10 @@ Tests run against the installed editable package. Optional example tests skip wh
 are absent; the CI matrix installs all extras, so those tests must run there. Distribution
 smokes install the wheel and source archive in fresh temporary environments outside this
 directory, verify core installs exclude frameworks, provider SDKs, and HTTP clients, and
-run the five core examples (`plain_callable`, `retrieval_tools`, `policy_operations`,
-`decoded_query`, and `tool_result_handoff`). They then install only the OpenAI extra and
-execute both OpenAI examples without legacy HTTPX. Finally,
-they install all extras and execute all ten examples against each installed artifact. The
+run the six core examples (`plain_callable`, `retrieval_tools`, `policy_operations`,
+`decoded_query`, `decoded_contact`, and `tool_result_handoff`). They then install only the
+OpenAI extra and execute both OpenAI examples without legacy HTTPX. Finally,
+they install all extras and execute all eleven examples against each installed artifact. The
 OpenAI, Azure, and Gemini examples use in-memory HTTP mocks, including when credentials
 exist in the environment. See the
 [OpenAI](docs/openai.md), [Azure](docs/azure_openai.md), and [Gemini](docs/gemini.md) guides
@@ -100,7 +100,7 @@ The CI matrix covers these combinations:
 | Windows Server 2025 (`windows-2025`) | x64 | 3.12 |
 
 Every combination runs the full tests with extras, lint/format/type checks, the synthetic
-evaluation, and fresh wheel/sdist installation checks with all ten examples. Each job has
+evaluation, and fresh wheel/sdist installation checks with all eleven examples. Each job has
 a 15-minute limit; failures do not cancel the other matrix jobs. Bash runs workflow commands
 on all runners so a failed command stops its step; Python and its subprocesses run natively
 on each OS. The macOS and Windows jobs initially cover one Python version each.
