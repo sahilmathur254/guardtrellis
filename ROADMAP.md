@@ -8,7 +8,7 @@ contracts, failure behavior, and evidence for the formats they actually cover.
 The [public GitHub Project](https://github.com/users/sahilmathur254/projects/3) is the source
 of current status, priority, and ownership. This document explains direction and milestone
 exit criteria. Each linked issue contains its scope, starting files, acceptance criteria,
-and dependencies. Horizons are an order of work, not promised dates. Updated 2026-10-15.
+and dependencies. Horizons are an order of work, not promised dates. Updated 2026-10-18.
 
 The workstreams below are tracked on the Project in the agreed order. Design proposals and
 demand-led validation remain distinct from implementation-ready work; a tracking issue does
@@ -52,6 +52,8 @@ observed integration gaps over adding scanner families or framework wrappers for
 | --- | --- | --- | --- |
 | Completed; follow-ups as needed | Tool-result handoff | Use the checked tool-result recipe before the next model call or agent-state insertion, using the existing API. | [#44](https://github.com/sahilmathur254/guardtrellis/issues/44) closed; shipped in `0.1.4` |
 | Completed; shared API deferred | Structured values | Build on the bounded decoded `search.query` recipe shipped in `0.1.3`; require a concrete caller gap before a shared checker. | Design [#11](https://github.com/sahilmathur254/guardtrellis/issues/11); implementation [#41](https://github.com/sahilmathur254/guardtrellis/issues/41) closed |
+| Accepted design; bounded implementation | Escaped JSON contact workflow | Compare a fixed two-field application helper against the existing recipe, with whole-call budgets and checked delivery; keep SDK behavior unchanged. | Design [#50](https://github.com/sahilmathur254/guardtrellis/issues/50) accepted 2026-10-18; implementation [#62](https://github.com/sahilmathur254/guardtrellis/issues/62) |
+| Baseline complete; further contributions remain | Detection coverage evidence | Use the versioned escaped-JSON/phone batch to separate representation gaps from unsupported detector formats. | [#59](https://github.com/sahilmathur254/guardtrellis/issues/59) closed; broader methodology [#45](https://github.com/sahilmathur254/guardtrellis/issues/45) remains open |
 | Completed; follow-ups as needed | Evaluation and coverage | Use the retained policy/delivery baseline to identify independently authored cases and small supported-format improvements. | [#29](https://github.com/sahilmathur254/guardtrellis/issues/29) closed; shipped in `0.1.2` |
 | Completed; follow-ups as needed | Integration recipes | Build on the policy/operations recipe and async checked-tool handoff evidence for concrete caller gaps. | [#30](https://github.com/sahilmathur254/guardtrellis/issues/30) and [#34](https://github.com/sahilmathur254/guardtrellis/issues/34) closed; shipped in `0.1.2` |
 | After a concrete workflow is agreed | Local policy testing | Define a small CLI for running configured checks and inspecting outcomes outside application code. | [#31](https://github.com/sahilmathur254/guardtrellis/issues/31); Next, P2, design first |
@@ -64,7 +66,7 @@ compatibility and changelog rules. New API surfaces need an explicit versioning 
 planned incompatible changes require migration guidance and a later minor release. These
 workstreams do not promise a `0.2.0` date or bundle every proposal into one release.
 
-## Decoded JSON values: recipe shipped, shared API deferred
+## Decoded JSON values: contact follow-up accepted, shared API deferred
 
 The [Unicode/PII challenge set](evaluation/challenges/README.md) contains equivalent plain and
 escaped JSON inputs with different detection outcomes. Applications using structured model
@@ -80,7 +82,32 @@ public APIs. Existing text scanning and
 the recipe with a values-only core option; the shared checker remains deferred until a
 concrete nested/multi-field caller requirement justifies it.
 
-**Design exit criteria:**
+After reviewing the [versioned escaped-JSON/phone baseline](evaluation/policy_combinations/DETECTION_COVERAGE.md),
+the maintainer accepted [#50](https://github.com/sahilmathur254/guardtrellis/issues/50)'s
+next slice on 2026-10-18: the application-owned synchronous
+[contact helper](docs/decoded_contact.md), scoped separately in
+[#62](https://github.com/sahilmathur254/guardtrellis/issues/62). It allows exactly required
+`email` and `phone` strings, runs secret checks on both before either reaches PII redaction,
+shares work/findings budgets, and dispatches only the final checked pair after authorization.
+The separate [contact comparison](evaluation/decoded_contact/README.md) retains failures
+and compares the raw, existing-recipe, and contact-helper paths on the same meanings.
+
+This recipe, documentation and evaluation are scoped for a `0.1.5` patch candidate using
+current public APIs. They do not change SDK detector behavior or establish publication.
+Formatted-phone grammar improvements remain separate
+[#60](https://github.com/sahilmathur254/guardtrellis/issues/60) work; broader methodology
+[#45](https://github.com/sahilmathur254/guardtrellis/issues/45) also remains open. The
+shared structured-data SDK API still needs its own contract decision at a proposed `0.2.0`
+boundary. A synthetic two-field example alone does not justify that abstraction.
+
+**Contact implementation exit criteria:** plain/escaped checked-delivery equivalence,
+secret blocking across fields before redaction, strict input/post-edit schemas, Unicode
+and literal-escape behavior, whole-call limit regressions, payload-free diagnostics, zero
+dispatch on rejection, preserved historical baselines, and native Windows CI alongside
+the existing platform matrix. Design approval and implementation evidence remain distinct
+from merge and release evidence.
+
+**General core design exit criteria:**
 
 - Specify whether values, keys, nested objects, and arrays are checked; bound total work,
   nesting, string sizes, and findings. Define handling of non-string values explicitly.
@@ -93,7 +120,7 @@ concrete nested/multi-field caller requirement justifies it.
 - Show that callers consume only checked values and that errors expose no ordinary payload.
   Record a maintainer decision on recipe versus API and the compatibility impact.
 
-**Implementation gate:** an accepted design and a separately scoped implementation issue.
+**General core implementation gate:** an accepted design and a separately scoped implementation issue.
 Retain the current challenge corpus and add new comparison evidence; do not rewrite historical
 results to make the new behavior appear better.
 
@@ -109,6 +136,12 @@ possible future contributions and need separately scoped work. The existing
 corpora are development evidence. More fixtures alone do not make
 them independent or representative. Start with a bounded evaluation contribution, separate
 from any detector implementation.
+
+The subsequent [63-case escaped-JSON and phone batch](evaluation/policy_combinations/DETECTION_COVERAGE.md),
+completed in [#59](https://github.com/sahilmathur254/guardtrellis/issues/59), records raw and
+configured decoded handling without changing detectors. It is a development contribution
+to [#45](https://github.com/sahilmathur254/guardtrellis/issues/45), not completion of the
+broader evaluation-methodology work or independent validation.
 
 - Extend the retained cases for secrets, JSON/tool behavior, and ordered scanner
   combinations when a new caller gap warrants it, keeping checked delivery and rejection

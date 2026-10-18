@@ -14,21 +14,21 @@ The documented public API is supported across `0.1.x` under the
 Supported Python: 3.11–3.14. Apache-2.0 licensed.
 
 <!-- guardtrellis-release:start -->
-**Version: `0.1.4`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.4/)
+**Version: `0.1.5`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.5/)
 for availability and [release notes](https://github.com/sahilmathur254/guardtrellis/releases).
 A source checkout may describe a candidate that has not been published yet.
 
 Install this version in an activated virtual environment:
 
 ```sh
-python -m pip install 'guardtrellis==0.1.4'
+python -m pip install 'guardtrellis==0.1.5'
 ```
 
 An explicit version opts into a prerelease when applicable. Optional integrations:
-`'guardtrellis[fastapi]==0.1.4'`,
-`'guardtrellis[langgraph]==0.1.4'`,
-`'guardtrellis[openai]==0.1.4'`,
-`'guardtrellis[gemini]==0.1.4'`.
+`'guardtrellis[fastapi]==0.1.5'`,
+`'guardtrellis[langgraph]==0.1.5'`,
+`'guardtrellis[openai]==0.1.5'`,
+`'guardtrellis[gemini]==0.1.5'`.
 <!-- guardtrellis-release:end -->
 
 ## Included capabilities
@@ -41,6 +41,9 @@ An explicit version opts into a prerelease when applicable. Optional integration
   that carries checked text and validated arguments through both boundaries using core dependencies.
 - A [decoded-query recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/decoded_query.md)
   that checks one decoded `search.query` field before passing freshly validated arguments to a local callback.
+- A [decoded-contact recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/decoded_contact.md)
+  with a fixed two-field policy, whole-call budgets, and checked authorization and delivery.
+  It uses existing public APIs and leaves SDK detector coverage unchanged.
 - A [tool-result handoff recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/tool_result_handoff.md)
   that checks returned tool text before inserting it into agent state or passing it to another consumer.
 - A separate [40-case Unicode and PII development set](https://github.com/sahilmathur254/guardtrellis/blob/main/evaluation/challenges/README.md)
@@ -142,6 +145,7 @@ uv run python examples/plain_callable.py
 uv run python examples/retrieval_tools.py   # Checked retrieval through a proposed tool call
 uv run python examples/policy_operations.py # Stage policies and metadata-only operations
 uv run python examples/decoded_query.py     # Checked decoded search query, including JSON escapes
+uv run python examples/decoded_contact.py   # Fixed email/phone fields with whole-call limits
 uv run python examples/tool_result_handoff.py # Checked tool return before the next consumer
 uv run python examples/fastapi_app.py       # Local TestClient demo, no server needed
 uv run python examples/langgraph_app.py     # Local graph, no provider credentials
@@ -171,6 +175,12 @@ uses the existing public APIs to check a single decoded `search.query` string. I
 invalid original arguments before scanning, serializes a fresh checked object, validates it
 again, and authorizes the final call before local execution. It uses only core dependencies;
 it does not recursively scan arbitrary structured data or expand detector coverage.
+
+The [decoded-contact recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/decoded_contact.md)
+checks only decoded `contact.email` and `contact.phone` strings. It runs secret checks across
+both fields before either reaches PII redaction, shares work/findings budgets across the call,
+and keeps decoded findings separate from final serialized validation. It is a synchronous,
+core-only application example; formatted-phone detector improvements remain separate work.
 
 The [tool-result handoff recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/tool_result_handoff.md)
 validates and authorizes a call, executes it, then checks its returned text at `Stage.RETRIEVAL`

@@ -17,6 +17,7 @@ CORE_EXAMPLES = (
     "retrieval_tools.py",
     "policy_operations.py",
     "decoded_query.py",
+    "decoded_contact.py",
     "tool_result_handoff.py",
 )
 SMOKE = """
