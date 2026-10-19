@@ -56,7 +56,9 @@ Its request uses:
 - One candidate and at most 128 output tokens, including thinking tokens; minimal thinking
   effort and no returned thoughts. Minimal thinking does not guarantee zero reasoning tokens.
 - Complete text only, no streaming, tools, automatic function calls, files, or cached context.
-- One SDK attempt, with retries and HTTP redirects disabled; no automatic model fallback.
+- One HTTP generation request, with retries, HTTP redirects, and automatic continuation
+  disabled; no automatic model fallback. Older supported SDKs without continuation support
+  retain their existing single-request behavior.
 
 Do not repeat an uncertain or failed request automatically. Quota, model access, authentication,
 or network failures stop the test. Provider-side processing may already have occurred.
@@ -80,6 +82,12 @@ signatures are ignored as metadata and never retained in results or reports. Thi
 a semantic refusal or factual-quality detector: a refusal expressed as ordinary text is
 subject only to the configured scanners.
 
+Starting with `0.1.7`, the example explicitly disables SDK-managed continuation. A response with a
+continuation token and an incomplete finish reason becomes `ERROR` without a second HTTP
+request or deliverable text. The SDK's callback invocation count alone does not establish
+the number of HTTP requests; regressions check the actual transport boundary. Applications
+that copied an earlier example should adopt this configuration when updating the Gemini SDK.
+
 SDK/provider failures become a generic `callback_error` through `Guard.run`. The 20-second
 HTTP timeout bounds network phases/inactivity, not the complete wall-clock duration.
 Synchronous callbacks have no Guard execution deadline. Async cancellation cannot terminate
@@ -94,7 +102,8 @@ Guard cannot undo provider processing, retention, billing, or callback side effe
 
 Ordinary tests and CI use mocks, including tests of the live reporting path. They verify
 actual HTTP serialization, redaction, zero requests for blocked input, checked complete
-output, malformed/unsupported responses, generic failures, and no retry/redirect/tool loop.
+output, malformed/unsupported responses, generic failures, and no retry/redirect/tool or
+continuation loop.
 Distribution smokes check core installs exclude the SDK, then run all examples with extras.
 
 ### Recorded live smoke: 2026-09-26

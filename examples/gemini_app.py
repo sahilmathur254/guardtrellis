@@ -51,20 +51,24 @@ class GeminiModel:
     def __call__(self, text: str) -> str:
         self.usage = None
         self.requests += 1
+        config = types.GenerateContentConfig(
+            candidate_count=1,
+            max_output_tokens=MAX_OUTPUT_TOKENS,
+            response_mime_type="text/plain",
+            response_modalities=["TEXT"],
+            thinking_config=types.ThinkingConfig(
+                thinking_level=types.ThinkingLevel.MINIMAL, include_thoughts=False
+            ),
+            tools=[],
+            automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
+        )
+        # Older supported SDKs predate automatic continuation and reject the field.
+        if "automatic_continuation" in type(config).model_fields:
+            config.automatic_continuation = False
         response = self.client.models.generate_content(
             model=MODEL,
             contents=text,
-            config=types.GenerateContentConfig(
-                candidate_count=1,
-                max_output_tokens=MAX_OUTPUT_TOKENS,
-                response_mime_type="text/plain",
-                response_modalities=["TEXT"],
-                thinking_config=types.ThinkingConfig(
-                    thinking_level=types.ThinkingLevel.MINIMAL, include_thoughts=False
-                ),
-                tools=[],
-                automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
-            ),
+            config=config,
         )
         feedback = response.prompt_feedback
         if feedback is not None and (
