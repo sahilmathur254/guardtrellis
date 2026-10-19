@@ -14,21 +14,21 @@ The documented public API is supported across `0.1.x` under the
 Supported Python: 3.11–3.14. Apache-2.0 licensed.
 
 <!-- guardtrellis-release:start -->
-**Version: `0.1.5`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.5/)
+**Version: `0.1.6`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.6/)
 for availability and [release notes](https://github.com/sahilmathur254/guardtrellis/releases).
 A source checkout may describe a candidate that has not been published yet.
 
 Install this version in an activated virtual environment:
 
 ```sh
-python -m pip install 'guardtrellis==0.1.5'
+python -m pip install 'guardtrellis==0.1.6'
 ```
 
 An explicit version opts into a prerelease when applicable. Optional integrations:
-`'guardtrellis[fastapi]==0.1.5'`,
-`'guardtrellis[langgraph]==0.1.5'`,
-`'guardtrellis[openai]==0.1.5'`,
-`'guardtrellis[gemini]==0.1.5'`.
+`'guardtrellis[fastapi]==0.1.6'`,
+`'guardtrellis[langgraph]==0.1.6'`,
+`'guardtrellis[openai]==0.1.6'`,
+`'guardtrellis[gemini]==0.1.6'`.
 <!-- guardtrellis-release:end -->
 
 ## Included capabilities
@@ -44,6 +44,9 @@ An explicit version opts into a prerelease when applicable. Optional integration
 - A [decoded-contact recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/decoded_contact.md)
   with a fixed two-field policy, whole-call budgets, and checked authorization and delivery.
   It uses existing public APIs and leaves SDK detector coverage unchanged.
+- An explicit [formatted-phone option](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/formatted_phone.md)
+  for 8–15 ASCII digits with literal `+`, single spaces/hyphens, and one separated
+  parenthesized group. Existing callers retain contiguous-phone detection.
 - A [tool-result handoff recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/tool_result_handoff.md)
   that checks returned tool text before inserting it into agent state or passing it to another consumer.
 - A separate [40-case Unicode and PII development set](https://github.com/sahilmathur254/guardtrellis/blob/main/evaluation/challenges/README.md)
@@ -77,7 +80,7 @@ both sync and async callbacks work there. Provider SDKs are not required by the 
 
 | Check | Default | Scope |
 | --- | --- | --- |
-| `PIIScanner` | redact | ASCII email, contiguous international phone, US SSN shapes |
+| `PIIScanner` | redact | ASCII email, contiguous international phone by default, opt-in formatted phone, US SSN shapes |
 | `SecretScanner` | block | Selected GitHub tokens, AWS access-key IDs, PEM private keys |
 | `InvisibleScanner` | warn | Unicode control/format characters except tab and newlines |
 | `LiteralScanner([...])` | block | Configured literal substrings; optional ASCII case folding |
@@ -86,6 +89,13 @@ both sync and async callbacks work there. Provider SDKs are not required by the 
 
 No scanners are installed implicitly: `Guard()` permits bounded text. Choose policies for each
 boundary. Heuristic matches are signals, not probabilities or comprehensive protection.
+
+Select `PIIScanner(formats=["phone"], phone_mode="formatted")` to redact supported
+forms such as `+1 (202) 555-0123` as one complete span. Malformed or overlong candidates
+produce no phone finding in this mode; they are not automatically blocked. The
+[formatted-phone guide](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/formatted_phone.md)
+defines the grammar, offsets, exclusions, and decoded-query wiring. It does not validate
+country codes, number allocation, ownership, or arbitrary obfuscation.
 
 ```python
 from guardtrellis import Action, Guard, JSONScanner, LiteralScanner, Stage, ToolGuard
@@ -180,7 +190,8 @@ The [decoded-contact recipe](https://github.com/sahilmathur254/guardtrellis/blob
 checks only decoded `contact.email` and `contact.phone` strings. It runs secret checks across
 both fields before either reaches PII redaction, shares work/findings budgets across the call,
 and keeps decoded findings separate from final serialized validation. It is a synchronous,
-core-only application example; formatted-phone detector improvements remain separate work.
+core-only application example. Its fixed policy retains contiguous-phone detection;
+adopting the formatted-phone option is an explicit application decision.
 
 The [tool-result handoff recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/tool_result_handoff.md)
 validates and authorizes a call, executes it, then checks its returned text at `Stage.RETRIEVAL`

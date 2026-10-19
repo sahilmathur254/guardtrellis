@@ -16,11 +16,22 @@ the callback or data captured by provider instrumentation. There is no streaming
 ## Detector coverage
 
 - PII: pragmatic ASCII email addresses with a dotted domain, contiguous international
-  `+` phone numbers containing 8–15 digits, and hyphenated US SSN shapes (excluding invalid
-  area/group/serial zero ranges and 666/9xx area ranges). No name/address recognition,
-  ID issuance checks, internationalized email, obfuscation handling, national phone
-  formatting, or general international identifier coverage. Email-shaped code and
-  non-phone numeric identifiers can produce false positives. Strings are not normalized.
+  `+` phone numbers containing 8–15 digits by default, and hyphenated US SSN shapes
+  (excluding invalid area/group/serial zero ranges and 666/9xx area ranges). The explicit
+  [`phone_mode="formatted"` option](formatted_phone.md) adds single ASCII spaces/hyphens
+  and one separated, balanced digits-only parenthesized group. It keeps literal `+`, a
+  nonzero first digit, and 8–15 ASCII digits. No name/address recognition, ID issuance
+  checks, internationalized email, national phone formats, extensions, dotted phone
+  formats, Unicode digits, NBSP/zero-width separator handling, or verbal obfuscation
+  coverage. Country codes, number allocation, and ownership are not validated.
+  Email-shaped code and non-phone numeric identifiers can produce false positives;
+  a signed integer can be indistinguishable from a phone shape. Strings are not normalized.
+  Malformed separators/parentheses and excessive digits in the supported ASCII
+  digit/group syntax produce no phone finding instead of a shorter contiguous-prefix
+  match. This permits unmatched text under a phone-only policy; it does not block
+  malformed phone fields. Excluded forms such as extensions and NBSP/zero-width
+  separators can still receive partial redaction with a suffix left untouched.
+  REDACT does not establish that the complete unsupported form was protected.
 - Secrets: classic GitHub `gh[pousr]_` plus 36 alphanumerics; `github_pat_` plus 82
   alphanumeric/underscore characters; AWS `AKIA`/`ASIA` plus 16 uppercase alphanumerics;
   and PEM private-key envelopes (generic, RSA, EC, DSA, OpenSSH, encrypted). These are
@@ -52,6 +63,10 @@ serialized JSON catches escaped or encoded sensitive values.
 The [decoded-query recipe](decoded_query.md) demonstrates this handoff for one bounded
 `search.query` string through the existing public APIs. It does not add recursive scanning,
 normalization, repeated escape decoding, or broader detector coverage.
+Its explicit `query_guard` hook can select formatted phones after decoding, as shown in
+the [formatted-phone guide](formatted_phone.md#escaped-json-and-application-recipes).
+The fixed-policy contact helper retains contiguous-phone detection until the owning
+application deliberately changes its policy.
 
 Ordering matters: redaction can obscure signals that a later scanner would have seen.
 Put blocking policies before redactors when they must see the original content. WARN is

@@ -4,6 +4,27 @@ See [PyPI](https://pypi.org/project/guardtrellis/) for package availability and
 [GitHub releases](https://github.com/sahilmathur254/guardtrellis/releases) for published
 artifacts and verification evidence.
 
+## 0.1.6
+
+- Add optional `PIIScanner(phone_mode="formatted")` for a bounded ASCII international
+  phone grammar: an explicit plus, 8–15 digits, single spaces/hyphens between groups,
+  and at most one balanced parenthesized digit group. Match and redact complete original
+  spans, including `+12025550123-4567`; invalid/overlong candidates do not fall back to
+  a contiguous-prefix match. Such candidates remain undetected, rather than being blocked.
+- Add regression coverage and a versioned default-versus-formatted evaluation with exact
+  action, span and checked-delivery comparisons, retained limitations, and bounded resource
+  observations. Preserve all historical corpora, profiles and baseline reports.
+- Simplify the distribution smoke stages while preserving core-only, OpenAI-only and
+  all-extras installations, assertions and example executions for both distributions.
+
+Upgrade note: existing calls retain the default `phone_mode="contiguous"`, including its
+known partial-prefix matches. Enable formatted mode explicitly in each desired stage;
+`formats` still controls whether phones are checked. This additive optional API retains
+the `0.1.x` compatibility contract. Malformed candidates can lose legacy prefix findings
+when opting in. Phone-like signed numbers remain ambiguous; national numbers, extensions,
+Unicode separators/digits, dotted formats and verbal obfuscation remain unsupported.
+There is no implicit JSON decoding, dependency change, or change to the fixed contact recipe.
+
 ## 0.1.5
 
 - Add an application-owned decoded contact recipe for a fixed two-field schema using
