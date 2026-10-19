@@ -53,6 +53,7 @@ observed integration gaps over adding scanner families or framework wrappers for
 | Completed; follow-ups as needed | Tool-result handoff | Use the checked tool-result recipe before the next model call or agent-state insertion, using the existing API. | [#44](https://github.com/sahilmathur254/guardtrellis/issues/44) closed; shipped in `0.1.4` |
 | Completed; shared API deferred | Structured values | Build on the bounded decoded `search.query` recipe shipped in `0.1.3`; require a concrete caller gap before a shared checker. | Design [#11](https://github.com/sahilmathur254/guardtrellis/issues/11); implementation [#41](https://github.com/sahilmathur254/guardtrellis/issues/41) closed |
 | Accepted design; bounded implementation | Escaped JSON contact workflow | Compare a fixed two-field application helper against the existing recipe, with whole-call budgets and checked delivery; keep SDK behavior unchanged. | Design [#50](https://github.com/sahilmathur254/guardtrellis/issues/50) accepted 2026-10-18; implementation [#62](https://github.com/sahilmathur254/guardtrellis/issues/62) |
+| Accepted plan; implementation in progress | Formatted international phones | Add an explicit bounded phone mode, preserve defaults, and compare complete checked outcomes with retained baselines. | [#60](https://github.com/sahilmathur254/guardtrellis/issues/60); proposed `0.1.6` patch candidate |
 | Baseline complete; further contributions remain | Detection coverage evidence | Use the versioned escaped-JSON/phone batch to separate representation gaps from unsupported detector formats. | [#59](https://github.com/sahilmathur254/guardtrellis/issues/59) closed; broader methodology [#45](https://github.com/sahilmathur254/guardtrellis/issues/45) remains open |
 | Completed; follow-ups as needed | Evaluation and coverage | Use the retained policy/delivery baseline to identify independently authored cases and small supported-format improvements. | [#29](https://github.com/sahilmathur254/guardtrellis/issues/29) closed; shipped in `0.1.2` |
 | Completed; follow-ups as needed | Integration recipes | Build on the policy/operations recipe and async checked-tool handoff evidence for concrete caller gaps. | [#30](https://github.com/sahilmathur254/guardtrellis/issues/30) and [#34](https://github.com/sahilmathur254/guardtrellis/issues/34) closed; shipped in `0.1.2` |
@@ -65,6 +66,32 @@ Maintain the current `0.1.x` series alongside this work. Patch fixes follow the 
 compatibility and changelog rules. New API surfaces need an explicit versioning decision;
 planned incompatible changes require migration guidance and a later minor release. These
 workstreams do not promise a `0.2.0` date or bundle every proposal into one release.
+
+## Formatted phones: bounded opt-in implementation
+
+The maintainer accepted [#60](https://github.com/sahilmathur254/guardtrellis/issues/60)'s
+scoped plan on 2026-10-18. The [formatted-phone option](docs/formatted_phone.md) adds
+`PIIScanner(phone_mode="formatted")`, with `"contiguous"` retained as the default.
+The new mode recognizes literal `+`, 8–15 ASCII digits starting with a nonzero digit,
+single spaces/hyphens, and at most one separated digits-only parenthesized group.
+It preserves finding/action/revision contracts and introduces no dependency.
+
+The [separate comparison](evaluation/formatted_phone/README.md) measures default and
+opt-in outcomes against versioned cases without rewriting historical fixtures or reports.
+It covers complete redaction rather than partial-prefix protection, benign lookalikes,
+malformed and overlong candidates, decoded plain/escaped equivalence, and explicit
+exclusions. Malformed candidates produce no phone finding in the opt-in mode, not
+automatic request rejection. Country validation, Unicode/zero-width/NBSP handling,
+national numbers, extensions, dotted formats, and verbal obfuscation remain deferred.
+
+**Implementation exit criteria:** all 11 selected formatted cases and six retained
+contiguous positives have correct complete outcomes; the 15 unambiguous negatives
+remain negative; the ambiguous signed-ledger case stays visible. Cover original
+character offsets, action/stage behavior, callback rejection, exact checked delivery,
+input/finding limits, retained baselines, and native Windows CI. The fixed contact
+helper continues to use its existing policy. The additive option is scoped for a
+`0.1.6` candidate under the compatibility policy; implementation, merge, and publication
+remain separate steps.
 
 ## Decoded JSON values: contact follow-up accepted, shared API deferred
 
@@ -94,8 +121,8 @@ and compares the raw, existing-recipe, and contact-helper paths on the same mean
 
 This recipe, documentation and evaluation are scoped for a `0.1.5` patch candidate using
 current public APIs. They do not change SDK detector behavior or establish publication.
-Formatted-phone grammar improvements remain separate
-[#60](https://github.com/sahilmathur254/guardtrellis/issues/60) work; broader methodology
+Formatted-phone grammar improvements use the separately accepted
+[#60](https://github.com/sahilmathur254/guardtrellis/issues/60) plan above; broader methodology
 [#45](https://github.com/sahilmathur254/guardtrellis/issues/45) also remains open. The
 shared structured-data SDK API still needs its own contract decision at a proposed `0.2.0`
 boundary. A synthetic two-field example alone does not justify that abstraction.

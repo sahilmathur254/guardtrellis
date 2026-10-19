@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 import unicodedata
 from collections.abc import Iterable, Sequence
+from typing import Literal
 
 from .guard import MAX_FINDINGS
 from .models import Action, Check, Edit, Finding, Stage
@@ -36,9 +37,63 @@ def _decision(findings: Iterable[Finding], action: Action, replacement: str) -> 
     return Check(action, ordered, tuple(edits))
 
 
-class PIIScanner:
-    """ASCII email, contiguous international +phone (8-15 digits), US SSN shapes.
+_PHONE_START = re.compile(r"(?<![\w+])\+[1-9]")
 
+
+def _formatted_phone_end(text: str, start: int) -> int | None:
+    """Read whole ASCII groups without normalizing text or accepting a shorter prefix."""
+    cursor, digits, parentheses = start + 1, 0, False
+    size = len(text)
+    while cursor < size:
+        parenthesized = text[cursor] == "("
+        if parenthesized:
+            if parentheses:
+                return None
+            parentheses = True
+            cursor += 1
+        group_start = cursor
+        while cursor < size and "0" <= text[cursor] <= "9":
+            digits += 1
+            if digits > 15:
+                return None
+            cursor += 1
+        if cursor == group_start:
+            return None
+        if parenthesized:
+            if cursor == size or text[cursor] != ")":
+                return None
+            cursor += 1
+        end = cursor
+        if cursor < size and text[cursor] == " ":
+            # Spaces before prose are outside the match. Multiple spaces between
+            # numeric groups invalidate the candidate instead of shortening it.
+            while cursor < size and text[cursor] == " ":
+                cursor += 1
+            if cursor < size and (text[cursor].isdecimal() or text[cursor] in "(-"):
+                if cursor != end + 1:
+                    return None
+                continue
+            return end if digits >= 8 else None
+        if cursor < size and text[cursor] == "-":
+            cursor += 1
+            continue
+        if cursor < size:
+            following = text[cursor]
+            if following.isalnum() or following in "_+(":
+                return None
+            # Preserve a prose wrapper, but do not accept unmatched internal ')'.
+            if following == ")" and (start == 0 or text[start - 1] != "("):
+                return None
+            if following == "." and cursor + 1 < size and text[cursor + 1].isdecimal():
+                return None
+        return end if digits >= 8 else None
+    return None
+
+
+class PIIScanner:
+    """ASCII email, international +phone (8-15 digits), and US SSN shapes.
+
+    Phone formatting is opt-in; the default accepts only contiguous digits.
     This does not identify people, validate issuance, or cover all PII formats.
     """
 
@@ -62,20 +117,30 @@ class PIIScanner:
         *,
         formats: Sequence[str] = ("email", "phone", "ssn"),
         action: Action = Action.REDACT,
+        phone_mode: Literal["contiguous", "formatted"] = "contiguous",
     ):
         _validate_action(action)
         if not formats or any(name not in self._patterns for name in formats):
             raise ValueError("Unsupported or empty PII format selection")
+        if not isinstance(phone_mode, str) or phone_mode not in ("contiguous", "formatted"):
+            raise ValueError("phone_mode must be contiguous or formatted")
         self._formats = tuple(dict.fromkeys(formats))
         self.action = action
+        self._phone_mode = phone_mode
+
+    def _find(self, text: str) -> Iterable[Finding]:
+        for name in self._formats:
+            if name == "phone" and self._phone_mode == "formatted":
+                for match in _PHONE_START.finditer(text):
+                    end = _formatted_phone_end(text, match.start())
+                    if end is not None:
+                        yield Finding("pii_phone", match.start(), end)
+            else:
+                for match in self._patterns[name].finditer(text):
+                    yield Finding(f"pii_{name}", match.start(), match.end())
 
     def scan(self, text: str, *, stage: Stage) -> Check:
-        findings = (
-            Finding(f"pii_{name}", match.start(), match.end())
-            for name in self._formats
-            for match in self._patterns[name].finditer(text)
-        )
-        return _decision(findings, self.action, "[PII]")
+        return _decision(self._find(text), self.action, "[PII]")
 
 
 class SecretScanner:

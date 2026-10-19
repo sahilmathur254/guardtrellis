@@ -64,80 +64,51 @@ def main() -> None:
     sdists = list(directory.glob("*.tar.gz"))
     if len(wheels) != 1 or len(sdists) != 1:
         raise SystemExit("Expected exactly one wheel and one source distribution in dist/")
-    for artifact in wheels + sdists:
-        with tempfile.TemporaryDirectory(prefix="guardtrellis-install-") as directory:
-            work = Path(directory)
-            environment = work / "venv"
-            python = environment / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
-            subprocess.run(["uv", "venv", "--python", sys.executable, str(environment)], check=True)
-            subprocess.run(
-                [
-                    "uv",
-                    "pip",
-                    "install",
-                    "--python",
-                    str(python),
-                    "--index-url",
-                    "https://pypi.org/simple",
-                    str(artifact),
-                ],
-                cwd=work,
-                check=True,
-            )
-            subprocess.run(["uv", "pip", "check", "--python", str(python)], check=True)
-            subprocess.run([str(python), "-I", "-c", SMOKE], cwd=work, check=True)
-            for filename in CORE_EXAMPLES:
-                example = work / filename
-                shutil.copyfile(ROOT / "examples" / filename, example)
-                subprocess.run([str(python), "-I", str(example)], cwd=work, check=True)
-            # Other extras must not mask missing dependencies in the OpenAI examples.
-            subprocess.run(
-                [
-                    "uv",
-                    "pip",
-                    "install",
-                    "--python",
-                    str(python),
-                    "--index-url",
-                    "https://pypi.org/simple",
-                    f"{artifact}[openai]",
-                ],
-                cwd=work,
-                check=True,
-            )
-            subprocess.run(["uv", "pip", "check", "--python", str(python)], check=True)
-            subprocess.run([str(python), "-I", "-c", OPENAI_SMOKE], cwd=work, check=True)
-            for filename in ("openai_app.py", "azure_openai_app.py"):
-                example = work / filename
-                shutil.copyfile(ROOT / "examples" / filename, example)
-                subprocess.run([str(python), "-I", str(example)], cwd=work, check=True)
-            # Then exercise the optional integrations against the installed artifact too.
-            subprocess.run(
-                [
-                    "uv",
-                    "pip",
-                    "install",
-                    "--python",
-                    str(python),
-                    "--index-url",
-                    "https://pypi.org/simple",
-                    f"{artifact}[fastapi,langgraph,openai,gemini]",
-                ],
-                cwd=work,
-                check=True,
-            )
-            subprocess.run(["uv", "pip", "check", "--python", str(python)], check=True)
-            for filename in (
+    # Keep OpenAI isolated before other extras can mask its dependency requirements.
+    stages = (
+        ("", SMOKE, CORE_EXAMPLES),
+        ("[openai]", OPENAI_SMOKE, ("openai_app.py", "azure_openai_app.py")),
+        (
+            "[fastapi,langgraph,openai,gemini]",
+            None,
+            (
                 *CORE_EXAMPLES,
                 "fastapi_app.py",
                 "langgraph_app.py",
                 "openai_app.py",
                 "azure_openai_app.py",
                 "gemini_app.py",
-            ):
-                example = work / filename
-                shutil.copyfile(ROOT / "examples" / filename, example)
-                subprocess.run([str(python), "-I", str(example)], cwd=work, check=True)
+            ),
+        ),
+    )
+    for artifact in wheels + sdists:
+        with tempfile.TemporaryDirectory(prefix="guardtrellis-install-") as directory:
+            work = Path(directory)
+            environment = work / "venv"
+            python = environment / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+            subprocess.run(["uv", "venv", "--python", sys.executable, str(environment)], check=True)
+            for extras, smoke, examples in stages:
+                subprocess.run(
+                    [
+                        "uv",
+                        "pip",
+                        "install",
+                        "--python",
+                        str(python),
+                        "--index-url",
+                        "https://pypi.org/simple",
+                        f"{artifact}{extras}",
+                    ],
+                    cwd=work,
+                    check=True,
+                )
+                subprocess.run(["uv", "pip", "check", "--python", str(python)], check=True)
+                if smoke is not None:
+                    subprocess.run([str(python), "-I", "-c", smoke], cwd=work, check=True)
+                for filename in examples:
+                    example = work / filename
+                    shutil.copyfile(ROOT / "examples" / filename, example)
+                    subprocess.run([str(python), "-I", str(example)], cwd=work, check=True)
             print(f"Verified {artifact.name}", flush=True)
 
 

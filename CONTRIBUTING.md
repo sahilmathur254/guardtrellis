@@ -128,6 +128,13 @@ processes with external deadlines and records incomplete work honestly. Tests ch
 containment and outcomes without asserting performance thresholds. Keep exploratory
 reports outside the checkout; update the reviewed resource baseline only intentionally.
 
+The [formatted-phone comparison](evaluation/formatted_phone/README.md) runs unchanged
+default and explicitly opted-in policies against the same versioned cases. Run
+`uv run --frozen python evaluation/formatted_phone/run.py --resources --report-dir <new-directory>`
+for exact action/span/delivery comparisons and bounded subprocess measurements. CI runs
+this on every matrix platform. Preserve the historical fixtures and reviewed reports;
+default compatibility and the new mode's complete-span outcomes have separate assertions.
+
 ## Maintain the changelog
 
 `CHANGELOG.md` is the canonical changelog. Every user-visible behavior, API, diagnostic,

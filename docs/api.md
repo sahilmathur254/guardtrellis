@@ -34,6 +34,25 @@ and `ascan`; the default stage is INPUT. `run` and `arun` invoke input/output on
 Scan retrieved material before it enters model prompts, logs, or persistent state. A raw
 tool-stage scan does not validate a name; use `ToolGuard` for the full tool check.
 
+## PII phone modes
+
+`PIIScanner(formats=("email", "phone", "ssn"), action=Action.REDACT,
+phone_mode="contiguous")` keeps the existing contiguous international-phone policy by
+default. The optional `phone_mode="formatted"` accepts literal `+`, a nonzero first
+digit, 8–15 ASCII digits, single spaces/hyphens between digit groups, and at most one
+balanced digits-only parenthesized group after the first group. That group requires
+separators from neighboring groups: `+1 (202) 555-0123` is supported;
+`+1(202)5550123` is outside the grammar. See the full
+[formatted-phone contract and examples](formatted_phone.md).
+
+`formats` still gates detection: choosing a phone mode does not enable `"phone"` when
+it is absent. An unsupported mode raises `ValueError` at construction. Both modes
+retain `pii_phone`, `[PII]`, the selected action, and scanner-input-revision character
+offsets. Email and SSN behavior is unchanged. Malformed or overlong formatted
+candidates, including dotted numeric continuations, produce no phone finding rather
+than a contiguous-prefix match or automatic request rejection. This is bounded shape
+detection, not country-code, allocation, or identity validation.
+
 ## Custom scanners
 
 ```python
