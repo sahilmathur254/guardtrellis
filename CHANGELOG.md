@@ -4,6 +4,21 @@ See [PyPI](https://pypi.org/project/guardtrellis/) for package availability and
 [GitHub releases](https://github.com/sahilmathur254/guardtrellis/releases) for published
 artifacts and verification evidence.
 
+## 0.1.7
+
+- Preserve the Gemini example's one-request contract with newer Google Gen AI SDKs by
+  disabling automatic continuation. Incomplete responses with continuation tokens become
+  `ERROR` without another HTTP request or deliverable text. Retain compatibility with older
+  supported SDKs that do not expose the continuation option, with mocked regressions at the
+  actual HTTP boundary.
+- Refresh the locked optional integrations and development tooling: FastAPI, LangGraph,
+  LangGraph Checkpoint, LangSmith, OpenAI, Google Gen AI, and Ruff. Declared dependency
+  ranges remain unchanged.
+
+Upgrade note: applications that copied `examples/gemini_app.py` should adopt its explicit
+continuation configuration when updating the Gemini SDK. No core SDK API, default-policy,
+or detector behavior changes from `0.1.6`.
+
 ## 0.1.6
 
 - Add optional `PIIScanner(phone_mode="formatted")` for a bounded ASCII international

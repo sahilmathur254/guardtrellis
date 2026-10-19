@@ -97,6 +97,39 @@ def test_noncompleted_response_is_not_delivered(provider, finish_reason):
     assert result.output_result.findings[0].code == "callback_error"
 
 
+@pytest.mark.parametrize("finish_reason", ["CONTINUATION", None])
+def test_continuation_does_not_send_another_request_or_deliver_text(finish_reason):
+    requests = []
+    token = "c3ludGhldGljLWNvbnRpbnVhdGlvbi10b2tlbg=="
+    raw_output = "Synthetic continuation output"
+
+    def handle(request):
+        requests.append(request)
+        response = demo.mock_response(request).json()
+        candidate = response["candidates"][0]
+        candidate["content"]["parts"] = [{"text": raw_output}]
+        # A second response completes so a regression fails without an infinite loop.
+        if len(requests) == 1:
+            candidate["finishReason"] = finish_reason
+            candidate["continuationToken"] = token
+        return httpx.Response(200, json=response)
+
+    with demo.make_client(
+        api_key="mock-key-never-print", transport=httpx.MockTransport(handle)
+    ) as client:
+        model = demo.GeminiModel(client)
+        result = demo.make_guard().run("Fabricated test", model)
+
+    assert len(requests) == model.requests == 1
+    assert result.action == Action.ERROR and result.text is None
+    assert result.output_result.findings[0].code == "callback_error"
+    with pytest.raises(Rejected) as error:
+        result.require_text()
+    metadata = repr(result) + repr(result.diagnostics()) + str(error.value)
+    assert token not in metadata and raw_output not in metadata
+    assert "synthetic-continuation-token" not in metadata
+
+
 @pytest.mark.parametrize(
     "case",
     [
