@@ -1,0 +1,33 @@
+{
+  "dataset_version": "async-delivery-v1",
+  "source": "AI-assisted authored synthetic development fixtures, prepared with knowledge of the public SDK contract",
+  "license": "Apache-2.0",
+  "usage": "development",
+  "independent_review": false,
+  "cases": [
+    {
+      "id": "allow",
+      "payload": "ordinary documentation; no configured signal;",
+      "expected_checked": "ordinary documentation; no configured signal;",
+      "expected_action": "allow",
+      "expected_codes": [],
+      "label_basis": "Unchanged checked input and the request-specific callback receipt are required."
+    },
+    {
+      "id": "redact",
+      "payload": "contact: +1-202-555-0123;",
+      "expected_checked": "contact: [PII];",
+      "expected_action": "redact",
+      "expected_codes": ["pii_phone"],
+      "label_basis": "One complete formatted phone is replaced before callback delivery; surrounding text and request markers remain unchanged."
+    },
+    {
+      "id": "block",
+      "payload": "contact: +1-202-555-0123; -----BEGIN PRIVATE KEY----- fabricated-not-a-key -----END PRIVATE KEY-----;",
+      "expected_checked": null,
+      "expected_action": "block",
+      "expected_codes": ["secret_private_key"],
+      "label_basis": "The fabricated private-key envelope blocks before the phone policy; no callback or delivered text is permitted."
+    }
+  ]
+}

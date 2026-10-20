@@ -135,6 +135,13 @@ for exact action/span/delivery comparisons and bounded subprocess measurements. 
 this on every matrix platform. Preserve the historical fixtures and reviewed reports;
 default compatibility and the new mode's complete-span outcomes have separate assertions.
 
+The [concurrency evaluation](evaluation/concurrency/README.md) checks exact input/callback
+delivery under bounded `Guard.arun` admission using synthetic data and a fixed executor.
+Run `uv run --frozen python evaluation/concurrency/run.py --report-dir <new-directory>`
+for its full measurement protocol, or add `--smoke` for the reduced CI protocol. CI verifies
+outcomes, report safety and child cleanup across the platform matrix; machine-dependent
+latency is not a pass/fail threshold. Preserve incomplete work and historical reports.
+
 ## Maintain the changelog
 
 `CHANGELOG.md` is the canonical changelog. Every user-visible behavior, API, diagnostic,
@@ -150,6 +157,13 @@ version heading must match `pyproject.toml`; a standalone `Unreleased` heading i
 by the existing release checks. A date is optional; if included, use the actual publication
 date rather than a planned date. The changelog is packaged in the source archive and supplies
 the user-facing GitHub release notes.
+
+Normally batch at least two or three meaningful improvements in one release while keeping
+individual contributions reviewable. A change, its tests and its documentation count as one
+improvement. Accumulate changes under the same unpublished version; another merged PR does
+not require another version. Substantial standalone changes, urgent security/correctness
+fixes and serious compatibility failures can justify an earlier release. Version selection
+still follows compatibility impact, and publication still requires maintainer approval.
 
 ## Releases and licensing
 

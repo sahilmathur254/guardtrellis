@@ -131,15 +131,16 @@ and earlier corpora remain unchanged.
 
 The helper decodes one JSON layer and does not normalize Unicode, scan keys, traverse nested
 objects or arrays, parse embedded JSON, decode base64 or recursively unescape strings.
-The current PII scanner can still miss spaced, hyphenated or otherwise unsupported phone
-formats. Those detector changes remain [#60](https://github.com/sahilmathur254/guardtrellis/issues/60)
-work; the comparison must retain their misses. Name recognition, internationalized email,
-semantic injection detection and comprehensive sensitive-data removal are not provided.
+This helper's fixed contiguous-phone policy can still miss spaced, hyphenated or otherwise
+unsupported phone formats. The [formatted-phone option](formatted_phone.md) shipped in
+`0.1.6`, but upgrading the SDK does not change this recipe's policy. The comparison retains
+its original misses. Name recognition, internationalized email, semantic injection detection
+and comprehensive sensitive-data removal are not provided.
 
-This recipe and its evaluation fit a `0.1.5` patch candidate because they use current SDK
-contracts. Publication status is recorded on [PyPI](https://pypi.org/project/guardtrellis/)
-and [GitHub releases](https://github.com/sahilmathur254/guardtrellis/releases); this guide
-does not establish that publication has happened. A shared structured-data SDK abstraction
+This recipe and its evaluation shipped in
+[`0.1.5`](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.5) using existing
+SDK contracts. The [control-coverage matrix](coverage.md) links current behavior to source
+and retained evidence. A shared structured-data SDK abstraction
 still needs a separate contract and versioning decision at the proposed `0.2.0` boundary.
 See the [API guide](api.md#json-and-tool-calls), [limitations](limitations.md), and
 [host resource controls](resource_limits.md).

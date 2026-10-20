@@ -70,6 +70,10 @@ jobs:
         run: |
           uv run --frozen python evaluation/formatted_phone/run.py --resources \
             --report-dir '${{ runner.temp }}/guardtrellis-formatted-phone'
+      - name: Verify bounded concurrency and checked delivery
+        run: |
+          uv run --frozen python evaluation/concurrency/run.py --smoke \
+            --report-dir '${{ runner.temp }}/guardtrellis-concurrency'
       - name: Build and install both distributions outside the checkout
         run: |
           uv build

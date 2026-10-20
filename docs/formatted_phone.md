@@ -1,8 +1,8 @@
 # Opt-in formatted-phone detection
 
-The `0.1.6` candidate adds an explicit mode to `PIIScanner` for a bounded set of
-international phone shapes. Check [PyPI](https://pypi.org/project/guardtrellis/) for
-publication status. Existing callers keep `phone_mode="contiguous"` by default.
+Released in [`0.1.6`](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.6),
+this explicit `PIIScanner` mode checks a bounded set of international phone shapes.
+Existing callers keep `phone_mode="contiguous"` by default.
 
 ```python
 from guardtrellis import Guard, PIIScanner
@@ -117,7 +117,7 @@ Run this from a source checkout; examples are application-owned recipes rather t
 installed package APIs. The recipe decodes one JSON layer, checks the decoded query,
 reserializes a fresh object, and validates it again. Host authorization is still required
 before executing the checked pair. The fixed-policy [contact helper](decoded_contact.md)
-keeps its existing contiguous-phone policy; installing this candidate does not opt it
+keeps its existing contiguous-phone policy; upgrading the package does not opt it
 or any existing caller into formatted detection.
 
 ## Evaluation and compatibility
@@ -129,9 +129,10 @@ formats, benign lookalikes, explicit exclusions, exact delivered text and spans,
 plain/escaped decoded handling. These cases establish observed behavior only; they
 are not an independent estimate of real-world accuracy.
 
-The additive optional argument is scoped for `0.1.6` under the
+The additive optional argument shipped in `0.1.6` under the
 [0.1.x compatibility policy](compatibility.md#changes-within-01x). Existing default
 behavior is preserved, including legacy partial-prefix matches on some formatted
 inputs. Applications adopting formatted mode should review both complete redaction
 of supported forms and the no-finding behavior of malformed candidates against
-their own inputs. Merge and publication require their separate verification steps.
+their own inputs. The [control-coverage matrix](coverage.md) links these limits to
+source, regression cases and retained evaluation evidence.

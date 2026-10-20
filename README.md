@@ -57,6 +57,8 @@ An explicit version opts into a prerelease when applicable. Optional integration
   for custom clients and certificate trust changes.
 
 Synthetic results measure the recorded cases and do not establish broader detection accuracy.
+The [control-coverage matrix](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/coverage.md)
+links configured behavior to source, regression cases, retained evidence and required host controls.
 
 ## Quickstart
 
