@@ -158,3 +158,12 @@ These results quantify limitations already described in the [API contract](api.m
 This measurement work does not alter detection rules or claim arbitrary schema execution
 is bounded inside the Guard process. Any failure of a documented contract needs a separate
 minimal reproduction and issue; undisclosed security defects follow [the security policy](https://github.com/sahilmathur254/guardtrellis/blob/main/SECURITY.md).
+
+## Separate concurrency evidence
+
+The [concurrency evaluation](../evaluation/concurrency/README.md) supplements these fixed
+resource probes with bounded 1/4-call admission, a fixed executor and exact checked-delivery
+assertions. It reuses this harness's environment filtering, OS limits and child cleanup.
+Admission wait and `Guard.arun` duration are separate measurements; neither establishes
+a preemptive SDK deadline. Its fresh-process reports retain incomplete work and platform
+limits without changing this historical baseline or adding a production scheduler to Guard.

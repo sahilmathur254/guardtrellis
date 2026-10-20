@@ -14,6 +14,13 @@ artifacts and verification evidence.
 - Refresh the locked optional integrations and development tooling: FastAPI, LangGraph,
   LangGraph Checkpoint, LangSmith, OpenAI, Google Gen AI, and Ruff. Declared dependency
   ranges remain unchanged.
+- Add a separate bounded concurrency evaluation for existing async APIs, with exact
+  checked callback delivery, rejection isolation, resource observations and a reduced
+  cross-platform CI protocol. Retain historical evidence and incomplete measurements;
+  no detector, scheduler or SDK deadline change is included.
+- Add a control-coverage guide linking configured behavior to source, regression tests,
+  retained evidence and application responsibilities. Refresh current roadmap and recipe
+  status while preserving historical reports and decisions.
 
 Upgrade note: applications that copied `examples/gemini_app.py` should adopt its explicit
 continuation configuration when updating the Gemini SDK. No core SDK API, default-policy,

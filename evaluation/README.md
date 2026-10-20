@@ -105,3 +105,11 @@ The [detection coverage v1 batch](policy_combinations/DETECTION_COVERAGE.md), tr
 serialized JSON, and the existing decoded-query recipe before detector changes. It adds
 phone-format variation, benign lookalikes, and complete-redaction/delivery expectations.
 Its corpus and baseline are separate from the historical reports above.
+
+The [bounded concurrency evaluation](concurrency/README.md), a separate contribution to
+[#45](https://github.com/sahilmathur254/guardtrellis/issues/45), uses a fixed `Guard.arun`
+policy and synthetic in-memory callbacks. It compares 1/4 active calls over 10,000/100,000
+characters and checks exact allowed/redacted delivery and callback suppression on rejection.
+It records setup, admission wait, operation time and available process resources separately.
+Its repeated development requests support observed ranges and medians, not population
+accuracy, production capacity, tail-latency guarantees or a recommended concurrency limit.

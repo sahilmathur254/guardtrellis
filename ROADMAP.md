@@ -8,7 +8,7 @@ contracts, failure behavior, and evidence for the formats they actually cover.
 The [public GitHub Project](https://github.com/users/sahilmathur254/projects/3) is the source
 of current status, priority, and ownership. This document explains direction and milestone
 exit criteria. Each linked issue contains its scope, starting files, acceptance criteria,
-and dependencies. Horizons are an order of work, not promised dates. Updated 2026-10-18.
+and dependencies. Horizons are an order of work, not promised dates. Updated 2026-10-19.
 
 The workstreams below are tracked on the Project in the agreed order. Design proposals and
 demand-led validation remain distinct from implementation-ready work; a tracking issue does
@@ -31,14 +31,18 @@ recipe shipped in `0.1.3`. The decoded-JSON recipe-first decision is accepted; p
 does not add decoded-value scanning to the current API. The
 [checked tool-result handoff recipe](docs/tool_result_handoff.md) for
 [#44](https://github.com/sahilmathur254/guardtrellis/issues/44) shipped in `0.1.4`, using the
-existing API.
+existing API. The decoded-contact recipe shipped in `0.1.5`, and the bounded opt-in
+formatted-phone mode shipped in `0.1.6`. As of 2026-10-19, `0.1.6` is the published
+baseline; this checkout prepares `0.1.7`, including the Gemini single-request correction
+and bounded evaluation/documentation work. Source preparation does not establish publication.
 The [release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.0)
 documents the completed stable `0.1.0` publication and its verification evidence.
 The [0.1.x compatibility policy](docs/compatibility.md) now applies.
 The [README](README.md) contains installation instructions matching this source checkout;
 merged source changes may precede publication.
 
-See the [quickstart](README.md), [API contracts](docs/api.md), and [limitations](docs/limitations.md)
+See the [quickstart](README.md), [API contracts](docs/api.md),
+[control-coverage matrix](docs/coverage.md), and [limitations](docs/limitations.md)
 before integrating. The [72-case synthetic evaluation](evaluation/REPORT.md) retains its misses
 and false positives; it is not an independent benchmark or a production-readiness claim.
 
@@ -52,14 +56,15 @@ observed integration gaps over adding scanner families or framework wrappers for
 | --- | --- | --- | --- |
 | Completed; follow-ups as needed | Tool-result handoff | Use the checked tool-result recipe before the next model call or agent-state insertion, using the existing API. | [#44](https://github.com/sahilmathur254/guardtrellis/issues/44) closed; shipped in `0.1.4` |
 | Completed; shared API deferred | Structured values | Build on the bounded decoded `search.query` recipe shipped in `0.1.3`; require a concrete caller gap before a shared checker. | Design [#11](https://github.com/sahilmathur254/guardtrellis/issues/11); implementation [#41](https://github.com/sahilmathur254/guardtrellis/issues/41) closed |
-| Accepted design; bounded implementation | Escaped JSON contact workflow | Compare a fixed two-field application helper against the existing recipe, with whole-call budgets and checked delivery; keep SDK behavior unchanged. | Design [#50](https://github.com/sahilmathur254/guardtrellis/issues/50) accepted 2026-10-18; implementation [#62](https://github.com/sahilmathur254/guardtrellis/issues/62) |
-| Accepted plan; implementation in progress | Formatted international phones | Add an explicit bounded phone mode, preserve defaults, and compare complete checked outcomes with retained baselines. | [#60](https://github.com/sahilmathur254/guardtrellis/issues/60); proposed `0.1.6` patch candidate |
-| Baseline complete; further contributions remain | Detection coverage evidence | Use the versioned escaped-JSON/phone batch to separate representation gaps from unsupported detector formats. | [#59](https://github.com/sahilmathur254/guardtrellis/issues/59) closed; broader methodology [#45](https://github.com/sahilmathur254/guardtrellis/issues/45) remains open |
+| Completed; follow-ups as needed | Escaped JSON contact workflow | Use the fixed two-field application helper, whole-call budgets and checked delivery without changing SDK defaults. | Design [#50](https://github.com/sahilmathur254/guardtrellis/issues/50) accepted 2026-10-18; implementation [#62](https://github.com/sahilmathur254/guardtrellis/issues/62) closed; shipped in `0.1.5` |
+| Completed; follow-ups as needed | Formatted international phones | Select the bounded phone mode explicitly and compare complete checked outcomes with retained baselines. | [#60](https://github.com/sahilmathur254/guardtrellis/issues/60) closed; shipped in `0.1.6` |
+| In progress; bounded contributions | Evaluation methodology | Retain the escaped-JSON/phone evidence and add a separately versioned concurrency/resource baseline. | [#59](https://github.com/sahilmathur254/guardtrellis/issues/59) closed; broader methodology [#45](https://github.com/sahilmathur254/guardtrellis/issues/45) remains open; Now, P1 |
+| In progress; bounded contribution | Source-backed coverage | Link current behavior, regression cases, retained results and host responsibilities in the [coverage matrix](docs/coverage.md). | [#46](https://github.com/sahilmathur254/guardtrellis/issues/46) remains open; Now, P1 |
 | Completed; follow-ups as needed | Evaluation and coverage | Use the retained policy/delivery baseline to identify independently authored cases and small supported-format improvements. | [#29](https://github.com/sahilmathur254/guardtrellis/issues/29) closed; shipped in `0.1.2` |
 | Completed; follow-ups as needed | Integration recipes | Build on the policy/operations recipe and async checked-tool handoff evidence for concrete caller gaps. | [#30](https://github.com/sahilmathur254/guardtrellis/issues/30) and [#34](https://github.com/sahilmathur254/guardtrellis/issues/34) closed; shipped in `0.1.2` |
-| After a concrete workflow is agreed | Local policy testing | Define a small CLI for running configured checks and inspecting outcomes outside application code. | [#31](https://github.com/sahilmathur254/guardtrellis/issues/31); Next, P2, design first |
+| Ready for design | Local policy testing | Compare a small CLI and Python recipe for the selected bounded terminal/CI fixture workflow. | [#31](https://github.com/sahilmathur254/guardtrellis/issues/31); Now, P2; implementation needs an accepted design |
 | As adopters need them | Optional provider coverage | Validate requested provider paths and add examples only for distinct integration behavior. | [#32](https://github.com/sahilmathur254/guardtrellis/issues/32); Later, P2 |
-| Later | Retrieval/tool policy research | Use sourced synthetic cases to decide which policies can be enforced and which controls remain host-owned. | [#35](https://github.com/sahilmathur254/guardtrellis/issues/35); Later, P2, design first |
+| Next | Retrieval/tool policy research | Use sourced synthetic cases to decide which policies can be enforced and which controls remain host-owned. | [#35](https://github.com/sahilmathur254/guardtrellis/issues/35); Next, P2, research first |
 | Later | Streaming | Decide whether a bounded release model is useful and defensible for a named caller. | Existing [#12](https://github.com/sahilmathur254/guardtrellis/issues/12); exploratory |
 
 Maintain the current `0.1.x` series alongside this work. Patch fixes follow the existing
@@ -67,10 +72,11 @@ compatibility and changelog rules. New API surfaces need an explicit versioning 
 planned incompatible changes require migration guidance and a later minor release. These
 workstreams do not promise a `0.2.0` date or bundle every proposal into one release.
 
-## Formatted phones: bounded opt-in implementation
+## Completed: bounded opt-in formatted phones
 
 The maintainer accepted [#60](https://github.com/sahilmathur254/guardtrellis/issues/60)'s
-scoped plan on 2026-10-18. The [formatted-phone option](docs/formatted_phone.md) adds
+scoped plan on 2026-10-18; the implementation shipped in `0.1.6`.
+The [formatted-phone option](docs/formatted_phone.md) adds
 `PIIScanner(phone_mode="formatted")`, with `"contiguous"` retained as the default.
 The new mode recognizes literal `+`, 8–15 ASCII digits starting with a nonzero digit,
 single spaces/hyphens, and at most one separated digits-only parenthesized group.
@@ -84,16 +90,16 @@ exclusions. Malformed candidates produce no phone finding in the opt-in mode, no
 automatic request rejection. Country validation, Unicode/zero-width/NBSP handling,
 national numbers, extensions, dotted formats, and verbal obfuscation remain deferred.
 
-**Implementation exit criteria:** all 11 selected formatted cases and six retained
+**Retained implementation criteria:** all 11 selected formatted cases and six retained
 contiguous positives have correct complete outcomes; the 15 unambiguous negatives
 remain negative; the ambiguous signed-ledger case stays visible. Cover original
 character offsets, action/stage behavior, callback rejection, exact checked delivery,
 input/finding limits, retained baselines, and native Windows CI. The fixed contact
-helper continues to use its existing policy. The additive option is scoped for a
-`0.1.6` candidate under the compatibility policy; implementation, merge, and publication
-remain separate steps.
+helper continues to use its existing policy. The additive option shipped under the
+compatibility policy; the [0.1.6 release](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.6)
+records its publication evidence. Historical candidate reports retain their original labels.
 
-## Decoded JSON values: contact follow-up accepted, shared API deferred
+## Decoded JSON values: contact recipe shipped, shared API deferred
 
 The [Unicode/PII challenge set](evaluation/challenges/README.md) contains equivalent plain and
 escaped JSON inputs with different detection outcomes. Applications using structured model
@@ -119,20 +125,20 @@ shares work/findings budgets, and dispatches only the final checked pair after a
 The separate [contact comparison](evaluation/decoded_contact/README.md) retains failures
 and compares the raw, existing-recipe, and contact-helper paths on the same meanings.
 
-This recipe, documentation and evaluation are scoped for a `0.1.5` patch candidate using
-current public APIs. They do not change SDK detector behavior or establish publication.
-Formatted-phone grammar improvements use the separately accepted
-[#60](https://github.com/sahilmathur254/guardtrellis/issues/60) plan above; broader methodology
+This recipe, documentation and evaluation shipped in `0.1.5` using existing public APIs
+without changing SDK detector behavior. The opt-in formatted-phone grammar shipped
+separately in `0.1.6` through
+[#60](https://github.com/sahilmathur254/guardtrellis/issues/60); broader methodology
 [#45](https://github.com/sahilmathur254/guardtrellis/issues/45) also remains open. The
 shared structured-data SDK API still needs its own contract decision at a proposed `0.2.0`
 boundary. A synthetic two-field example alone does not justify that abstraction.
 
-**Contact implementation exit criteria:** plain/escaped checked-delivery equivalence,
+**Retained contact implementation criteria:** plain/escaped checked-delivery equivalence,
 secret blocking across fields before redaction, strict input/post-edit schemas, Unicode
 and literal-escape behavior, whole-call limit regressions, payload-free diagnostics, zero
 dispatch on rejection, preserved historical baselines, and native Windows CI alongside
-the existing platform matrix. Design approval and implementation evidence remain distinct
-from merge and release evidence.
+the existing platform matrix. The [0.1.5 release](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.5)
+records publication; the dated design decision and historical comparisons remain intact.
 
 **General core design exit criteria:**
 
@@ -169,6 +175,14 @@ completed in [#59](https://github.com/sahilmathur254/guardtrellis/issues/59), re
 configured decoded handling without changing detectors. It is a development contribution
 to [#45](https://github.com/sahilmathur254/guardtrellis/issues/45), not completion of the
 broader evaluation-methodology work or independent validation.
+
+The `0.1.7` source candidate adds a [bounded concurrency protocol](evaluation/concurrency/README.md).
+Its retained [local baseline](evaluation/concurrency/baseline_0.1.7/REPORT.md) records
+720/720 exact outcomes and 36 completed, reaped children on macOS / Python 3.12.0;
+native Windows execution requires the candidate's CI. The [coverage matrix](docs/coverage.md)
+is a separate current-behavior contribution to [#46](https://github.com/sahilmathur254/guardtrellis/issues/46).
+Both #45 and #46 remain open for their broader scope; neither contribution promises
+general detection accuracy, universal latency or production capacity.
 
 - Extend the retained cases for secrets, JSON/tool behavior, and ordered scanner
   combinations when a new caller gap warrants it, keeping checked delivery and rejection
@@ -217,7 +231,7 @@ Add optional dependencies only when a recipe needs them.
 The completed recipes use the current API. General decoded-value recipes should follow #11;
 do not quietly introduce a second structured-data contract through an example.
 
-## Next: local policy testing interface
+## Now: local policy testing design
 
 **Design proposal [#31](https://github.com/sahilmathur254/guardtrellis/issues/31).**
 A CLI could let a developer check selected text or fixtures from
@@ -241,10 +255,15 @@ whether a declarative policy format is needed before adding a configuration syst
 - Define installation and process behavior on the supported platforms, including malformed
   input, encoding, stdin limits, scanner failures, and cancellation.
 
-**Implementation gate:** agree a repeatable terminal/CI use case and the smallest interface
-that serves it, then open a scoped implementation issue. Plain-text checking can reuse today's SDK;
-structured-value support must wait for #11. Recursive repository scanning, automatic file
-rewrites, and a general policy language are outside this initial proposal.
+The selected workflow checks one explicitly chosen bounded text fixture from a terminal
+or CI job and inspects metadata plus an exit status. Compare a minimal CLI, explicit
+arguments and a Python recipe; decide whether a versioned JSON policy manifest is justified.
+
+**Implementation gate:** accept the interface and compatibility/versioning decision,
+then open a scoped implementation issue. Plain-text checking can reuse today's SDK;
+general nested/multi-field support needs its own accepted contract beyond the released
+fixed-field recipes. Recursive repository scanning, automatic file rewrites, and a general
+policy language are outside this initial proposal.
 
 ## As needed: provider and deployment evidence
 

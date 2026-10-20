@@ -40,13 +40,14 @@ incorrect behavior, improve diagnostics, and update dependencies within the poli
 New required arguments, removal or renaming of existing public fields, changed enum
 meanings, and routine changes to default actions belong in a later minor release.
 
-The `0.1.6` candidate's optional `PIIScanner(phone_mode="formatted")` argument is an
+The optional `PIIScanner(phone_mode="formatted")` argument released in `0.1.6` is an
 additive choice within this policy. Existing callers keep `phone_mode="contiguous"`
 and their existing detector outcomes. Selecting the new mode changes the accepted
 phone grammar and rejects malformed candidates as matches; it does not automatically
 block those inputs. The [formatted-phone guide](formatted_phone.md) records complete
 redaction, no-prefix-fallback behavior, exclusions, and explicit recipe adoption.
-This versioning decision does not establish publication; consult PyPI for availability.
+See the [0.1.6 release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.6)
+and [control-coverage matrix](coverage.md) for versioned evidence and limitations.
 
 Detection results are not frozen. A correction to a supported pattern, a false-positive
 fix, or a privacy/security fix can change findings, redacted spans, or whether a particular
