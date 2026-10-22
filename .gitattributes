@@ -2,3 +2,4 @@
 /evaluation/corpus.jsonl text eol=lf
 /evaluation/challenges/*.jsonl text eol=lf
 /evaluation/policy_combinations/*.jsonl text eol=lf
+/evaluation/connection_strings/*.jsonl text eol=lf

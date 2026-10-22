@@ -113,3 +113,11 @@ characters and checks exact allowed/redacted delivery and callback suppression o
 It records setup, admission wait, operation time and available process resources separately.
 Its repeated development requests support observed ranges and medians, not population
 accuracy, production capacity, tail-latency guarantees or a recommended concurrency limit.
+
+The [connection-string evaluation](connection_strings/README.md), tracked in
+[#67](https://github.com/sahilmathur254/guardtrellis/issues/67), freezes 52 synthetic
+development cases before detector changes. It compares plain, raw serialized and explicitly
+decoded values under the default secret scanner and shipped tool-return policy, preserving
+incidental PII redactions, partial credential coverage, input-limit errors and unsupported
+formats separately. Its published-0.1.7 baseline and detector proposal do not change SDK
+defaults or establish general connection-string coverage.
