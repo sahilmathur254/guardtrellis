@@ -164,3 +164,7 @@ Review these outcomes and the [proposed detector contract](PROPOSAL.md) before a
 SDK change. #67 remains open until contract review and required platform checks are complete.
 An opt-in detector and accompanying documentation may join a later batched release,
 tentatively 0.1.8; this evaluation does not select or publish that version.
+
+The separately versioned [contract supplement](SUPPLEMENT.md) now records the revised #68
+decisions, including all twelve originally ambiguous inputs. Use its separate runner and
+report; the historical v1 corpus, runner and baseline above remain unchanged.
