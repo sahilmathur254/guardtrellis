@@ -1,11 +1,14 @@
-# Proposed connection-URI contract for #68
+# Connection-URI implementation contract for #68
 
-**Status: revised scope for implementation review; no SDK implementation or release.**
+**Status: contract finalized on 2026-10-22; SDK implementation has not started.**
 The [published-0.1.7 baseline](baseline_0.1.7/REPORT.md) establishes the coverage gap.
 The separately versioned [contract supplement](SUPPLEMENT.md) records the decisions below
 before a detector is written. It preserves all original v1 labels, text and results,
 including the twelve previously ambiguous cases. Supplemental outcomes still come from
-the unchanged SDK; they do not demonstrate this proposed API.
+the unchanged SDK; they do not demonstrate the planned API. The separately frozen
+[structural-boundary addendum](BOUNDARIES.md) completes the pre-implementation decisions.
+This document defines the implementation scope; SDK edits, commit/push and publication
+still require their separately authorized steps.
 
 ## API, findings and checked delivery
 
@@ -32,17 +35,36 @@ driver syntax: an invalid host or port cannot make a visibly embedded password s
 | --- | --- |
 | Schemes | ASCII case-insensitive `postgresql://`, `postgres://`, `mongodb://`, `mongodb+srv://`. Do not apply Unicode case folding or normalize the whole input. |
 | Start boundary | Start of input or a preceding character outside ASCII letters, digits, `_`, `+`, `.`, `-`. Do not recognize a supported spelling embedded in a longer scheme-like token. |
-| Structural delimiters | Identify literal separators before any decoding. Authority starts after `://` and ends at the first literal `/` or `?`; only this region supplies userinfo. The first literal `?` starts the query. An encoded delimiter stays within its original component. Do not percent-decode the entire URI. |
-| Userinfo | A recognizable literal `:nonempty-password@` slot is sensitive, including an empty username. The password is opaque; decoding it is unnecessary to establish exposure. |
+| Structural delimiters | Identify literal separators before any decoding. Authority starts after `://` and ends at the first literal `/` or `?`, or at candidate end if neither occurs; only this region supplies userinfo. The first literal `?` starts the query. An encoded delimiter stays within its original component. Do not percent-decode the entire URI. |
+| Userinfo | Within the authority only, take the first literal colon and last literal `@`. If the colon precedes that `@` with at least one character between them, BLOCK. Treat the intervening text as an opaque password, including extra colons or earlier `@` characters. An empty username is allowed by this detector rule; decoding the password is unnecessary. |
 | Host/port syntax | Do not require a usable connection. Omitted PostgreSQL hosts, invalid hosts/ports, multi-host content and invalid SRV port syntax still BLOCK when an explicit password slot is recognizable. No DNS or driver parser is used. |
 | PostgreSQL query | Split on literal `&` and the first literal `=`. Match `password` ASCII case-insensitively after one bounded percent-decoding pass on the key. This deliberately conservative detector policy is not a claim that every driver accepts the spelling. |
-| Repeated credentials | Any nonempty recognized password occurrence BLOCKs, including duplicates with an empty last value and simultaneous userinfo/query credentials. An unrelated malformed query pair must not erase a clear password. |
+| Repeated credentials | Any nonempty recognized password occurrence BLOCKs, including duplicates with an empty last value and simultaneous userinfo/query credentials. Inspect query pairs independently: a malformed unrelated pair before or after a clear password must not erase it. Emit one URI finding for the candidate, rather than one for each exposed component. |
 | Percent escapes | Decode query keys once only; malformed keys are unsupported unless another explicit credential is present. Malformed escapes inside a nonempty recognized password do not exempt it. Do not decode `+` as space or treat encoded separators as structure. |
 | Empty values | Username-only and exactly empty password slots add no connection-URI finding. Empty username with a nonempty password BLOCKs. Other existing scanners may still report findings. |
 | Templates | Nonempty masks, ordinary placeholder words, `${ENV}` and `<placeholder>` in recognizable password slots BLOCK. Do not expand environment variables. These intentional template false positives must be documented. |
 | Literal `#` | Do not globally truncate candidates at `#`: retain it in recognizable userinfo/query password values, including at the beginning of a value. No separate fragment-password grammar is added. |
 | Unsupported forms | MongoDB query-only password fields, double-encoded PostgreSQL keys and key aliases have excluded/null supplemental comparisons, without a safety claim. Credential-free scheme lookalikes are selected benign negatives; credential-bearing unsupported schemes remain deferred. |
 | JSON | Decoding remains explicit and application-owned. Compare raw wire and one-layer decoded equivalents separately; no implicit traversal or recursive decoding. |
+
+The first-colon/last-`@` rule is deliberately conservative disclosure detection. For
+example, an empty gap before the first `@` does not exempt nonempty text before a later
+`@`. Conversely, a username with no literal colon, or an exactly empty interval between
+the selected colon and `@`, produces no userinfo finding. A colon occurring only after
+the final `@` is not a password separator. A PostgreSQL query password can still require
+BLOCK independently of these userinfo decisions.
+
+Apply that rule only before the authority's first literal `/` or `?`. Credential-like
+text in a path or unrelated query value cannot be promoted into userinfo, even if it
+contains both `:` and `@`. Percent-encoded separators never create structural boundaries.
+The addendum fixes exact targets and credential intervals for the selected cases before
+observing the SDK; no driver, network or credential-validity check supplies those labels.
+
+This policy can intentionally block malformed or illustrative strings. PostgreSQL's
+parser selects the first literal `@` and the first preceding colon, while MongoDB's
+specification requires driver rejection of embedded `@` or multiple userinfo colons.
+GuardTrellis does not claim to reproduce either driver's acceptance rules. The primary
+references below document that distinction.
 
 ## Candidate boundaries and offsets
 
@@ -83,27 +105,28 @@ avoid repeated rescans of a shared suffix. Select any additional numeric limits 
 bounded subprocess resource probes before final implementation acceptance. The corpus's
 2,000-character scan/four-candidate conditions are **not production limits**.
 
-The supplemental baseline performs no resource-limit experiment and cannot settle these
+The supplemental and boundary baselines perform no resource-limit experiment and cannot settle these
 numbers. Probe long benign text, repeated near-matches, many credential-free candidates,
 oversized candidates and each overflow boundary. Preserve incomplete work and avoid a
-machine-dependent latency threshold. No new public performance knobs are proposed.
+machine-dependent latency threshold. Include direct `SecretScanner.scan()` calls as well
+as `Guard` pipelines, so work bounds do not silently depend on `Guard.max_chars`. Select
+numeric budgets against the implementation before acceptance; benchmarking the unfinished
+detector is not a prerequisite to starting it. No new public performance knobs are proposed.
 
-## Implementation gates after this evaluation-only batch
+## Preparation complete; implementation acceptance gates
 
-1. Review this contract and the frozen supplement's decisions/spans. The new rows carry
-   `selected`, `excluded` or `resource_pending` status; only selected cases are scored.
-   All twelve original ambiguous examples retain their original text and an origin ID.
-   Before SDK edits, author a further bounded structural-boundary set for userinfo-like
-   text in paths/query values, extra literal `@`/colon separators, and an unrelated malformed
-   query pair alongside a recognized password key. Settle the multiple-separator rule
-   against that set; do not infer coverage of those cases from this supplement.
+1. Preserve the three independently versioned case sets and their historical reports.
+   The supplement retains all twelve original ambiguous inputs with origin IDs; the
+   16-case boundary addendum records the final separator and query-ownership decisions.
+   Selected cases have authored decisions; excluded/resource-pending cases remain unscored.
+   The grammar/API/action/compatibility decisions above complete the preparation gate.
 2. Implement the opt-in bounded scan, constructor validation and static diagnostics with
    existing dependencies and default signature behavior unchanged. Add focused tests for
    exact offsets, overlapping token signatures, multiple credentials and deterministic
    finding order. Decide numeric processing limits using the probes above.
 3. Add a separately versioned opt-in comparator. The frozen v1 harness continues to report
    current/default behavior; it must not be retrofitted to erase historical misses. Compare
-   defaults and opt-in across both corpora, raw/decoded coordinates and both fixed policies.
+   defaults and opt-in across all three case sets, raw/decoded coordinates and both fixed policies.
 4. Verify every authored credential is withheld for BLOCK/ERROR and exact allowed text is
    delivered. Add integration coverage for INPUT, OUTPUT, RETRIEVAL and TOOL stages, and
    checked tool arguments and state insertion. Keep PII-only false positives separate.

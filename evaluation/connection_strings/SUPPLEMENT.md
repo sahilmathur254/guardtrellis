@@ -85,5 +85,10 @@ errors, harness failures or detected diagnostic leaks. Eight benign observations
 incidental findings; these remain visible instead of being relabelled.
 
 These are measurements of the current SDK's gaps. They establish neither the proposed
-detector's behavior nor production coverage. Structural-boundary refinements and resource
-probes listed in the contract remain explicit gates before the corresponding SDK work.
+detector's behavior nor production coverage. The [boundary addendum](BOUNDARIES.md) now
+settles the remaining structural decisions. Resource probes will accompany implementation;
+numeric limits must be selected and verified before implementation acceptance.
+
+The retained report records the contract and runner as they were in PR #70. Later contract
+finalization and support for a separate boundary corpus do not rewrite those hashes or
+observations. The original v1 runner, both earlier corpora and their reports remain intact.
