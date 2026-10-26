@@ -87,6 +87,10 @@ jobs:
           uv run --frozen python evaluation/connection_strings/run_supplement.py \
             --corpus evaluation/connection_strings/boundaries_v1.jsonl \
             --report-dir '${{ runner.temp }}/guardtrellis-connection-boundaries'
+      - name: Compare opt-in connection URIs and bounded direct-scanner work
+        run: |
+          uv run --frozen python evaluation/connection_strings/opt_in.py --resources \
+            --report-dir '${{ runner.temp }}/guardtrellis-connection-opt-in'
       - name: Build and install both distributions outside the checkout
         run: |
           uv build

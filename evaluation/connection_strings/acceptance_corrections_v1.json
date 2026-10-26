@@ -1,0 +1,49 @@
+{
+  "version": "connection-uri-acceptance-corrections-v1",
+  "authored": "2026-10-26",
+  "timing": "post-observation harness correction",
+  "basis": "The initial acceptance projection incorrectly treated every control label as token-only. contract-existing-token-overlap already has an authored whole-URI target [0,81] in the frozen supplement; retain that original target and check its overlapping token independently. The first observed run exposed the projection error. No original corpus label, span, or detector outcome is changed.",
+  "original_acceptance_sha256": "1c1aeb4110b6c4545233c59560726bc96799a6713c4ad83adb5e9a628981a4d8",
+  "rows": [
+    {
+      "id": "contract-existing-token-overlap",
+      "representation": "plain",
+      "uri_spans": [
+        [
+          0,
+          81
+        ]
+      ]
+    },
+    {
+      "id": "contract-existing-token-overlap",
+      "representation": "json_plain",
+      "uri_spans": [
+        [
+          10,
+          91
+        ]
+      ]
+    },
+    {
+      "id": "contract-existing-token-overlap",
+      "representation": "decoded_plain",
+      "uri_spans": [
+        [
+          0,
+          81
+        ]
+      ]
+    },
+    {
+      "id": "contract-existing-token-overlap",
+      "representation": "decoded_escaped",
+      "uri_spans": [
+        [
+          0,
+          81
+        ]
+      ]
+    }
+  ]
+}

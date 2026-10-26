@@ -4,6 +4,25 @@ See [PyPI](https://pypi.org/project/guardtrellis/) for package availability and
 [GitHub releases](https://github.com/sahilmathur254/guardtrellis/releases) for published
 artifacts and verification evidence.
 
+## 0.1.8
+
+- Add explicitly enabled `SecretScanner(connection_strings=True)` for password-bearing
+  PostgreSQL and MongoDB URIs, including PostgreSQL query passwords. The option requires
+  BLOCK, reports whole candidate spans, and preserves overlapping token signatures.
+- Bound opted-in input size, candidate length and candidate attempts, including direct
+  scanner calls. Processing failures and changed block-only configuration return static
+  ERROR results without checked output.
+- Add default-versus-opt-in comparisons against the frozen connection-string corpora,
+  separate supported-format acceptance, all-stage delivery regressions and bounded resource
+  probes. Preserve raw escaped-JSON misses and historical evidence.
+
+Upgrade note: existing `SecretScanner()` calls and dependency requirements are unchanged.
+Enable the option explicitly before redactors in each required stage. Nonempty masks and
+placeholders can block; malformed or unsupported formats can remain undetected. JSON
+decoding stays application-owned. See the [connection-URI guide](docs/connection_strings.md)
+for supported boundaries, processing limits and exclusions. This source candidate has not
+been published; the release batch remains open.
+
 ## 0.1.7
 
 - Preserve the Gemini example's one-request contract with newer Google Gen AI SDKs by

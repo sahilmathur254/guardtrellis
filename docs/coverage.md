@@ -1,11 +1,11 @@
 # Control coverage and evidence
 
-Snapshot: 2026-10-19. The published baseline is
-[`0.1.6`](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.6).
-This checkout prepares `0.1.7`; it is not publication evidence. Its core checking API,
-defaults and detector rules are unchanged from `0.1.6`. The Gemini example's explicit
-continuation control is a `0.1.7` candidate change; applications with copied examples
-must adopt that code separately. See the [changelog](../CHANGELOG.md) and
+Snapshot: 2026-10-26. The published baseline is
+[`0.1.7`](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.7).
+This checkout prepares `0.1.8`; it is not publication evidence. The candidate adds
+explicit connection-URI detection while preserving default scanner rules. The Gemini
+example's explicit continuation control shipped in `0.1.7`; applications with copied
+examples must adopt that code separately. See the [changelog](../CHANGELOG.md) and
 [package availability](https://pypi.org/project/guardtrellis/).
 
 These matrices connect configured behavior to implementation, regression cases and
@@ -20,6 +20,7 @@ policies and platforms. None is a general accuracy estimate or proof of host enf
 | `PIIScanner()` redacts selected ASCII email, contiguous international `+` phone and hyphenated US SSN shapes. `formats` selects the families. | [Implementation](../src/guardtrellis/scanners.py), [format/benign tests](../tests/test_scanners.py), [retained Unicode challenge](../evaluation/challenges/unicode_pii_v1/REPORT.md). | No name, address or credit-card detection; no identifier issuance, phone ownership or comprehensive de-identification. Default phones can match only a prefix of an unsupported formatted value. |
 | `phone_mode="formatted"`, added in `0.1.6`, accepts bounded ASCII groups: literal `+`, 8–15 digits with a nonzero first digit, single spaces/hyphens and at most one separated parenthesized digit group. | [Grammar and exclusions](formatted_phone.md), [complete-span/default-preservation tests](../tests/test_formatted_phone.py), [retained comparison](../evaluation/formatted_phone/baseline_0.1.6/REPORT.md). | Malformed separators/parentheses and excessive digits in this ASCII grammar produce no phone finding, rather than a shorter prefix finding or automatic rejection. Excluded forms such as extensions and NBSP/zero-width separators can still receive partial redaction. Country validity and signed-integer ambiguity remain unresolved. |
 | `SecretScanner()` blocks selected GitHub token signatures, AWS access-key IDs and PEM private-key envelopes. | [Implementation](../src/guardtrellis/scanners.py), [signature/envelope tests](../tests/test_scanners.py), [retained misses](../evaluation/REPORT.md#retained-failures-and-false-positive-challenges). | A match does not verify a live credential. Arbitrary passwords, generic bearer tokens, changed lengths and encodings can be missed. An AWS access-key ID is not its secret component. |
+| `SecretScanner(connection_strings=True)` in the `0.1.8` source candidate adds BLOCK-only PostgreSQL/MongoDB userinfo and PostgreSQL query passwords. | [Grammar and limits](connection_strings.md), [implementation](../src/guardtrellis/_connection_strings.py), [scanner/delivery tests](../tests/test_connection_strings.py), [opt-in comparison](../evaluation/connection_strings/OPT_IN.md), [bounded probes](../evaluation/connection_strings/resources.py). | Explicit opt-in; defaults stay unchanged. Complete URI findings coexist with overlapping token findings. Placeholder/mask and malformed-URI false positives are intentional. No driver/credential validation, network access, generic URL secrets, implicit JSON decoding or selective redaction. Private work limits can produce ERROR even with a larger Guard input limit. |
 | `InvisibleScanner()` warns on Unicode Cc/Cf except tab/CR/LF; `LiteralScanner` matches configured substrings with optional ASCII case folding. | [Implementations](../src/guardtrellis/scanners.py), [joiner/literal/offset tests](../tests/test_scanners.py), [Unicode challenge](../evaluation/challenges/unicode_pii_v1/REPORT.md). | WARN permits unchanged delivery. Joiners can be legitimate; removing them can damage text. Literal matches do not establish semantic prompt-injection detection, Unicode normalization or regex support. |
 | `JSONScanner` checks strict JSON and an optional constrained Draft 2020-12 schema. Duplicate keys, non-finite values and excess nesting are rejected. | [Parser/schema implementation](../src/guardtrellis/json_check.py), [strict parsing/schema tests](../tests/test_json_tools.py), [API contract](api.md#json-and-tool-calls). | Schemas are trusted configuration, references are document-local, regex keywords are disallowed and `format` is only an annotation. Valid JSON does not establish safe values, commands or URLs. Text scanners still inspect serialized characters. |
 | The decoded-query (`0.1.3`) and decoded-contact (`0.1.5`) recipes check selected strings after one JSON decode, then rebuild and revalidate the checked call. | [Query helper](../examples/decoded_query.py) and [tests](../tests/test_decoded_query_example.py); [contact helper](../examples/decoded_contact.py), [tests](../tests/test_decoded_contact_recipe.py) and [retained comparison](../evaluation/decoded_contact/baseline_0.1.5/REPORT.md). | Application-owned fixed schemas, not a shared recursive SDK API. No key scanning, repeated decoding or general nested traversal. The contact helper checks secrets across both fields before PII and retains its fixed contiguous-phone policy. Decoded offsets are not wire-text offsets. |
@@ -55,7 +56,8 @@ environment, measurement boundaries and observations. These repeated synthetic r
 do not establish general detection accuracy, native Windows execution, universal latency,
 service capacity or production reliability.
 
-This current-behavior matrix is a bounded contribution to
-[#46](https://github.com/sahilmathur254/guardtrellis/issues/46). Broader evaluation and
-positioning work remain open. It adds no vendor ranking, threat-framework certification,
-compliance claim, new detector or API promise.
+The original `0.1.7` matrix contributed to
+[#46](https://github.com/sahilmathur254/guardtrellis/issues/46) without changing detector
+behavior. The connection-URI row now records the explicitly enabled `0.1.8` source change.
+Broader evaluation and positioning work remain open. This matrix adds no vendor ranking,
+threat-framework certification, compliance claim or wider API promise.

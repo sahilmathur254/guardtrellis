@@ -1,0 +1,6627 @@
+{
+  "version": "connection-uri-acceptance-v1",
+  "authored": "2026-10-26",
+  "basis": "Authored contract and original spans, before opt-in SDK observations; raw JSON eligibility requires unchanged literal content. No outcomes determine eligibility.",
+  "corpus_sha256": {
+    "corpus_v1.jsonl": "e1694b598d363f56a6d0f267292104f1d3dcba55564949398c328d7191c577c1",
+    "contract_supplement_v1.jsonl": "586d3e9d6a0bff898dd6d593f7927a95039c3d6b607fe14e1a1b371a0563a13c",
+    "boundaries_v1.jsonl": "a54ede2cdfb221e63e3af03d7e94eb86f7bd9cbadd927884b4a7646e5ab6d7b6"
+  },
+  "rows": [
+    {
+      "id": "pg-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          52
+        ]
+      ]
+    },
+    {
+      "id": "pg-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          62
+        ]
+      ]
+    },
+    {
+      "id": "pg-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          52
+        ]
+      ]
+    },
+    {
+      "id": "pg-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          52
+        ]
+      ]
+    },
+    {
+      "id": "pg-short-scheme",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "pg-short-scheme",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          65
+        ]
+      ]
+    },
+    {
+      "id": "pg-short-scheme",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-short-scheme",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "pg-short-scheme",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "pg-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          66
+        ]
+      ]
+    },
+    {
+      "id": "pg-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          76
+        ]
+      ]
+    },
+    {
+      "id": "pg-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          66
+        ]
+      ]
+    },
+    {
+      "id": "pg-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          66
+        ]
+      ]
+    },
+    {
+      "id": "pg-query-encoded-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          86
+        ]
+      ]
+    },
+    {
+      "id": "pg-query-encoded-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          96
+        ]
+      ]
+    },
+    {
+      "id": "pg-query-encoded-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-query-encoded-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          86
+        ]
+      ]
+    },
+    {
+      "id": "pg-query-encoded-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          86
+        ]
+      ]
+    },
+    {
+      "id": "pg-userinfo-encoded-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          56
+        ]
+      ]
+    },
+    {
+      "id": "pg-userinfo-encoded-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          66
+        ]
+      ]
+    },
+    {
+      "id": "pg-userinfo-encoded-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-userinfo-encoded-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          56
+        ]
+      ]
+    },
+    {
+      "id": "pg-userinfo-encoded-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          56
+        ]
+      ]
+    },
+    {
+      "id": "pg-encoded-username",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          59
+        ]
+      ]
+    },
+    {
+      "id": "pg-encoded-username",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          69
+        ]
+      ]
+    },
+    {
+      "id": "pg-encoded-username",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-encoded-username",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          59
+        ]
+      ]
+    },
+    {
+      "id": "pg-encoded-username",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          59
+        ]
+      ]
+    },
+    {
+      "id": "pg-ipv6-host",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          53
+        ]
+      ]
+    },
+    {
+      "id": "pg-ipv6-host",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          63
+        ]
+      ]
+    },
+    {
+      "id": "pg-ipv6-host",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-ipv6-host",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          53
+        ]
+      ]
+    },
+    {
+      "id": "pg-ipv6-host",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          53
+        ]
+      ]
+    },
+    {
+      "id": "pg-multiple-hosts",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          83
+        ]
+      ]
+    },
+    {
+      "id": "pg-multiple-hosts",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          93
+        ]
+      ]
+    },
+    {
+      "id": "pg-multiple-hosts",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-multiple-hosts",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          83
+        ]
+      ]
+    },
+    {
+      "id": "pg-multiple-hosts",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          83
+        ]
+      ]
+    },
+    {
+      "id": "pg-omitted-host-query",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          48
+        ]
+      ]
+    },
+    {
+      "id": "pg-omitted-host-query",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          58
+        ]
+      ]
+    },
+    {
+      "id": "pg-omitted-host-query",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-omitted-host-query",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          48
+        ]
+      ]
+    },
+    {
+      "id": "pg-omitted-host-query",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          48
+        ]
+      ]
+    },
+    {
+      "id": "pg-repeated-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          78
+        ]
+      ]
+    },
+    {
+      "id": "pg-repeated-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          88
+        ]
+      ]
+    },
+    {
+      "id": "pg-repeated-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-repeated-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          78
+        ]
+      ]
+    },
+    {
+      "id": "pg-repeated-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          78
+        ]
+      ]
+    },
+    {
+      "id": "mongo-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "mongo-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          65
+        ]
+      ]
+    },
+    {
+      "id": "mongo-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "mongo-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "mongo-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "mongo-srv-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          75
+        ]
+      ]
+    },
+    {
+      "id": "mongo-srv-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          85
+        ]
+      ]
+    },
+    {
+      "id": "mongo-srv-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "mongo-srv-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          75
+        ]
+      ]
+    },
+    {
+      "id": "mongo-srv-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          75
+        ]
+      ]
+    },
+    {
+      "id": "mongo-encoded-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          56
+        ]
+      ]
+    },
+    {
+      "id": "mongo-encoded-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          66
+        ]
+      ]
+    },
+    {
+      "id": "mongo-encoded-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "mongo-encoded-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          56
+        ]
+      ]
+    },
+    {
+      "id": "mongo-encoded-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          56
+        ]
+      ]
+    },
+    {
+      "id": "mongo-multiple-hosts",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          101
+        ]
+      ]
+    },
+    {
+      "id": "mongo-multiple-hosts",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          111
+        ]
+      ]
+    },
+    {
+      "id": "mongo-multiple-hosts",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "mongo-multiple-hosts",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          101
+        ]
+      ]
+    },
+    {
+      "id": "mongo-multiple-hosts",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          101
+        ]
+      ]
+    },
+    {
+      "id": "mongo-ipv6-host",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          51
+        ]
+      ]
+    },
+    {
+      "id": "mongo-ipv6-host",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          61
+        ]
+      ]
+    },
+    {
+      "id": "mongo-ipv6-host",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "mongo-ipv6-host",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          51
+        ]
+      ]
+    },
+    {
+      "id": "mongo-ipv6-host",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          51
+        ]
+      ]
+    },
+    {
+      "id": "pg-quoted-metadata",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          16,
+          68
+        ]
+      ]
+    },
+    {
+      "id": "pg-quoted-metadata",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "raw_json_changes_literal_content",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-quoted-metadata",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-quoted-metadata",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          16,
+          68
+        ]
+      ]
+    },
+    {
+      "id": "pg-quoted-metadata",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          16,
+          68
+        ]
+      ]
+    },
+    {
+      "id": "pg-emoji-offset",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          15,
+          67
+        ]
+      ]
+    },
+    {
+      "id": "pg-emoji-offset",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "raw_json_changes_literal_content",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-emoji-offset",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-emoji-offset",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          15,
+          67
+        ]
+      ]
+    },
+    {
+      "id": "pg-emoji-offset",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          15,
+          67
+        ]
+      ]
+    },
+    {
+      "id": "two-credential-uris",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          52
+        ],
+        [
+          53,
+          102
+        ]
+      ]
+    },
+    {
+      "id": "two-credential-uris",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "raw_json_changes_literal_content",
+      "uri_spans": null
+    },
+    {
+      "id": "two-credential-uris",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "two-credential-uris",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          52
+        ],
+        [
+          53,
+          102
+        ]
+      ]
+    },
+    {
+      "id": "two-credential-uris",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          52
+        ],
+        [
+          53,
+          102
+        ]
+      ]
+    },
+    {
+      "id": "benign-then-credential",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          41,
+          99
+        ]
+      ]
+    },
+    {
+      "id": "benign-then-credential",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "raw_json_changes_literal_content",
+      "uri_spans": null
+    },
+    {
+      "id": "benign-then-credential",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "benign-then-credential",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          41,
+          99
+        ]
+      ]
+    },
+    {
+      "id": "benign-then-credential",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          41,
+          99
+        ]
+      ]
+    },
+    {
+      "id": "four-credential-candidates",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ],
+        [
+          56,
+          111
+        ],
+        [
+          112,
+          167
+        ],
+        [
+          168,
+          223
+        ]
+      ]
+    },
+    {
+      "id": "four-credential-candidates",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "raw_json_changes_literal_content",
+      "uri_spans": null
+    },
+    {
+      "id": "four-credential-candidates",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "four-credential-candidates",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ],
+        [
+          56,
+          111
+        ],
+        [
+          112,
+          167
+        ],
+        [
+          168,
+          223
+        ]
+      ]
+    },
+    {
+      "id": "four-credential-candidates",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ],
+        [
+          56,
+          111
+        ],
+        [
+          112,
+          167
+        ],
+        [
+          168,
+          223
+        ]
+      ]
+    },
+    {
+      "id": "pg-userinfo-and-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          73
+        ]
+      ]
+    },
+    {
+      "id": "pg-userinfo-and-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          83
+        ]
+      ]
+    },
+    {
+      "id": "pg-userinfo-and-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-userinfo-and-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          73
+        ]
+      ]
+    },
+    {
+      "id": "pg-userinfo-and-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          73
+        ]
+      ]
+    },
+    {
+      "id": "pg-encoded-backslash-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "pg-encoded-backslash-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          65
+        ]
+      ]
+    },
+    {
+      "id": "pg-encoded-backslash-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-encoded-backslash-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "pg-encoded-backslash-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "pg-candidate-2000-characters",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          2000
+        ]
+      ]
+    },
+    {
+      "id": "pg-candidate-2000-characters",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          2010
+        ]
+      ]
+    },
+    {
+      "id": "pg-candidate-2000-characters",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-candidate-2000-characters",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          2000
+        ]
+      ]
+    },
+    {
+      "id": "pg-candidate-2000-characters",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          2000
+        ]
+      ]
+    },
+    {
+      "id": "pg-candidate-2001-characters",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          2001
+        ]
+      ]
+    },
+    {
+      "id": "pg-candidate-2001-characters",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          2011
+        ]
+      ]
+    },
+    {
+      "id": "pg-candidate-2001-characters",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "pg-candidate-2001-characters",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          2001
+        ]
+      ]
+    },
+    {
+      "id": "pg-candidate-2001-characters",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          2001
+        ]
+      ]
+    },
+    {
+      "id": "benign-public-text",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-public-text",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-public-text",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "benign-public-text",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-public-text",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-no-credentials",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-no-credentials",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-no-credentials",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "benign-pg-no-credentials",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-no-credentials",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-username-only",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-username-only",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-username-only",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "benign-pg-username-only",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-username-only",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-nonsecret-query",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-nonsecret-query",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-nonsecret-query",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "benign-pg-nonsecret-query",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-nonsecret-query",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-passfile-reference",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-passfile-reference",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-passfile-reference",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "benign-pg-passfile-reference",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-pg-passfile-reference",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-mongo-no-credentials",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-mongo-no-credentials",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-mongo-no-credentials",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "benign-mongo-no-credentials",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-mongo-no-credentials",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-mongo-srv-no-credentials",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-mongo-srv-no-credentials",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-mongo-srv-no-credentials",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "benign-mongo-srv-no-credentials",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-mongo-srv-no-credentials",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-documentation-url",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-documentation-url",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-documentation-url",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "benign-documentation-url",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-documentation-url",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-integrated-auth-reference",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-integrated-auth-reference",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-integrated-auth-reference",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "benign-integrated-auth-reference",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-integrated-auth-reference",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-literal-escape-template",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-literal-escape-template",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "raw_json_changes_literal_content",
+      "uri_spans": null
+    },
+    {
+      "id": "benign-literal-escape-template",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "benign-literal-escape-template",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "benign-literal-escape-template",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "ambiguous-empty-pg-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-empty-pg-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-empty-pg-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-empty-pg-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-empty-pg-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-empty-mongo-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-empty-mongo-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-empty-mongo-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-empty-mongo-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-empty-mongo-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-masked-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-masked-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-masked-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-masked-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-masked-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-env-reference",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-env-reference",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-env-reference",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-env-reference",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-env-reference",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-doc-placeholder",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-doc-placeholder",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-doc-placeholder",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-doc-placeholder",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-doc-placeholder",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-angle-placeholder",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-angle-placeholder",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-angle-placeholder",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-angle-placeholder",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-angle-placeholder",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-invalid-percent",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-invalid-percent",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-invalid-percent",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-invalid-percent",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-invalid-percent",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-truncated-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-truncated-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-truncated-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-truncated-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-truncated-userinfo",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-mongo-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-mongo-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-mongo-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-mongo-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-mongo-query-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-unclosed-ipv6",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-unclosed-ipv6",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-unclosed-ipv6",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-unclosed-ipv6",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-unclosed-ipv6",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-line-broken-uri",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-line-broken-uri",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-line-broken-uri",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-line-broken-uri",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-line-broken-uri",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-srv-port",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-srv-port",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-srv-port",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-srv-port",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "ambiguous-srv-port",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "ambiguous",
+      "uri_spans": null
+    },
+    {
+      "id": "control-github-classic",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "control-github-classic",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "control-github-classic",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "control-github-classic",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "control-github-classic",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "control-aws-access-key-id",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "control-aws-access-key-id",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "control-aws-access-key-id",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "control-aws-access-key-id",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "control-aws-access-key-id",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "deferred-libpq-keywords",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-libpq-keywords",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-libpq-keywords",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-libpq-keywords",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-libpq-keywords",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-libpq-quoted-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-libpq-quoted-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-libpq-quoted-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-libpq-quoted-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-libpq-quoted-password",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-sqlserver-keywords",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-sqlserver-keywords",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-sqlserver-keywords",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-sqlserver-keywords",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-sqlserver-keywords",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-odbc-keywords",
+      "dataset_version": "connection-strings-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-odbc-keywords",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-odbc-keywords",
+      "dataset_version": "connection-strings-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-odbc-keywords",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "deferred-odbc-keywords",
+      "dataset_version": "connection-strings-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "deferred",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-pg-empty",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-origin-pg-empty",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-origin-pg-empty",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-pg-empty",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-origin-pg-empty",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-origin-mongo-empty",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-origin-mongo-empty",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-origin-mongo-empty",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-mongo-empty",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-origin-mongo-empty",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-origin-mask",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          49
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-mask",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          59
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-mask",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-mask",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          49
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-mask",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          49
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-env",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-env",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          65
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-env",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-env",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-env",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-doc-word",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          54
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-doc-word",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          64
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-doc-word",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-doc-word",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          54
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-doc-word",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          54
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-angle",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-angle",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          65
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-angle",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-angle",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-angle",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-bad-percent",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          54
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-bad-percent",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          64
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-bad-percent",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-bad-percent",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          54
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-bad-percent",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          54
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-no-host",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          30
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-no-host",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          40
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-no-host",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-no-host",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          30
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-no-host",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          30
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-mongo-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-mongo-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-mongo-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-mongo-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-mongo-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-bad-bracket",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          52
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-bad-bracket",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          62
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-bad-bracket",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-bad-bracket",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          52
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-bad-bracket",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          52
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-hard-newline",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          34
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-hard-newline",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "raw_json_changes_literal_content",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-hard-newline",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-hard-newline",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          34
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-hard-newline",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          34
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-srv-port",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          65
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-srv-port",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          75
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-srv-port",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-origin-srv-port",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          65
+        ]
+      ]
+    },
+    {
+      "id": "contract-origin-srv-port",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          65
+        ]
+      ]
+    },
+    {
+      "id": "contract-upper-pg",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "contract-upper-pg",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          65
+        ]
+      ]
+    },
+    {
+      "id": "contract-upper-pg",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-upper-pg",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "contract-upper-pg",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-pg-alias",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          53
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-pg-alias",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          63
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-pg-alias",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-mixed-pg-alias",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          53
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-pg-alias",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          53
+        ]
+      ]
+    },
+    {
+      "id": "contract-upper-mongo",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          52
+        ]
+      ]
+    },
+    {
+      "id": "contract-upper-mongo",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          62
+        ]
+      ]
+    },
+    {
+      "id": "contract-upper-mongo",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-upper-mongo",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          52
+        ]
+      ]
+    },
+    {
+      "id": "contract-upper-mongo",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          52
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-srv",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          59
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-srv",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          69
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-srv",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-mixed-srv",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          59
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-srv",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          59
+        ]
+      ]
+    },
+    {
+      "id": "contract-upper-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "contract-upper-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          70
+        ]
+      ]
+    },
+    {
+      "id": "contract-upper-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-upper-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "contract-upper-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          62
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          72
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-encoded-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          62
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          62
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-encoded-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          74
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-encoded-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          84
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-encoded-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-mixed-encoded-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          74
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-encoded-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          74
+        ]
+      ]
+    },
+    {
+      "id": "contract-double-encoded-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-double-encoded-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-double-encoded-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-double-encoded-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-double-encoded-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-query-key-alias",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-query-key-alias",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-query-key-alias",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-query-key-alias",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-query-key-alias",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-fragment-like-field",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-fragment-like-field",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-fragment-like-field",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-fragment-like-field",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-fragment-like-field",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-hash-in-userinfo",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          57
+        ]
+      ]
+    },
+    {
+      "id": "contract-hash-in-userinfo",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          67
+        ]
+      ]
+    },
+    {
+      "id": "contract-hash-in-userinfo",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-hash-in-userinfo",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          57
+        ]
+      ]
+    },
+    {
+      "id": "contract-hash-in-userinfo",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          57
+        ]
+      ]
+    },
+    {
+      "id": "contract-hash-starts-query-value",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          61
+        ]
+      ]
+    },
+    {
+      "id": "contract-hash-starts-query-value",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          71
+        ]
+      ]
+    },
+    {
+      "id": "contract-hash-starts-query-value",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-hash-starts-query-value",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          61
+        ]
+      ]
+    },
+    {
+      "id": "contract-hash-starts-query-value",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          61
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-hash",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          54
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-hash",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          64
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-hash",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-encoded-hash",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          54
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-hash",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          54
+        ]
+      ]
+    },
+    {
+      "id": "contract-inner-apostrophe",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          57
+        ]
+      ]
+    },
+    {
+      "id": "contract-inner-apostrophe",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          67
+        ]
+      ]
+    },
+    {
+      "id": "contract-inner-apostrophe",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-inner-apostrophe",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          57
+        ]
+      ]
+    },
+    {
+      "id": "contract-inner-apostrophe",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          57
+        ]
+      ]
+    },
+    {
+      "id": "contract-double-quote-wrapper",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          14,
+          69
+        ]
+      ]
+    },
+    {
+      "id": "contract-double-quote-wrapper",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "raw_json_changes_literal_content",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-double-quote-wrapper",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-double-quote-wrapper",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          14,
+          69
+        ]
+      ]
+    },
+    {
+      "id": "contract-double-quote-wrapper",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          14,
+          69
+        ]
+      ]
+    },
+    {
+      "id": "contract-backtick-wrapper",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          61
+        ]
+      ]
+    },
+    {
+      "id": "contract-backtick-wrapper",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          20,
+          71
+        ]
+      ]
+    },
+    {
+      "id": "contract-backtick-wrapper",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-backtick-wrapper",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          61
+        ]
+      ]
+    },
+    {
+      "id": "contract-backtick-wrapper",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          61
+        ]
+      ]
+    },
+    {
+      "id": "contract-outer-angle-wrapper",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          5,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "contract-outer-angle-wrapper",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          15,
+          70
+        ]
+      ]
+    },
+    {
+      "id": "contract-outer-angle-wrapper",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-outer-angle-wrapper",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          5,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "contract-outer-angle-wrapper",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          5,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "contract-pg-empty-user",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          53
+        ]
+      ]
+    },
+    {
+      "id": "contract-pg-empty-user",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          63
+        ]
+      ]
+    },
+    {
+      "id": "contract-pg-empty-user",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-pg-empty-user",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          53
+        ]
+      ]
+    },
+    {
+      "id": "contract-pg-empty-user",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          53
+        ]
+      ]
+    },
+    {
+      "id": "contract-mongo-empty-user",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          50
+        ]
+      ]
+    },
+    {
+      "id": "contract-mongo-empty-user",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "contract-mongo-empty-user",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-mongo-empty-user",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          50
+        ]
+      ]
+    },
+    {
+      "id": "contract-mongo-empty-user",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          50
+        ]
+      ]
+    },
+    {
+      "id": "contract-invalid-host-label",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "contract-invalid-host-label",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          65
+        ]
+      ]
+    },
+    {
+      "id": "contract-invalid-host-label",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-invalid-host-label",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "contract-invalid-host-label",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "contract-nonnumeric-port",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "contract-nonnumeric-port",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          70
+        ]
+      ]
+    },
+    {
+      "id": "contract-nonnumeric-port",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-nonnumeric-port",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "contract-nonnumeric-port",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "contract-invalid-query-value-escape",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          61
+        ]
+      ]
+    },
+    {
+      "id": "contract-invalid-query-value-escape",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          71
+        ]
+      ]
+    },
+    {
+      "id": "contract-invalid-query-value-escape",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-invalid-query-value-escape",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          61
+        ]
+      ]
+    },
+    {
+      "id": "contract-invalid-query-value-escape",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          61
+        ]
+      ]
+    },
+    {
+      "id": "contract-duplicate-empty-last",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          70
+        ]
+      ]
+    },
+    {
+      "id": "contract-duplicate-empty-last",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          80
+        ]
+      ]
+    },
+    {
+      "id": "contract-duplicate-empty-last",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-duplicate-empty-last",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          70
+        ]
+      ]
+    },
+    {
+      "id": "contract-duplicate-empty-last",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          70
+        ]
+      ]
+    },
+    {
+      "id": "contract-duplicate-empty-first",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          69
+        ]
+      ]
+    },
+    {
+      "id": "contract-duplicate-empty-first",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          79
+        ]
+      ]
+    },
+    {
+      "id": "contract-duplicate-empty-first",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-duplicate-empty-first",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          69
+        ]
+      ]
+    },
+    {
+      "id": "contract-duplicate-empty-first",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          69
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-user-and-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          90
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-user-and-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          100
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-user-and-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-mixed-user-and-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          90
+        ]
+      ]
+    },
+    {
+      "id": "contract-mixed-user-and-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          90
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-userinfo-delimiters",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          63
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-userinfo-delimiters",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          73
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-userinfo-delimiters",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-encoded-userinfo-delimiters",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          63
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-userinfo-delimiters",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          63
+        ]
+      ]
+    },
+    {
+      "id": "contract-literal-plus-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "contract-literal-plus-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          70
+        ]
+      ]
+    },
+    {
+      "id": "contract-literal-plus-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-literal-plus-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "contract-literal-plus-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-query-delimiters",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          76
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-query-delimiters",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          86
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-query-delimiters",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-encoded-query-delimiters",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          76
+        ]
+      ]
+    },
+    {
+      "id": "contract-encoded-query-delimiters",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          76
+        ]
+      ]
+    },
+    {
+      "id": "contract-unicode-original-offsets",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          11,
+          67
+        ]
+      ]
+    },
+    {
+      "id": "contract-unicode-original-offsets",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "raw_json_changes_literal_content",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-unicode-original-offsets",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-unicode-original-offsets",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          11,
+          67
+        ]
+      ]
+    },
+    {
+      "id": "contract-unicode-original-offsets",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          11,
+          67
+        ]
+      ]
+    },
+    {
+      "id": "contract-two-uri-candidates",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          53
+        ],
+        [
+          54,
+          104
+        ]
+      ]
+    },
+    {
+      "id": "contract-two-uri-candidates",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "raw_json_changes_literal_content",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-two-uri-candidates",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-two-uri-candidates",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          53
+        ],
+        [
+          54,
+          104
+        ]
+      ]
+    },
+    {
+      "id": "contract-two-uri-candidates",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          53
+        ],
+        [
+          54,
+          104
+        ]
+      ]
+    },
+    {
+      "id": "contract-existing-token-overlap",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-existing-token-overlap",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-existing-token-overlap",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-existing-token-overlap",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-existing-token-overlap",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-credential-free",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-credential-free",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-credential-free",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-benign-credential-free",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-credential-free",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-user-only",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-user-only",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-user-only",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-benign-user-only",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-user-only",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-query-empty",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-query-empty",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-query-empty",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-benign-query-empty",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-query-empty",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-unrelated-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-unrelated-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-unrelated-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-benign-unrelated-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-unrelated-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-keyword-in-path",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-keyword-in-path",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-keyword-in-path",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-benign-keyword-in-path",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-keyword-in-path",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-prefixed-scheme",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-prefixed-scheme",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-prefixed-scheme",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-benign-prefixed-scheme",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-prefixed-scheme",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-suffixed-scheme",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-suffixed-scheme",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-suffixed-scheme",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-benign-suffixed-scheme",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-suffixed-scheme",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-spaced-scheme",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-spaced-scheme",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-spaced-scheme",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-benign-spaced-scheme",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-spaced-scheme",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-input-length-2000",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "resource_pending",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-input-length-2000",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "resource_pending",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-input-length-2000",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "resource_pending",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-input-length-2000",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "resource_pending",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-input-length-2000",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "resource_pending",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-input-length-2001",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "resource_pending",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-input-length-2001",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "resource_pending",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-input-length-2001",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "resource_pending",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-input-length-2001",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "resource_pending",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-input-length-2001",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "resource_pending",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-query-mask",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          54
+        ]
+      ]
+    },
+    {
+      "id": "contract-query-mask",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          64
+        ]
+      ]
+    },
+    {
+      "id": "contract-query-mask",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-query-mask",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          54
+        ]
+      ]
+    },
+    {
+      "id": "contract-query-mask",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          54
+        ]
+      ]
+    },
+    {
+      "id": "contract-query-env",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          63
+        ]
+      ]
+    },
+    {
+      "id": "contract-query-env",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          73
+        ]
+      ]
+    },
+    {
+      "id": "contract-query-env",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-query-env",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          63
+        ]
+      ]
+    },
+    {
+      "id": "contract-query-env",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          63
+        ]
+      ]
+    },
+    {
+      "id": "contract-query-angle",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          59
+        ]
+      ]
+    },
+    {
+      "id": "contract-query-angle",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          69
+        ]
+      ]
+    },
+    {
+      "id": "contract-query-angle",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-query-angle",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          59
+        ]
+      ]
+    },
+    {
+      "id": "contract-query-angle",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          59
+        ]
+      ]
+    },
+    {
+      "id": "contract-userinfo-missing-at",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-userinfo-missing-at",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-userinfo-missing-at",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-userinfo-missing-at",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-userinfo-missing-at",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-malformed-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-malformed-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-malformed-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-malformed-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-malformed-query-key",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": false,
+      "reason": "excluded",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-empty-userinfo-nonempty-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          68
+        ]
+      ]
+    },
+    {
+      "id": "contract-empty-userinfo-nonempty-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          78
+        ]
+      ]
+    },
+    {
+      "id": "contract-empty-userinfo-nonempty-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-empty-userinfo-nonempty-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          68
+        ]
+      ]
+    },
+    {
+      "id": "contract-empty-userinfo-nonempty-query",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          68
+        ]
+      ]
+    },
+    {
+      "id": "contract-benign-mongo-user-only",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-mongo-user-only",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-mongo-user-only",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "contract-benign-mongo-user-only",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "contract-benign-mongo-user-only",
+      "dataset_version": "connection-strings-contract-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-pg-extra-colon",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          63
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-extra-colon",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          73
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-extra-colon",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-pg-extra-colon",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          63
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-extra-colon",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          63
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-extra-colon",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-extra-colon",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          70
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-extra-colon",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-mongo-extra-colon",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-extra-colon",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          60
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-multiple-at",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          80
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-multiple-at",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          90
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-multiple-at",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-pg-multiple-at",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          80
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-multiple-at",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          80
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-multiple-at",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          86
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-multiple-at",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          96
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-multiple-at",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-mongo-multiple-at",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          86
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-multiple-at",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          86
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-first-gap-empty",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          59
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-first-gap-empty",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          69
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-first-gap-empty",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-pg-first-gap-empty",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          59
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-first-gap-empty",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          59
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-first-gap-empty",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          56
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-first-gap-empty",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          66
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-first-gap-empty",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-mongo-first-gap-empty",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          56
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-first-gap-empty",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          56
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-empty-and-user-only",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-pg-empty-and-user-only",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "raw_json_changes_literal_content",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-pg-empty-and-user-only",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-pg-empty-and-user-only",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-pg-empty-and-user-only",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-mongo-empty-and-user-only",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-mongo-empty-and-user-only",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "raw_json_changes_literal_content",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-mongo-empty-and-user-only",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-mongo-empty-and-user-only",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-mongo-empty-and-user-only",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-pg-path-and-query-lookalikes",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-pg-path-and-query-lookalikes",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "raw_json_changes_literal_content",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-pg-path-and-query-lookalikes",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-pg-path-and-query-lookalikes",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-pg-path-and-query-lookalikes",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-mongo-path-and-query-lookalikes",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-mongo-path-and-query-lookalikes",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": false,
+      "reason": "raw_json_changes_literal_content",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-mongo-path-and-query-lookalikes",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-mongo-path-and-query-lookalikes",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-mongo-path-and-query-lookalikes",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-pg-encoded-password-separators",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          75
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-encoded-password-separators",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          85
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-encoded-password-separators",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-pg-encoded-password-separators",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          75
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-encoded-password-separators",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          75
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-encoded-password-separators",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          72
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-encoded-password-separators",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          82
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-encoded-password-separators",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-mongo-encoded-password-separators",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          72
+        ]
+      ]
+    },
+    {
+      "id": "boundary-mongo-encoded-password-separators",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          72
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-encoded-colon-not-delimiter",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-pg-encoded-colon-not-delimiter",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-pg-encoded-colon-not-delimiter",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-pg-encoded-colon-not-delimiter",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-pg-encoded-colon-not-delimiter",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-mongo-encoded-at-not-delimiter",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-mongo-encoded-at-not-delimiter",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-mongo-encoded-at-not-delimiter",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-mongo-encoded-at-not-delimiter",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-mongo-encoded-at-not-delimiter",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": []
+    },
+    {
+      "id": "boundary-pg-malformed-query-before",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          79
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-malformed-query-before",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          89
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-malformed-query-before",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-pg-malformed-query-before",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          79
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-malformed-query-before",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          79
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-malformed-query-after",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          78
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-malformed-query-after",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          10,
+          88
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-malformed-query-after",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "json_escaped",
+      "eligible": false,
+      "reason": "raw_unicode_escape_encoding",
+      "uri_spans": null
+    },
+    {
+      "id": "boundary-pg-malformed-query-after",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_plain",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          78
+        ]
+      ]
+    },
+    {
+      "id": "boundary-pg-malformed-query-after",
+      "dataset_version": "connection-strings-boundaries-v1",
+      "representation": "decoded_escaped",
+      "eligible": true,
+      "reason": "selected_literal_grammar",
+      "uri_spans": [
+        [
+          0,
+          78
+        ]
+      ]
+    }
+  ]
+}
