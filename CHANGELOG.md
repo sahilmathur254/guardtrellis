@@ -15,13 +15,14 @@ artifacts and verification evidence.
 - Add default-versus-opt-in comparisons against the frozen connection-string corpora,
   separate supported-format acceptance, all-stage delivery regressions and bounded resource
   probes. Preserve raw escaped-JSON misses and historical evidence.
+- Refresh locked optional/development dependencies, including certifi and OpenTelemetry,
+  and pinned CI/publishing actions. Declared dependency ranges remain unchanged.
 
 Upgrade note: existing `SecretScanner()` calls and dependency requirements are unchanged.
 Enable the option explicitly before redactors in each required stage. Nonempty masks and
 placeholders can block; malformed or unsupported formats can remain undetected. JSON
 decoding stays application-owned. See the [connection-URI guide](docs/connection_strings.md)
-for supported boundaries, processing limits and exclusions. This source candidate has not
-been published; the release batch remains open.
+for supported boundaries, processing limits and exclusions.
 
 ## 0.1.7
 
