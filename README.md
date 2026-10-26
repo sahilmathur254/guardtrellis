@@ -14,21 +14,21 @@ The documented public API is supported across `0.1.x` under the
 Supported Python: 3.11–3.14. Apache-2.0 licensed.
 
 <!-- guardtrellis-release:start -->
-**Version: `0.1.7`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.7/)
+**Version: `0.1.8`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.8/)
 for availability and [release notes](https://github.com/sahilmathur254/guardtrellis/releases).
 A source checkout may describe a candidate that has not been published yet.
 
 Install this version in an activated virtual environment:
 
 ```sh
-python -m pip install 'guardtrellis==0.1.7'
+python -m pip install 'guardtrellis==0.1.8'
 ```
 
 An explicit version opts into a prerelease when applicable. Optional integrations:
-`'guardtrellis[fastapi]==0.1.7'`,
-`'guardtrellis[langgraph]==0.1.7'`,
-`'guardtrellis[openai]==0.1.7'`,
-`'guardtrellis[gemini]==0.1.7'`.
+`'guardtrellis[fastapi]==0.1.8'`,
+`'guardtrellis[langgraph]==0.1.8'`,
+`'guardtrellis[openai]==0.1.8'`,
+`'guardtrellis[gemini]==0.1.8'`.
 <!-- guardtrellis-release:end -->
 
 ## Included capabilities
@@ -47,6 +47,9 @@ An explicit version opts into a prerelease when applicable. Optional integration
 - An explicit [formatted-phone option](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/formatted_phone.md)
   for 8–15 ASCII digits with literal `+`, single spaces/hyphens, and one separated
   parenthesized group. Existing callers retain contiguous-phone detection.
+- An explicit [connection-URI option](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/connection_strings.md)
+  in the `0.1.8` source candidate for blocking supported PostgreSQL/MongoDB password-bearing
+  URIs. Existing callers retain the default token-signature policy; publication is separate.
 - A [tool-result handoff recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/tool_result_handoff.md)
   that checks returned tool text before inserting it into agent state or passing it to another consumer.
 - A separate [40-case Unicode and PII development set](https://github.com/sahilmathur254/guardtrellis/blob/main/evaluation/challenges/README.md)
@@ -83,7 +86,7 @@ both sync and async callbacks work there. Provider SDKs are not required by the 
 | Check | Default | Scope |
 | --- | --- | --- |
 | `PIIScanner` | redact | ASCII email, contiguous international phone by default, opt-in formatted phone, US SSN shapes |
-| `SecretScanner` | block | Selected GitHub tokens, AWS access-key IDs, PEM private keys |
+| `SecretScanner` | block | Selected GitHub tokens, AWS access-key IDs, PEM private keys; opt-in connection URIs |
 | `InvisibleScanner` | warn | Unicode control/format characters except tab and newlines |
 | `LiteralScanner([...])` | block | Configured literal substrings; optional ASCII case folding |
 | `JSONScanner(schema)` | block invalid data | Strict JSON and constrained Draft 2020-12 schemas |
@@ -98,6 +101,13 @@ produce no phone finding in this mode; they are not automatically blocked. The
 [formatted-phone guide](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/formatted_phone.md)
 defines the grammar, offsets, exclusions, and decoded-query wiring. It does not validate
 country codes, number allocation, ownership, or arbitrary obfuscation.
+
+Select `SecretScanner(connection_strings=True)` to block supported PostgreSQL/MongoDB
+password-bearing URIs, including PostgreSQL query passwords. Place it before redactors.
+It preserves complete URI finding spans, applies bounded local scanning, and makes no
+database or credential checks. Templates can block intentionally, and escaped JSON still
+needs explicit application-owned decoding. The [connection-URI guide](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/connection_strings.md)
+defines supported syntax, exclusions, private processing limits and safe tool-result use.
 
 ```python
 from guardtrellis import Action, Guard, JSONScanner, LiteralScanner, Stage, ToolGuard

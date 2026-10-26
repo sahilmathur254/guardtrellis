@@ -39,6 +39,19 @@ the callback or data captured by provider instrumentation. There is no streaming
   not the secret component, but it is deliberately flagged. Unknown vendor formats,
   arbitrary passwords, generic bearer tokens, encodings, and changed token lengths can
   be missed. Incomplete PEM envelopes cover the rest of the string when redacted.
+- Connection URIs: the explicit [`connection_strings=True` option](connection_strings.md)
+  adds BLOCK-only PostgreSQL/MongoDB userinfo and PostgreSQL query-password detection.
+  It conservatively blocks nonempty masks/placeholders and password-bearing malformed
+  syntax without checking driver validity or credential use. Empty values and unsupported
+  forms add no URI finding. PostgreSQL keyword/value, SQL Server/ODBC, JDBC, other schemes,
+  MongoDB query-only password fields, aliases, repeated decoding and generic URL secrets
+  remain outside scope. Whitespace and matching enclosing quote/backtick contexts bound
+  candidates; unwrapped or other quote types, apostrophes, commas and adjacent punctuation
+  are retained. Nested or delimiter-free concatenated schemes inside an earlier candidate
+  are not rescanned. These choices can cause intentional false positives and exact-span
+  differences in raw JSON. The opt-in enforces private input,
+  candidate-length and candidate-count limits even on direct scanner calls or when
+  `Guard.max_chars` is larger. Budget overflow is an ERROR with no checked output.
 - Invisible characters: Unicode categories Cc/Cf, excluding tab, CR, and LF. Default
   WARN permits content. Joiners, non-joiners, and bidirectional controls can serve
   legitimate languages or emoji. REDACT removes them and can damage meaning or display.

@@ -25,7 +25,7 @@ from pathlib import Path
 import guardtrellis
 from importlib.util import find_spec
 from importlib.metadata import distributions
-from guardtrellis import Action, Guard, JSONScanner, PIIScanner, Stage, ToolGuard
+from guardtrellis import Action, Guard, JSONScanner, PIIScanner, SecretScanner, Stage, ToolGuard
 
 assert 'site-packages' in str(Path(guardtrellis.__file__).resolve())
 assert Path(guardtrellis.__file__).with_name('py.typed').is_file()
@@ -40,6 +40,15 @@ assert ToolGuard({'search': {'type':'object'}}).validate('search', '{}').accepte
 calls = []
 rejected = Guard(input_scanners=[JSONScanner()]).run('invalid JSON', calls.append)
 assert not calls and rejected.text is None and rejected.action == Action.BLOCK
+for uri in (
+    'postgresql://db.example.invalid/demo?password=SyntheticPackage42',
+    'mongodb+srv://app:SyntheticPackage43@cluster.example.invalid/demo',
+):
+    assert Guard(input_scanners=[SecretScanner()]).scan(uri).action == Action.ALLOW
+    rejected = Guard(input_scanners=[SecretScanner(connection_strings=True)]).run(uri, calls.append)
+    assert not calls and rejected.text is None and rejected.action == Action.BLOCK
+    finding = rejected.input_result.findings[0]
+    assert (finding.start, finding.end) == (0, len(uri))
 print('Installed package smoke passed:', guardtrellis.__version__)
 """
 

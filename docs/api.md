@@ -53,6 +53,29 @@ candidates, including dotted numeric continuations, produce no phone finding rat
 than a contiguous-prefix match or automatic request rejection. This is bounded shape
 detection, not country-code, allocation, or identity validation.
 
+## Secret connection-URI mode
+
+`SecretScanner(action=Action.BLOCK, connection_strings=False)` retains existing token and
+private-key rules by default. The `0.1.8` source candidate adds the explicit
+`connection_strings=True` mode for bounded PostgreSQL/MongoDB password-bearing URIs.
+The argument requires an actual boolean, and enabled mode requires BLOCK. A later action
+change away from BLOCK yields `connection_string_configuration_error` rather than WARN
+or partial URI redaction. Configure scanners once; do not mutate them during use.
+
+The mode recognizes `postgresql`, `postgres`, `mongodb`, and `mongodb+srv` schemes,
+password-bearing authority userinfo and PostgreSQL query `password` keys. Findings use
+`secret_postgresql_uri` / `secret_mongodb_uri`, cover the complete candidate, and retain
+overlapping existing token findings with scanner-input-revision character offsets.
+Unsupported syntax is not credential validation or an automatic error. See the
+[connection-URI contract](connection_strings.md) for separator, template, wrapper and
+percent-escape rules, false positives, and explicit JSON handling.
+
+Enabled mode also bounds direct calls: 100,000 input characters, 8,192 characters per
+candidate, and 256 candidate attempts independently of findings. The existing combined
+256-finding cap still applies. Increasing `Guard.max_chars` does not relax these private
+budgets. Overflow produces static, spanless `connection_string_limit_exceeded`; unexpected
+scanner failures produce `scanner_error`. Guard withholds checked output on ERROR.
+
 ## Custom scanners
 
 ```python
@@ -97,6 +120,8 @@ already produced its complete output before that output's size is checked. There
 of 256 findings/edits per scanner. Literal configuration permits 1–128 strings of 1–1024
 characters each. Limit failures yield ERROR, without usable output. Use Guard rather than
 calling scanners directly to get the shared text-size and scanner-failure protections.
+The opted-in connection-URI mode additionally enforces its own direct-call budgets and
+static errors as described above; other scanner defaults are unchanged.
 
 Async waits default to 5 seconds **per scanner or callback**, so a multi-step run can take
 longer. Sync work runs in the event loop's thread executor with a copy of the caller's

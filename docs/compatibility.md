@@ -49,6 +49,15 @@ redaction, no-prefix-fallback behavior, exclusions, and explicit recipe adoption
 See the [0.1.6 release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.6)
 and [control-coverage matrix](coverage.md) for versioned evidence and limitations.
 
+The `0.1.8` source candidate's `SecretScanner(connection_strings=True)` is another additive
+opt-in. Existing callers keep `connection_strings=False`, their existing actions and token
+rules. Enabled mode requires BLOCK, adds complete connection-URI findings alongside existing
+token findings, and introduces documented direct-call processing limits and static error
+codes. Applications choose the new policy explicitly and should test supported formats,
+intentional placeholder false positives, and raw-versus-decoded JSON boundaries before
+adoption. See the [connection-URI guide](connection_strings.md). This source description
+does not establish that `0.1.8` has been published.
+
 Detection results are not frozen. A correction to a supported pattern, a false-positive
 fix, or a privacy/security fix can change findings, redacted spans, or whether a particular
 input is accepted. A privacy/security correction can reject input that an earlier patch

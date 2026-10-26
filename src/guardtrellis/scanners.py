@@ -5,8 +5,10 @@ from __future__ import annotations
 import re
 import unicodedata
 from collections.abc import Iterable, Sequence
+from itertools import chain
 from typing import Literal
 
+from ._connection_strings import ConnectionStringLimitError, find_connection_strings
 from .guard import MAX_FINDINGS
 from .models import Action, Check, Edit, Finding, Stage
 
@@ -144,7 +146,7 @@ class PIIScanner:
 
 
 class SecretScanner:
-    """Selected token signatures and private-key envelopes, not credential verification."""
+    """Selected token signatures, private-key envelopes and opt-in connection URIs."""
 
     name = "secrets"
     _patterns = {
@@ -154,9 +156,14 @@ class SecretScanner:
     }
     _pem = re.compile(r"-----BEGIN ((?:RSA |EC |DSA |OPENSSH |ENCRYPTED )?PRIVATE KEY)-----")
 
-    def __init__(self, *, action: Action = Action.BLOCK):
+    def __init__(self, *, action: Action = Action.BLOCK, connection_strings: bool = False):
         _validate_action(action)
+        if type(connection_strings) is not bool:
+            raise ValueError("connection_strings must be a boolean")
+        if connection_strings and action != Action.BLOCK:
+            raise ValueError("Connection-string detection requires BLOCK")
         self.action = action
+        self._connection_strings = connection_strings
 
     def _find(self, text: str) -> Iterable[Finding]:
         for name, pattern in self._patterns.items():
@@ -171,7 +178,18 @@ class SecretScanner:
             )
 
     def scan(self, text: str, *, stage: Stage) -> Check:
-        return _decision(self._find(text), self.action, "[SECRET]")
+        if not self._connection_strings:
+            return _decision(self._find(text), self.action, "[SECRET]")
+        if self.action is not Action.BLOCK:
+            return Check(Action.ERROR, (Finding("connection_string_configuration_error"),))
+        try:
+            # Consume the bounded URI walk before reporting any token-only success.
+            uri_findings = tuple(find_connection_strings(text))
+            return _decision(chain(uri_findings, self._find(text)), Action.BLOCK, "[SECRET]")
+        except ConnectionStringLimitError:
+            return Check(Action.ERROR, (Finding("connection_string_limit_exceeded"),))
+        except Exception:
+            return Check(Action.ERROR, (Finding("scanner_error"),))
 
 
 class InvisibleScanner:
