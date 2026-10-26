@@ -82,6 +82,11 @@ jobs:
         run: |
           uv run --frozen python evaluation/connection_strings/run_supplement.py \
             --report-dir '${{ runner.temp }}/guardtrellis-connection-contract'
+      - name: Reproduce connection-string structural boundaries
+        run: |
+          uv run --frozen python evaluation/connection_strings/run_supplement.py \
+            --corpus evaluation/connection_strings/boundaries_v1.jsonl \
+            --report-dir '${{ runner.temp }}/guardtrellis-connection-boundaries'
       - name: Build and install both distributions outside the checkout
         run: |
           uv build

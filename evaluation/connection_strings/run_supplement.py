@@ -13,6 +13,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 CORPUS = HERE / "contract_supplement_v1.jsonl"
 VERSION = "connection-strings-contract-v1"
+BOUNDARY_VERSION = "connection-strings-boundaries-v1"
 EXTRA_FIELDS = {"case_group", "origin_case_id", "contract_status"}
 STATUSES = ("selected", "excluded", "resource_pending")
 SPEC = spec_from_file_location("connection_strings_v1", HERE / "run.py")
@@ -31,6 +32,7 @@ def load_cases(raw):
     except UnicodeError:
         raise ValueError("Corpus must be UTF-8") from None
     cases, projected, used_origins = [], [], set()
+    dataset_version = None
     for number, line in enumerate(lines, 1):
         try:
             case = json.loads(
@@ -39,16 +41,19 @@ def load_cases(raw):
             if not isinstance(case, dict) or not EXTRA_FIELDS <= case.keys():
                 raise ValueError
             if (
-                case["dataset_version"] != VERSION
+                case["dataset_version"] not in (VERSION, BOUNDARY_VERSION)
+                or (dataset_version is not None and case["dataset_version"] != dataset_version)
                 or not isinstance(case["case_group"], str)
                 or not re.fullmatch(r"[a-z0-9-]{1,100}", case["case_group"])
                 or case["contract_status"] not in STATUSES
             ):
                 raise ValueError
+            dataset_version = case["dataset_version"]
             origin = case["origin_case_id"]
             if origin is not None:
                 if (
-                    not isinstance(origin, str)
+                    dataset_version == BOUNDARY_VERSION
+                    or not isinstance(origin, str)
                     or origin not in origins
                     or origin in used_origins
                     or case["text"] != origins[origin]["text"]
@@ -91,8 +96,9 @@ def evaluate(cases):
 
 
 def write_report(report_dir, rows, corpus_path=CORPUS):
+    dataset_version = load_corpus(corpus_path)[0]["dataset_version"]
     metadata = base.source_metadata(Path(corpus_path).resolve())
-    metadata.update(evaluation_version=VERSION, opt_in_status="not_implemented")
+    metadata.update(evaluation_version=dataset_version, opt_in_status="not_implemented")
     for path in (Path(__file__), base.CORPUS, HERE / "PROPOSAL.md"):
         metadata["source_sha256"][path.relative_to(base.ROOT).as_posix()] = hashlib.sha256(
             path.read_bytes()
@@ -115,10 +121,16 @@ def write_report(report_dir, rows, corpus_path=CORPUS):
             for value in sorted({row[field] for row in rows})
         }
     report["rows"] = rows
+    title = (
+        "Connection-string structural boundaries"
+        if dataset_version == BOUNDARY_VERSION
+        else "Connection-string contract supplement"
+    )
     lines = [
-        "# Connection-string contract supplement: current SDK observations",
+        f"# {title}: current SDK observations",
         "",
-        f"SDK {metadata['sdk_version']}; {len(rows)} observations; opt-in not implemented.",
+        f"Dataset `{dataset_version}`; SDK {metadata['sdk_version']}; "
+        f"{len(rows)} observations; opt-in not implemented.",
         "",
         "Authored synthetic development cases, with desired decisions fixed before outcomes. "
         "This run exercises the frozen v1 harness's unchanged secret-only and tool-return "

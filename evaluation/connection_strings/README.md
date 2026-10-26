@@ -168,3 +168,5 @@ tentatively 0.1.8; this evaluation does not select or publish that version.
 The separately versioned [contract supplement](SUPPLEMENT.md) now records the revised #68
 decisions, including all twelve originally ambiguous inputs. Use its separate runner and
 report; the historical v1 corpus, runner and baseline above remain unchanged.
+The [structural-boundary addendum](BOUNDARIES.md) completes the contract decisions with
+sixteen additional cases and a separate current-SDK report, before any runtime change.
