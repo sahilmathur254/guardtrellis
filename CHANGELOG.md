@@ -11,6 +11,9 @@ artifacts and verification evidence.
   policies and explicit stage selection. Existing detector defaults are unchanged.
 - Add bounded, metadata-only text/JSON reports and opt-in checked-text output to a
   pipe/file, with strict configuration validation, ordered writes and handled I/O errors.
+- Add a separately versioned 48-scenario detector/delivery evaluation with expectations
+  frozen before observation, primary-family scoring, retained format/context misses,
+  bounded child processes and cross-platform reproduction. SDK behavior is unchanged.
 
 Upgrade note: this source version is unpublished and its release batch remains open.
 Connection-URI and formatted-phone checking still require explicit options. REDACT exits

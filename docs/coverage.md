@@ -38,6 +38,12 @@ policies and platforms. None is a general accuracy estimate or proof of host enf
 
 ## Reading measurement evidence
 
+The [48-scenario detector/delivery batch](../evaluation/detector_delivery/README.md)
+for #45 freezes expectations before observation and separates primary-family findings,
+incidental PII, complete desired protection and documented contracts. Its 384 observations
+are correlated development evidence with author self-review only; #45 and its linked
+PR track current native CI/review results. It preserves SDK behavior and historical reports.
+
 The [evaluation guide](../evaluation/README.md) separates detection signals, complete
 redaction and checked delivery. The original [72-case report](../evaluation/REPORT.md),
 [40-case challenge](../evaluation/challenges/unicode_pii_v1/REPORT.md),

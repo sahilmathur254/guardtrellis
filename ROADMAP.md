@@ -61,11 +61,11 @@ observed integration gaps over adding scanner families or framework wrappers for
 | Completed; follow-ups as needed | Escaped JSON contact workflow | Use the fixed two-field application helper, whole-call budgets and checked delivery without changing SDK defaults. | Design [#50](https://github.com/sahilmathur254/guardtrellis/issues/50) accepted 2026-10-18; implementation [#62](https://github.com/sahilmathur254/guardtrellis/issues/62) closed; shipped in `0.1.5` |
 | Completed; follow-ups as needed | Formatted international phones | Select the bounded phone mode explicitly and compare complete checked outcomes with retained baselines. | [#60](https://github.com/sahilmathur254/guardtrellis/issues/60) closed; shipped in `0.1.6` |
 | Completed; follow-ups as needed | Credential-bearing connection URIs | Enable the bounded PostgreSQL/MongoDB policy explicitly and retain the raw/decoded/default comparison. | [#67](https://github.com/sahilmathur254/guardtrellis/issues/67) and [#68](https://github.com/sahilmathur254/guardtrellis/issues/68) completed; shipped in `0.1.8` |
-| Ready for a scoped follow-up | Evaluation methodology | Build on the shipped concurrency/connection-string evidence; agree case provenance, review and scoring before the next challenge batch. | Broader methodology [#45](https://github.com/sahilmathur254/guardtrellis/issues/45) remains open; Now, P1, Ready |
+| Batch in review | Evaluation methodology | Review the approved [48-scenario detector/delivery batch](evaluation/detector_delivery/README.md) with frozen expectations and explicit provenance/scoring. | Broader methodology [#45](https://github.com/sahilmathur254/guardtrellis/issues/45) remains open; Now, P1; current PR/CI evidence is tracked on the issue, with independent case review separate |
 | Delivered guide; comparisons deferred | Source-backed coverage | Maintain the [coverage matrix](docs/coverage.md); keep selected vendor/framework comparisons separately scoped. | [#46](https://github.com/sahilmathur254/guardtrellis/issues/46) remains open for broader work; Now, P1, Backlog |
 | Completed; follow-ups as needed | Evaluation and coverage | Use the retained policy/delivery baseline to identify independently authored cases and small supported-format improvements. | [#29](https://github.com/sahilmathur254/guardtrellis/issues/29) closed; shipped in `0.1.2` |
 | Completed; follow-ups as needed | Integration recipes | Build on the policy/operations recipe and async checked-tool handoff evidence for concrete caller gaps. | [#30](https://github.com/sahilmathur254/guardtrellis/issues/30) and [#34](https://github.com/sahilmathur254/guardtrellis/issues/34) closed; shipped in `0.1.2` |
-| Implementation review | Local policy testing | Review and verify the [accepted CLI contract](docs/policy_testing_design.md) for one bounded terminal/CI fixture workflow. | Design [#31](https://github.com/sahilmathur254/guardtrellis/issues/31) completed; implementation [#78](https://github.com/sahilmathur254/guardtrellis/issues/78), Now, P2; current PR/CI evidence tracked on the issue |
+| Merged; publication pending | Local policy testing | Use the bounded core CLI for explicit local file/stdin checks. | Design [#31](https://github.com/sahilmathur254/guardtrellis/issues/31) completed; implementation [#78](https://github.com/sahilmathur254/guardtrellis/issues/78) Done through [#79](https://github.com/sahilmathur254/guardtrellis/pull/79); unpublished `0.1.9` |
 | As adopters need them | Optional provider coverage | Validate requested provider paths and add examples only for distinct integration behavior. | [#32](https://github.com/sahilmathur254/guardtrellis/issues/32); Later, P2 |
 | Next | Retrieval/tool policy research | Use sourced synthetic cases to decide which policies can be enforced and which controls remain host-owned. | [#35](https://github.com/sahilmathur254/guardtrellis/issues/35); Next, P2, research first |
 | Later | Streaming | Decide whether a bounded release model is useful and defensible for a named caller. | Existing [#12](https://github.com/sahilmathur254/guardtrellis/issues/12); exploratory |
@@ -75,23 +75,27 @@ compatibility and changelog rules. New API surfaces need an explicit versioning 
 planned incompatible changes require migration guidance and a later minor release. These
 workstreams do not promise a `0.2.0` date or bundle every proposal into one release.
 
-## Next proposed batch
+## Current 0.1.9 source batch
 
 #31's design was accepted on 2026-10-27: a small CLI with two fixed policies, explicit
 file/stdin selection and metadata output, reusing the SDK without a policy language.
 The accepted contract includes non-terminal checked output, explicit stream-failure rules
 and strict PII CI guidance. A JSON manifest and hard command deadline remain deferred.
 There is no CLI in `0.1.8`. The scoped [implementation #78](https://github.com/sahilmathur254/guardtrellis/issues/78)
-is prepared for draft review in the unpublished `0.1.9` source candidate. The implementation
-adds the CLI while preserving existing scanner APIs/defaults. The issue tracks current
-native CI and review evidence; merge/publication require separate authorization. See the [CLI guide](docs/cli.md) and
+merged through [#79](https://github.com/sahilmathur254/guardtrellis/pull/79) after native
+Windows/Linux/macOS CI. It adds the CLI while preserving scanner APIs/defaults; `0.1.9`
+remains unpublished. See the [CLI guide](docs/cli.md) and
 [accepted design and implementation gates](docs/policy_testing_design.md).
 
-A focused, separately reviewed #45 challenge batch is a potential second contribution.
-Agree its provenance, labels and scoring before collecting or observing new cases; preserve
-existing results and distinguish authored development cases from held-out evidence.
-`0.1.9` is a tentative additive batch, subject to implementation review and the evaluation
-scope decision. Normally collect two or
+A separately versioned #45 batch is the approved second contribution: 48 AI-assisted
+synthetic scenarios, four representations and two profiles produce 384 observations.
+Its [pre-observation freeze](evaluation/detector_delivery/freeze_v1.json) binds scenario
+intent, documented-contract expectations, source hashes and the protocol. The
+[guide](evaluation/detector_delivery/README.md) records self-review, retained misses and
+the lack of independent per-case review. The submitted batch and native CI evidence are
+tracked on #45 and its linked draft PR. The broader benchmark issue stays open.
+`0.1.9` remains an additive source batch, subject to review and a separate release decision.
+Normally collect two or
 three meaningful improvements before publication; a feature's tests and documentation count
 as part of that feature. Tracking cleanup and a design document do not require a new release.
 
@@ -299,9 +303,9 @@ A policy manifest, general policy language and hard command deadline remain defe
 - Define installation and process behavior on the supported platforms, including malformed
   input, encoding, stdin limits, scanner failures, and cancellation.
 
-**Implementation acceptance:** complete the policy/byte/privacy/transport and installation
-gates in #78, including native Windows CI. The issue tracks the submitted PR and its checks;
-local macOS verification does not complete the native matrix. General nested/multi-field
+**Implementation accepted:** #78 merged through #79 after policy/byte/privacy/transport,
+installation and native Windows CI checks. Its completion is source evidence, not a package
+publication. General nested/multi-field
 support needs its own accepted contract beyond the released fixed-field recipes.
 Recursive repository scanning and automatic file rewrites remain excluded.
 
