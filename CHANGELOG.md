@@ -4,6 +4,20 @@ See [PyPI](https://pypi.org/project/guardtrellis/) for package availability and
 [GitHub releases](https://github.com/sahilmathur254/guardtrellis/releases) for published
 artifacts and verification evidence.
 
+## 0.1.9
+
+- Add core `guardtrellis check` and `python -m guardtrellis check` commands for one
+  explicitly selected local UTF-8 file or stdin stream, with fixed secrets/privacy
+  policies and explicit stage selection. Existing detector defaults are unchanged.
+- Add bounded, metadata-only text/JSON reports and opt-in checked-text output to a
+  pipe/file, with strict configuration validation, ordered writes and handled I/O errors.
+
+Upgrade note: this source version is unpublished and its release batch remains open.
+Connection-URI and formatted-phone checking still require explicit options. REDACT exits
+zero with transformed text; strict PII CI must inspect findings. Discard checked stdout on
+nonzero exit and never redirect either output stream to the input file. See the
+[CLI guide](docs/cli.md) for bounds, exit codes and host-owned deadline requirements.
+
 ## 0.1.8
 
 - Add explicitly enabled `SecretScanner(connection_strings=True)` for password-bearing

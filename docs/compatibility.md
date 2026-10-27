@@ -49,14 +49,14 @@ redaction, no-prefix-fallback behavior, exclusions, and explicit recipe adoption
 See the [0.1.6 release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.6)
 and [control-coverage matrix](coverage.md) for versioned evidence and limitations.
 
-The `0.1.8` source candidate's `SecretScanner(connection_strings=True)` is another additive
+The `SecretScanner(connection_strings=True)` option released in `0.1.8` is another additive
 opt-in. Existing callers keep `connection_strings=False`, their existing actions and token
 rules. Enabled mode requires BLOCK, adds complete connection-URI findings alongside existing
 token findings, and introduces documented direct-call processing limits and static error
 codes. Applications choose the new policy explicitly and should test supported formats,
 intentional placeholder false positives, and raw-versus-decoded JSON boundaries before
-adoption. See the [connection-URI guide](connection_strings.md). This source description
-does not establish that `0.1.8` has been published.
+adoption. See the [connection-URI guide](connection_strings.md) and
+[0.1.8 release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.8).
 
 Detection results are not frozen. A correction to a supported pattern, a false-positive
 fix, or a privacy/security fix can change findings, redacted spans, or whether a particular
@@ -70,6 +70,11 @@ exact version and run their own representative cases before upgrading. Retained 
 failures remain evidence of coverage limits, not guarantees that those failures persist.
 
 ## Diagnostics and deprecations
+
+The unpublished `0.1.9` CLI candidate is an additive core interface. Its
+[`report_version=1` envelope and exit statuses](cli.md) have their own explicit contract;
+configuration errors precede structured reporting. Existing Python API defaults and
+detector rules remain unchanged. This source candidate is not a publication record.
 
 Existing diagnostic keys, value types, and meanings remain supported across `0.1.x`.
 Additional metadata keys and finding codes may be introduced; consumers should tolerate
