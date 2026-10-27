@@ -647,8 +647,15 @@ def test_real_keyboard_interrupt_during_stdin_uses_structured_report_and_130():
     import signal
 
     code = (
-        "import sys; from guardtrellis._cli import main; sys.stderr.write('READY'); "
-        "sys.stderr.flush(); raise SystemExit(main())"
+        "import sys\n"
+        "from guardtrellis import _cli\n"
+        "read = _cli._read_bounded\n"
+        "def ready_read(stream):\n"
+        "    sys.stderr.buffer.write(b'READY')\n"
+        "    sys.stderr.buffer.flush()\n"
+        "    return read(stream)\n"
+        "_cli._read_bounded = ready_read\n"
+        "raise SystemExit(_cli.main())\n"
     )
     with subprocess.Popen(
         [sys.executable, "-c", code, *BASE],
@@ -656,6 +663,8 @@ def test_real_keyboard_interrupt_during_stdin_uses_structured_report_and_130():
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     ) as process:
+        # The marker comes from inside the validated input path, rather than before
+        # main() where SIGINT legitimately has a static pre-configuration report.
         assert process.stderr.read(5) == b"READY"
         os.kill(process.pid, signal.SIGINT)
         stdout, stderr = process.communicate(timeout=10)
