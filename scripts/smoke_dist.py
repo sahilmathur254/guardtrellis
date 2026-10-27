@@ -4,6 +4,7 @@ Run `uv build` first. Dependencies must be cached when running with UV_OFFLINE=1
 """
 
 import argparse
+import json
 import os
 import shutil
 import subprocess
@@ -64,6 +65,79 @@ print('OpenAI-only extra smoke passed')
 """
 
 
+def smoke_cli(python: Path, work: Path) -> None:
+    """Exercise real installed launchers with byte streams on every native CI OS."""
+    console = python.with_name("guardtrellis.exe" if os.name == "nt" else "guardtrellis")
+    source = work / "fixture with spaces 雪.txt"
+    payload = "\ufeffOpening hours\r\n雪\x00\x1b[31m".encode("utf-8")
+    source.write_bytes(payload)
+    for command in ([str(console)], [str(python), "-I", "-m", "guardtrellis"]):
+        version = subprocess.run(
+            [*command, "--version"], capture_output=True, cwd=work, timeout=15, check=True
+        )
+        assert version.stdout.startswith(b"guardtrellis ") and not version.stderr
+        for selection in (["--stdin"], ["--file", str(source)]):
+            checked = subprocess.run(
+                [
+                    *command,
+                    "check",
+                    *selection,
+                    "--stage",
+                    "tool",
+                    "--policy",
+                    "secrets",
+                    "--format",
+                    "json",
+                    "--output",
+                    "checked-text",
+                ],
+                input=payload,
+                capture_output=True,
+                cwd=work,
+                timeout=15,
+                check=True,
+            )
+            assert checked.stdout == payload
+            assert json.loads(checked.stderr)["result"]["action"] == "allow"
+        for data, options, status, action in (
+            (b"Contact demo@example.org", [], 0, "redact"),
+            (
+                b"postgresql://app:SyntheticInstall42@db.invalid/demo",
+                ["--connection-strings"],
+                1,
+                "block",
+            ),
+        ):
+            checked = subprocess.run(
+                [
+                    *command,
+                    "check",
+                    "--stdin",
+                    "--stage",
+                    "retrieval",
+                    "--policy",
+                    "privacy",
+                    "--format",
+                    "json",
+                    "--output",
+                    "checked-text",
+                    *options,
+                ],
+                input=data,
+                capture_output=True,
+                cwd=work,
+                timeout=15,
+            )
+            assert checked.returncode == status
+            assert checked.stdout == (b"Contact [PII]" if status == 0 else b"")
+            assert json.loads(checked.stderr)["result"]["action"] == action
+    assert source.read_bytes() == payload
+    example = work / "cli_ci.py"
+    shutil.copyfile(ROOT / "examples" / "cli_ci.py", example)
+    source.write_bytes(b"Opening hours: 9am to 5pm.")
+    subprocess.run([str(python), "-I", str(example), str(source)], cwd=work, check=True, timeout=20)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dist-dir", type=Path, default=ROOT / "dist")
@@ -114,6 +188,8 @@ def main() -> None:
                 subprocess.run(["uv", "pip", "check", "--python", str(python)], check=True)
                 if smoke is not None:
                     subprocess.run([str(python), "-I", "-c", smoke], cwd=work, check=True)
+                if extras == "":
+                    smoke_cli(python, work)
                 for filename in examples:
                     example = work / filename
                     shutil.copyfile(ROOT / "examples" / filename, example)

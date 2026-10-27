@@ -56,7 +56,7 @@ detection, not country-code, allocation, or identity validation.
 ## Secret connection-URI mode
 
 `SecretScanner(action=Action.BLOCK, connection_strings=False)` retains existing token and
-private-key rules by default. The `0.1.8` source candidate adds the explicit
+private-key rules by default. The `0.1.8` release adds the explicit
 `connection_strings=True` mode for bounded PostgreSQL/MongoDB password-bearing URIs.
 The argument requires an actual boolean, and enabled mode requires BLOCK. A later action
 change away from BLOCK yields `connection_string_configuration_error` rather than WARN

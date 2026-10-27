@@ -14,25 +14,28 @@ The documented public API is supported across `0.1.x` under the
 Supported Python: 3.11–3.14. Apache-2.0 licensed.
 
 <!-- guardtrellis-release:start -->
-**Version: `0.1.8`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.8/)
+**Version: `0.1.9`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.9/)
 for availability and [release notes](https://github.com/sahilmathur254/guardtrellis/releases).
 A source checkout may describe a candidate that has not been published yet.
 
 Install this version in an activated virtual environment:
 
 ```sh
-python -m pip install 'guardtrellis==0.1.8'
+python -m pip install 'guardtrellis==0.1.9'
 ```
 
 An explicit version opts into a prerelease when applicable. Optional integrations:
-`'guardtrellis[fastapi]==0.1.8'`,
-`'guardtrellis[langgraph]==0.1.8'`,
-`'guardtrellis[openai]==0.1.8'`,
-`'guardtrellis[gemini]==0.1.8'`.
+`'guardtrellis[fastapi]==0.1.9'`,
+`'guardtrellis[langgraph]==0.1.9'`,
+`'guardtrellis[openai]==0.1.9'`,
+`'guardtrellis[gemini]==0.1.9'`.
 <!-- guardtrellis-release:end -->
 
 ## Included capabilities
 
+- A core [local policy CLI](docs/cli.md) in the unpublished `0.1.9` source candidate,
+  with explicit file/stdin and stage selection, fixed secrets/privacy policies,
+  metadata reports and opt-in checked text for pipes/files.
 - A [policy and operations recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/policy_operations.md)
   with distinct stage policies, checked-data handoff, metadata-only diagnostics, and host resource controls.
 - A separate [policy-combination evaluation](https://github.com/sahilmathur254/guardtrellis/blob/main/evaluation/policy_combinations/README.md)
@@ -48,8 +51,8 @@ An explicit version opts into a prerelease when applicable. Optional integration
   for 8–15 ASCII digits with literal `+`, single spaces/hyphens, and one separated
   parenthesized group. Existing callers retain contiguous-phone detection.
 - An explicit [connection-URI option](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/connection_strings.md)
-  in the `0.1.8` source candidate for blocking supported PostgreSQL/MongoDB password-bearing
-  URIs. Existing callers retain the default token-signature policy; publication is separate.
+  released in `0.1.8` for blocking supported PostgreSQL/MongoDB password-bearing
+  URIs. Existing callers retain the default token-signature policy.
 - A [tool-result handoff recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/tool_result_handoff.md)
   that checks returned tool text before inserting it into agent state or passing it to another consumer.
 - A separate [40-case Unicode and PII development set](https://github.com/sahilmathur254/guardtrellis/blob/main/evaluation/challenges/README.md)

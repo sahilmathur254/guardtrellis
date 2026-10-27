@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "guardtrellis"
-version = "0.1.8"
+version = "0.1.9"
 description = "Provider-independent local checks for model inputs, outputs, retrieval, and tool calls"
 authors = [{ name = "Sahil Mathur" }]
 readme = "README.md"
@@ -21,6 +21,9 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
   "Typing :: Typed",
 ]
+
+[project.scripts]
+guardtrellis = "guardtrellis._cli:main"
 
 [project.urls]
 Source = "https://github.com/sahilmathur254/guardtrellis"

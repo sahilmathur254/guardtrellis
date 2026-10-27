@@ -8,7 +8,7 @@ contracts, failure behavior, and evidence for the formats they actually cover.
 The [public GitHub Project](https://github.com/users/sahilmathur254/projects/3) is the source
 of current status, priority, and ownership. This document explains direction and milestone
 exit criteria. Each linked issue contains its scope, starting files, acceptance criteria,
-and dependencies. Horizons are an order of work, not promised dates. Updated 2026-10-19.
+and dependencies. Horizons are an order of work, not promised dates. Updated 2026-10-27.
 
 The workstreams below are tracked on the Project in the agreed order. Design proposals and
 demand-led validation remain distinct from implementation-ready work; a tracking issue does
@@ -32,9 +32,11 @@ does not add decoded-value scanning to the current API. The
 [checked tool-result handoff recipe](docs/tool_result_handoff.md) for
 [#44](https://github.com/sahilmathur254/guardtrellis/issues/44) shipped in `0.1.4`, using the
 existing API. The decoded-contact recipe shipped in `0.1.5`, and the bounded opt-in
-formatted-phone mode shipped in `0.1.6`. As of 2026-10-19, `0.1.6` is the published
-baseline; this checkout prepares `0.1.7`, including the Gemini single-request correction
-and bounded evaluation/documentation work. Source preparation does not establish publication.
+formatted-phone mode shipped in `0.1.6`. The Gemini single-request correction and bounded
+concurrency/coverage evidence shipped in `0.1.7`. The published baseline is now
+[`0.1.8`](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.8), adding
+explicitly enabled PostgreSQL/MongoDB credential-URI detection and its versioned comparison.
+Its release record links CI, TestPyPI/PyPI verification, the source commit and artifact hashes.
 The [release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.0)
 documents the completed stable `0.1.0` publication and its verification evidence.
 The [0.1.x compatibility policy](docs/compatibility.md) now applies.
@@ -58,11 +60,12 @@ observed integration gaps over adding scanner families or framework wrappers for
 | Completed; shared API deferred | Structured values | Build on the bounded decoded `search.query` recipe shipped in `0.1.3`; require a concrete caller gap before a shared checker. | Design [#11](https://github.com/sahilmathur254/guardtrellis/issues/11); implementation [#41](https://github.com/sahilmathur254/guardtrellis/issues/41) closed |
 | Completed; follow-ups as needed | Escaped JSON contact workflow | Use the fixed two-field application helper, whole-call budgets and checked delivery without changing SDK defaults. | Design [#50](https://github.com/sahilmathur254/guardtrellis/issues/50) accepted 2026-10-18; implementation [#62](https://github.com/sahilmathur254/guardtrellis/issues/62) closed; shipped in `0.1.5` |
 | Completed; follow-ups as needed | Formatted international phones | Select the bounded phone mode explicitly and compare complete checked outcomes with retained baselines. | [#60](https://github.com/sahilmathur254/guardtrellis/issues/60) closed; shipped in `0.1.6` |
-| In progress; bounded contributions | Evaluation methodology | Retain the escaped-JSON/phone evidence and add a separately versioned concurrency/resource baseline. | [#59](https://github.com/sahilmathur254/guardtrellis/issues/59) closed; broader methodology [#45](https://github.com/sahilmathur254/guardtrellis/issues/45) remains open; Now, P1 |
-| In progress; bounded contribution | Source-backed coverage | Link current behavior, regression cases, retained results and host responsibilities in the [coverage matrix](docs/coverage.md). | [#46](https://github.com/sahilmathur254/guardtrellis/issues/46) remains open; Now, P1 |
+| Completed; follow-ups as needed | Credential-bearing connection URIs | Enable the bounded PostgreSQL/MongoDB policy explicitly and retain the raw/decoded/default comparison. | [#67](https://github.com/sahilmathur254/guardtrellis/issues/67) and [#68](https://github.com/sahilmathur254/guardtrellis/issues/68) completed; shipped in `0.1.8` |
+| Ready for a scoped follow-up | Evaluation methodology | Build on the shipped concurrency/connection-string evidence; agree case provenance, review and scoring before the next challenge batch. | Broader methodology [#45](https://github.com/sahilmathur254/guardtrellis/issues/45) remains open; Now, P1, Ready |
+| Delivered guide; comparisons deferred | Source-backed coverage | Maintain the [coverage matrix](docs/coverage.md); keep selected vendor/framework comparisons separately scoped. | [#46](https://github.com/sahilmathur254/guardtrellis/issues/46) remains open for broader work; Now, P1, Backlog |
 | Completed; follow-ups as needed | Evaluation and coverage | Use the retained policy/delivery baseline to identify independently authored cases and small supported-format improvements. | [#29](https://github.com/sahilmathur254/guardtrellis/issues/29) closed; shipped in `0.1.2` |
 | Completed; follow-ups as needed | Integration recipes | Build on the policy/operations recipe and async checked-tool handoff evidence for concrete caller gaps. | [#30](https://github.com/sahilmathur254/guardtrellis/issues/30) and [#34](https://github.com/sahilmathur254/guardtrellis/issues/34) closed; shipped in `0.1.2` |
-| Ready for design | Local policy testing | Compare a small CLI and Python recipe for the selected bounded terminal/CI fixture workflow. | [#31](https://github.com/sahilmathur254/guardtrellis/issues/31); Now, P2; implementation needs an accepted design |
+| Implementation review | Local policy testing | Review and verify the [accepted CLI contract](docs/policy_testing_design.md) for one bounded terminal/CI fixture workflow. | Design [#31](https://github.com/sahilmathur254/guardtrellis/issues/31) completed; implementation [#78](https://github.com/sahilmathur254/guardtrellis/issues/78), Now, P2; current PR/CI evidence tracked on the issue |
 | As adopters need them | Optional provider coverage | Validate requested provider paths and add examples only for distinct integration behavior. | [#32](https://github.com/sahilmathur254/guardtrellis/issues/32); Later, P2 |
 | Next | Retrieval/tool policy research | Use sourced synthetic cases to decide which policies can be enforced and which controls remain host-owned. | [#35](https://github.com/sahilmathur254/guardtrellis/issues/35); Next, P2, research first |
 | Later | Streaming | Decide whether a bounded release model is useful and defensible for a named caller. | Existing [#12](https://github.com/sahilmathur254/guardtrellis/issues/12); exploratory |
@@ -71,6 +74,46 @@ Maintain the current `0.1.x` series alongside this work. Patch fixes follow the 
 compatibility and changelog rules. New API surfaces need an explicit versioning decision;
 planned incompatible changes require migration guidance and a later minor release. These
 workstreams do not promise a `0.2.0` date or bundle every proposal into one release.
+
+## Next proposed batch
+
+#31's design was accepted on 2026-10-27: a small CLI with two fixed policies, explicit
+file/stdin selection and metadata output, reusing the SDK without a policy language.
+The accepted contract includes non-terminal checked output, explicit stream-failure rules
+and strict PII CI guidance. A JSON manifest and hard command deadline remain deferred.
+There is no CLI in `0.1.8`. The scoped [implementation #78](https://github.com/sahilmathur254/guardtrellis/issues/78)
+is prepared for draft review in the unpublished `0.1.9` source candidate. The implementation
+adds the CLI while preserving existing scanner APIs/defaults. The issue tracks current
+native CI and review evidence; merge/publication require separate authorization. See the [CLI guide](docs/cli.md) and
+[accepted design and implementation gates](docs/policy_testing_design.md).
+
+A focused, separately reviewed #45 challenge batch is a potential second contribution.
+Agree its provenance, labels and scoring before collecting or observing new cases; preserve
+existing results and distinguish authored development cases from held-out evidence.
+`0.1.9` is a tentative additive batch, subject to implementation review and the evaluation
+scope decision. Normally collect two or
+three meaningful improvements before publication; a feature's tests and documentation count
+as part of that feature. Tracking cleanup and a design document do not require a new release.
+
+## Completed: bounded credential-URI detection
+
+The [connection-URI option](docs/connection_strings.md) shipped in `0.1.8` through
+[#76](https://github.com/sahilmathur254/guardtrellis/pull/76), following the independently
+versioned #67 baseline, contract supplement and structural boundaries. It requires explicit
+`SecretScanner(connection_strings=True)` and BLOCK, preserves complete candidate spans and
+overlapping token findings, and applies private input/candidate/work limits.
+
+The [retained comparison](evaluation/connection_strings/OPT_IN.md) has 2,560 observations:
+794 eligible opt-in contracts pass and all 1,280 default observations match historical
+behavior. Unsupported raw escaped JSON and deferred formats remain visible. A separately
+recorded harness correction preserves the original overlap case's authored target; neither
+the frozen corpus nor historical reports were rewritten. These are development observations,
+not independent accuracy or driver-compatibility claims.
+
+[Release-main CI](https://github.com/sahilmathur254/guardtrellis/actions/runs/40307182337),
+including native Windows, and [publication verification](https://github.com/sahilmathur254/guardtrellis/actions/runs/40308321871)
+passed. JSON decoding stays application-owned; generic URI secrets, other connection-string
+grammars, credential/network validation and selective URI redaction remain outside this slice.
 
 ## Completed: bounded opt-in formatted phones
 
@@ -231,18 +274,19 @@ Add optional dependencies only when a recipe needs them.
 The completed recipes use the current API. General decoded-value recipes should follow #11;
 do not quietly introduce a second structured-data contract through an example.
 
-## Now: local policy testing design
+## Now: local policy testing CLI
 
-**Design proposal [#31](https://github.com/sahilmathur254/guardtrellis/issues/31).**
-A CLI could let a developer check selected text or fixtures from
-a terminal or CI job using the same SDK policies as their application. This has standalone
-value; no editor or agent integration is required to justify it.
+**Accepted design [#31](https://github.com/sahilmathur254/guardtrellis/issues/31);
+local implementation [#78](https://github.com/sahilmathur254/guardtrellis/issues/78).**
+The unpublished `0.1.9` source candidate provides one explicit terminal/CI fixture check
+using existing SDK scanners. See the [accepted contract](docs/policy_testing_design.md)
+and [CLI guide](docs/cli.md). Editor/agent integration remains separate.
 
-Keep the first proposal small: one bounded text input from standard input or an explicit file,
-an explicit stage/policy, a readable result, and a machine-readable metadata result. Decide
-whether a declarative policy format is needed before adding a configuration system.
+The fixed `secrets` and `privacy` profiles require an explicit text stage and file/stdin
+source, with metadata-only reports by default and checked output only to pipes/files.
+A policy manifest, general policy language and hard command deadline remain deferred.
 
-**Design exit criteria:**
+**Accepted design commitments:**
 
 - Specify invocation, policy ordering, limits, and stable exit statuses that distinguish
   accepted results, policy rejection, invalid configuration, and scanner/runtime errors.
@@ -255,15 +299,11 @@ whether a declarative policy format is needed before adding a configuration syst
 - Define installation and process behavior on the supported platforms, including malformed
   input, encoding, stdin limits, scanner failures, and cancellation.
 
-The selected workflow checks one explicitly chosen bounded text fixture from a terminal
-or CI job and inspects metadata plus an exit status. Compare a minimal CLI, explicit
-arguments and a Python recipe; decide whether a versioned JSON policy manifest is justified.
-
-**Implementation gate:** accept the interface and compatibility/versioning decision,
-then open a scoped implementation issue. Plain-text checking can reuse today's SDK;
-general nested/multi-field support needs its own accepted contract beyond the released
-fixed-field recipes. Recursive repository scanning, automatic file rewrites, and a general
-policy language are outside this initial proposal.
+**Implementation acceptance:** complete the policy/byte/privacy/transport and installation
+gates in #78, including native Windows CI. The issue tracks the submitted PR and its checks;
+local macOS verification does not complete the native matrix. General nested/multi-field
+support needs its own accepted contract beyond the released fixed-field recipes.
+Recursive repository scanning and automatic file rewrites remain excluded.
 
 ## As needed: provider and deployment evidence
 

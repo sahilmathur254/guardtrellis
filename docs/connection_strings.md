@@ -1,8 +1,10 @@
 # Connection-URI detection
 
-The `0.1.8` source candidate adds `SecretScanner(connection_strings=True)`. Publication
-is separate; check [PyPI](https://pypi.org/project/guardtrellis/) before installing that
-version. Existing `SecretScanner()` calls retain their token/private-key rules and actions.
+Version [`0.1.8`](https://pypi.org/project/guardtrellis/0.1.8/) adds
+`SecretScanner(connection_strings=True)`. The
+[release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.8)
+links source, CI and publication verification. Existing `SecretScanner()` calls retain
+their token/private-key rules and actions.
 
 The option detects explicit password-bearing PostgreSQL and MongoDB URIs in text. It
 checks disclosure shapes locally: it does not connect to a database, resolve hosts,
@@ -79,6 +81,11 @@ share the existing deterministic `(start, end, code)` ordering and 256-finding c
 No username, host, password, decoded component, or parser exception is added to diagnostics.
 
 ## Explicit JSON decoding and exclusions
+
+The [local CLI validation record](cli_validation.md#connection-strings) includes a fresh
+`0.1.9` source comparison against the frozen corpora, direct/Guard resource probes and
+CLI checked-delivery regressions. The detector grammar and historical evidence remain
+unchanged; local verification does not establish native Windows success or general accuracy.
 
 Scanning raw JSON inspects its literal wire characters. Fully escaped text such as
 `postgresql\u003a\u002f\u002f...` does not expose the literal scheme delimiters to this
