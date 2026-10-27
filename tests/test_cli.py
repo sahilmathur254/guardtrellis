@@ -240,6 +240,9 @@ def test_file_and_stdin_preserve_exact_binary_utf8(tmp_path, data):
         (b"x" * 100_001, "input_limit_exceeded"),
         (b"x" * 400_001, "input_limit_exceeded"),
     ],
+    # Pytest puts node IDs in PYTEST_CURRENT_TEST. Literal payload IDs exceed
+    # Windows' environment-variable limit and obscure the actual input tests.
+    ids=["invalid-byte", "surrogate", "character-limit", "byte-limit"],
 )
 @pytest.mark.parametrize("checked", [False, True])
 def test_ingress_errors_are_structured_and_private(monkeypatch, data, code, checked):
