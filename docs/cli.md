@@ -1,7 +1,8 @@
 # Check one local fixture
 
-Available in the unpublished `0.1.9` source candidate for [#78](https://github.com/sahilmathur254/guardtrellis/issues/78).
-The published `0.1.8` package has no CLI. From this checkout, install into an activated
+Added in `0.1.9` through [#78](https://github.com/sahilmathur254/guardtrellis/issues/78).
+See [PyPI](https://pypi.org/project/guardtrellis/0.1.9/) for availability.
+The `0.1.8` package has no CLI. From this checkout, install into an activated
 environment with `python -m pip install -e .`, or use the repository's locked `uv sync`.
 Both `guardtrellis check` and `python -m guardtrellis check` use the same core implementation;
 optional provider dependencies and credentials are unnecessary. No network requests occur.

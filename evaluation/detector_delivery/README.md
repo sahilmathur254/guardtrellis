@@ -1,7 +1,7 @@
 # Detector and checked-delivery challenges, v1
 
 This evaluation-only contribution to [#45](https://github.com/sahilmathur254/guardtrellis/issues/45)
-belongs to unpublished `0.1.9`. It adds **48 original synthetic scenarios**, eight sensitive
+belongs to `0.1.9`. It adds **48 original synthetic scenarios**, eight sensitive
 and eight benign cases each for email, phone and credential-bearing connection metadata.
 The 24 contrast pairs and English context are authored with knowledge of the SDK. All
 values are fabricated and covered by Apache-2.0. No personal records, credentials,
@@ -20,9 +20,9 @@ uv run --frozen python evaluation/detector_delivery/run.py \
 ```
 
 Choose a directory that does not exist. Reports never replace prior evidence. The full
-384-observation protocol runs in every native CI matrix job. The issue and its linked
-draft PR track current CI/review evidence; the retained local baseline alone does not
-establish native Windows execution.
+384-observation protocol runs in every native CI matrix job. The issue and merged
+[PR #80](https://github.com/sahilmathur254/guardtrellis/pull/80) track CI/review evidence;
+the retained local baseline alone does not establish native Windows execution.
 
 ## Freeze before observing
 
@@ -127,4 +127,6 @@ exit 1, invalid arguments/existing output directory exit 2. CLI errors are stati
 SDK files, defaults, dependency versions, source version and every historical evaluation
 file remain unchanged. Independent case review, broader benchmark coverage and any
 competitor comparison remain open in #45. The CLI and this separate evaluation are the
-two substantive `0.1.9` contributions; publication still needs a separate decision.
+two substantive `0.1.9` contributions. See [PyPI](https://pypi.org/project/guardtrellis/0.1.9/)
+for availability and [release notes](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.9)
+for publication verification. Historical protocol and baseline records retain their original status.

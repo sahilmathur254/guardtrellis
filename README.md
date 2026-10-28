@@ -33,7 +33,7 @@ An explicit version opts into a prerelease when applicable. Optional integration
 
 ## Included capabilities
 
-- A core [local policy CLI](docs/cli.md) in the unpublished `0.1.9` source candidate,
+- A core [local policy CLI](docs/cli.md), added in `0.1.9`,
   with explicit file/stdin and stage selection, fixed secrets/privacy policies,
   metadata reports and opt-in checked text for pipes/files.
 - A [48-scenario evaluation batch](evaluation/detector_delivery/README.md) for
