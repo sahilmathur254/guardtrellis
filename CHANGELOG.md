@@ -15,7 +15,7 @@ artifacts and verification evidence.
   frozen before observation, primary-family scoring, retained format/context misses,
   bounded child processes and cross-platform reproduction. SDK behavior is unchanged.
 
-Upgrade note: this source version is unpublished and its release batch remains open.
+Upgrade note: existing SDK APIs and detector defaults are unchanged.
 Connection-URI and formatted-phone checking still require explicit options. REDACT exits
 zero with transformed text; strict PII CI must inspect findings. Discard checked stdout on
 nonzero exit and never redirect either output stream to the input file. See the
