@@ -36,6 +36,9 @@ An explicit version opts into a prerelease when applicable. Optional integration
 - A core [local policy CLI](docs/cli.md) in the unpublished `0.1.9` source candidate,
   with explicit file/stdin and stage selection, fixed secrets/privacy policies,
   metadata reports and opt-in checked text for pipes/files.
+- A [48-scenario evaluation batch](evaluation/detector_delivery/README.md) for
+  `0.1.9`, with pre-observation expectations, default/opt-in comparisons and separate
+  detector, complete-redaction and checked-delivery results. #45 tracks CI/review evidence.
 - A [policy and operations recipe](https://github.com/sahilmathur254/guardtrellis/blob/main/docs/policy_operations.md)
   with distinct stage policies, checked-data handoff, metadata-only diagnostics, and host resource controls.
 - A separate [policy-combination evaluation](https://github.com/sahilmathur254/guardtrellis/blob/main/evaluation/policy_combinations/README.md)

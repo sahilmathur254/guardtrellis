@@ -4,3 +4,8 @@
 /evaluation/policy_combinations/*.jsonl text eol=lf
 /evaluation/connection_strings/*.jsonl text eol=lf
 /evaluation/connection_strings/acceptance*.json text eol=lf
+/evaluation/detector_delivery/*.jsonl text eol=lf
+/evaluation/detector_delivery/*.json text eol=lf
+/evaluation/detector_delivery/contract.py text eol=lf
+/evaluation/detector_delivery/PROTOCOL_v1.md text eol=lf
+/evaluation/detector_delivery/baseline_0.1.9/*.json text eol=lf
