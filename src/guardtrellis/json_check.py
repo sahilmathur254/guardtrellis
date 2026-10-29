@@ -4,10 +4,13 @@ from __future__ import annotations
 
 import json
 import math
-from typing import Any
+from collections.abc import Callable, Iterator
+from contextvars import ContextVar
+from typing import Any, cast
 
-from jsonschema import Draft202012Validator
-from jsonschema.exceptions import SchemaError
+from jsonschema import Draft202012Validator, validators
+from jsonschema.exceptions import SchemaError, ValidationError
+from jsonschema.protocols import Validator
 from referencing import Registry, Resource
 from referencing.exceptions import Unresolvable
 from referencing.jsonschema import DRAFT202012
@@ -16,6 +19,63 @@ from .models import Action, Check, Finding, Stage
 
 Schema = dict[str, Any] | bool
 _DIALECT = "https://json-schema.org/draft/2020-12/schema"
+
+
+# Count keyword dispatch AND evolution: unevaluated* helpers follow references
+# through evolve() without dispatching the referenced keyword validators first.
+_SCHEMA_WORK_LIMIT = 10_000
+_schema_work: ContextVar[list[int] | None] = ContextVar("schema_work", default=None)
+
+
+class _SchemaWorkExceeded(RuntimeError):
+    pass
+
+
+def _charge_schema_work() -> None:
+    budget = _schema_work.get()
+    if budget is None:
+        raise _SchemaWorkExceeded
+    budget[0] -= 1
+    if budget[0] < 0:
+        raise _SchemaWorkExceeded
+
+
+def _budget_keyword(callback: Callable[..., Any]) -> Callable[..., Iterator[ValidationError]]:
+    def validate(*args: Any) -> Iterator[ValidationError]:
+        _charge_schema_work()
+        yield from callback(*args)
+
+    return validate
+
+
+# types-jsonschema leaves the public extension factory untyped.
+_BudgetedValidator = validators.extend(  # type: ignore[no-untyped-call]
+    Draft202012Validator,
+    {name: _budget_keyword(callback) for name, callback in Draft202012Validator.VALIDATORS.items()},
+)
+_upstream_evolve = _BudgetedValidator.evolve
+
+
+def _budget_evolve(self: Any, **changes: Any) -> Any:
+    _charge_schema_work()
+    evolved = _upstream_evolve(self, **changes)
+    if isinstance(evolved, _BudgetedValidator):
+        return evolved
+    # Explicit $schema selects the registered upstream class. Policy permits only
+    # Draft 2020-12; retain our private budget without registering a global dialect.
+    if type(evolved) is not Draft202012Validator:
+        raise _SchemaWorkExceeded
+    return _BudgetedValidator(
+        evolved.schema,
+        resolver=cast(Any, evolved)._ref_resolver,
+        format_checker=evolved.format_checker,
+        registry=cast(Any, evolved)._registry,
+        _resolver=cast(Any, evolved)._resolver,
+    )
+
+
+# The generated class is private. Its evolved validators must share the same budget.
+_BudgetedValidator.evolve = _budget_evolve
 
 
 class _JSONProblem(ValueError):
@@ -134,7 +194,7 @@ class JSONScanner:
             raise ValueError("max_depth must be an integer from 1 to 64")
         self.max_depth = max_depth
         self.require_object = require_object
-        self._validator: Draft202012Validator | None = None
+        self._validator: Validator | None = None
         if schema is not None:
             try:
                 # Snapshot config so mutation of the caller's schema cannot change a policy.
@@ -147,7 +207,7 @@ class JSONScanner:
                 Draft202012Validator.check_schema(copied)
                 _check_schema_policy(copied)
                 # Supplying a Registry explicitly prevents legacy automatic URL retrieval.
-                self._validator = Draft202012Validator(copied, registry=Registry())
+                self._validator = _BudgetedValidator(copied, registry=Registry())
             except (ValueError, TypeError, RecursionError, SchemaError):
                 raise ValueError(
                     "Schema must be bounded Draft 2020-12 with local references "
@@ -164,7 +224,13 @@ class JSONScanner:
         if self._validator is not None:
             # Consume one error only; do not retain ValidationError (it holds the instance).
             # Resolution/runtime errors propagate into Guard's explicit ERROR result.
-            error = next(self._validator.iter_errors(instance), None)
+            token = _schema_work.set([_SCHEMA_WORK_LIMIT])
+            try:
+                error = next(self._validator.iter_errors(instance), None)
+            except _SchemaWorkExceeded:
+                return Check(Action.ERROR, (Finding("json_schema_work_limit"),))
+            finally:
+                _schema_work.reset(token)
             if error is not None:
                 return Check(Action.BLOCK, (Finding("json_schema_mismatch"),))
         return Check()

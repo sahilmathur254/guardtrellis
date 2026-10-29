@@ -61,9 +61,10 @@ the callback or data captured by provider instrumentation. There is no streaming
   Unicode confusables, and paraphrases can evade a policy. Arbitrary regex is unsupported.
 - JSON/schema: structural validity does not establish factual correctness, safe URLs,
   safe commands, or harmless values. Schemas are trusted developer configuration.
-  Complex schemas can still consume substantial CPU despite regex restrictions and
-  text/depth limits. Use appropriate `additionalProperties`, lengths, enums, and numeric
-  constraints; an empty schema deliberately accepts all structurally valid data.
+  Schema traversal has a fixed work budget, but individual keywords can still consume
+  substantial CPU despite regex restrictions and text/depth limits. Use appropriate
+  `additionalProperties`, lengths, enums, and numeric constraints; an empty schema
+  deliberately accepts all structurally valid data.
 - Tool validation: names and argument structure complement execution-time identity,
   permissions, resource constraints, and approvals. An allowed, schema-valid tool call
   can still be dangerous or unauthorized. GuardTrellis executes no tools.
