@@ -4,11 +4,11 @@ Status: design accepted for [#31](https://github.com/sahilmathur254/guardtrellis
 on 2026-10-27 after the contract re-review. Implementation is separately scoped in
 [#78](https://github.com/sahilmathur254/guardtrellis/issues/78), with implementation review
 and current native CI evidence tracked on that issue.
-GuardTrellis `0.1.8` has no CLI. Commands below describe the accepted target interface,
-not commands available in the published package. This acceptance records design and
-tracking only. The later authorized implementation is an unpublished `0.1.9` source
-candidate requiring native CI and review before acceptance. See the
-[implementation guide](cli.md) for runnable source commands.
+GuardTrellis `0.1.8` has no CLI. This document retains the accepted target contract;
+the later implementation shipped in `0.1.9` after native CI and review. See the
+[implementation guide](cli.md) for runnable commands and the
+[0.1.9 release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.9)
+for publication evidence. The dated feasibility checks below remain historical design evidence.
 
 ## Selected workflow and success criteria
 
@@ -386,14 +386,15 @@ The maintainer accepted the fixed-policy CLI on 2026-10-27, including both comma
 the two policies and explicit options, fixed budgets, report/exit contract, non-terminal
 checked-text restriction and the re-reviewed I/O/input-file rules. A manifest and hard
 whole-command deadline remain deferred. #31 is complete as a design decision; #78 is now
-authorized, with implementation review tracked separately. Design acceptance is not evidence
-of shipped CLI behavior.
+implemented through [#79](https://github.com/sahilmathur254/guardtrellis/pull/79), with
+review and native CI tracked separately. Design acceptance alone does not establish
+shipped CLI behavior; the release record above does.
 
 The new CLI is additive under the existing `0.1.x` compatibility policy. `report_version=1`
 and the exit codes are accepted interface commitments for the implementation to verify;
-existing SDK APIs and defaults remain unchanged. `0.1.9` is a tentative implementation batch,
-subject to implementation review and a separate release decision. Pair it with a scoped #45 evaluation improvement if both
-are useful; CLI tests/docs are part of the same improvement. This document, release tracking
+existing SDK APIs and defaults were unchanged by the CLI addition. `0.1.9` shipped the
+CLI with the scoped #45 detector/delivery evaluation; CLI tests/docs are part of that
+same improvement. This document, release tracking
 cleanup and a patch to stale status prose do not justify a new package version or publication.
 IDE/MCP adapters, streaming, arbitrary/custom policies, schema checking, recursive scans,
 automatic edits and new detector families remain separate work.
