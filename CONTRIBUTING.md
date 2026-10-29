@@ -34,14 +34,14 @@ The runtime depends only on jsonschema and referencing plus their dependencies. 
 model providers, frameworks, network clients, and model downloads out of core dependencies.
 
 ```sh
-uv sync --frozen --all-extras --group dev
+uv sync --locked --all-extras --group dev --group build
 uv run pytest
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy
 uv run python evaluation/run.py --report-dir /tmp/guardtrellis-eval
 uv run python evaluation/policy_combinations/run.py --report-dir /tmp/guardtrellis-policies
-uv build
+uv build --offline --no-build-isolation
 uv run python scripts/smoke_dist.py
 ```
 

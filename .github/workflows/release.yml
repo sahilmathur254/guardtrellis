@@ -52,15 +52,19 @@ jobs:
       - name: Install release tooling
         run: |
           python -m pip install 'uv==0.8.17'
-          uv sync --frozen --no-dev --group release
+          uv export --locked --only-group build --only-group release --no-emit-project \
+            --output-file "$RUNNER_TEMP/release-requirements.txt"
+          uv venv .venv
+          uv pip install --python .venv/bin/python --require-hashes --only-binary :all: \
+            --requirements "$RUNNER_TEMP/release-requirements.txt"
       - name: Check release version agreement
         run: python scripts/release_artifacts.py check
       - name: Build and validate both distributions
         run: |
-          uv build
-          uv run --frozen --no-dev --group release python -m twine check --strict dist/*
-          uv run --frozen --no-dev --group release python scripts/smoke_dist.py
-          uv run --frozen --no-dev --group release python scripts/release_artifacts.py create \
+          uv build --offline --no-build-isolation --python .venv/bin/python
+          uv run --no-sync python -m twine check --strict dist/*
+          uv run --no-sync python scripts/smoke_dist.py
+          uv run --no-sync python scripts/release_artifacts.py create \
             --bundle "$RUNNER_TEMP/candidate" --commit "$GITHUB_SHA" --run-id "$GITHUB_RUN_ID"
           cat "$RUNNER_TEMP/candidate/release.json" >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

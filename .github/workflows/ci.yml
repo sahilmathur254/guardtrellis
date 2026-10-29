@@ -36,7 +36,7 @@ jobs:
       - name: Check release version agreement
         run: python scripts/release_artifacts.py check
       - name: Install locked dependencies and optional examples
-        run: uv sync --frozen --all-extras --group dev --python '${{ matrix.python }}'
+        run: uv sync --frozen --all-extras --group dev --group build --python '${{ matrix.python }}'
       - name: Test behavior and runnable examples
         run: uv run --frozen pytest
       - name: Check lint, formatting, and types
@@ -97,5 +97,5 @@ jobs:
             --report-dir '${{ runner.temp }}/guardtrellis-detector-delivery'
       - name: Build and install both distributions outside the checkout
         run: |
-          uv build
+          uv build --offline --no-build-isolation
           uv run --frozen python scripts/smoke_dist.py
