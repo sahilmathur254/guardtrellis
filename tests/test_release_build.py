@@ -104,7 +104,8 @@ def test_sdist_install_does_not_resolve_a_second_backend(build_project, tmp_path
         timeout=60,
     )
     # A nested venv's system-site-packages exposes the base interpreter, not the
-    # outer test venv. Seed the consumer exactly as the production sdist smoke does.
+    # outer test venv. Seed the consumer online, exactly as the production smoke
+    # does: uv sync's locked downloads do not populate registry metadata for pip.
     subprocess.run(
         [
             UV,
@@ -112,10 +113,13 @@ def test_sdist_install_does_not_resolve_a_second_backend(build_project, tmp_path
             "install",
             "--python",
             str(python),
-            "--offline",
             "--require-hashes",
             "--only-binary",
             ":all:",
+            "--index-url",
+            "https://pypi.org/simple",
+            "--cache-dir",
+            str(tmp_path / "bootstrap-cache"),
             "--requirements",
             str(requirements),
         ],
@@ -190,10 +194,13 @@ def test_build_bootstrap_rejects_incorrect_artifact_hashes(tmp_path):
             "install",
             "--python",
             str(python),
-            "--offline",
             "--require-hashes",
             "--only-binary",
             ":all:",
+            "--index-url",
+            "https://pypi.org/simple",
+            "--cache-dir",
+            str(tmp_path / "bootstrap-cache"),
             "--requirements",
             str(requirements),
         ],
