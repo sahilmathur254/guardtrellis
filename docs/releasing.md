@@ -9,25 +9,33 @@ targets: `validate`, `testpypi`, and `pypi`. It never publishes on a push, pull 
 
 ## What the workflow does
 
-1. **Validate:** check version agreement, build one wheel and one source archive, run strict Twine metadata checks,
-   and install both outside the checkout with core and optional example smokes. Record
-   their SHA-256 hashes, package version, source commit, and workflow run ID in `release.json`.
+1. **Validate:** check version agreement, build one wheel and one source archive, and run
+   strict Twine metadata checks. Record their SHA-256 hashes, package version, source commit,
+   and workflow run ID in `release.json`, then upload the immutable `candidate` artifact.
+   A separate runner downloads a disposable copy and installs both distributions outside
+   the checkout with core and optional example smokes.
 2. **TestPyPI:** on an explicit dispatch from this repository's `main`, require successful
-   push CI for that commit and a reviewer-protected `testpypi` environment. Build/validate
-   the candidate, await environment approval, and upload with Trusted Publishing. Download
-   the actual index files, match both hashes and the published description, and smoke-test those downloads. Only then
-   retain the unchanged files as the `testpypi-verified` workflow artifact.
+   push CI for that commit, successful candidate smokes, and a reviewer-protected `testpypi`
+   environment. Await environment approval and upload with Trusted Publishing. Download
+   the actual index files, match both hashes and the published description, and smoke-test
+   those downloads. After success, a clean runner retrieves the original `candidate` from
+   GitHub and retains it as `testpypi-verified`. Smoke runners never upload package bundles.
 3. **PyPI:** on a separate dispatch, require a successful TestPyPI run from this same
-   `main` commit. Retrieve its `testpypi-verified` artifact, check the recorded run/commit,
-   versions, metadata, and hashes, and await the `pypi` environment approval. Upload those
-   same files without rebuilding. Verify their public PyPI hashes and fresh installations.
+   `main` commit. Retrieve its original `candidate` and `testpypi-verified` artifacts and
+   require identical contents. Check the original candidate's recorded run/commit, versions,
+   metadata, and hashes, and await the `pypi` environment approval. Upload those same files
+   without rebuilding. Verify their public PyPI hashes and fresh installations, then retain
+   `pypi-verified` from the original `pypi-candidate` on another clean runner.
 
 Publishing jobs only download the candidate, check its hashes, and invoke the pinned PyPA
 action. They have `id-token: write`; build/install/verification jobs do not. No long-lived
 PyPI token is required. Dependencies for installation smokes come from ordinary PyPI;
 the candidate itself is the exact file downloaded from the selected index, so TestPyPI
-does not participate in dependency resolution. Both index verification paths are bounded
-and fail if files are missing, changed, yanked, or unexpected.
+does not participate in dependency resolution. The original artifact in GitHub, rather than
+a manifest writable by an installation smoke, anchors promotion. Smoke jobs have read-only repository permissions and no publishing
+identity; each runs on a separate GitHub-hosted runner from build, retention, and publication.
+Both index verification paths are bounded and fail if files are missing, changed, yanked,
+or unexpected.
 
 GitHub artifacts are retained for 30 days. Keep the workflow run links and download the
 verified bundle for the release record. Promotion requires the source commit to remain

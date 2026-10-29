@@ -3,13 +3,17 @@
 import hashlib
 import io
 import json
+import os
 import shutil
+import subprocess
+import sys
 import tarfile
 import tomllib
 import urllib.error
 import zipfile
 
 import pytest
+import yaml
 
 from scripts import release_artifacts as release
 
@@ -357,3 +361,118 @@ def test_downloaded_bytes_must_match_the_index_and_manifest(bundle, tmp_path, mo
     monkeypatch.setattr(release, "read_url", lambda *_: b"corrupt download")
     with pytest.raises(ValueError, match="Downloaded artifact"):
         release.fetch(bundle, COMMIT, "pypi", tmp_path / "downloaded")
+
+
+@pytest.fixture
+def release_workflow():
+    # YAML is a dev-only dependency; workflows are not shipped in the source archive.
+    path = release.ROOT / ".github/workflows/release.yml"
+    if not path.is_file():
+        pytest.skip("Release workflow checks require the repository checkout")
+    return yaml.safe_load(path.read_text(encoding="utf-8"))["jobs"]
+
+
+def artifact_steps(job, action):
+    return [
+        step["with"]
+        for step in job["steps"]
+        if step.get("uses", "").startswith(f"actions/{action}-artifact@")
+    ]
+
+
+def test_smokes_cannot_produce_authoritative_package_artifacts(release_workflow):
+    jobs = release_workflow
+    smoke_jobs = {
+        name
+        for name, job in jobs.items()
+        if any("scripts/smoke_dist.py" in step.get("run", "") for step in job["steps"])
+    }
+    assert smoke_jobs == {"smoke-candidate", "verify-testpypi", "verify-pypi"}
+    for name in smoke_jobs:
+        job = jobs[name]
+        assert job["runs-on"] == "ubuntu-latest"
+        assert not artifact_steps(job, "upload")
+        assert "environment" not in job
+        assert job.get("permissions", {"contents": "read"}) == {"contents": "read"}
+    assert artifact_steps(jobs["candidate"], "upload")[0]["name"] == "candidate"
+    assert jobs["smoke-candidate"]["needs"] == "candidate"
+    assert set(jobs["testpypi"]["needs"]) == {"candidate", "smoke-candidate"}
+    assert artifact_steps(jobs["smoke-candidate"], "download")[0]["name"] == "candidate"
+
+
+@pytest.mark.parametrize(
+    "job_name,gate,original,retained",
+    [
+        ("retain-testpypi", "verify-testpypi", "candidate", "testpypi-verified"),
+        ("retain-pypi", "verify-pypi", "pypi-candidate", "pypi-verified"),
+    ],
+)
+def test_retention_uses_a_clean_runner_after_success(
+    release_workflow, job_name, gate, original, retained
+):
+    job = release_workflow[job_name]
+    assert job["needs"] == gate
+    assert "if" not in job  # Preserve the default success-only dependency gate.
+    assert job["permissions"] == {}
+    assert job["runs-on"] == "ubuntu-latest"
+    assert len(job["steps"]) == 2
+    download, upload = job["steps"]
+    assert download["uses"].startswith("actions/download-artifact@")
+    assert upload["uses"].startswith("actions/upload-artifact@")
+    assert download["with"]["name"] == original
+    assert upload["with"]["name"] == retained
+    assert download["with"]["path"].rstrip("/") == upload["with"]["path"].rstrip("/")
+
+
+def test_promotion_uses_original_candidate_from_the_same_rehearsal(release_workflow):
+    job = release_workflow["promote"]
+    downloads = artifact_steps(job, "download")
+    assert [step["name"] for step in downloads] == ["candidate", "testpypi-verified"]
+    for step in downloads:
+        assert step["run-id"] == "${{ inputs.rehearsal_run_id }}"
+        assert step["repository"] == "${{ github.repository }}"
+    commands = "\n".join(step.get("run", "") for step in job["steps"])
+    compare = 'diff --recursive "$RUNNER_TEMP/candidate" "$RUNNER_TEMP/testpypi-verified"'
+    verify = 'python scripts/release_artifacts.py verify --bundle "$RUNNER_TEMP/candidate"'
+    assert commands.index(compare) < commands.index(verify)
+    assert artifact_steps(job, "upload")[0]["path"].rstrip("/") == downloads[0]["path"]
+    assert release_workflow["pypi"]["needs"] == "promote"
+    assert artifact_steps(release_workflow["pypi"], "download")[0]["name"] == "pypi-candidate"
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="Executes an Ubuntu workflow shell command")
+@pytest.mark.parametrize("change", [None, "package-and-manifest", "missing-retention"])
+def test_promotion_compares_original_bytes_even_with_consistent_manifests(
+    bundle, tmp_path, release_workflow, change
+):
+    original = tmp_path / "candidate"
+    retained = tmp_path / "testpypi-verified"
+    shutil.copytree(bundle, original)
+    if change != "missing-retention":
+        shutil.copytree(bundle, retained)
+    if change == "package-and-manifest":
+        wheel = next((retained / "dist").glob("*.whl"))
+        with zipfile.ZipFile(wheel, "a") as archive:
+            archive.writestr("guardtrellis/extra_fixture.txt", "changed package contents")
+        manifest = json.loads((retained / "release.json").read_text(encoding="utf-8"))
+        manifest["sha256"][wheel.name] = release.digest(wheel)
+        (retained / "release.json").write_text(json.dumps(manifest), encoding="utf-8")
+        (retained / "SHA256SUMS").write_text(
+            "".join(f"{sha}  dist/{name}\n" for name, sha in sorted(manifest["sha256"].items())),
+            encoding="utf-8",
+        )
+        # The existing self-consistency check accepts these coordinated changes.
+        release.verify(retained, COMMIT, RUN)
+    step = next(
+        step
+        for step in release_workflow["promote"]["steps"]
+        if step.get("run", "").startswith("diff --recursive ")
+    )
+    result = subprocess.run(
+        ["bash", "-e", "-c", step["run"]],
+        env={**os.environ, "RUNNER_TEMP": str(tmp_path)},
+        capture_output=True,
+        check=False,
+    )
+    assert (result.returncode == 0) == (change is None)
+    release.verify(original, COMMIT, RUN)
