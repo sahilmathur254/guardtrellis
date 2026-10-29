@@ -19,6 +19,8 @@ from scripts import release_artifacts as release
 
 COMMIT = "a" * 40
 RUN = "12345"
+ARTIFACT = "67890"
+REPOSITORY = "sahilmathur254/guardtrellis"
 
 
 @pytest.fixture
@@ -380,6 +382,11 @@ def artifact_steps(job, action):
     ]
 
 
+def job_needs(job):
+    needs = job.get("needs", [])
+    return {needs} if isinstance(needs, str) else set(needs)
+
+
 def test_smokes_cannot_produce_authoritative_package_artifacts(release_workflow):
     jobs = release_workflow
     smoke_jobs = {
@@ -397,21 +404,62 @@ def test_smokes_cannot_produce_authoritative_package_artifacts(release_workflow)
     assert artifact_steps(jobs["candidate"], "upload")[0]["name"] == "candidate"
     assert jobs["smoke-candidate"]["needs"] == "candidate"
     assert set(jobs["testpypi"]["needs"]) == {"candidate", "smoke-candidate"}
-    assert artifact_steps(jobs["smoke-candidate"], "download")[0]["name"] == "candidate"
 
 
 @pytest.mark.parametrize(
-    "job_name,gate,original,retained",
+    "producer,upload_id,name",
+    [
+        ("candidate", "upload-candidate", "candidate"),
+        ("promote", "upload-pypi-candidate", "pypi-candidate"),
+    ],
+)
+def test_producers_expose_only_the_original_upload_id(release_workflow, producer, upload_id, name):
+    job = release_workflow[producer]
+    assert job["outputs"] == {"artifact-id": f"${{{{ steps.{upload_id}.outputs.artifact-id }}}}"}
+    upload = next(step for step in job["steps"] if step.get("id") == upload_id)
+    assert upload["uses"].startswith("actions/upload-artifact@")
+    assert upload["with"]["name"] == name
+    assert upload["with"].get("overwrite", False) is False
+
+
+@pytest.mark.parametrize(
+    "consumer,producer",
+    [
+        ("smoke-candidate", "candidate"),
+        ("testpypi", "candidate"),
+        ("verify-testpypi", "candidate"),
+        ("retain-testpypi", "candidate"),
+        ("pypi", "promote"),
+        ("verify-pypi", "promote"),
+        ("retain-pypi", "promote"),
+    ],
+)
+def test_same_run_consumers_pin_producer_id_even_if_artifact_names_are_replaced(
+    release_workflow, consumer, producer
+):
+    job = release_workflow[consumer]
+    assert producer in job_needs(job)  # Only direct needs expose a producer's outputs.
+    [download] = artifact_steps(job, "download")
+    assert (
+        download["artifact-ids"]
+        == f"${{{{ needs.{producer}.outputs.artifact-id || 'missing-producer-artifact-id' }}}}"
+    )
+    assert download["merge-multiple"] is True  # Keep the existing bundle directory layout.
+    assert not {"name", "pattern", "run-id"}.intersection(download)
+
+
+@pytest.mark.parametrize(
+    "job_name,gate,producer,retained",
     [
         ("retain-testpypi", "verify-testpypi", "candidate", "testpypi-verified"),
-        ("retain-pypi", "verify-pypi", "pypi-candidate", "pypi-verified"),
+        ("retain-pypi", "verify-pypi", "promote", "pypi-verified"),
     ],
 )
 def test_retention_uses_a_clean_runner_after_success(
-    release_workflow, job_name, gate, original, retained
+    release_workflow, job_name, gate, producer, retained
 ):
     job = release_workflow[job_name]
-    assert job["needs"] == gate
+    assert job_needs(job) == {producer, gate}
     assert "if" not in job  # Preserve the default success-only dependency gate.
     assert job["permissions"] == {}
     assert job["runs-on"] == "ubuntu-latest"
@@ -419,7 +467,10 @@ def test_retention_uses_a_clean_runner_after_success(
     download, upload = job["steps"]
     assert download["uses"].startswith("actions/download-artifact@")
     assert upload["uses"].startswith("actions/upload-artifact@")
-    assert download["with"]["name"] == original
+    assert (
+        download["with"]["artifact-ids"]
+        == f"${{{{ needs.{producer}.outputs.artifact-id || 'missing-producer-artifact-id' }}}}"
+    )
     assert upload["with"]["name"] == retained
     assert download["with"]["path"].rstrip("/") == upload["with"]["path"].rstrip("/")
 
@@ -427,7 +478,11 @@ def test_retention_uses_a_clean_runner_after_success(
 def test_promotion_uses_original_candidate_from_the_same_rehearsal(release_workflow):
     job = release_workflow["promote"]
     downloads = artifact_steps(job, "download")
-    assert [step["name"] for step in downloads] == ["candidate", "testpypi-verified"]
+    original, retained = downloads
+    assert original["artifact-ids"] == "${{ inputs.rehearsal_artifact_id }}"
+    assert "name" not in original
+    assert original["merge-multiple"] is True
+    assert retained["name"] == "testpypi-verified"
     for step in downloads:
         assert step["run-id"] == "${{ inputs.rehearsal_run_id }}"
         assert step["repository"] == "${{ github.repository }}"
@@ -437,7 +492,206 @@ def test_promotion_uses_original_candidate_from_the_same_rehearsal(release_workf
     assert commands.index(compare) < commands.index(verify)
     assert artifact_steps(job, "upload")[0]["path"].rstrip("/") == downloads[0]["path"]
     assert release_workflow["pypi"]["needs"] == "promote"
-    assert artifact_steps(release_workflow["pypi"], "download")[0]["name"] == "pypi-candidate"
+    assert job_needs(release_workflow["verify-testpypi"]) == {"candidate", "testpypi"}
+    assert job_needs(release_workflow["verify-pypi"]) == {"promote", "pypi"}
+
+
+def test_promotion_validates_manual_ids_before_any_download(release_workflow):
+    steps = release_workflow["promote"]["steps"]
+    preflight = next(
+        step
+        for step in steps
+        if step.get("name") == "Require a successful rehearsal from the same main commit"
+    )
+    assert preflight["env"]["REHEARSAL_RUN_ID"] == "${{ inputs.rehearsal_run_id }}"
+    assert preflight["env"]["REHEARSAL_ARTIFACT_ID"] == "${{ inputs.rehearsal_artifact_id }}"
+    first_download = next(
+        step for step in steps if step.get("uses", "").startswith("actions/download-artifact@")
+    )
+    assert steps.index(preflight) < steps.index(first_download)
+    assert "${{ inputs." not in preflight["run"]
+
+
+def test_release_preserves_manual_targets_and_limits_publishing_identity(release_workflow):
+    definition = yaml.load(
+        (release.ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8"),
+        Loader=yaml.BaseLoader,
+    )
+    assert set(definition["on"]) == {"pull_request", "workflow_dispatch"}
+    inputs = definition["on"]["workflow_dispatch"]["inputs"]
+    assert inputs["target"]["options"] == ["validate", "testpypi", "pypi"]
+    assert inputs["rehearsal_artifact_id"]["type"] == "string"
+    assert inputs["rehearsal_artifact_id"]["required"] == "false"
+    assert definition["permissions"] == {"contents": "read"}
+    for name, job in release_workflow.items():
+        permissions = job.get("permissions", {})
+        assert permissions.get("actions") != "write"
+        if name in {"testpypi", "pypi"}:
+            assert permissions == {"id-token": "write"}
+            assert job["environment"]["name"] == name
+        else:
+            assert "id-token" not in permissions
+
+
+@pytest.fixture
+def promotion_preflight(tmp_path, release_workflow):
+    step = next(
+        step
+        for step in release_workflow["promote"]["steps"]
+        if step.get("name") == "Require a successful rehearsal from the same main commit"
+    )
+    run_metadata = {
+        "id": int(RUN),
+        "status": "completed",
+        "conclusion": "success",
+        "event": "workflow_dispatch",
+        "path": ".github/workflows/release.yml",
+        "head_branch": "main",
+        "head_sha": COMMIT,
+        "repository": {"id": 101, "full_name": REPOSITORY},
+        "head_repository": {"full_name": REPOSITORY},
+    }
+    artifact_metadata = {
+        "id": int(ARTIFACT),
+        "name": "candidate",
+        "expired": False,
+        "workflow_run": {
+            "id": int(RUN),
+            "repository_id": 101,
+            "head_repository_id": 101,
+            "head_branch": "main",
+            "head_sha": COMMIT,
+        },
+    }
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir()
+    gh = bin_dir / "gh"
+    gh.write_text(
+        f"#!{sys.executable}\n"
+        "import json, os, pathlib, sys\n"
+        "root = pathlib.Path(os.environ['PREFLIGHT_FIXTURES'])\n"
+        "endpoint = sys.argv[2]\n"
+        "with (root / 'calls').open('a') as calls:\n"
+        "    calls.write(endpoint + '\\n')\n"
+        f"prefix = 'repos/{REPOSITORY}/'\n"
+        f"if endpoint == prefix + 'actions/runs/{RUN}':\n"
+        "    print((root / 'run.json').read_text())\n"
+        f"elif endpoint == prefix + 'actions/artifacts/{ARTIFACT}':\n"
+        "    print((root / 'artifact.json').read_text())\n"
+        "elif endpoint == prefix + 'environments/pypi':\n"
+        "    print(json.dumps({'protection_rules': [{'type': 'required_reviewers', "
+        "'reviewers': [{'id': 1}]}]}))\n"
+        "else:\n"
+        "    sys.exit('Unexpected API endpoint: ' + endpoint)\n",
+        encoding="utf-8",
+    )
+    gh.chmod(0o755)
+
+    def invoke(*, run=None, artifact=None, **environment):
+        (tmp_path / "run.json").write_text(
+            json.dumps(run_metadata if run is None else run), encoding="utf-8"
+        )
+        (tmp_path / "artifact.json").write_text(
+            json.dumps(artifact_metadata if artifact is None else artifact), encoding="utf-8"
+        )
+        calls = tmp_path / "calls"
+        calls.unlink(missing_ok=True)
+        result = subprocess.run(
+            ["bash", "--noprofile", "--norc", "-e", "-o", "pipefail", "-c", step["run"]],
+            env={
+                **os.environ,
+                "PATH": str(bin_dir) + os.pathsep + os.environ["PATH"],
+                "PREFLIGHT_FIXTURES": str(tmp_path),
+                "GITHUB_REPOSITORY": REPOSITORY,
+                "GITHUB_REF": "refs/heads/main",
+                "GITHUB_SHA": COMMIT,
+                "REHEARSAL_RUN_ID": RUN,
+                "REHEARSAL_ARTIFACT_ID": ARTIFACT,
+                **environment,
+            },
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        return result, calls.read_text(encoding="utf-8").splitlines() if calls.exists() else []
+
+    return invoke, run_metadata, artifact_metadata
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="Executes an Ubuntu workflow shell command")
+def test_promotion_accepts_only_the_exact_successful_rehearsal_candidate(promotion_preflight):
+    invoke, _, _ = promotion_preflight
+    result, calls = invoke()
+    assert result.returncode == 0, result.stderr
+    assert calls == [
+        f"repos/{REPOSITORY}/actions/runs/{RUN}",
+        f"repos/{REPOSITORY}/actions/artifacts/{ARTIFACT}",
+        f"repos/{REPOSITORY}/environments/pypi",
+    ]
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="Executes an Ubuntu workflow shell command")
+@pytest.mark.parametrize("field", ["REHEARSAL_RUN_ID", "REHEARSAL_ARTIFACT_ID"])
+@pytest.mark.parametrize("value", ["", "../1", "1,2", "1\n2", "$(exit 0)", "-1", "1.0", "１２"])
+def test_promotion_rejects_nonnumeric_ids_before_calling_github(promotion_preflight, field, value):
+    invoke, _, _ = promotion_preflight
+    result, calls = invoke(**{field: value})
+    assert result.returncode != 0
+    assert not calls
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="Executes an Ubuntu workflow shell command")
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("id", 999),
+        ("status", "in_progress"),
+        ("conclusion", "failure"),
+        ("event", "pull_request"),
+        ("path", ".github/workflows/other.yml"),
+        ("head_branch", "other"),
+        ("head_sha", "b" * 40),
+        ("repository", {"id": 101, "full_name": "other/repo"}),
+        ("head_repository", {"full_name": "other/repo"}),
+    ],
+)
+def test_promotion_rejects_untrusted_rehearsal_origins(promotion_preflight, field, value):
+    invoke, run, _ = promotion_preflight
+    run[field] = value
+    result, calls = invoke(run=run)
+    assert result.returncode != 0
+    assert calls == [f"repos/{REPOSITORY}/actions/runs/{RUN}"]
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="Executes an Ubuntu workflow shell command")
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("id", 999),
+        ("name", "testpypi-verified"),
+        ("expired", True),
+        ("expired", None),
+        ("workflow_run", None),
+        ("workflow_run.id", 999),
+        ("workflow_run.repository_id", 999),
+        ("workflow_run.head_repository_id", 999),
+        ("workflow_run.head_branch", "other"),
+        ("workflow_run.head_sha", "b" * 40),
+    ],
+)
+def test_promotion_rejects_a_different_or_expired_artifact(promotion_preflight, field, value):
+    invoke, _, artifact = promotion_preflight
+    if "." in field:
+        parent, key = field.split(".")
+        artifact[parent][key] = value
+    else:
+        artifact[field] = value
+    result, calls = invoke(artifact=artifact)
+    assert result.returncode != 0
+    assert calls == [
+        f"repos/{REPOSITORY}/actions/runs/{RUN}",
+        f"repos/{REPOSITORY}/actions/artifacts/{ARTIFACT}",
+    ]
 
 
 @pytest.mark.skipif(sys.platform == "win32", reason="Executes an Ubuntu workflow shell command")

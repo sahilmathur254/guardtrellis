@@ -11,28 +11,35 @@ targets: `validate`, `testpypi`, and `pypi`. It never publishes on a push, pull 
 
 1. **Validate:** check version agreement, build one wheel and one source archive, and run
    strict Twine metadata checks. Record their SHA-256 hashes, package version, source commit,
-   and workflow run ID in `release.json`, then upload the immutable `candidate` artifact.
+   and workflow run ID in `release.json`, then upload the `candidate` artifact and expose
+   that upload's fixed artifact ID to dependent jobs.
    A separate runner downloads a disposable copy and installs both distributions outside
    the checkout with core and optional example smokes.
 2. **TestPyPI:** on an explicit dispatch from this repository's `main`, require successful
    push CI for that commit, successful candidate smokes, and a reviewer-protected `testpypi`
    environment. Await environment approval and upload with Trusted Publishing. Download
    the actual index files, match both hashes and the published description, and smoke-test
-   those downloads. After success, a clean runner retrieves the original `candidate` from
-   GitHub and retains it as `testpypi-verified`. Smoke runners never upload package bundles.
+   those downloads. Each consumer downloads by the producer's artifact ID. After success,
+   a clean runner retrieves that same ID from GitHub and retains it as `testpypi-verified`.
+   Smoke runners never upload package bundles.
 3. **PyPI:** on a separate dispatch, require a successful TestPyPI run from this same
-   `main` commit. Retrieve its original `candidate` and `testpypi-verified` artifacts and
-   require identical contents. Check the original candidate's recorded run/commit, versions,
+   `main` commit and the original candidate artifact ID recorded from its producer's upload
+   step. Validate that ID's repository, run, commit, name, and expiry through GitHub's API.
+   Retrieve that ID and the `testpypi-verified` artifact and require identical contents.
+   Check the original candidate's recorded run/commit, versions,
    metadata, and hashes, and await the `pypi` environment approval. Upload those same files
    without rebuilding. Verify their public PyPI hashes and fresh installations, then retain
-   `pypi-verified` from the original `pypi-candidate` on another clean runner.
+   `pypi-verified` from the original `pypi-candidate` on another clean runner. Publication,
+   verification, and retention all use the fixed ID emitted by the promotion upload.
 
 Publishing jobs only download the candidate, check its hashes, and invoke the pinned PyPA
 action. They have `id-token: write`; build/install/verification jobs do not. No long-lived
 PyPI token is required. Dependencies for installation smokes come from ordinary PyPI;
 the candidate itself is the exact file downloaded from the selected index, so TestPyPI
-does not participate in dependency resolution. The original artifact in GitHub, rather than
-a manifest writable by an installation smoke, anchors promotion. Smoke jobs have read-only repository permissions and no publishing
+does not participate in dependency resolution. The producer's recorded artifact ID anchors
+promotion: artifact names can be deleted and recreated by another runner, so a name lookup
+cannot identify the reviewed upload. The retained copy is an additional byte-comparison gate.
+Smoke jobs have read-only repository permissions and no publishing
 identity; each runs on a separate GitHub-hosted runner from build, retention, and publication.
 Both index verification paths are bounded and fail if files are missing, changed, yanked,
 or unexpected.
@@ -149,14 +156,21 @@ gh workflow run release.yml --ref main -f target=testpypi
 ```
 
 Approve the `testpypi` deployment in Actions. Inspect the completed run's logs, package
-description on TestPyPI, and `testpypi-verified` artifact. Record the numeric run ID and
-review both downloaded-artifact installation results before deciding to publish to PyPI.
+description on TestPyPI, and `testpypi-verified` artifact. Record the numeric run ID and the
+numeric artifact ID printed by the **candidate** job's **upload-candidate** step. Obtain
+the artifact ID directly from that producer step's upload log, including its artifact link;
+do not resolve `candidate` by name from the run's current artifact list or use a smoke job's
+output. This manual record is the trust anchor for the later production dispatch. Review
+both downloaded-artifact installation results before deciding to publish to PyPI.
 
-After a separate production release approval, replace `REHEARSAL_RUN_ID` below with that
-successful run ID. Do not advance `main` between these two dispatches:
+After a separate production release approval, replace `REHEARSAL_RUN_ID` and
+`REHEARSAL_ARTIFACT_ID` below with those recorded numeric IDs. Both are required for the
+`pypi` target; neither is needed for validation or TestPyPI. Do not advance `main` between
+these two dispatches:
 
 ```sh
-gh workflow run release.yml --ref main -f target=pypi -f rehearsal_run_id=REHEARSAL_RUN_ID
+gh workflow run release.yml --ref main -f target=pypi \
+  -f rehearsal_run_id=REHEARSAL_RUN_ID -f rehearsal_artifact_id=REHEARSAL_ARTIFACT_ID
 ```
 
 Approve the `pypi` deployment only after reviewing the candidate manifest. Success includes
@@ -190,9 +204,10 @@ prerelease version or `--pre` opts users into a prerelease; see
 - If an upload only partially succeeded, inspect the exact files before deciding on recovery.
   The workflow does not use `skip-existing` to hide mismatches. A new corrected version
   is the simple recovery path when the published candidate cannot be completed unchanged.
-- If the commit changes or the verified GitHub artifact expires, automatic promotion stops.
+- If the commit changes or the recorded GitHub artifact is deleted or expires, automatic promotion stops.
   Do not substitute a rebuild for the verified files; prepare a new candidate/version or
-  obtain a separately reviewed recovery plan.
+  obtain a separately reviewed recovery plan. A replacement artifact with the same name
+  does not replace the recorded artifact ID.
 - For a defective PyPI release, document the problem and publish a corrected version. A
   maintainer can consider [yanking](https://docs.pypi.org/project-management/yanking/) the
   affected release; deletion or overwriting is not a rollback strategy.
