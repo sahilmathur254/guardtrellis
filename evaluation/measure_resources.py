@@ -46,7 +46,7 @@ SCENARIOS = (
     Scenario("schema_at_size_limit", "schema_size", 100_000),
     Scenario("nested_schema", "nested", 24),
     Scenario("reference_fanout_small", "references", 8),
-    Scenario("reference_fanout_large", "references", 20),
+    Scenario("reference_fanout_large", "references", 20, "error"),
     Scenario("wide_anyof_mismatch", "anyof", 128, "block"),
     Scenario("unique_object_array", "unique", 500),
     Scenario("sync_callback_timeout", "async", 0, "error"),
@@ -532,12 +532,6 @@ def acceptable_measurement(row):
         return False
     if row["scenario"]["kind"] == "supervisor":
         return row["status"] == "wall_timeout" and "limits" in row
-    if row["status"] in {"wall_timeout", "cpu_limit"}:
-        return (
-            row["scenario"]["name"] == "reference_fanout_large"
-            and "limits" in row
-            and "prepared" in row
-        )
     if row["status"] != "completed" or row["contract_matches"] is False:
         return False
     observation = row["observation"]
@@ -545,6 +539,8 @@ def acceptable_measurement(row):
         observation["accepted"] or observation["has_deliverable_text"]
     ):
         return False
+    if row["scenario"]["name"] == "reference_fanout_large":
+        return observation.get("finding_codes") == ["json_schema_work_limit"]
     if (
         row["scenario"]["name"].startswith("sync_")
         or row["scenario"]["name"] == "caller_cancels_sync_callback"

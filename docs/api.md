@@ -159,6 +159,11 @@ Schemas use `jsonschema.Draft202012Validator`, with these explicit restrictions:
 - Configured schemas are snapshotted, limited to 100,000 serialized characters and depth 64,
   and checked at construction. Bad configurations raise a generic ValueError. Unknown
   annotation keywords follow jsonschema's behavior and are not extra validators.
+- Each schema scan permits at most 10,000 keyword dispatches and validator evolutions,
+  shared across local references and annotation traversal. Exhaustion stops validation
+  in the worker and returns ERROR with `json_schema_work_limit` and no checked output.
+  Each scan has a fresh budget, including concurrent scans of the same scanner.
+  This is a traversal budget, not a CPU or wall-clock limit on individual keywords.
 - Schema mismatch findings omit instance contents, values, and property paths. The code
   `json_schema_mismatch` is intentionally coarse because keys may themselves be sensitive.
 
