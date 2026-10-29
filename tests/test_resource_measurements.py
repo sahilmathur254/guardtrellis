@@ -11,11 +11,7 @@ from evaluation import measure_resources as measurements
 
 @pytest.mark.parametrize(
     "case",
-    [
-        case
-        for case in measurements.SCENARIOS
-        if case.name not in {"reference_fanout_large", "supervisor_wall_timeout"}
-    ],
+    [case for case in measurements.SCENARIOS if case.name != "supervisor_wall_timeout"],
     ids=lambda case: case.name,
 )
 def test_fixed_scenarios_complete_and_preserve_the_contract(case):
@@ -38,11 +34,14 @@ def test_fixed_scenarios_complete_and_preserve_the_contract(case):
         assert observation["finding_codes"] == ["finding_limit_exceeded"]
     elif case.kind == "json" and case.expected_action == "block":
         assert observation["finding_codes"] == ["json_too_deep"]
+    elif case.name == "reference_fanout_large":
+        assert observation["finding_codes"] == ["json_schema_work_limit"]
+        assert row["child_reaped"]
     elif case.name == "schema_at_size_limit":
         assert observation["dimensions"]["schema_chars"] == 100_000
 
 
-@pytest.mark.parametrize("name", ["reference_fanout_large", "supervisor_wall_timeout"])
+@pytest.mark.parametrize("name", ["supervisor_wall_timeout"])
 def test_expensive_or_stuck_workers_are_bounded_and_reaped(name):
     row = measurements.run_case(measurements.BY_NAME[name])
     assert measurements.acceptable_measurement(row), row
@@ -245,6 +244,6 @@ def test_unexpected_failure_is_not_accepted_as_a_successful_measurement():
     row["scenario"]["name"] = "reference_fanout_large"
     assert not measurements.acceptable_measurement(row)
     row["prepared"] = {"dimensions": {"input_chars": 1}}
-    assert measurements.acceptable_measurement(row)
+    assert not measurements.acceptable_measurement(row)
     row["stderr_bytes"] = 1
     assert not measurements.acceptable_measurement(row)
