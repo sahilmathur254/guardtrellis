@@ -75,6 +75,18 @@ def test_budget_resets_after_exhaustion_and_preserves_local_reference_semantics(
     assert ordinary.scan('"wrong"').action == Action.BLOCK
 
 
+@pytest.mark.parametrize("count,expected", [(4_999, Action.ALLOW), (5_000, Action.ERROR)])
+def test_valid_integer_arrays_observe_the_documented_work_boundary(count, expected):
+    guard = Guard(input_scanners=[JSONScanner({"items": {"type": "integer"}})])
+    result = guard.scan(json.dumps([0] * count))
+    assert result.action == expected
+    if expected == Action.ERROR:
+        assert result.text is None
+        assert result.findings[0].code == "json_schema_work_limit"
+    else:
+        assert result.require_text() == json.dumps([0] * count)
+
+
 def test_budget_is_independent_for_concurrent_calls_to_same_scanner():
     scanner = JSONScanner(fanout(10, dialect=True))
     barrier = Barrier(4)

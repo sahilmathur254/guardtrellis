@@ -164,6 +164,11 @@ Schemas use `jsonschema.Draft202012Validator`, with these explicit restrictions:
   in the worker and returns ERROR with `json_schema_work_limit` and no checked output.
   Each scan has a fresh budget, including concurrent scans of the same scanner.
   This is a traversal budget, not a CPU or wall-clock limit on individual keywords.
+- Upgrade consideration: valid inputs can exceed this budget. For example, an integer
+  array checked with `{"items": {"type": "integer"}}` permits 4,999 elements but returns
+  `json_schema_work_limit` at 5,000. Revalidate representative large arrays, reference
+  graphs and annotation-heavy schemas before upgrading; input-size limits alone do not
+  predict schema work.
 - Schema mismatch findings omit instance contents, values, and property paths. The code
   `json_schema_mismatch` is intentionally coarse because keys may themselves be sensitive.
 
