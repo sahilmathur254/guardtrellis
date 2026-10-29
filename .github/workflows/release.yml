@@ -14,6 +14,10 @@ on:
         description: Successful TestPyPI run ID from this exact main commit (required for PyPI)
         type: string
         required: false
+      rehearsal_artifact_id:
+        description: Candidate artifact ID from the rehearsal candidate upload step (required for PyPI)
+        type: string
+        required: false
 
 permissions:
   contents: read
@@ -30,6 +34,8 @@ jobs:
     permissions:
       contents: read
       actions: read
+    outputs:
+      artifact-id: ${{ steps.upload-candidate.outputs.artifact-id }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -59,19 +65,45 @@ jobs:
         run: |
           uv build
           uv run --frozen --no-dev --group release python -m twine check --strict dist/*
-          uv run --frozen --no-dev --group release python scripts/smoke_dist.py
           uv run --frozen --no-dev --group release python scripts/release_artifacts.py create \
             --bundle "$RUNNER_TEMP/candidate" --commit "$GITHUB_SHA" --run-id "$GITHUB_RUN_ID"
           cat "$RUNNER_TEMP/candidate/release.json" >> "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      - id: upload-candidate
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: candidate
           path: ${{ runner.temp }}/candidate/
           if-no-files-found: error
           retention-days: 30
 
-  testpypi:
+  smoke-candidate:
     needs: candidate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          artifact-ids: ${{ needs.candidate.outputs.artifact-id || 'missing-producer-artifact-id' }}
+          merge-multiple: true
+          path: ${{ runner.temp }}/smoke-candidate
+      # This runner owns disposable copies only. Never upload its package files.
+      - name: Smoke-test the sealed candidate on a separate runner
+        run: |
+          python -m pip install 'uv==0.8.17'
+          python scripts/release_artifacts.py verify --bundle "$RUNNER_TEMP/smoke-candidate" \
+            --commit "$GITHUB_SHA" --run-id "$GITHUB_RUN_ID"
+          python scripts/smoke_dist.py --dist-dir "$RUNNER_TEMP/smoke-candidate/dist"
+
+  testpypi:
+    needs: [candidate, smoke-candidate]
     if: github.event_name == 'workflow_dispatch' && inputs.target == 'testpypi'
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -83,7 +115,8 @@ jobs:
     steps:
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          name: candidate
+          artifact-ids: ${{ needs.candidate.outputs.artifact-id || 'missing-producer-artifact-id' }}
+          merge-multiple: true
           path: release-bundle
       - name: Check artifact hashes
         working-directory: release-bundle
@@ -95,7 +128,7 @@ jobs:
           repository-url: https://test.pypi.org/legacy/
 
   verify-testpypi:
-    needs: testpypi
+    needs: [candidate, testpypi]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -107,7 +140,8 @@ jobs:
           python-version: "3.12"
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          name: candidate
+          artifact-ids: ${{ needs.candidate.outputs.artifact-id || 'missing-producer-artifact-id' }}
+          merge-multiple: true
           path: ${{ runner.temp }}/candidate
       - name: Download the actual index files and smoke-test installations
         run: |
@@ -115,6 +149,19 @@ jobs:
           python scripts/release_artifacts.py fetch --bundle "$RUNNER_TEMP/candidate" \
             --commit "$GITHUB_SHA" --index testpypi --destination "$RUNNER_TEMP/testpypi-dist"
           python scripts/smoke_dist.py --dist-dir "$RUNNER_TEMP/testpypi-dist"
+
+  retain-testpypi:
+    needs: [candidate, verify-testpypi]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      # Pin the producer's ID: another runner can delete/recreate an artifact name.
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          artifact-ids: ${{ needs.candidate.outputs.artifact-id || 'missing-producer-artifact-id' }}
+          merge-multiple: true
+          path: ${{ runner.temp }}/candidate
       - name: Retain the unchanged candidate only after the rehearsal succeeds
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
@@ -130,6 +177,8 @@ jobs:
     permissions:
       contents: read
       actions: read
+    outputs:
+      artifact-id: ${{ steps.upload-pypi-candidate.outputs.artifact-id }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -141,24 +190,62 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           REHEARSAL_RUN_ID: ${{ inputs.rehearsal_run_id }}
+          REHEARSAL_ARTIFACT_ID: ${{ inputs.rehearsal_artifact_id }}
         run: |
           test "$GITHUB_REPOSITORY" = sahilmathur254/guardtrellis
           test "$GITHUB_REF" = refs/heads/main
-          [[ "$REHEARSAL_RUN_ID" =~ ^[0-9]+$ ]]
-          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REHEARSAL_RUN_ID" |
-            jq -e --arg sha "$GITHUB_SHA" --arg repo "$GITHUB_REPOSITORY" '
-              .status == "completed" and .conclusion == "success" and
-              .event == "workflow_dispatch" and .path == ".github/workflows/release.yml" and
-              .head_branch == "main" and .head_sha == $sha and .head_repository.full_name == $repo'
+          if [[ ! "$REHEARSAL_RUN_ID" =~ ^[0-9]+$ || ! "$REHEARSAL_ARTIFACT_ID" =~ ^[0-9]+$ ]]; then
+            echo "PyPI promotion requires numeric rehearsal run and candidate artifact IDs" >&2
+            exit 1
+          fi
+          REHEARSAL_REPOSITORY_ID=$(
+            gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REHEARSAL_RUN_ID" |
+              jq -er --arg sha "$GITHUB_SHA" --arg repo "$GITHUB_REPOSITORY" \
+                --arg run "$REHEARSAL_RUN_ID" '
+                select(.id == ($run | tonumber) and
+                  .status == "completed" and .conclusion == "success" and
+                  .event == "workflow_dispatch" and .path == ".github/workflows/release.yml" and
+                  .head_branch == "main" and .head_sha == $sha and
+                  .repository.full_name == $repo and .head_repository.full_name == $repo and
+                  (.repository.id | type == "number")) | .repository.id'
+          )
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REHEARSAL_RUN_ID/jobs?filter=all&per_page=100" |
+            jq -e '
+              .jobs as $jobs |
+              .total_count == ($jobs | length) and .total_count <= 100 and
+              all(["candidate", "smoke-candidate", "testpypi", "verify-testpypi", "retain-testpypi"][];
+                . as $name | [$jobs[] | select(.name == $name)] |
+                length > 0 and all(.[]; .run_attempt | type == "number") and
+                (max_by(.run_attempt).run_attempt as $latest |
+                  map(select(.run_attempt == $latest)) |
+                  length == 1 and .[0].status == "completed" and .[0].conclusion == "success"))'
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$REHEARSAL_ARTIFACT_ID" |
+            jq -e --arg artifact "$REHEARSAL_ARTIFACT_ID" --arg run "$REHEARSAL_RUN_ID" \
+              --arg repo_id "$REHEARSAL_REPOSITORY_ID" --arg sha "$GITHUB_SHA" '
+              .id == ($artifact | tonumber) and .name == "candidate" and .expired == false and
+              .workflow_run.id == ($run | tonumber) and
+              .workflow_run.repository_id == ($repo_id | tonumber) and
+              .workflow_run.head_repository_id == ($repo_id | tonumber) and
+              .workflow_run.head_branch == "main" and .workflow_run.head_sha == $sha'
           gh api "repos/$GITHUB_REPOSITORY/environments/pypi" |
             jq -e 'any(.protection_rules[]; .type == "required_reviewers" and (.reviewers | length > 0))'
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          name: testpypi-verified
+          artifact-ids: ${{ inputs.rehearsal_artifact_id }}
+          merge-multiple: true
           path: ${{ runner.temp }}/candidate
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
           run-id: ${{ inputs.rehearsal_run_id }}
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: testpypi-verified
+          path: ${{ runner.temp }}/testpypi-verified
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.rehearsal_run_id }}
+      - name: Require clean retention of the original rehearsal candidate
+        run: diff --recursive "$RUNNER_TEMP/candidate" "$RUNNER_TEMP/testpypi-verified"
       - name: Verify provenance, package metadata, and hashes before promotion
         env:
           REHEARSAL_RUN_ID: ${{ inputs.rehearsal_run_id }}
@@ -166,7 +253,8 @@ jobs:
           python scripts/release_artifacts.py verify --bundle "$RUNNER_TEMP/candidate" \
             --commit "$GITHUB_SHA" --run-id "$REHEARSAL_RUN_ID"
           cat "$RUNNER_TEMP/candidate/release.json" >> "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      - id: upload-pypi-candidate
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: pypi-candidate
           path: ${{ runner.temp }}/candidate/
@@ -185,7 +273,8 @@ jobs:
     steps:
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          name: pypi-candidate
+          artifact-ids: ${{ needs.promote.outputs.artifact-id || 'missing-producer-artifact-id' }}
+          merge-multiple: true
           path: release-bundle
       - name: Check artifact hashes
         working-directory: release-bundle
@@ -196,7 +285,7 @@ jobs:
           packages-dir: release-bundle/dist/
 
   verify-pypi:
-    needs: pypi
+    needs: [promote, pypi]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -208,7 +297,8 @@ jobs:
           python-version: "3.12"
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          name: pypi-candidate
+          artifact-ids: ${{ needs.promote.outputs.artifact-id || 'missing-producer-artifact-id' }}
+          merge-multiple: true
           path: ${{ runner.temp }}/candidate
       - name: Verify public PyPI artifacts and fresh installations
         run: |
@@ -216,6 +306,18 @@ jobs:
           python scripts/release_artifacts.py fetch --bundle "$RUNNER_TEMP/candidate" \
             --commit "$GITHUB_SHA" --index pypi --destination "$RUNNER_TEMP/pypi-dist"
           python scripts/smoke_dist.py --dist-dir "$RUNNER_TEMP/pypi-dist"
+
+  retain-pypi:
+    needs: [promote, verify-pypi]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          artifact-ids: ${{ needs.promote.outputs.artifact-id || 'missing-producer-artifact-id' }}
+          merge-multiple: true
+          path: ${{ runner.temp }}/candidate
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: pypi-verified
