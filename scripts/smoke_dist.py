@@ -1,6 +1,7 @@
 """Install each built distribution into a fresh environment outside the source tree.
 
-Run `uv build` first. Dependencies must be cached when running with UV_OFFLINE=1.
+Run `uv build --offline --no-build-isolation` with the locked build group first.
+Dependencies must be cached when running with UV_OFFLINE=1.
 """
 
 import argparse
@@ -170,6 +171,42 @@ def main() -> None:
             environment = work / "venv"
             python = environment / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
             subprocess.run(["uv", "venv", "--python", sys.executable, str(environment)], check=True)
+            build_options = []
+            if artifact.suffix != ".whl":
+                # Seed disposable source-install environments with the reviewed backend,
+                # rather than resolving another build backend during the smoke.
+                requirements = work / "build-requirements.txt"
+                subprocess.run(
+                    [
+                        "uv",
+                        "export",
+                        "--locked",
+                        "--only-group",
+                        "build",
+                        "--no-emit-project",
+                        "--output-file",
+                        str(requirements),
+                    ],
+                    cwd=ROOT,
+                    check=True,
+                )
+                subprocess.run(
+                    [
+                        "uv",
+                        "pip",
+                        "install",
+                        "--python",
+                        str(python),
+                        "--require-hashes",
+                        "--only-binary",
+                        ":all:",
+                        "--requirements",
+                        str(requirements),
+                    ],
+                    cwd=work,
+                    check=True,
+                )
+                build_options = ["--no-build-isolation-package", "guardtrellis"]
             for extras, smoke, examples in stages:
                 subprocess.run(
                     [
@@ -180,6 +217,7 @@ def main() -> None:
                         str(python),
                         "--index-url",
                         "https://pypi.org/simple",
+                        *build_options,
                         f"{artifact}{extras}",
                     ],
                     cwd=work,

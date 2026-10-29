@@ -52,6 +52,38 @@ verified bundle for the release record. Promotion requires the source commit to 
 unchanged between rehearsal and production dispatch; coordinate merges during that interval.
 The workflow does not create a GitHub release or tag automatically.
 
+## Locked candidate builds
+
+Candidate production exports only the `build` and `release` dependency groups from
+`uv.lock` as hashed requirements. `--only-group` excludes the project itself, so
+bootstrapping cannot execute an independently resolved editable-build backend.
+Installation requires matching hashes and binary wheels for the entire dependency set.
+The build then uses that environment explicitly, offline and without build isolation:
+
+```sh
+uv export --locked --only-group build --only-group release --no-emit-project \
+  --output-file /tmp/guardtrellis-release-requirements.txt
+uv venv .venv
+uv pip install --python .venv/bin/python --require-hashes --only-binary :all: \
+  --requirements /tmp/guardtrellis-release-requirements.txt
+uv build --offline --no-build-isolation --python .venv/bin/python
+uv run --no-sync python -m twine check --strict dist/*
+```
+
+On Windows use `.venv/Scripts/python.exe` for the build interpreter. Update the `build`
+group with `uv lock` and review its versions and hashes whenever updating build tooling.
+Missing build wheels or stale lock metadata fail the bootstrap; a missing installed
+backend fails the offline build. Tool commands use `--no-sync` to avoid an implicit
+editable project build after bootstrapping.
+
+Source-archive installation smokes export the `build` group as hashed requirements,
+install those wheels into the fresh environment with `--require-hashes`, and disable
+build isolation specifically for GuardTrellis. This also prevents a newly resolved
+backend from running during source-install smokes. In the release workflow these smokes
+run after candidate sealing and upload, on separate disposable runners. Runtime and
+optional dependencies retain normal consumer resolution. The wheel and source archive
+are installed outside the checkout; fixed producer artifact IDs anchor publication.
+
 ## Prepare and review
 
 The [recorded Gemini smoke](gemini.md#recorded-live-smoke-2026-09-26) supplies approved live
@@ -86,13 +118,13 @@ below. Do not edit the generated block by hand. Historical changelog entries and
 
 ```sh
 python scripts/release_artifacts.py check
-uv sync --frozen --all-extras --group dev --group release
+uv sync --locked --all-extras --group dev --group release
 uv run --frozen pytest -W error
 uv run --frozen ruff check .
 uv run --frozen ruff format --check .
 uv run --frozen mypy
 uv run --frozen python evaluation/run.py --report-dir /tmp/guardtrellis-release-eval
-uv build
+uv build --offline --no-build-isolation
 uv run --frozen --group release python -m twine check --strict dist/*
 uv run --frozen python scripts/smoke_dist.py
 ```
