@@ -28,7 +28,7 @@ class Scanner(Protocol):
     def scan(self, text: str, *, stage: Stage) -> Check | Awaitable[Check]: ...
 
 
-def _consume_task(task: asyncio.Task[T]) -> None:
+def _consume_task(task: asyncio.Future[T]) -> None:
     if not task.cancelled():
         task.exception()
 
@@ -41,6 +41,11 @@ def _discard_worker_result(future: asyncio.Future[T | Awaitable[T]]) -> None:
         value.close()
     elif isinstance(value, asyncio.Future):
         value.cancel()
+        if value.done():
+            # Completed futures need no scheduling on their possibly closed owner loop.
+            _consume_task(value)
+        else:
+            value.add_done_callback(_consume_task)
 
 
 async def _invoke(function: Callable[[], T | Awaitable[T]]) -> T:
@@ -63,6 +68,8 @@ async def _invoke(function: Callable[[], T | Awaitable[T]]) -> T:
 
 async def _bounded(function: Callable[[], T | Awaitable[T]], wait_seconds: float) -> T:
     task = asyncio.create_task(_invoke(function))
+    # Own exception retrieval even if cancellation wins after the task completes.
+    task.add_done_callback(_consume_task)
     try:
         # wait_for/timeout can accept late results if user code suppresses cancellation.
         done, _ = await asyncio.wait({task}, timeout=wait_seconds)
@@ -72,7 +79,6 @@ async def _bounded(function: Callable[[], T | Awaitable[T]], wait_seconds: float
     finally:
         if not task.done():
             task.cancel()
-            task.add_done_callback(_consume_task)
 
 
 def _sync_value(value: T | Awaitable[T]) -> T:
