@@ -21,6 +21,7 @@ COMMIT = "a" * 40
 RUN = "12345"
 ARTIFACT = "67890"
 REPOSITORY = "sahilmathur254/guardtrellis"
+REHEARSAL_JOBS = ("candidate", "smoke-candidate", "testpypi", "verify-testpypi", "retain-testpypi")
 
 
 @pytest.fixture
@@ -563,6 +564,17 @@ def promotion_preflight(tmp_path, release_workflow):
             "head_sha": COMMIT,
         },
     }
+    jobs_metadata = {
+        "jobs": [
+            {"name": name, "run_attempt": 1, "status": "completed", "conclusion": "success"}
+            for name in REHEARSAL_JOBS
+        ]
+        + [
+            {"name": name, "run_attempt": 1, "status": "completed", "conclusion": "skipped"}
+            for name in ("promote", "pypi", "verify-pypi", "retain-pypi")
+        ]
+    }
+    jobs_metadata["total_count"] = len(jobs_metadata["jobs"])
     bin_dir = tmp_path / "bin"
     bin_dir.mkdir()
     gh = bin_dir / "gh"
@@ -576,6 +588,8 @@ def promotion_preflight(tmp_path, release_workflow):
         f"prefix = 'repos/{REPOSITORY}/'\n"
         f"if endpoint == prefix + 'actions/runs/{RUN}':\n"
         "    print((root / 'run.json').read_text())\n"
+        f"elif endpoint == prefix + 'actions/runs/{RUN}/jobs?filter=all&per_page=100':\n"
+        "    print((root / 'jobs.json').read_text())\n"
         f"elif endpoint == prefix + 'actions/artifacts/{ARTIFACT}':\n"
         "    print((root / 'artifact.json').read_text())\n"
         "elif endpoint == prefix + 'environments/pypi':\n"
@@ -587,12 +601,15 @@ def promotion_preflight(tmp_path, release_workflow):
     )
     gh.chmod(0o755)
 
-    def invoke(*, run=None, artifact=None, **environment):
+    def invoke(*, run=None, artifact=None, jobs=None, **environment):
         (tmp_path / "run.json").write_text(
             json.dumps(run_metadata if run is None else run), encoding="utf-8"
         )
         (tmp_path / "artifact.json").write_text(
             json.dumps(artifact_metadata if artifact is None else artifact), encoding="utf-8"
+        )
+        (tmp_path / "jobs.json").write_text(
+            json.dumps(jobs_metadata if jobs is None else jobs), encoding="utf-8"
         )
         calls = tmp_path / "calls"
         calls.unlink(missing_ok=True)
@@ -625,6 +642,7 @@ def test_promotion_accepts_only_the_exact_successful_rehearsal_candidate(promoti
     assert result.returncode == 0, result.stderr
     assert calls == [
         f"repos/{REPOSITORY}/actions/runs/{RUN}",
+        f"repos/{REPOSITORY}/actions/runs/{RUN}/jobs?filter=all&per_page=100",
         f"repos/{REPOSITORY}/actions/artifacts/{ARTIFACT}",
         f"repos/{REPOSITORY}/environments/pypi",
     ]
@@ -690,8 +708,122 @@ def test_promotion_rejects_a_different_or_expired_artifact(promotion_preflight, 
     assert result.returncode != 0
     assert calls == [
         f"repos/{REPOSITORY}/actions/runs/{RUN}",
+        f"repos/{REPOSITORY}/actions/runs/{RUN}/jobs?filter=all&per_page=100",
         f"repos/{REPOSITORY}/actions/artifacts/{ARTIFACT}",
     ]
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="Executes an Ubuntu workflow shell command")
+@pytest.mark.parametrize("name", REHEARSAL_JOBS)
+@pytest.mark.parametrize("defect", ["skipped", "failed", "missing", "incomplete", "duplicate"])
+def test_promotion_requires_every_rehearsal_job_to_execute_successfully(
+    promotion_preflight, name, defect
+):
+    invoke, _, _ = promotion_preflight
+    jobs = [
+        {"name": job, "run_attempt": 1, "status": "completed", "conclusion": "success"}
+        for job in REHEARSAL_JOBS
+    ]
+    selected = next(job for job in jobs if job["name"] == name)
+    if defect == "skipped":
+        selected["conclusion"] = "skipped"
+    elif defect == "failed":
+        selected["conclusion"] = "failure"
+    elif defect == "missing":
+        jobs.remove(selected)
+    elif defect == "incomplete":
+        selected.update(status="in_progress", conclusion=None)
+    else:
+        jobs.append(selected.copy())
+    result, calls = invoke(jobs={"total_count": len(jobs), "jobs": jobs})
+    assert result.returncode != 0
+    assert calls == [
+        f"repos/{REPOSITORY}/actions/runs/{RUN}",
+        f"repos/{REPOSITORY}/actions/runs/{RUN}/jobs?filter=all&per_page=100",
+    ]
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="Executes an Ubuntu workflow shell command")
+@pytest.mark.parametrize("defect", ["validation-only", "overflow", "incomplete-page"])
+def test_promotion_rejects_validation_only_or_incomplete_job_evidence(promotion_preflight, defect):
+    invoke, _, _ = promotion_preflight
+    jobs = [
+        {"name": name, "run_attempt": 1, "status": "completed", "conclusion": "success"}
+        for name in REHEARSAL_JOBS
+    ]
+    if defect == "validation-only":
+        for job in jobs:
+            if job["name"] in {"testpypi", "verify-testpypi", "retain-testpypi"}:
+                job["conclusion"] = "skipped"
+        total_count = len(jobs)
+    elif defect == "overflow":
+        jobs.extend(
+            {
+                "name": f"extra-{index}",
+                "run_attempt": 1,
+                "status": "completed",
+                "conclusion": "success",
+            }
+            for index in range(96)
+        )
+        total_count = len(jobs)
+    else:
+        total_count = len(jobs) + 1
+    result, calls = invoke(jobs={"total_count": total_count, "jobs": jobs})
+    assert result.returncode != 0
+    assert calls == [
+        f"repos/{REPOSITORY}/actions/runs/{RUN}",
+        f"repos/{REPOSITORY}/actions/runs/{RUN}/jobs?filter=all&per_page=100",
+    ]
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="Executes an Ubuntu workflow shell command")
+@pytest.mark.parametrize("reverse_history", [False, True])
+@pytest.mark.parametrize(
+    "defect", [None, "latest-failed", "duplicate-latest", "missing-attempt", "nonnumeric-attempt"]
+)
+def test_promotion_uses_each_jobs_latest_attempt_after_verification_only_recovery(
+    promotion_preflight, reverse_history, defect
+):
+    invoke, _, _ = promotion_preflight
+    jobs = [
+        {"name": name, "run_attempt": 1, "status": "completed", "conclusion": "success"}
+        for name in REHEARSAL_JOBS
+    ]
+    failed_verification = next(job for job in jobs if job["name"] == "verify-testpypi")
+    failed_verification["conclusion"] = "failure"
+    next(job for job in jobs if job["name"] == "retain-testpypi")["conclusion"] = "skipped"
+    for name in ("verify-testpypi", "retain-testpypi"):
+        jobs.append(
+            {"name": name, "run_attempt": 2, "status": "completed", "conclusion": "success"}
+        )
+    latest_verification = jobs[-2]
+    if defect == "latest-failed":
+        # An old success must never hide a newer failed verification.
+        failed_verification["conclusion"] = "success"
+        latest_verification["conclusion"] = "failure"
+    elif defect == "duplicate-latest":
+        jobs.append(latest_verification.copy())
+    elif defect == "missing-attempt":
+        failed_verification.pop("run_attempt")
+    elif defect == "nonnumeric-attempt":
+        failed_verification["run_attempt"] = "1"
+    if reverse_history:
+        jobs.reverse()
+    result, calls = invoke(jobs={"total_count": len(jobs), "jobs": jobs})
+    assert (result.returncode == 0) == (defect is None), result.stderr
+    expected_calls = [
+        f"repos/{REPOSITORY}/actions/runs/{RUN}",
+        f"repos/{REPOSITORY}/actions/runs/{RUN}/jobs?filter=all&per_page=100",
+    ]
+    if defect is None:
+        expected_calls.extend(
+            [
+                f"repos/{REPOSITORY}/actions/artifacts/{ARTIFACT}",
+                f"repos/{REPOSITORY}/environments/pypi",
+            ]
+        )
+    assert calls == expected_calls
 
 
 @pytest.mark.skipif(sys.platform == "win32", reason="Executes an Ubuntu workflow shell command")

@@ -209,6 +209,16 @@ jobs:
                   .repository.full_name == $repo and .head_repository.full_name == $repo and
                   (.repository.id | type == "number")) | .repository.id'
           )
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REHEARSAL_RUN_ID/jobs?filter=all&per_page=100" |
+            jq -e '
+              .jobs as $jobs |
+              .total_count == ($jobs | length) and .total_count <= 100 and
+              all(["candidate", "smoke-candidate", "testpypi", "verify-testpypi", "retain-testpypi"][];
+                . as $name | [$jobs[] | select(.name == $name)] |
+                length > 0 and all(.[]; .run_attempt | type == "number") and
+                (max_by(.run_attempt).run_attempt as $latest |
+                  map(select(.run_attempt == $latest)) |
+                  length == 1 and .[0].status == "completed" and .[0].conclusion == "success"))'
           gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$REHEARSAL_ARTIFACT_ID" |
             jq -e --arg artifact "$REHEARSAL_ARTIFACT_ID" --arg run "$REHEARSAL_RUN_ID" \
               --arg repo_id "$REHEARSAL_REPOSITORY_ID" --arg sha "$GITHUB_SHA" '

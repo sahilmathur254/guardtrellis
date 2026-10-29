@@ -24,7 +24,10 @@ targets: `validate`, `testpypi`, and `pypi`. It never publishes on a push, pull 
    Smoke runners never upload package bundles.
 3. **PyPI:** on a separate dispatch, require a successful TestPyPI run from this same
    `main` commit and the original candidate artifact ID recorded from its producer's upload
-   step. Validate that ID's repository, run, commit, name, and expiry through GitHub's API.
+   step. Require GitHub's job records to show that `candidate`, `smoke-candidate`, `testpypi`,
+   `verify-testpypi`, and `retain-testpypi` each completed successfully on that job's latest
+   attempt; a successful validation-only run with skipped publishing jobs cannot qualify.
+   Validate the artifact ID's repository, run, commit, name, and expiry through GitHub's API.
    Retrieve that ID and the `testpypi-verified` artifact and require identical contents.
    Check the original candidate's recorded run/commit, versions,
    metadata, and hashes, and await the `pypi` environment approval. Upload those same files
@@ -162,6 +165,12 @@ the artifact ID directly from that producer step's upload log, including its art
 do not resolve `candidate` by name from the run's current artifact list or use a smoke job's
 output. This manual record is the trust anchor for the later production dispatch. Review
 both downloaded-artifact installation results before deciding to publish to PyPI.
+The production preflight checks actual successful execution of all five rehearsal jobs,
+including publication, index verification, and retention; overall run success alone is
+insufficient. It reads all attempts and requires each job's latest attempt to succeed, so
+a verification-only recovery can reuse earlier successful build and publication jobs.
+It fails closed if the job history is incomplete, exceeds 100 records, or lacks a unique
+latest record with a numeric attempt for any required job.
 
 After a separate production release approval, replace `REHEARSAL_RUN_ID` and
 `REHEARSAL_ARTIFACT_ID` below with those recorded numeric IDs. Both are required for the
@@ -201,6 +210,8 @@ prerelease version or `--pre` opts users into a prerelease; see
 - If upload succeeded but index verification failed, inspect the recorded hashes and index
   state, then rerun only the failed verification job. Do not repeat a completed upload or
   a completed workflow; artifact names and uploaded filenames are deliberately not overwritten.
+- If the bounded job-history check fails, review the complete history and obtain a separately
+  reviewed recovery plan. Do not rerun a completed upload to work around the preflight limit.
 - If an upload only partially succeeded, inspect the exact files before deciding on recovery.
   The workflow does not use `skip-existing` to hide mismatches. A new corrected version
   is the simple recovery path when the published candidate cannot be completed unchanged.
