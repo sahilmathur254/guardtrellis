@@ -71,10 +71,12 @@ failures remain evidence of coverage limits, not guarantees that those failures 
 
 ## Diagnostics and deprecations
 
-The unpublished `0.1.9` CLI candidate is an additive core interface. Its
+The CLI added in `0.1.9` is an additive core interface. Its
 [`report_version=1` envelope and exit statuses](cli.md) have their own explicit contract;
 configuration errors precede structured reporting. Existing Python API defaults and
-detector rules remain unchanged. This source candidate is not a publication record.
+detector rules were unchanged by that addition. The `0.1.10` source candidate adds the
+schema-work rejection described in the [upgrade note](../CHANGELOG.md#0110);
+source availability does not establish publication.
 
 Existing diagnostic keys, value types, and meanings remain supported across `0.1.x`.
 Additional metadata keys and finding codes may be introduced; consumers should tolerate

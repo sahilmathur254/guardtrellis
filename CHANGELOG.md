@@ -4,6 +4,31 @@ See [PyPI](https://pypi.org/project/guardtrellis/) for package availability and
 [GitHub releases](https://github.com/sahilmathur254/guardtrellis/releases) for published
 artifacts and verification evidence.
 
+## 0.1.10
+
+- Bound JSON Schema validation to 10,000 keyword dispatches and validator evolutions
+  per scan, including local-reference and annotation traversal. Exhaustion returns
+  ERROR with `json_schema_work_limit`, withholding checked text and tool arguments.
+- Retrieve exceptions from discarded Guard-owned async work during cancellation and
+  from late returned Futures/Tasks after timeout. Drain completed Futures directly,
+  including those owned by a closed loop, without leaking payloads through cleanup errors.
+- Isolate release installation smokes from authoritative package artifacts. Pin
+  publication and retention to producer artifact IDs, require actual successful TestPyPI
+  jobs, and preserve verification-only retry handling before unchanged-artifact promotion.
+- Lock the release build backend and its dependency closure, require hash-verified
+  tooling wheels, and build offline without isolation before sealing the candidate.
+  Source-install smokes seed the reviewed backend explicitly. Runtime dependency
+  requirements and ordinary consumer build requirements are unchanged.
+
+Upgrade note: valid JSON can now exceed the schema-work budget. For example,
+`{"items": {"type": "integer"}}` accepts 4,999 integer elements but returns
+`json_schema_work_limit` at 5,000. Revalidate representative large arrays, reference
+graphs and annotation-heavy schemas, and handle ERROR without consuming unchecked data.
+The budget limits traversal work, not individual-keyword CPU time or a whole-command
+deadline. Cancellation still cannot forcibly stop worker threads or arbitrary background
+work. See the [API limits](docs/api.md) and [release guide](docs/releasing.md) for the
+remaining application responsibilities and the producer-ID requirement for promotion.
+
 ## 0.1.9
 
 - Add core `guardtrellis check` and `python -m guardtrellis check` commands for one
