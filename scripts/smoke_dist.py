@@ -173,8 +173,8 @@ def main() -> None:
             subprocess.run(["uv", "venv", "--python", sys.executable, str(environment)], check=True)
             build_options = []
             if artifact.suffix != ".whl":
-                # Consumer builds run before sealing and share the runner filesystem.
-                # They must not execute an independently resolved backend either.
+                # Seed disposable source-install environments with the reviewed backend,
+                # rather than resolving another build backend during the smoke.
                 requirements = work / "build-requirements.txt"
                 subprocess.run(
                     [

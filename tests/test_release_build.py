@@ -1,15 +1,18 @@
 """The candidate builder must use installed tooling, never resolve a backend."""
 
 import os
+import re
 import shutil
 import subprocess
 import sys
 import tarfile
 import zipfile
+from pathlib import Path
 
 import pytest
 
 UV = shutil.which("uv")
+ROOT = Path(__file__).resolve().parents[1]
 pytestmark = pytest.mark.skipif(UV is None, reason="uv is required for build integration tests")
 
 
@@ -79,13 +82,50 @@ def test_sdist_install_does_not_resolve_a_second_backend(build_project, tmp_path
     assert result.returncode == 0, result.stderr
     environment = tmp_path / "consumer-venv"
     subprocess.run(
-        [UV, "venv", "--python", sys.executable, "--system-site-packages", str(environment)],
+        [UV, "venv", "--python", sys.executable, str(environment)],
         check=True,
     )
     python = environment / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+    requirements = tmp_path / "build-requirements.txt"
+    subprocess.run(
+        [
+            UV,
+            "export",
+            "--locked",
+            "--only-group",
+            "build",
+            "--no-emit-project",
+            "--output-file",
+            str(requirements),
+        ],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        timeout=60,
+    )
+    # A nested venv's system-site-packages exposes the base interpreter, not the
+    # outer test venv. Seed the consumer exactly as the production sdist smoke does.
+    subprocess.run(
+        [
+            UV,
+            "pip",
+            "install",
+            "--python",
+            str(python),
+            "--offline",
+            "--require-hashes",
+            "--only-binary",
+            ":all:",
+            "--requirements",
+            str(requirements),
+        ],
+        check=True,
+        capture_output=True,
+        timeout=60,
+    )
     source = next((build_project / "dist").glob("*.tar.gz"))
-    # Inherit only the test environment's installed backend, with no index or cache
-    # available to resolve an isolated replacement during consumer installation.
+    # The installed, hash-checked backend is available; the empty install cache
+    # and offline mode prevent resolution of an isolated replacement.
     installed = subprocess.run(
         [
             UV,
@@ -116,3 +156,50 @@ def test_sdist_install_does_not_resolve_a_second_backend(build_project, tmp_path
         cwd=tmp_path,
         check=True,
     )
+
+
+def test_build_bootstrap_rejects_incorrect_artifact_hashes(tmp_path):
+    environment = tmp_path / "consumer-venv"
+    subprocess.run([UV, "venv", "--python", sys.executable, str(environment)], check=True)
+    python = environment / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+    requirements = tmp_path / "build-requirements.txt"
+    subprocess.run(
+        [
+            UV,
+            "export",
+            "--locked",
+            "--only-group",
+            "build",
+            "--no-emit-project",
+            "--output-file",
+            str(requirements),
+        ],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        timeout=60,
+    )
+    original = requirements.read_text(encoding="utf-8")
+    modified, hashes = re.subn(r"sha256:[a-f0-9]{64}", "sha256:" + "0" * 64, original)
+    assert hashes > 0
+    requirements.write_text(modified, encoding="utf-8")
+    result = subprocess.run(
+        [
+            UV,
+            "pip",
+            "install",
+            "--python",
+            str(python),
+            "--offline",
+            "--require-hashes",
+            "--only-binary",
+            ":all:",
+            "--requirements",
+            str(requirements),
+        ],
+        capture_output=True,
+        text=True,
+        timeout=60,
+    )
+    assert result.returncode != 0
+    assert "hash mismatch" in result.stderr.lower()
