@@ -120,6 +120,64 @@ async def test_late_worker_future_is_drained_after_timeout(monkeypatch, kind):
         loop.set_exception_handler(previous_handler)
 
 
+@pytest.mark.parametrize("failed", [False, True], ids=["successful", "failed"])
+async def test_late_completed_future_from_closed_loop_is_drained(monkeypatch, failed):
+    loop = asyncio.get_running_loop()
+    diagnostics = []
+    previous_handler = loop.get_exception_handler()
+    loop.set_exception_handler(lambda _, context: diagnostics.append(context))
+    foreign = asyncio.new_event_loop()
+    nested = foreign.create_future()
+    if failed:
+        nested.set_exception(RuntimeError("synthetic-canary"))
+    else:
+        nested.set_result("synthetic-canary")
+    foreign.close()
+    started = asyncio.Event()
+    release = threading.Event()
+    disposed = asyncio.Event()
+    original_discard = guard_module._discard_worker_result
+
+    def observe_disposal(future):
+        try:
+            original_discard(future)
+        finally:
+            disposed.set()
+
+    monkeypatch.setattr(guard_module, "_discard_worker_result", observe_disposal)
+
+    def factory(_):
+        loop.call_soon_threadsafe(started.set)
+        assert release.wait(5), "Worker was not released"
+        return nested
+
+    try:
+        pending = asyncio.create_task(Guard(timeout_seconds=0.05).arun("input", factory))
+        await asyncio.wait_for(started.wait(), 5)
+        result = await pending
+        assert result.action == Action.ERROR
+        assert result.output_result.findings[0].code == "callback_timeout"
+        release.set()
+        await asyncio.wait_for(disposed.wait(), 5)
+        await asyncio.sleep(0)
+        assert diagnostics == []
+        if failed:
+            # A drained failure no longer has an unretrieved exception to report.
+            assert not nested._log_traceback
+    finally:
+        release.set()
+        loop.set_exception_handler(previous_handler)
+
+
+async def test_completed_foreign_loop_future_is_still_delivered():
+    foreign = asyncio.new_event_loop()
+    future = foreign.create_future()
+    future.set_result("checked output")
+    foreign.close()
+    result = await Guard().arun("input", lambda _: future)
+    assert result.require_text() == "checked output"
+
+
 async def test_ordinary_async_failures_remain_sanitized():
     class FailingScanner:
         name = "failing"

@@ -41,7 +41,11 @@ def _discard_worker_result(future: asyncio.Future[T | Awaitable[T]]) -> None:
         value.close()
     elif isinstance(value, asyncio.Future):
         value.cancel()
-        value.add_done_callback(_consume_task)
+        if value.done():
+            # Completed futures need no scheduling on their possibly closed owner loop.
+            _consume_task(value)
+        else:
+            value.add_done_callback(_consume_task)
 
 
 async def _invoke(function: Callable[[], T | Awaitable[T]]) -> T:
