@@ -4,6 +4,21 @@ See [PyPI](https://pypi.org/project/guardtrellis/) for package availability and
 [GitHub releases](https://github.com/sahilmathur254/guardtrellis/releases) for published
 artifacts and verification evidence.
 
+## 0.1.11
+
+- Add a frozen, bounded synchronous scan measurement batch with 18 comparable
+  default/opt-in policy, size and action cells plus four separate connection-URI
+  controls. Retain exact checked-delivery outcomes, individual timings, incomplete
+  work and privacy/cleanup evidence, with native CI reproduction and no timing gate.
+- Add six partial control mappings to revision-pinned OWASP LLM02:2025 and LLM06:2025
+  guidance, linking configured SDK/example behavior to source, tests, exclusions and
+  application-owned authorization, approval, permissions and data governance.
+
+Upgrade note: SDK APIs, scanner behavior/defaults and dependency requirements are
+unchanged. The retained scan baseline describes SDK 0.1.10 on macOS, and repeated
+synthetic measurements do not establish general accuracy, tail latency or production
+capacity. The selected OWASP mapping is not certification or complete risk coverage.
+
 ## 0.1.10
 
 - Bound JSON Schema validation to 10,000 keyword dispatches and validator evolutions

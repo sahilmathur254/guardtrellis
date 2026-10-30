@@ -77,8 +77,10 @@ configuration errors precede structured reporting. Existing Python API defaults 
 detector rules were unchanged by that addition. The published `0.1.10` release adds the
 schema-work rejection described in the [upgrade note](../CHANGELOG.md#0110);
 the [release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.10)
-links publication verification. The local `0.1.11`-target benchmark/control-mapping batch
-preserves SDK behavior and source version; release preparation remains separate.
+links publication verification. The `0.1.11` source adds the benchmark/control-mapping batch
+while preserving SDK behavior and dependency requirements. Version preparation changes
+the version constant and package metadata; historical measurements retain their actual
+SDK version. See [package availability](https://pypi.org/project/guardtrellis/).
 
 Existing diagnostic keys, value types, and meanings remain supported across `0.1.x`.
 Additional metadata keys and finding codes may be introduced; consumers should tolerate

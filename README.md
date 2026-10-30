@@ -14,25 +14,30 @@ The documented public API is supported across `0.1.x` under the
 Supported Python: 3.11–3.14. Apache-2.0 licensed.
 
 <!-- guardtrellis-release:start -->
-**Version: `0.1.10`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.10/)
+**Version: `0.1.11`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.11/)
 for availability and [release notes](https://github.com/sahilmathur254/guardtrellis/releases).
 A source checkout may describe a candidate that has not been published yet.
 
 Install this version in an activated virtual environment:
 
 ```sh
-python -m pip install 'guardtrellis==0.1.10'
+python -m pip install 'guardtrellis==0.1.11'
 ```
 
 An explicit version opts into a prerelease when applicable. Optional integrations:
-`'guardtrellis[fastapi]==0.1.10'`,
-`'guardtrellis[langgraph]==0.1.10'`,
-`'guardtrellis[openai]==0.1.10'`,
-`'guardtrellis[gemini]==0.1.10'`.
+`'guardtrellis[fastapi]==0.1.11'`,
+`'guardtrellis[langgraph]==0.1.11'`,
+`'guardtrellis[openai]==0.1.11'`,
+`'guardtrellis[gemini]==0.1.11'`.
 <!-- guardtrellis-release:end -->
 
 ## Included capabilities
 
+- A [frozen synchronous scan baseline](evaluation/scan_performance/README.md) with
+  18 comparable policy/size/action cells and four separate URI controls, retaining
+  descriptive timings, exact checked outcomes and bounded cleanup evidence.
+- A [selected OWASP control mapping](docs/coverage.md#selected-owasp-2025-mitigation-mapping)
+  linking configured behavior and existing evidence to application-owned controls.
 - A core [local policy CLI](docs/cli.md), added in `0.1.9`,
   with explicit file/stdin and stage selection, fixed secrets/privacy policies,
   metadata reports and opt-in checked text for pipes/files.
