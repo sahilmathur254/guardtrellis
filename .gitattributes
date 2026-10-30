@@ -9,3 +9,8 @@
 /evaluation/detector_delivery/contract.py text eol=lf
 /evaluation/detector_delivery/PROTOCOL_v1.md text eol=lf
 /evaluation/detector_delivery/baseline_0.1.9/*.json text eol=lf
+/evaluation/scan_performance/*.json text eol=lf
+/evaluation/scan_performance/*.py text eol=lf
+/evaluation/scan_performance/*.md text eol=lf
+/evaluation/scan_performance/baseline_sdk_0.1.10/*.json text eol=lf
+/evaluation/scan_performance/baseline_sdk_0.1.10/*.md text eol=lf

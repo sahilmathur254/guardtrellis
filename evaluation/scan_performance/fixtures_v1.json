@@ -1,0 +1,114 @@
+{
+  "dataset_version": "sync-scan-performance-v1",
+  "source": "Original AI-assisted synthetic fixtures authored with knowledge of the documented SDK and source; expectations fixed before SDK observation",
+  "license": "Apache-2.0",
+  "usage": "public-development",
+  "independent_review": false,
+  "reviewer": "author self-review with Codex assistance",
+  "padding_char": ".",
+  "profiles": ["default", "opt_in"],
+  "main_input_chars": [1000, 10000, 100000],
+  "supplement_input_chars": [1000],
+  "cases": [
+    {
+      "id": "allow",
+      "group": "main",
+      "payload": "ordinary public documentation;",
+      "expected_by_profile": {
+        "default": {
+          "action": "allow",
+          "codes": [],
+          "spans": [],
+          "checked_payload": "ordinary public documentation;"
+        },
+        "opt_in": {
+          "action": "allow",
+          "codes": [],
+          "spans": [],
+          "checked_payload": "ordinary public documentation;"
+        }
+      },
+      "label_basis": "Public prose and period padding contain no configured sensitive shape; complete unchanged checked text is required in both profiles."
+    },
+    {
+      "id": "redact",
+      "group": "main",
+      "payload": "contact: +12025550123;",
+      "expected_by_profile": {
+        "default": {
+          "action": "redact",
+          "codes": ["pii_phone"],
+          "spans": [[9, 21]],
+          "checked_payload": "contact: [PII];"
+        },
+        "opt_in": {
+          "action": "redact",
+          "codes": ["pii_phone"],
+          "spans": [[9, 21]],
+          "checked_payload": "contact: [PII];"
+        }
+      },
+      "label_basis": "The fabricated contiguous international phone has eleven ASCII digits after plus; both grammars require one complete pii_phone finding and replacement by [PII]."
+    },
+    {
+      "id": "block",
+      "group": "main",
+      "payload": "token: ghp_AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA;",
+      "expected_by_profile": {
+        "default": {
+          "action": "block",
+          "codes": ["secret_github_classic"],
+          "spans": [[7, 47]],
+          "checked_payload": null
+        },
+        "opt_in": {
+          "action": "block",
+          "codes": ["secret_github_classic"],
+          "spans": [[7, 47]],
+          "checked_payload": null
+        }
+      },
+      "label_basis": "A fabricated ghp_ prefix followed by exactly 36 ASCII A characters has the documented classic-token shape; the source-authored code is secret_github_classic. No credential is issued or used; rejection permits no checked text or consumer delivery."
+    },
+    {
+      "id": "uri_positive",
+      "group": "uri_supplement",
+      "payload": "connection: postgresql://demo:synthetic-password@localhost/demo",
+      "expected_by_profile": {
+        "default": {
+          "action": "allow",
+          "codes": [],
+          "spans": [],
+          "checked_payload": "connection: postgresql://demo:synthetic-password@localhost/demo"
+        },
+        "opt_in": {
+          "action": "block",
+          "codes": ["secret_postgresql_uri"],
+          "spans": [[12, 63]],
+          "checked_payload": null
+        }
+      },
+      "label_basis": "A fabricated PostgreSQL URI contains a nonempty userinfo password and a localhost host without an email-shaped domain; URI checking is disabled by default and enabled only in opt_in. The full URI is the required opt-in span."
+    },
+    {
+      "id": "uri_benign",
+      "group": "uri_supplement",
+      "payload": "connection: postgresql://localhost/demo",
+      "expected_by_profile": {
+        "default": {
+          "action": "allow",
+          "codes": [],
+          "spans": [],
+          "checked_payload": "connection: postgresql://localhost/demo"
+        },
+        "opt_in": {
+          "action": "allow",
+          "codes": [],
+          "spans": [],
+          "checked_payload": "connection: postgresql://localhost/demo"
+        }
+      },
+      "label_basis": "A PostgreSQL URI without userinfo or password query is benign under both profiles; enabled parsing must return no URI finding and preserve the complete checked text."
+    }
+  ]
+}
