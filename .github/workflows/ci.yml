@@ -74,6 +74,23 @@ jobs:
         run: |
           uv run --frozen python evaluation/concurrency/run.py --smoke \
             --report-dir '${{ runner.temp }}/guardtrellis-concurrency'
+      - name: Reproduce frozen synchronous scan outcomes and bounded measurements
+        run: |
+          uv run --frozen python evaluation/scan_performance/run.py --smoke \
+            --report-dir '${{ runner.temp }}/guardtrellis-scan-performance'
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path(r'${{ runner.temp }}/guardtrellis-scan-performance/results.json').read_text())
+          print(json.dumps({
+              "measurement_checks_passed": report["measurement_checks_passed"],
+              "cells": len(report["summary"]),
+              "expected_samples": sum(row["expected_samples"] for row in report["summary"]),
+              "observed_samples": sum(row["observed_samples"] for row in report["summary"]),
+              "matching_samples": sum(row["matching_samples"] for row in report["summary"]),
+              "all_children_reaped": all(row.get("child_reaped") for row in report["runs"]),
+          }, sort_keys=True))
+          PY
       - name: Reproduce connection-string coverage and checked delivery
         run: |
           uv run --frozen python evaluation/connection_strings/run.py \

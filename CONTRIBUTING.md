@@ -142,6 +142,19 @@ for its full measurement protocol, or add `--smoke` for the reduced CI protocol.
 outcomes, report safety and child cleanup across the platform matrix; machine-dependent
 latency is not a pass/fail threshold. Preserve incomplete work and historical reports.
 
+The [synchronous scan baseline](evaluation/scan_performance/README.md) freezes exact
+outcomes before measuring default/opt-in policies across 1k/10k/100k inputs, with a
+separate URI supplement. Run the following for full measurements, or add `--smoke`
+for all-cell CI reproduction:
+
+```sh
+uv run --frozen python evaluation/scan_performance/run.py --report-dir <new-directory>
+```
+
+Only the synchronous scan is timed; report privacy, exact outcomes and
+child cleanup are gates. Timing values have no release threshold. Native Windows CI
+requires a submitted commit; local platform-path tests are separate evidence.
+
 ## Maintain the changelog
 
 `CHANGELOG.md` is the canonical changelog. Every user-visible behavior, API, diagnostic,

@@ -74,9 +74,11 @@ failures remain evidence of coverage limits, not guarantees that those failures 
 The CLI added in `0.1.9` is an additive core interface. Its
 [`report_version=1` envelope and exit statuses](cli.md) have their own explicit contract;
 configuration errors precede structured reporting. Existing Python API defaults and
-detector rules were unchanged by that addition. The `0.1.10` source candidate adds the
+detector rules were unchanged by that addition. The published `0.1.10` release adds the
 schema-work rejection described in the [upgrade note](../CHANGELOG.md#0110);
-source availability does not establish publication.
+the [release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.10)
+links publication verification. The local `0.1.11`-target benchmark/control-mapping batch
+preserves SDK behavior and source version; release preparation remains separate.
 
 Existing diagnostic keys, value types, and meanings remain supported across `0.1.x`.
 Additional metadata keys and finding codes may be introduced; consumers should tolerate
