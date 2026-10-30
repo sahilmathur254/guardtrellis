@@ -1,7 +1,7 @@
 # Control coverage and evidence
 
-Snapshot: 2026-10-30. The published baseline is
-[`0.1.10`](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.10), which adds
+Snapshot: 2026-10-30. The
+[`0.1.10` release](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.10) added
 schema-work limits, discarded async exception cleanup and release-artifact/build hardening.
 The local policy CLI and frozen detector/delivery evaluation shipped in `0.1.9`.
 Explicit connection-URI detection shipped in `0.1.8` while preserving default scanner rules.
@@ -9,9 +9,9 @@ The Gemini example's explicit continuation control shipped in `0.1.7`; applicati
 examples must adopt that code separately. See the [changelog](../CHANGELOG.md) and
 [package availability](https://pypi.org/project/guardtrellis/).
 
-The source version remains `0.1.10`; the intended `0.1.11` batch adds evaluation and
-mapping documentation without SDK runtime or detector changes. See the
-[upgrade note](../CHANGELOG.md#0110) and [release gates](releasing.md).
+The `0.1.11` source includes evaluation and mapping documentation without SDK
+behavior or detector changes. Check package availability separately; see the
+[0.1.11 upgrade note](../CHANGELOG.md#0111) and [release gates](releasing.md).
 
 These matrices connect configured behavior to implementation, regression cases and
 retained evidence. Tests describe the checked contracts; consult the relevant CI run
@@ -93,8 +93,8 @@ environment, measurement boundaries and observations. These repeated synthetic r
 do not establish general detection accuracy, native Windows execution, universal latency,
 service capacity or production reliability.
 
-The [bounded synchronous scan protocol](../evaluation/scan_performance/README.md), intended
-for `0.1.11`, retains an [SDK `0.1.10` baseline](../evaluation/scan_performance/baseline_sdk_0.1.10/REPORT.md)
+The [bounded synchronous scan protocol](../evaluation/scan_performance/README.md), added
+in the `0.1.11` source, retains an [SDK `0.1.10` baseline](../evaluation/scan_performance/baseline_sdk_0.1.10/REPORT.md)
 and [raw provenance](../evaluation/scan_performance/baseline_sdk_0.1.10/results.json).
 On macOS arm64 / CPython 3.12.0 it records 6,600/6,600 exact measured outcomes, 198 matching
 warmups and 66 reaped children across 22 cells. Only synchronous `Guard.scan` is timed;

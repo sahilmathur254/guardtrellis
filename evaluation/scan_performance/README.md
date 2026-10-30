@@ -1,9 +1,10 @@
 # Bounded synchronous scan baseline
 
 This evaluation-only contribution to [#45](https://github.com/sahilmathur254/guardtrellis/issues/45)
-is intended for the `0.1.11` batch. It measures current synchronous `Guard.scan` behavior,
-without changing SDK source, defaults, dependencies or the source version. The current
-source remains `0.1.10`; release preparation and native CI are separate steps.
+is included in the `0.1.11` source. It measures synchronous `Guard.scan` behavior
+without changing SDK behavior, defaults or dependencies. The retained baseline was
+collected on SDK `0.1.10`; version preparation does not rewrite its frozen evidence.
+Check [PyPI](https://pypi.org/project/guardtrellis/) for package availability.
 
 ```sh
 uv run --frozen python evaluation/scan_performance/run.py --report-dir /tmp/scan-full
@@ -29,7 +30,8 @@ each report separately records the actual runner/helper and imported SDK file ha
 Fixture/protocol hashes and the receipt anchor are checked before every run.
 SDK/helper/lock hashes are pre-observation identity records rather than permanent
 version pins: reports explicitly compare actual runtime hashes with that snapshot.
-The retained local baseline matches all three. This permits future SDK comparisons
+The retained local baseline matched all three when collected. Version preparation can
+change SDK/lock identities without changing behavior. This permits future SDK comparisons
 without rewriting frozen expectations or claiming unchanged runtime provenance.
 
 The five fixture meanings are Codex-assisted public synthetic development cases,
