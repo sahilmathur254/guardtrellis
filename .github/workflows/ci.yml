@@ -20,7 +20,8 @@ jobs:
         os: [ubuntu-latest]
         python: ["3.11", "3.12", "3.13", "3.14"]
         include:
-          - os: macos-15
+          # Use the current ARM64 image after macOS 15 runner acquisition failures.
+          - os: macos-26
             python: "3.12"
           - os: windows-2025
             python: "3.12"
