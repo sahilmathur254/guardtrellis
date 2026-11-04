@@ -273,8 +273,10 @@ def test_input_errors_and_regular_file_checks(monkeypatch, tmp_path):
         assert CANARY.encode() not in stdout
     source = tmp_path / "file"
     source.write_bytes(b"Public")
-    monkeypatch.setattr(_cli.os, "fstat", lambda _: SimpleNamespace(st_mode=0))
-    status, stdout, _, _, _ = capture(monkeypatch, ["check", "--file", str(source), *BASE[2:]])
+    # Restore the shared os module before pytest resumes file-descriptor capture.
+    with monkeypatch.context() as patch:
+        patch.setattr(_cli.os, "fstat", lambda _: SimpleNamespace(st_mode=0))
+        status, stdout, _, _, _ = capture(patch, ["check", "--file", str(source), *BASE[2:]])
     assert status == 2 and json.loads(stdout)["error"]["code"] == "invalid_source"
     assert source.read_bytes() == b"Public"
 
