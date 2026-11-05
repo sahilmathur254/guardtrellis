@@ -8,7 +8,7 @@ contracts, failure behavior, and evidence for the formats they actually cover.
 The [public GitHub Project](https://github.com/users/sahilmathur254/projects/3) is the source
 of current status, priority, and ownership. This document explains direction and milestone
 exit criteria. Each linked issue contains its scope, starting files, acceptance criteria,
-and dependencies. Horizons are an order of work, not promised dates. Updated 2026-10-30.
+and dependencies. Horizons are an order of work, not promised dates. Updated 2026-11-05.
 
 The workstreams below are tracked on the Project in the agreed order. Design proposals and
 demand-led validation remain distinct from implementation-ready work; a tracking issue does
@@ -19,7 +19,7 @@ not promise a feature, assignee, or delivery date. Project fields hold their cur
 The [completed MVP](https://github.com/sahilmathur254/guardtrellis/issues/1) provides sync/async
 orchestration, six checking capabilities, metadata-only diagnostics, explicit stage boundaries,
 and credential-free callable, FastAPI, and LangGraph examples. The source is Apache-2.0 licensed.
-CI validates Python 3.11–3.14 on Linux and Python 3.12 on macOS 15 ARM64 and Windows Server
+CI validates Python 3.11–3.14 on Linux and Python 3.12 on macOS 26 ARM64 and Windows Server
 2025 x64, including installation of both distribution formats. See the
 [contributor guide](CONTRIBUTING.md) for the matrix and checks.
 
@@ -39,9 +39,11 @@ and frozen 48-scenario detector/delivery evaluation shipped in `0.1.9`. The
 [`0.1.10` release](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.10)
 added the reviewed schema/async/release security fixes below. Its release record
 links exact-main CI, TestPyPI/PyPI verification, the source commit and artifact hashes.
-The `0.1.11` source includes current-source scan measurements and a selected
-OWASP control mapping through merged [PR #87](https://github.com/sahilmathur254/guardtrellis/pull/87).
-Version preparation preserves SDK behavior and dependencies; check PyPI for publication.
+The [`0.1.11` release](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.11)
+includes synchronous scan measurements and a selected OWASP control mapping through
+[PR #87](https://github.com/sahilmathur254/guardtrellis/pull/87).
+The maintenance and accepted #35 research below form an unpublished `0.1.12` candidate;
+the SDK source version remains `0.1.11`.
 The [release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.0)
 documents the completed stable `0.1.0` publication and its verification evidence.
 The [0.1.x compatibility policy](docs/compatibility.md) now applies.
@@ -67,18 +69,53 @@ observed integration gaps over adding scanner families or framework wrappers for
 | Completed; follow-ups as needed | Formatted international phones | Select the bounded phone mode explicitly and compare complete checked outcomes with retained baselines. | [#60](https://github.com/sahilmathur254/guardtrellis/issues/60) closed; shipped in `0.1.6` |
 | Completed; follow-ups as needed | Credential-bearing connection URIs | Enable the bounded PostgreSQL/MongoDB policy explicitly and retain the raw/decoded/default comparison. | [#67](https://github.com/sahilmathur254/guardtrellis/issues/67) and [#68](https://github.com/sahilmathur254/guardtrellis/issues/68) completed; shipped in `0.1.8` |
 | Merged `0.1.11` slice; broader work open | Evaluation methodology | Review the [frozen synchronous scan baseline](evaluation/scan_performance/README.md), preserving the 48-scenario detector/delivery and earlier evidence. | [#45](https://github.com/sahilmathur254/guardtrellis/issues/45); Now, P1; independent case review remains separate |
-| Merged `0.1.11` slice; broader work open | Source-backed coverage | Review the [selected OWASP mapping](docs/coverage.md#selected-owasp-2025-mitigation-mapping) alongside source, tests, exclusions and application controls. | [#46](https://github.com/sahilmathur254/guardtrellis/issues/46); Now, P1; wider comparisons remain separate |
+| `0.1.11` mapping merged; #35 evidence closeout for review | Source-backed coverage | Review the [selected OWASP mapping](docs/coverage.md#selected-owasp-2025-mitigation-mapping) and [accepted #35 evidence](docs/coverage.md#retrieval-and-tool-trust-boundary-evidence) with source, tests, exclusions and host controls. | [#46](https://github.com/sahilmathur254/guardtrellis/issues/46); Now, P1; wider comparisons remain separate |
 | Completed; follow-ups as needed | Evaluation and coverage | Use the retained policy/delivery baseline to identify independently authored cases and small supported-format improvements. | [#29](https://github.com/sahilmathur254/guardtrellis/issues/29) closed; shipped in `0.1.2` |
 | Completed; follow-ups as needed | Integration recipes | Build on the policy/operations recipe and async checked-tool handoff evidence for concrete caller gaps. | [#30](https://github.com/sahilmathur254/guardtrellis/issues/30) and [#34](https://github.com/sahilmathur254/guardtrellis/issues/34) closed; shipped in `0.1.2` |
 | Shipped in `0.1.9` | Local policy testing | Use the bounded core CLI for explicit local file/stdin checks. | Design [#31](https://github.com/sahilmathur254/guardtrellis/issues/31) completed; implementation [#78](https://github.com/sahilmathur254/guardtrellis/issues/78) Done through [#79](https://github.com/sahilmathur254/guardtrellis/pull/79); see PyPI for availability |
 | As adopters need them | Optional provider coverage | Validate requested provider paths and add examples only for distinct integration behavior. | [#32](https://github.com/sahilmathur254/guardtrellis/issues/32); Later, P2 |
-| Now | Retrieval/tool policy research | Prepare the twelve-scenario evaluation under the [accepted research contract](docs/retrieval_tool_policy_design.md), freezing expectations before scanning and distinguishing configured checks from host controls. | [#35](https://github.com/sahilmathur254/guardtrellis/issues/35); Now, P2, local evaluation in progress |
+| Completed bounded research | Retrieval/tool policy research | Use the [frozen twelve-scenario evaluation](evaluation/retrieval_tool_policy/README.md) and separate controls, retaining semantic limitations and host-owned enforcement. No new API or recipe is accepted. | [#35](https://github.com/sahilmathur254/guardtrellis/issues/35); Done after maintainer acceptance 2026-11-05; merged [#91](https://github.com/sahilmathur254/guardtrellis/pull/91); unpublished `0.1.12` candidate |
 | Later | Streaming | Decide whether a bounded release model is useful and defensible for a named caller. | Existing [#12](https://github.com/sahilmathur254/guardtrellis/issues/12); exploratory |
 
 Maintain the current `0.1.x` series alongside this work. Patch fixes follow the existing
 compatibility and changelog rules. New API surfaces need an explicit versioning decision;
 planned incompatible changes require migration guidance and a later minor release. These
 workstreams do not promise a `0.2.0` date or bundle every proposal into one release.
+
+## Candidate 0.1.12: maintenance and accepted retrieval/tool research
+
+Two meaningful groups are already merged after `0.1.11`:
+
+- Dependency/test maintenance in [#89](https://github.com/sahilmathur254/guardtrellis/pull/89)
+  and the pyasn1 security update plus macOS CI repair in
+  [#90](https://github.com/sahilmathur254/guardtrellis/pull/90).
+- The frozen #35 evaluation, runner, 85 regressions and CI reproduction in
+  [#91](https://github.com/sahilmathur254/guardtrellis/pull/91). Its evidence documentation
+  is finishing work for this contribution, not an additional release-count feature.
+
+The maintainer accepted #35's original bounded research criteria on 2026-11-05. The
+[coverage interpretation](docs/coverage.md#retrieval-and-tool-trust-boundary-evidence)
+attributes R05/R07 to SDK structural checks, R09 to host permission and R11/R12 to
+configured pattern policy and checked delivery. All twelve research contracts and eleven
+separate controls matched, while R01/R03 retain instruction-intent ALLOW limitations.
+Scripted proposals establish no model-effectiveness or general injection-resistance claim.
+Existing APIs and recipes express every demonstrated control; no new API, detector or
+reusable recipe is accepted. Further behavior changes require a concrete caller gap and
+a separately approved design. Broader #45 methodology and #46 comparisons remain open.
+
+The research source is merged at `8e78238563057aac59de68e50ec7620c8a75c090` with
+[green post-merge CI](https://github.com/sahilmathur254/guardtrellis/actions/runs/41992967973),
+including native Windows and macOS, and
+[Python/Actions CodeQL](https://github.com/sahilmathur254/guardtrellis/actions/runs/41992968319).
+The original design, freeze, six assets, baseline and historical evaluation files are
+preserved. Those CI runs validate the merged research commit. The documentation closeout
+has separate validation and review-PR CI; inspect the exact commit under review rather
+than treating the earlier research runs as evidence for later file edits.
+
+`0.1.12` is a candidate batch, not a published version. The SDK source remains `0.1.11`;
+no version bump or release preparation is included here. Publication stays on hold and
+requires separate authorization, version/changelog preparation, exact release-main
+Windows/CodeQL CI, a TestPyPI rehearsal and same-artifact PyPI promotion.
 
 ## Completed: 0.1.10 security maintenance release
 
@@ -106,11 +143,11 @@ Normally collect two or three meaningful improvements before publication; a feat
 tests and documentation count as part of that feature. This security batch meets that
 preference. Tracking cleanup and a design document alone do not require a new release.
 
-## Current 0.1.11 batch: scan evidence and control mapping
+## Completed: 0.1.11 scan evidence and control mapping
 
 The maintainer approved #45 first, then #46 on 2026-10-30; [PR #87](https://github.com/sahilmathur254/guardtrellis/pull/87)
 is merged. This batch preserves SDK behavior, dependencies and every frozen or historical
-evaluation record. Release preparation sets the source version to `0.1.11` and adds its
+evaluation record. Release preparation set the source version to `0.1.11` and added its
 changelog entry and generated installation pins. The [compatibility policy](docs/compatibility.md)
 supports this compatible patch batch. A deliberate API or compatibility transition
 would need its own minor-release decision and migration guidance.
@@ -132,9 +169,10 @@ prompt-injection protection claim; broader #46 comparisons remain open.
 The merged contribution passed native Linux/macOS/Windows and CodeQL checks; its
 [PR/CI record](https://github.com/sahilmathur254/guardtrellis/pull/87) retains that evidence.
 CI reproduces all 22 benchmark smoke cells, separately from the historical macOS full
-baseline. Publication requires exact release-main Windows/CodeQL CI, a new TestPyPI
-rehearsal, its original producer artifact ID and unchanged-artifact PyPI promotion.
-The maintainer authorized those release steps; source availability alone is not publication.
+baseline. The [published 0.1.11 release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.11)
+retains publication and verification evidence. Later publication requires fresh exact
+release-main Windows/CodeQL CI, a TestPyPI rehearsal, its original producer artifact ID
+and unchanged-artifact PyPI promotion, with separate maintainer authorization.
 
 ## Completed: 0.1.9 CLI and evaluation batch
 
