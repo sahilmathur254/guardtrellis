@@ -1,6 +1,6 @@
 # Control coverage and evidence
 
-Snapshot: 2026-10-30. The
+Snapshot: 2026-11-05. The
 [`0.1.10` release](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.10) added
 schema-work limits, discarded async exception cleanup and release-artifact/build hardening.
 The local policy CLI and frozen detector/delivery evaluation shipped in `0.1.9`.
@@ -12,6 +12,12 @@ examples must adopt that code separately. See the [changelog](../CHANGELOG.md) a
 The `0.1.11` source includes evaluation and mapping documentation without SDK
 behavior or detector changes. Check package availability separately; see the
 [0.1.11 upgrade note](../CHANGELOG.md#0111) and [release gates](releasing.md).
+
+The bounded [#35 retrieval/tool research](#retrieval-and-tool-trust-boundary-evidence)
+merged through [PR #91](https://github.com/sahilmathur254/guardtrellis/pull/91) and was
+accepted as completed research on 2026-11-05. Its evidence is part of the unpublished
+`0.1.12` candidate batch. The SDK source version remains `0.1.11`; this closeout adds
+evidence and attribution without changing SDK behavior or publishing a package.
 
 These matrices connect configured behavior to implementation, regression cases and
 retained evidence. Tests describe the checked contracts; consult the relevant CI run
@@ -36,8 +42,8 @@ policies and platforms. None is a general accuracy estimate or proof of host enf
 | --- | --- | --- |
 | The CLI added in `0.1.9` selects one fixed secrets/privacy policy and text stage, with explicit bounded file/stdin ingress and metadata/checked-text output. | [CLI guide](cli.md), [implementation](../src/guardtrellis/_cli.py), [transport/policy tests](../tests/test_cli.py), [URI handoff tests](../tests/test_cli_connection_strings.py), [strict CI consumer](../examples/cli_ci.py), [installed smokes](../scripts/smoke_dist.py). | [#78](https://github.com/sahilmathur254/guardtrellis/issues/78) tracks native CI/review evidence. No detector expansion, implicit JSON decode, input rewrite or hard process deadline. REDACT exits zero; checked stdout must be discarded on nonzero. TTY output is rejected; subsequent rendering and shell redirection remain host concerns. |
 | `Guard.run` / `arun` check input before the callback and complete output before delivery. BLOCK/ERROR withhold that boundary's text; accepted data is obtained through `require_text()`. | [Guard implementation](../src/guardtrellis/guard.py), [delivery/order/rejection tests](../tests/test_guard.py), [policy/delivery baseline](../evaluation/policy_combinations/baseline_0.1.2/REPORT.md). | Configure every required stage: `Guard()` has no implicit scanners. WARN permits delivery; REDACT permits transformed text. Consume checked values instead of originals. There is no streaming API, and output checks cannot undo callback side effects. |
-| `ToolGuard` checks exact tool names, JSON syntax/object type, configured argument text policies, then the edited schema. `require_call()` exposes only accepted pairs. | [ToolGuard implementation](../src/guardtrellis/tools.py), [schema/redaction tests](../tests/test_json_tools.py), [async handoff tests](../tests/test_async_tools.py). | It does not execute or authorize tools. The application must authorize the final checked pair and avoid later mutation; returned argument dictionaries are not revalidated after caller edits. Escaped sensitive values need explicit decoded handling. |
-| The `0.1.4` tool-result recipe checks returned text at RETRIEVAL before state insertion or the next consumer. | [Recipe](../examples/tool_result_handoff.py), [no-dispatch/state/privacy tests](../tests/test_tool_result_handoff_example.py), [handoff guide](tool_result_handoff.md). | Tool argument validation does not check the return value. This recipe covers plain text, not arbitrary structured results. Earlier logs, caches, execution and raw-value fallback paths remain application responsibilities. |
+| `ToolGuard` checks exact tool names, JSON syntax/object type, configured argument text policies, then the edited schema. `require_call()` exposes only accepted pairs. | [ToolGuard implementation](../src/guardtrellis/tools.py), [schema/redaction tests](../tests/test_json_tools.py), [async handoff tests](../tests/test_async_tools.py); #35 [R05/R07 outcomes](../evaluation/retrieval_tool_policy/baseline_0.1.11/REPORT.md) and [rejection-order regressions](../tests/test_retrieval_tool_policy_evaluation.py#L113). | It does not execute or authorize tools. The application must authorize the final checked pair and avoid later mutation; returned argument dictionaries are not revalidated after caller edits. Escaped sensitive values need explicit decoded handling. R05 rejects an extra property; it establishes no network or SSRF control. |
+| The `0.1.4` tool-result recipe checks returned text at RETRIEVAL before state insertion or the next consumer. | [Recipe](../examples/tool_result_handoff.py), [no-dispatch/state/privacy tests](../tests/test_tool_result_handoff_example.py), [handoff guide](tool_result_handoff.md); #35's separate scripted [R11/R12 pattern/delivery checks](../tests/test_retrieval_tool_policy_evaluation.py#L127) and [workflow](../evaluation/retrieval_tool_policy/workflow.py). | Tool argument validation does not check the return value. This recipe covers plain text, not arbitrary structured results. Earlier logs, caches, execution and raw-value fallback paths remain application responsibilities. R03 retains instruction-like return text as an explicit semantic limitation. |
 | Guard bounds Python character counts and per-scanner findings/edits. Async waits apply separately to each scanner/callback. After Guard returns timeout ERROR, late results cannot release checked data. | [API limits](api.md#limits-and-asynchronous-work), [timeout/cancellation tests](../tests/test_guard.py), [async tool tests](../tests/test_async_tools.py), [resource evidence](resource_limits.md). | Character limits are not ingress-byte/token limits. Sync calls have no deadline. Cancellation cannot forcibly stop threads, remote requests or event-loop-blocking code; blocking the event loop can delay timeout handling and allow a result after the configured interval. The host owns admission, concurrency, provider timeouts and process containment. |
 | Built-ins perform local checks without network calls, application logging or a request store. `diagnostics()` and built-in reprs omit payload text; `0.1.10` drains discarded Guard-owned async failures and returned Futures/Tasks. | [Result implementation](../src/guardtrellis/models.py), [error/privacy tests](../tests/test_guard.py), [async cleanup regressions](../tests/test_async_cleanup.py), [privacy and operations](limitations.md#privacy-and-operations). | Accepted text/arguments remain payload-bearing properties. Metadata includes offsets/counts; repr suppression is not secure erasure. Arbitrary background work remains caller-owned. Custom scanners, callbacks, provider SDKs, tracing, debuggers and host logs need their own controls. |
 | Optional OpenAI/Azure/Gemini examples pass checked input across mocked HTTP boundaries and check complete output. The Gemini example disables automatic continuation as of `0.1.7`. | [OpenAI tests](../tests/test_openai_example.py), [Azure tests](../tests/test_azure_openai_example.py), [Gemini HTTP tests](../tests/test_gemini_example.py), [Gemini implementation](../examples/gemini_app.py). | Callback counts alone do not prove HTTP request counts. OpenAI/Azure are mock-verified; the [dated Gemini live smoke](gemini.md#recorded-live-smoke-2026-09-26) used older source/SDK versions. The continuation regression is mocked, not a new live trial. Provider retention, billing and side effects remain outside Guard's control. |
@@ -58,14 +64,63 @@ specific contracts, not deployment evidence or a fresh runtime measurement for t
 | --- | --- | --- | --- |
 | LLM02: Sanitization 1–2; Advanced Techniques 2 — sanitization and input validation. | Configured scanners check selected sensitive-data patterns at explicit boundaries. Retrieval is checked before prompt construction; the decoded-query helper checks one decoded field; returned text is checked before state insertion. | [Scanner implementation](../src/guardtrellis/scanners.py), [retrieval workflow](../examples/retrieval_tools.py#L39-L45) and [checked-handoff test](../tests/test_retrieval_tools_example.py#L11-L29); [decoded helper](../examples/decoded_query.py#L46-L79) and [plain/escaped tests](../tests/test_decoded_query_example.py#L63-L90); [return handoff](../examples/tool_result_handoff.py#L117-L126) and [redaction/rejection tests](../tests/test_tool_result_handoff_example.py#L59-L105). | Limited patterns can miss sensitive data; no comprehensive de-identification, training-data governance or implicit decoding. Configure every required stage and consume checked values. The fixed decoded recipe is not a general recursive SDK API. |
 | LLM02: Access Controls 1–2 — restricted sources and least privilege. | Local examples separately authorize a single fixed public document after call validation. | [Retrieval host check](../examples/retrieval_tools.py#L53-L59) and [schema-valid denial test](../tests/test_retrieval_tools_example.py#L77-L83); [handoff host check](../examples/tool_result_handoff.py#L129-L138) and [unauthorized-document test](../tests/test_tool_result_handoff_example.py#L227-L237). | Example policy only. The host must enforce user/document ACLs, source selection, connector scopes and downstream privileges. Text scanning neither restricts data-source access nor establishes caller identity. |
-| LLM06: mitigation items 1–3 and 8 — narrow tool selection and validated arguments. | `ToolGuard` checks exact tool names, strict JSON/object syntax, configured argument scanners and the final schema after edits. | [SDK implementation](../src/guardtrellis/tools.py#L37-L87), [allowlist/schema/redaction tests](../tests/test_json_tools.py#L202-L241), [async checked-pair tests](../tests/test_async_tools.py#L48-L70). | The SDK does not select which capabilities the host exposes, dispatch tools or authorize execution. Valid structure does not establish safe commands, URLs or values; avoid open-ended capabilities and bypass paths in the host. |
-| LLM06: mitigation items 5 and 7 — user-scoped authorization and mediation. | Recipes obtain the final `require_call()` pair, authorize a copy, require literal `True`, then dispatch the checked pair. | [Decoded workflow](../examples/decoded_query.py#L90-L107) and [denial/mutation/boolean tests](../tests/test_decoded_query_example.py#L359-L391); [handoff workflow](../examples/tool_result_handoff.py#L101-L115) and [host-gate tests](../tests/test_tool_result_handoff_example.py#L227-L264). | The host owns identity, permission policy and enforcement on every downstream request. Copy isolation covers these flat schemas only. Later caller mutations are not automatically revalidated; schema validity is not authorization. |
+| LLM06: mitigation items 1–3 and 8 — narrow tool selection and validated arguments. | `ToolGuard` checks exact tool names, strict JSON/object syntax, configured argument scanners and the final schema after edits. | [SDK implementation](../src/guardtrellis/tools.py#L37-L87), [allowlist/schema/redaction tests](../tests/test_json_tools.py#L202-L241), [async checked-pair tests](../tests/test_async_tools.py#L48-L70); #35 [R05/R07 structural checks](../tests/test_retrieval_tool_policy_evaluation.py#L113). | The SDK does not select which capabilities the host exposes, dispatch tools or authorize execution. Valid structure does not establish safe commands, URLs or values; avoid open-ended capabilities and bypass paths in the host. |
+| LLM06: mitigation items 5 and 7 — user-scoped authorization and mediation. | Recipes obtain the final `require_call()` pair, authorize a copy, require literal `True`, then dispatch the checked pair. | [Decoded workflow](../examples/decoded_query.py#L90-L107) and [denial/mutation/boolean tests](../tests/test_decoded_query_example.py#L359-L391); [handoff workflow](../examples/tool_result_handoff.py#L101-L115) and [host-gate tests](../tests/test_tool_result_handoff_example.py#L227-L264); #35 [R09 host denial](../tests/test_retrieval_tool_policy_evaluation.py#L120) and [boolean/copy controls](../tests/test_retrieval_tool_policy_evaluation.py#L154). | The host owns identity, permission policy and enforcement on every downstream request. Copy isolation covers these flat schemas only. Later caller mutations are not automatically revalidated; schema validity is not authorization. |
 | LLM06: mitigation item 6 — human approval for high-impact actions. | The examples expose a host authorization callback before execution; this is a programmatic gate, not human approval. | [Host callback](../examples/decoded_query.py#L90-L107), [denial regression](../tests/test_decoded_query_example.py#L359-L368), [execution/approval limitations](limitations.md#detector-coverage). | No SDK human-approval workflow or approval-enforcement regression is claimed. The application must obtain, bind and enforce appropriate human approval before consequential actions and prevent direct execution bypasses. |
 | LLM02: User Education and Transparency 2; LLM06: mitigation item 4 — data governance and permissions. | Built-ins avoid network calls and request history; supported diagnostics omit payload text. The handoff recipe logs generated IDs and fixed metadata. | [Result implementation](../src/guardtrellis/models.py), [metadata logging example](../examples/tool_result_handoff.py#L55-L83), [failure/privacy tests](../tests/test_tool_result_handoff_example.py#L267-L362), [privacy/operations limits](limitations.md#privacy-and-operations). | Host/provider permissions, egress restrictions, log access, retention/deletion, training use and user disclosures remain application responsibilities. Metadata privacy tests do not prove those controls. Earlier transfer, capture or tool side effects cannot be undone by a later rejection. |
 
 Other OWASP mitigations, including model-training privacy techniques and broader system
 configuration, remain outside this SDK mapping. This documentation adds no detector or
 prompt-injection prevention claim; fixed literal rules do not interpret instruction meaning.
+
+## Retrieval and tool trust-boundary evidence
+
+The [accepted research contract](retrieval_tool_policy_design.md) and
+[source ledger](../evaluation/retrieval_tool_policy/sources_v1.json) define #35's bounded
+question and provenance. The [six-pair interpretation](../evaluation/retrieval_tool_policy/README.md#what-the-batch-establishes),
+[frozen scenarios](../evaluation/retrieval_tool_policy/corpus_v1.jsonl),
+[separate controls](../evaluation/retrieval_tool_policy/harness_controls_v1.jsonl), and
+[regressions](../tests/test_retrieval_tool_policy_evaluation.py) connect each claim to a
+specific boundary. This is a separate scripted study using existing APIs and recipe
+semantics; it adds no model, provider, live attacker or automatic host interception.
+
+- R05/R07 demonstrate SDK schema/property and exact-name rejection before downstream calls.
+- R09 demonstrates a schema-valid call denied by the host before execution. Permission
+  enforcement is attributed to that host callback, not to `ToolGuard`.
+- R11/R12 demonstrate configured secret blocking before PII redaction, and delivery of
+  exactly the checked return. The host must keep every consumer behind that handoff.
+
+The [retained baseline](../evaluation/retrieval_tool_policy/baseline_0.1.11/REPORT.md)
+records twelve research contracts and eleven separate harness controls matched, all
+23 children completed/reaped, and no unexpected, privacy, integrity or incomplete failures.
+Two SDK ERROR controls and three callback-error controls are expected and separately
+counted. The [freeze and receipt](../evaluation/retrieval_tool_policy/README.md#pre-observation-freeze)
+and original baseline retain their original source/dependency identity; later maintenance
+comparisons record their actual identities without replacing that history.
+
+R01/R03 retain instruction-only ALLOW outcomes: retrieved override instructions can reach
+the scripted proposer, and returned tool/approval spoofing can reach the consumer.
+The configured pattern scanners do not classify that intent. The ten met desired policy
+goals are descriptive labels for these twelve public, AI-assisted development scenarios;
+they are not an injection catch rate. Internal review, scripted proposals and benign
+contrast pairs do not establish independent validation or real-agent attack effectiveness.
+
+Merged source at `8e78238563057aac59de68e50ec7620c8a75c090` passed
+[post-merge Linux/macOS/Windows CI](https://github.com/sahilmathur254/guardtrellis/actions/runs/41992967973)
+and [Python/Actions CodeQL](https://github.com/sahilmathur254/guardtrellis/actions/runs/41992968319).
+[Native Windows](https://github.com/sahilmathur254/guardtrellis/actions/runs/41992967973/job/127129345724)
+ran all 85 new regressions within 1,870 passed tests and 80 expected existing platform
+skips, all fourteen evaluation steps, the explicit 12+11/23 matched/reaped summary, and
+fresh wheel/sdist core/OpenAI-only/all-extras mocked installation checks. This is evidence
+for that commit, not an execution claim for later documentation edits or a new release.
+
+The maintainer accepted #35 as completed bounded research on 2026-11-05. Existing APIs
+and application recipes express every demonstrated control; no new SDK API, detector or
+reusable recipe is accepted. Any future behavior change needs a concrete caller gap and
+a separate design decision. Independent corpus review and wider benchmark methodology
+remain separate [#45](https://github.com/sahilmathur254/guardtrellis/issues/45) work; wider
+coverage comparisons remain under [#46](https://github.com/sahilmathur254/guardtrellis/issues/46).
+The selected OWASP mapping above retains its pinned sources and existing scope.
 
 ## Reading measurement evidence
 
@@ -106,5 +161,5 @@ latency guarantee or production capacity; independent case review and wider
 The original `0.1.7` matrix contributed to
 [#46](https://github.com/sahilmathur254/guardtrellis/issues/46) without changing detector
 behavior. The connection-URI row now records the explicitly enabled `0.1.8` source change.
-Broader evaluation and positioning work remain open. This matrix adds no vendor ranking,
+Broader #45 benchmark and #46 positioning work remain open. This matrix adds no vendor ranking,
 threat-framework certification, compliance claim or wider API promise.

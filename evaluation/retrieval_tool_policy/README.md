@@ -116,9 +116,11 @@ failure controls remain separate from unexpected errors. Known semantic limitati
 remain visible without turning the runner into a semantic catch-score gate.
 
 This contribution adds no SDK behavior, defaults, dependency requirements or version
-changes, and preserves historical evaluation files. The parent #35 remains open for
-evidence review and any separately scoped follow-up. This batch and its tests/docs are
-one contribution; it does not by itself authorize a release.
+changes, and preserves historical evaluation files. The maintainer accepted #35 as completed
+bounded research on 2026-11-05; its [acceptance record](https://github.com/sahilmathur254/guardtrellis/issues/35)
+retains R01/R03's semantic limitations and accepts no new SDK API, detector or reusable
+recipe. Any future behavior change needs a separately scoped decision. This batch and its
+tests/docs are one contribution; it does not by itself authorize a release.
 
 ## Post-maintenance local comparison
 
