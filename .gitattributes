@@ -14,3 +14,9 @@
 /evaluation/scan_performance/*.md text eol=lf
 /evaluation/scan_performance/baseline_sdk_0.1.10/*.json text eol=lf
 /evaluation/scan_performance/baseline_sdk_0.1.10/*.md text eol=lf
+/evaluation/retrieval_tool_policy/*.json text eol=lf
+/evaluation/retrieval_tool_policy/*.jsonl text eol=lf
+/evaluation/retrieval_tool_policy/*.py text eol=lf
+/evaluation/retrieval_tool_policy/*.md text eol=lf
+/evaluation/retrieval_tool_policy/baseline_0.1.11/*.json text eol=lf
+/evaluation/retrieval_tool_policy/baseline_0.1.11/*.md text eol=lf

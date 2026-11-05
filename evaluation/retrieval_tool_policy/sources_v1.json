@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "authorship": "Original Codex-assisted synthetic cases; source ideas only, no payload or benchmark-data import",
+  "source_ledger_date": "2026-11-04",
+  "sources": [
+    {
+      "id": "S1",
+      "title": "Not what you've signed up for",
+      "url": "https://arxiv.org/html/2302.12173v2",
+      "revision": "arXiv:2302.12173v2",
+      "publication_date": "2023-05-05",
+      "date_basis": "version header",
+      "evidence_class": "controlled demonstration",
+      "sections": ["3", "4", "5.2"],
+      "limitation": "Synthetic applications/local HTML; do not infer observed public-source compromise",
+      "retrieved_utc": "2026-11-04T15:17:33.637837+00:00",
+      "content_sha256": "43cbea3517ecb68e3e92954d385ea494587bae63e1aedbdc29db114065d3b4e5"
+    },
+    {
+      "id": "S2",
+      "title": "InjecAgent",
+      "url": "https://arxiv.org/html/2403.02691v3",
+      "revision": "arXiv:2403.02691v3",
+      "publication_date": "2024-08-04",
+      "date_basis": "version header",
+      "evidence_class": "controlled benchmark",
+      "sections": ["2"],
+      "limitation": "Model-specific benchmark outcomes do not transfer to this scripted SDK study",
+      "retrieved_utc": "2026-11-04T15:17:34.056423+00:00",
+      "content_sha256": "c9e111b1dcc91032b80cf4a43c6cffe7ca454ae5a04f0a64ec20dfa2b5867071"
+    },
+    {
+      "id": "S3",
+      "title": "AgentDojo",
+      "url": "https://arxiv.org/html/2406.13352v3",
+      "revision": "arXiv:2406.13352v3",
+      "publication_date": "2024-11-24",
+      "date_basis": "version header",
+      "evidence_class": "controlled evaluation environment",
+      "sections": ["3.1", "3.4"],
+      "limitation": "Targeted malicious-action success requires an actual agent; this study has no such measurement",
+      "retrieved_utc": "2026-11-04T15:17:33.614706+00:00",
+      "content_sha256": "99f7123d0149c06c787ae460f7c6aec8885b017762964280cb0b45cdd3f1f71c"
+    },
+    {
+      "id": "S4",
+      "title": "Fooling AI Agents: Web-Based Indirect Prompt Injection Observed in the Wild",
+      "url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
+      "revision": "mutable page identified by captured content digest",
+      "publication_date": "2026-03-03T00:00:00+00:00",
+      "date_basis": "page structured metadata datePublished",
+      "evidence_class": "observed malicious payloads and attacker intent",
+      "sections": ["Executive Summary", "The First Real-World AI Ad Review Bypass"],
+      "limitation": "The ad-review section reports no confirmed successful deployed-agent compromise",
+      "retrieved_utc": "2026-11-04T15:17:35.527321+00:00",
+      "content_sha256": "ced604f1e73a8145bd3d5948de952f96272cf66bd3e856d1d45fd2ee5ee15133"
+    }
+  ],
+  "reuse": "Original paraphrased synthetic scenarios only; no third-party article text, attack payloads, code or datasets redistributed",
+  "review": "Author self-review plus internal assistant review; no independent external case review"
+}
