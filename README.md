@@ -14,21 +14,21 @@ The documented public API is supported across `0.1.x` under the
 Supported Python: 3.11–3.14. Apache-2.0 licensed.
 
 <!-- guardtrellis-release:start -->
-**Version: `0.1.11`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.11/)
+**Version: `0.1.12`.** See [PyPI](https://pypi.org/project/guardtrellis/0.1.12/)
 for availability and [release notes](https://github.com/sahilmathur254/guardtrellis/releases).
 A source checkout may describe a candidate that has not been published yet.
 
 Install this version in an activated virtual environment:
 
 ```sh
-python -m pip install 'guardtrellis==0.1.11'
+python -m pip install 'guardtrellis==0.1.12'
 ```
 
 An explicit version opts into a prerelease when applicable. Optional integrations:
-`'guardtrellis[fastapi]==0.1.11'`,
-`'guardtrellis[langgraph]==0.1.11'`,
-`'guardtrellis[openai]==0.1.11'`,
-`'guardtrellis[gemini]==0.1.11'`.
+`'guardtrellis[fastapi]==0.1.12'`,
+`'guardtrellis[langgraph]==0.1.12'`,
+`'guardtrellis[openai]==0.1.12'`,
+`'guardtrellis[gemini]==0.1.12'`.
 <!-- guardtrellis-release:end -->
 
 ## Included capabilities

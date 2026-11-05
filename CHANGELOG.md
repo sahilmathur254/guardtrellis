@@ -4,6 +4,26 @@ See [PyPI](https://pypi.org/project/guardtrellis/) for package availability and
 [GitHub releases](https://github.com/sahilmathur254/guardtrellis/releases) for published
 artifacts and verification evidence.
 
+## 0.1.12
+
+- Add a frozen, offline retrieval/tool trust-boundary study with twelve research
+  scenarios, eleven separate harness controls, 85 regressions and native CI replay.
+  Record exact checked outcomes, bounded child cleanup and metadata-only reports,
+  retaining the two instruction-only ALLOW limitations and original SDK 0.1.11 baseline.
+- Connect the accepted study to existing control-coverage mappings, distinguishing
+  SDK structural/pattern checks from application-owned authorization and checked delivery.
+  This closes the bounded research without adding an SDK API, detector or recipe.
+- Refresh locked optional/development dependencies, including the pyasn1 0.6.5 security
+  update in the optional Gemini dependency chain. Fix test isolation for the updated
+  pytest stack and restore native macOS CI on the macOS 26 ARM64 image.
+
+Upgrade note: public SDK APIs, scanner behavior/defaults and declared dependency ranges
+are unchanged. Applications using Gemini should refresh their own dependency locks and
+adopt the reviewed pyasn1 0.6.5 update; the package does not enforce a new transitive
+minimum. Scripted research contracts do not establish injection detection accuracy or
+model attack resistance. Host authorization and consuming only checked values remain
+application responsibilities; see the [coverage interpretation](docs/coverage.md#retrieval-and-tool-trust-boundary-evidence).
+
 ## 0.1.11
 
 - Add a frozen, bounded synchronous scan measurement batch with 18 comparable

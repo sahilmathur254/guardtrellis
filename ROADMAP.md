@@ -43,7 +43,7 @@ The [`0.1.11` release](https://github.com/sahilmathur254/guardtrellis/releases/t
 includes synchronous scan measurements and a selected OWASP control mapping through
 [PR #87](https://github.com/sahilmathur254/guardtrellis/pull/87).
 The maintenance and accepted #35 research below form an unpublished `0.1.12` candidate;
-the SDK source version remains `0.1.11`.
+release preparation sets the SDK source version to `0.1.12` without changing its behavior.
 The [release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.0)
 documents the completed stable `0.1.0` publication and its verification evidence.
 The [0.1.x compatibility policy](docs/compatibility.md) now applies.
@@ -69,7 +69,7 @@ observed integration gaps over adding scanner families or framework wrappers for
 | Completed; follow-ups as needed | Formatted international phones | Select the bounded phone mode explicitly and compare complete checked outcomes with retained baselines. | [#60](https://github.com/sahilmathur254/guardtrellis/issues/60) closed; shipped in `0.1.6` |
 | Completed; follow-ups as needed | Credential-bearing connection URIs | Enable the bounded PostgreSQL/MongoDB policy explicitly and retain the raw/decoded/default comparison. | [#67](https://github.com/sahilmathur254/guardtrellis/issues/67) and [#68](https://github.com/sahilmathur254/guardtrellis/issues/68) completed; shipped in `0.1.8` |
 | Merged `0.1.11` slice; broader work open | Evaluation methodology | Review the [frozen synchronous scan baseline](evaluation/scan_performance/README.md), preserving the 48-scenario detector/delivery and earlier evidence. | [#45](https://github.com/sahilmathur254/guardtrellis/issues/45); Now, P1; independent case review remains separate |
-| `0.1.11` mapping merged; #35 evidence closeout for review | Source-backed coverage | Review the [selected OWASP mapping](docs/coverage.md#selected-owasp-2025-mitigation-mapping) and [accepted #35 evidence](docs/coverage.md#retrieval-and-tool-trust-boundary-evidence) with source, tests, exclusions and host controls. | [#46](https://github.com/sahilmathur254/guardtrellis/issues/46); Now, P1; wider comparisons remain separate |
+| `0.1.11` mapping and #35 evidence closeout merged | Source-backed coverage | Review the [selected OWASP mapping](docs/coverage.md#selected-owasp-2025-mitigation-mapping) and [accepted #35 evidence](docs/coverage.md#retrieval-and-tool-trust-boundary-evidence) with source, tests, exclusions and host controls. | [#46](https://github.com/sahilmathur254/guardtrellis/issues/46); Now, P1; closeout merged through [#92](https://github.com/sahilmathur254/guardtrellis/pull/92); wider comparisons remain separate |
 | Completed; follow-ups as needed | Evaluation and coverage | Use the retained policy/delivery baseline to identify independently authored cases and small supported-format improvements. | [#29](https://github.com/sahilmathur254/guardtrellis/issues/29) closed; shipped in `0.1.2` |
 | Completed; follow-ups as needed | Integration recipes | Build on the policy/operations recipe and async checked-tool handoff evidence for concrete caller gaps. | [#30](https://github.com/sahilmathur254/guardtrellis/issues/30) and [#34](https://github.com/sahilmathur254/guardtrellis/issues/34) closed; shipped in `0.1.2` |
 | Shipped in `0.1.9` | Local policy testing | Use the bounded core CLI for explicit local file/stdin checks. | Design [#31](https://github.com/sahilmathur254/guardtrellis/issues/31) completed; implementation [#78](https://github.com/sahilmathur254/guardtrellis/issues/78) Done through [#79](https://github.com/sahilmathur254/guardtrellis/pull/79); see PyPI for availability |
@@ -109,13 +109,20 @@ including native Windows and macOS, and
 [Python/Actions CodeQL](https://github.com/sahilmathur254/guardtrellis/actions/runs/41992968319).
 The original design, freeze, six assets, baseline and historical evaluation files are
 preserved. Those CI runs validate the merged research commit. The documentation closeout
-has separate validation and review-PR CI; inspect the exact commit under review rather
-than treating the earlier research runs as evidence for later file edits.
+merged through [#92](https://github.com/sahilmathur254/guardtrellis/pull/92) at
+`1ec6a56797b5b10bdf84752297a89b5a00580c9d`, with its own
+[post-merge Windows/macOS/Linux CI](https://github.com/sahilmathur254/guardtrellis/actions/runs/42004761187)
+and [Python/Actions CodeQL](https://github.com/sahilmathur254/guardtrellis/actions/runs/42004760874).
+Release preparation requires its own exact-commit checks; these earlier runs do not
+validate later version or documentation edits.
 
-`0.1.12` is a candidate batch, not a published version. The SDK source remains `0.1.11`;
-no version bump or release preparation is included here. Publication stays on hold and
-requires separate authorization, version/changelog preparation, exact release-main
-Windows/CodeQL CI, a TestPyPI rehearsal and same-artifact PyPI promotion.
+`0.1.12` is a candidate batch, not a published version. Release preparation sets the
+source version, changelog and generated installation pins to `0.1.12`, preserving SDK
+behavior, declared dependency ranges and historical evidence. The
+[upgrade note](CHANGELOG.md#0112) explains the optional Gemini dependency-lock update
+and retained research limitations. Publication stays on hold and requires separate
+authorization, exact release-main Windows/CodeQL CI, a TestPyPI rehearsal and
+same-artifact PyPI promotion.
 
 ## Completed: 0.1.10 security maintenance release
 
