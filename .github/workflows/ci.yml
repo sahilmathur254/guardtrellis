@@ -113,6 +113,20 @@ jobs:
         run: |
           uv run --frozen python evaluation/detector_delivery/run.py \
             --report-dir '${{ runner.temp }}/guardtrellis-detector-delivery'
+      - name: Reproduce frozen retrieval and tool trust-boundary contracts
+        run: |
+          uv run --frozen python evaluation/retrieval_tool_policy/run.py \
+            --report-dir '${{ runner.temp }}/guardtrellis-retrieval-tool-policy'
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path(r'${{ runner.temp }}/guardtrellis-retrieval-tool-policy/results.json').read_text())
+          print(json.dumps({
+              "contract_checks_passed": report["contract_checks_passed"],
+              "summary": report["summary"],
+              "all_children_reaped": all(row["child_reaped"] for row in report["runs"]),
+          }, sort_keys=True))
+          PY
       - name: Build and install both distributions outside the checkout
         run: |
           uv build --offline --no-build-isolation

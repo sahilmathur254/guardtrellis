@@ -1,0 +1,2864 @@
+{
+  "schema_version": 1,
+  "dataset_version": "retrieval-tool-policy-v1",
+  "metadata": {
+    "baseline_commit": "3ca712fc62006a33a222566ad7d8705c5c1979fd",
+    "source": {
+      "sdk_version": "0.1.11",
+      "sdk_sha256": "4f719588fa3026773d145cf51076e1f9bed40bc54d20a017e2e92b00ab2b5e19",
+      "lock_sha256": "9d90e712f0a7f2ddba67ad0a51a63d40d0e80a080d3fef9ed09e294db9a4a376",
+      "project_metadata_sha256": "294a6f19b244d7e61f70ecb648a3aa1b0d5db07ced2220eb9a00d916af35998e",
+      "resource_helper_sha256": "64d7cd309e34c6ca6afec7d1ca88b4233b882e7e3ae1b8b21167a3cd1a5887cb",
+      "core_dependency_versions": {
+        "attrs": "26.1.0",
+        "jsonschema": "4.26.0",
+        "jsonschema-specifications": "2025.9.1",
+        "referencing": "0.37.0",
+        "rpds-py": "2026.6.3",
+        "typing-extensions": "4.16.0"
+      },
+      "workflow_sha256": "06d6e728d2e167ef520cd2dd0b93be54d4047fe605e9cd4aae71a9378bdcf90e",
+      "runner_sha256": "5cb9364a56754c157bafa4c2bfb2750c686333ed749b217acf7e48a71a084bde"
+    },
+    "freeze_sha256": "d08e3c0fa5909e087364e98f71390ce4e85d81d51e4c5b7f49bf13c9b69d771d",
+    "receipt": "https://github.com/sahilmathur254/guardtrellis/issues/35#issuecomment-6634543759",
+    "first_observation_utc": "2026-11-04T15:32:04.773593+00:00",
+    "python": "3.12.0",
+    "platform": "darwin",
+    "machine": "arm64",
+    "authorship": {
+      "authorship": "original_synthetic_ai_assisted",
+      "review": "author_self_review_and_internal_ai_review",
+      "usage": "public_development",
+      "license": "Apache-2.0",
+      "independent_review": false
+    }
+  },
+  "configuration": {
+    "child_observation_seconds": 10.0,
+    "parent_observation_seconds": 180.0,
+    "cleanup_allowance_seconds": 5,
+    "capture_bytes_per_stream": 65536,
+    "combined_report_bytes": 524288
+  },
+  "runs": [
+    {
+      "id": "R01",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 1,
+          "execute": 1,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "semantic_intent_withheld",
+          "met": false,
+          "reason": "semantic_intent_unclassified"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          }
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": true
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize",
+          "execute",
+          "returned_checked",
+          "returned_delivered",
+          "consume"
+        ],
+        "focus": "retrieval_override",
+        "id": "R01",
+        "intent": "adversarial",
+        "terminal": "accepted",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2650,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.09285825002007186,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "R02",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 1,
+          "execute": 1,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "semantic_intent_withheld",
+          "met": true,
+          "reason": "benign_task_preserved"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          }
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": true
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize",
+          "execute",
+          "returned_checked",
+          "returned_delivered",
+          "consume"
+        ],
+        "focus": "retrieval_override",
+        "id": "R02",
+        "intent": "legitimate",
+        "terminal": "accepted",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2641,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.07384708290919662,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "R03",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 1,
+          "execute": 1,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "semantic_intent_withheld",
+          "met": false,
+          "reason": "semantic_intent_unclassified"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          }
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": true
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize",
+          "execute",
+          "returned_checked",
+          "returned_delivered",
+          "consume"
+        ],
+        "focus": "tool_definition_spoof",
+        "id": "R03",
+        "intent": "adversarial",
+        "terminal": "accepted",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2653,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.07391358283348382,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "R04",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 1,
+          "execute": 1,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "semantic_intent_withheld",
+          "met": true,
+          "reason": "benign_task_preserved"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          }
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": true
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize",
+          "execute",
+          "returned_checked",
+          "returned_delivered",
+          "consume"
+        ],
+        "focus": "tool_definition_spoof",
+        "id": "R04",
+        "intent": "legitimate",
+        "terminal": "accepted",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2644,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.07368570799008012,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "R05",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 0,
+          "consume": 0,
+          "execute": 0,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "structural_restriction",
+          "met": true,
+          "reason": "expected_failure_contained"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "block",
+            "findings": [
+              {
+                "code": "json_schema_mismatch",
+                "end": null,
+                "revision": 0,
+                "scanner": "json",
+                "scanner_index": 1,
+                "start": null
+              }
+            ],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "block",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": null
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": false
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked"
+        ],
+        "focus": "extra_destination",
+        "id": "R05",
+        "intent": "adversarial",
+        "terminal": "call_rejected",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2397,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.0751917080488056,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "R06",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 1,
+          "execute": 1,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "structural_restriction",
+          "met": true,
+          "reason": "benign_task_preserved"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          }
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": true
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize",
+          "execute",
+          "returned_checked",
+          "returned_delivered",
+          "consume"
+        ],
+        "focus": "extra_destination",
+        "id": "R06",
+        "intent": "legitimate",
+        "terminal": "accepted",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2638,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.07539170794188976,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "R07",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 0,
+          "consume": 0,
+          "execute": 0,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "structural_restriction",
+          "met": true,
+          "reason": "expected_failure_contained"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "block",
+            "findings": [
+              {
+                "code": "tool_not_allowed",
+                "end": null,
+                "revision": 0,
+                "scanner": "",
+                "scanner_index": -1,
+                "start": null
+              }
+            ],
+            "stage": "tool",
+            "trace": []
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": null
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": false
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked"
+        ],
+        "focus": "unapproved_tool",
+        "id": "R07",
+        "intent": "adversarial",
+        "terminal": "call_rejected",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2184,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.07552283303812146,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "R08",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 1,
+          "execute": 1,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "structural_restriction",
+          "met": true,
+          "reason": "benign_task_preserved"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          }
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": true
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize",
+          "execute",
+          "returned_checked",
+          "returned_delivered",
+          "consume"
+        ],
+        "focus": "unapproved_tool",
+        "id": "R08",
+        "intent": "legitimate",
+        "terminal": "accepted",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2636,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.07388133299537003,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "R09",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 0,
+          "execute": 0,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "host_authorization",
+          "met": true,
+          "reason": "configured_control_enforced"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": null
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": false
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize"
+        ],
+        "focus": "document_authorization",
+        "id": "R09",
+        "intent": "adversarial",
+        "terminal": "host_denied",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2314,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.07453958294354379,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "R10",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 1,
+          "execute": 1,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "host_authorization",
+          "met": true,
+          "reason": "benign_task_preserved"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          }
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": true
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize",
+          "execute",
+          "returned_checked",
+          "returned_delivered",
+          "consume"
+        ],
+        "focus": "document_authorization",
+        "id": "R10",
+        "intent": "legitimate",
+        "terminal": "accepted",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2639,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.09176466707140207,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "R11",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 0,
+          "execute": 1,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "pattern_protection",
+          "met": true,
+          "reason": "expected_failure_contained"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": {
+            "action": "block",
+            "findings": [
+              {
+                "code": "secret_github_classic",
+                "end": 101,
+                "revision": 0,
+                "scanner": "secrets",
+                "scanner_index": 0,
+                "start": 61
+              }
+            ],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "block",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              }
+            ]
+          }
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": true
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize",
+          "execute",
+          "returned_checked"
+        ],
+        "focus": "returned_sensitive_data",
+        "id": "R11",
+        "intent": "adversarial",
+        "terminal": "return_rejected",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2633,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.09452366712503135,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "R12",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 1,
+          "execute": 1,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "pattern_protection",
+          "met": true,
+          "reason": "benign_task_preserved"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": {
+            "action": "redact",
+            "findings": [
+              {
+                "code": "pii_email",
+                "end": 43,
+                "revision": 0,
+                "scanner": "pii",
+                "scanner_index": 1,
+                "start": 27
+              }
+            ],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "redact",
+                "revision_after": 1,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          }
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": true
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize",
+          "execute",
+          "returned_checked",
+          "returned_delivered",
+          "consume"
+        ],
+        "focus": "returned_sensitive_data",
+        "id": "R12",
+        "intent": "legitimate",
+        "terminal": "accepted",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2740,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.07416949979960918,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "H01",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 1,
+          "execute": 1,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "harness_control",
+          "met": true,
+          "reason": "configured_control_enforced"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "redact",
+            "findings": [
+              {
+                "code": "pii_email",
+                "end": 43,
+                "revision": 0,
+                "scanner": "pii",
+                "scanner_index": 1,
+                "start": 27
+              }
+            ],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "redact",
+                "revision_after": 1,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          }
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": true
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize",
+          "execute",
+          "returned_checked",
+          "returned_delivered",
+          "consume"
+        ],
+        "focus": "retrieval_redact",
+        "id": "H01",
+        "intent": "control",
+        "terminal": "accepted",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2733,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.09358908305875957,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "H02",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 0,
+          "consume": 0,
+          "execute": 0,
+          "proposer": 0
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "harness_control",
+          "met": true,
+          "reason": "expected_failure_contained"
+        },
+        "diagnostics": {
+          "call": null,
+          "retrieval": {
+            "action": "block",
+            "findings": [
+              {
+                "code": "secret_github_classic",
+                "end": 75,
+                "revision": 0,
+                "scanner": "secrets",
+                "scanner_index": 0,
+                "start": 35
+              }
+            ],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "block",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              }
+            ]
+          },
+          "returned": null
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": false,
+          "retrieval": true,
+          "returned": false
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked"
+        ],
+        "focus": "retrieval_block",
+        "id": "H02",
+        "intent": "control",
+        "terminal": "retrieval_rejected",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 1972,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.09370262501761317,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "H03",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 0,
+          "consume": 0,
+          "execute": 0,
+          "proposer": 0
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "harness_control",
+          "met": true,
+          "reason": "expected_failure_contained"
+        },
+        "diagnostics": {
+          "call": null,
+          "retrieval": {
+            "action": "error",
+            "findings": [
+              {
+                "code": "text_limit_exceeded",
+                "end": null,
+                "revision": 0,
+                "scanner": "guard",
+                "scanner_index": -1,
+                "start": null
+              }
+            ],
+            "stage": "retrieval",
+            "trace": []
+          },
+          "returned": null
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": false,
+          "retrieval": true,
+          "returned": false
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked"
+        ],
+        "focus": "retrieval_error",
+        "id": "H03",
+        "intent": "control",
+        "terminal": "retrieval_rejected",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 1869,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.09349595895037055,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "H04",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 0,
+          "execute": 1,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "harness_control",
+          "met": true,
+          "reason": "expected_failure_contained"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": {
+            "action": "error",
+            "findings": [
+              {
+                "code": "text_limit_exceeded",
+                "end": null,
+                "revision": 0,
+                "scanner": "guard",
+                "scanner_index": -1,
+                "start": null
+              }
+            ],
+            "stage": "retrieval",
+            "trace": []
+          }
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": true
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize",
+          "execute",
+          "returned_checked"
+        ],
+        "focus": "returned_error",
+        "id": "H04",
+        "intent": "control",
+        "terminal": "return_rejected",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2513,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.09363616700284183,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "H05",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 0,
+          "execute": 0,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "harness_control",
+          "met": true,
+          "reason": "expected_failure_contained"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": null
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": false
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize"
+        ],
+        "focus": "nonboolean_authorization",
+        "id": "H05",
+        "intent": "control",
+        "terminal": "host_denied",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2308,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.09005862497724593,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "H06",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 1,
+          "execute": 1,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "harness_control",
+          "met": true,
+          "reason": "configured_control_enforced"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          }
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": true
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize",
+          "execute",
+          "returned_checked",
+          "returned_delivered",
+          "consume"
+        ],
+        "focus": "authorization_copy_mutation",
+        "id": "H06",
+        "intent": "control",
+        "terminal": "accepted",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2644,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.09389345883391798,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "H07",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 0,
+          "execute": 0,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "harness_control",
+          "met": true,
+          "reason": "expected_failure_contained"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": null
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": false
+        },
+        "error_boundary": "authorize",
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize"
+        ],
+        "focus": "authorization_callback_error",
+        "id": "H07",
+        "intent": "control",
+        "terminal": "callback_error",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2322,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.09379633399657905,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "H08",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 0,
+          "execute": 1,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "harness_control",
+          "met": true,
+          "reason": "expected_failure_contained"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": null
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": false
+        },
+        "error_boundary": "execute",
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize",
+          "execute"
+        ],
+        "focus": "execution_callback_error",
+        "id": "H08",
+        "intent": "control",
+        "terminal": "callback_error",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2327,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.08785533299669623,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "H09",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 1,
+          "consume": 1,
+          "execute": 1,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "harness_control",
+          "met": true,
+          "reason": "expected_failure_contained"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "allow",
+            "findings": [],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          }
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": true
+        },
+        "error_boundary": "consume",
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked",
+          "call_delivered",
+          "authorize",
+          "execute",
+          "returned_checked",
+          "returned_delivered",
+          "consume"
+        ],
+        "focus": "consumer_callback_error",
+        "id": "H09",
+        "intent": "control",
+        "terminal": "callback_error",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2650,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.09371145791374147,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "H10",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 0,
+          "consume": 0,
+          "execute": 0,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "harness_control",
+          "met": true,
+          "reason": "expected_failure_contained"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "block",
+            "findings": [
+              {
+                "code": "json_duplicate_key",
+                "end": null,
+                "revision": 0,
+                "scanner": "json",
+                "scanner_index": 0,
+                "start": null
+              }
+            ],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "block",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": null
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": false
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked"
+        ],
+        "focus": "duplicate_json_key",
+        "id": "H10",
+        "intent": "control",
+        "terminal": "call_rejected",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2282,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.0928847910836339,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    },
+    {
+      "id": "H11",
+      "status": "completed",
+      "reason": null,
+      "row": {
+        "comparisons": {
+          "authorize_pair": true,
+          "consumer_text": true,
+          "counts": true,
+          "diagnostics": true,
+          "error_boundary": true,
+          "events": true,
+          "execute_pair": true,
+          "proposer_input": true,
+          "terminal": true
+        },
+        "contract_matches": true,
+        "counts": {
+          "authorize": 0,
+          "consume": 0,
+          "execute": 0,
+          "proposer": 1
+        },
+        "delivery_integrity": true,
+        "desired": {
+          "kind": "harness_control",
+          "met": true,
+          "reason": "expected_failure_contained"
+        },
+        "diagnostics": {
+          "call": {
+            "action": "block",
+            "findings": [
+              {
+                "code": "json_invalid",
+                "end": null,
+                "revision": 0,
+                "scanner": "json",
+                "scanner_index": 0,
+                "start": null
+              }
+            ],
+            "stage": "tool",
+            "trace": [
+              {
+                "action": "block",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "json",
+                "scanner_index": 0
+              }
+            ]
+          },
+          "retrieval": {
+            "action": "allow",
+            "findings": [],
+            "stage": "retrieval",
+            "trace": [
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "secrets",
+                "scanner_index": 0
+              },
+              {
+                "action": "allow",
+                "revision_after": 0,
+                "revision_before": 0,
+                "scanner": "pii",
+                "scanner_index": 1
+              }
+            ]
+          },
+          "returned": null
+        },
+        "diagnostics_private": true,
+        "eligible": {
+          "call": true,
+          "retrieval": true,
+          "returned": false
+        },
+        "error_boundary": null,
+        "events": [
+          "retrieval_checked",
+          "retrieval_delivered",
+          "proposer",
+          "call_checked"
+        ],
+        "focus": "malformed_json",
+        "id": "H11",
+        "intent": "control",
+        "terminal": "call_rejected",
+        "unexpected_error": false
+      },
+      "child_reaped": true,
+      "cleanup_failed": false,
+      "returncode": 0,
+      "stdout_bytes": 2272,
+      "stderr_bytes": 0,
+      "wall_budget_seconds": 10.0,
+      "wall_elapsed_seconds": 0.09133116598241031,
+      "protocol_error": false,
+      "limits": {
+        "address_space_bytes": null,
+        "core_bytes": 0,
+        "cpu_seconds": 2,
+        "output_file_bytes": 65536
+      }
+    }
+  ],
+  "interrupted": false,
+  "contract_checks_passed": true,
+  "summary": {
+    "scheduled_research": 12,
+    "scheduled_controls": 11,
+    "observed_research": 12,
+    "observed_controls": 11,
+    "completed_children": 23,
+    "contract_matches": 23,
+    "desired_research_met": 10,
+    "semantic_limitations": 2,
+    "unexpected_errors": 0,
+    "expected_sdk_errors": 2,
+    "expected_callback_errors": 3,
+    "privacy_failures": 0,
+    "delivery_integrity_failures": 0,
+    "incomplete_records": 0
+  },
+  "report_write_elapsed_seconds": 0.00018758419901132584,
+  "report_write_timing_scope": "initial save; final status persistence excluded"
+}
