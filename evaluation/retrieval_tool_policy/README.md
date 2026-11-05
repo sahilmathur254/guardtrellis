@@ -1,8 +1,9 @@
 # Retrieval and tool trust-boundary evaluation, v1
 
 Evaluation contribution to [#35](https://github.com/sahilmathur254/guardtrellis/issues/35)
-under the [accepted design](../../docs/retrieval_tool_policy_design.md). The SDK remains
-0.1.11. Source availability, native CI and package publication are separate evidence.
+under the [accepted design](../../docs/retrieval_tool_policy_design.md). The retained
+baseline describes SDK 0.1.11; the current release candidate source is 0.1.12.
+Source availability, native CI and package publication are separate evidence.
 
 ## Scope and reproduction
 

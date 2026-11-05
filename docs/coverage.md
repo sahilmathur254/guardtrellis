@@ -16,8 +16,10 @@ behavior or detector changes. Check package availability separately; see the
 The bounded [#35 retrieval/tool research](#retrieval-and-tool-trust-boundary-evidence)
 merged through [PR #91](https://github.com/sahilmathur254/guardtrellis/pull/91) and was
 accepted as completed research on 2026-11-05. Its evidence is part of the unpublished
-`0.1.12` candidate batch. The SDK source version remains `0.1.11`; this closeout adds
-evidence and attribution without changing SDK behavior or publishing a package.
+`0.1.12` candidate batch. Release preparation sets the SDK source version to `0.1.12`
+without changing its behavior or publishing a package. The
+[0.1.12 upgrade note](../CHANGELOG.md#0112) describes the separate dependency maintenance;
+the retained research baseline still describes SDK `0.1.11`.
 
 These matrices connect configured behavior to implementation, regression cases and
 retained evidence. Tests describe the checked contracts; consult the relevant CI run
