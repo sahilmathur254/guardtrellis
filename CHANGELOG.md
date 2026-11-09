@@ -4,6 +4,29 @@ See [PyPI](https://pypi.org/project/guardtrellis/) for package availability and
 [GitHub releases](https://github.com/sahilmathur254/guardtrellis/releases) for published
 artifacts and verification evidence.
 
+## 0.2.0
+
+- Migrate the existing optional Gemini extra to Google Gen AI SDK 3 and HTTPX2,
+  preserving the example's explicit Developer API endpoint/version, bounded request
+  configuration and checked input/output delivery. Conflicting HTTP backend settings
+  now fail before client construction without disclosing their values.
+- Add constrained minimum-pair and locked Gemini-only checks, synchronous cleanup and
+  no-network regressions, and independent wheel/sdist installation smokes. Preserve
+  existing core/OpenAI/all-extras checks and frozen evaluation identities.
+- Refresh locked optional/development dependencies from the post-0.1.12 maintenance
+  batch, including LangGraph, LangSmith, OpenAI and Ruff.
+
+Upgrade note: the Gemini extra now requires `google-genai>=3.0.0,<4` and
+`httpx2>=2.12,<3`. Copied SDK 2 adapters must migrate HTTPX-specific objects and exceptions,
+review OS certificate trust and follow the example's backend environment restriction;
+see the [migration guide](docs/gemini.md#sdk-3-migration-for-020). Core APIs, scanner behavior,
+defaults, supported Python versions and other extras' declared requirements are unchanged.
+The historical SDK 2 live smoke does not validate SDK 3; this migration is mock-verified.
+Until publication, current 0.1.x maintenance continues. After 0.2.0 publication, maintenance
+targets `main` and the latest release; no parallel 0.1.x backport line or support lifetime
+is promised. Applications retaining SDK 2 can pin `guardtrellis[gemini]<0.2` and their own
+provider dependencies. See the [support position](docs/compatibility.md#gemini-sdk-3-transition).
+
 ## 0.1.12
 
 - Add a frozen, offline retrieval/tool trust-boundary study with twelve research

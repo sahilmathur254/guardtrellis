@@ -6,7 +6,7 @@ from .models import Action, Check, Edit, Finding, Rejected, Result, RunResult, S
 from .scanners import InvisibleScanner, LiteralScanner, PIIScanner, SecretScanner
 from .tools import ToolGuard, ToolResult
 
-__version__ = "0.1.12"
+__version__ = "0.2.0"
 
 __all__ = [
     "Action",

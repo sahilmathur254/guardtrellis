@@ -1,0 +1,3 @@
+# Exercise both declared direct dependency floors together.
+google-genai==3.0.0
+httpx2==2.12.0

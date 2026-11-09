@@ -38,6 +38,13 @@ jobs:
         run: python scripts/release_artifacts.py check
       - name: Install locked dependencies and optional examples
         run: uv sync --frozen --all-extras --group dev --group build --python '${{ matrix.python }}'
+      - name: Verify fresh constrained Gemini-only dependency profiles
+        run: |
+          uv run --frozen python scripts/check_gemini_profile.py --profile minimum
+          uv run --frozen python scripts/check_gemini_profile.py --profile locked
+      - name: Verify declared Gemini minima with focused regressions
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.11'
+        run: uv run --frozen python scripts/check_gemini_profile.py --profile minimum --regressions
       - name: Test behavior and runnable examples
         run: uv run --frozen pytest
       - name: Check lint, formatting, and types
@@ -131,3 +138,6 @@ jobs:
         run: |
           uv build --offline --no-build-isolation
           uv run --frozen python scripts/smoke_dist.py
+      - name: Verify both distributions with declared Gemini minima
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.11'
+        run: uv run --frozen python scripts/smoke_dist.py --gemini-only --gemini-profile minimum

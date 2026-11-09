@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "guardtrellis"
-version = "0.1.12"
+version = "0.2.0"
 description = "Provider-independent local checks for model inputs, outputs, retrieval, and tool calls"
 authors = [{ name = "Sahil Mathur" }]
 readme = "README.md"
@@ -39,7 +39,7 @@ openai = [
     "httpx2>=2.12,<3",
     "openai>=3,<4",
 ]
-gemini = ["google-genai>=2.25,<3", "httpx>=0.28.1,<1"]
+gemini = ["google-genai>=3.0.0,<4", "httpx2>=2.12,<3"]
 
 [dependency-groups]
 build = [
