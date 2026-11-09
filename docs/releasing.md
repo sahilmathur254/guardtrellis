@@ -80,9 +80,12 @@ Source-archive installation smokes export the `build` group as hashed requiremen
 install those wheels into the fresh environment with `--require-hashes`, and disable
 build isolation specifically for GuardTrellis. This also prevents a newly resolved
 backend from running during source-install smokes. In the release workflow these smokes
-run after candidate sealing and upload, on separate disposable runners. Runtime and
-optional dependencies retain normal consumer resolution. The wheel and source archive
-are installed outside the checkout; fixed producer artifact IDs anchor publication.
+run after candidate sealing and upload, on separate disposable runners. Core, OpenAI-only
+and all-extras smokes retain normal consumer dependency resolution from PyPI. Each artifact
+also gets an independent Gemini-only environment constrained to the reviewed Gemini lock;
+the minimum-pair profile has separate CI coverage. See the [profile checks](gemini.md#verification-status).
+The wheel and source archive are installed outside the checkout; fixed producer artifact
+IDs anchor publication.
 
 ## Prepare and review
 

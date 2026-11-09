@@ -1,14 +1,15 @@
 # Google GenAI 3 migration contract
 
-Status: **Design and #96 implementation plan accepted 2026-11-09; local implementation ready for review.** Reviewed
+Status: **Design and #96 implementation plan accepted 2026-11-09; implemented through merged #97 with native CI verified; 0.2.0 unpublished.** Reviewed
 [#95](https://github.com/sahilmathur254/guardtrellis/pull/95)'s dependency patch at
 `7f0d43a1aa6070341057e60571b576006bbb9344`. Its CI retry at
 `ad9246a30fa52042b3c6bab31c19d20800b6017f` has an identical source tree.
-The accepted dependency, example and migration scope targets `0.2.0`, subject to the
-implementation and release gates below. The published `0.1.x` requirements and SDK
-behavior remain unchanged. Plan acceptance authorizes the scoped local implementation and
-board updates. It does not approve #95 as written or authorize commits, pushes, merges
-or publication. Native Windows CI and exact-head CodeQL remain later verification gates.
+The accepted dependency, example and migration scope targets `0.2.0`. Implementation,
+review, merge and post-merge native Windows/CodeQL verification are complete; the
+[merge evidence](#merge-and-native-ci-evidence-2026-11-09) records the exact commit.
+#95 was closed without merging as superseded by #97. The published `0.1.x` requirements
+and SDK behavior remain unchanged. Publication still requires separate authorization
+and the release gates below.
 
 ## Operational need and pre-migration gap
 
@@ -234,14 +235,15 @@ The maintainer accepted this design on 2026-11-09, including:
 
 The maintainer accepted the separately scoped [implementation plan #96](https://github.com/sahilmathur254/guardtrellis/issues/96)
 on 2026-11-09 and authorized local implementation, constrained dependency profiles,
-regression tests and board updates. Local implementation is ready for review; no completed native
-Windows or CodeQL result is claimed for this local work. Core scanner/orchestration
-behavior remains unchanged. Commit, push, merge and publication require separate
-authorization. The current two-file #95 patch remains unapproved and unmerged.
+regression tests and board updates. The maintainer subsequently authorized commit/push,
+draft PR #97, readiness and merge. Core scanner/orchestration behavior remains unchanged.
+Post-merge native CI is verified below; publication remains separately controlled.
+The dependency-only #95 patch was closed without merging as superseded.
 
 ### Local implementation evidence, 2026-11-09
 
-The uncommitted migration branch is based on `a46f37bbe4a380a7378983cde597370f41d548af`.
+At the local-only checkpoint, the uncommitted migration branch was based on
+`a46f37bbe4a380a7378983cde597370f41d548af`.
 Local validation on macOS passed 1,987 tests with warnings treated as errors, all fourteen
 evaluation commands, lint/format/types and version agreement. Both fresh Gemini-only
 profiles passed on Python 3.11–3.14: the minimum pair is SDK 3.0.0 / HTTPX2 2.12.0 and
@@ -250,14 +252,35 @@ all 72 adapter regressions; wheel/sdist smokes passed for the minimum pair and l
 profile alongside the existing installation profiles. The `0.2.0` metadata received a
 separate local review after functional validation.
 
-Both dependency profiles resolve to Windows Python 3.12 binary distributions, and native
-executable-path selection has regression coverage. These checks do not establish native
-Windows execution. Full native CI and completed Python/Actions CodeQL uploads remain
-pending a separately authorized commit/push. No live-provider request or publication ran.
+Both dependency profiles resolved to Windows Python 3.12 binary distributions, and native
+executable-path selection had regression coverage. Those supplementary checks did not
+establish native Windows execution. The later authorized commit/push and merge supplied
+the native evidence below. No live-provider request or publication ran at this checkpoint.
+
+### Merge and native CI evidence, 2026-11-09
+
+[PR #97](https://github.com/sahilmathur254/guardtrellis/pull/97) merged as
+`153f73decef033fada78ae499d181bedbd289725`. [#96](https://github.com/sahilmathur254/guardtrellis/issues/96)
+is closed and Done; [#95](https://github.com/sahilmathur254/guardtrellis/pull/95) is closed as superseded.
+
+- [Post-merge native CI](https://github.com/sahilmathur254/guardtrellis/actions/runs/42618484210)
+  passed all six Linux/macOS/Windows cells at that exact commit.
+- [Windows Python 3.12](https://github.com/sahilmathur254/guardtrellis/actions/runs/42618484210/job/129164231585)
+  passed 1,907 tests with 80 expected platform skips. Both constrained profiles, all
+  fourteen evaluations and wheel/sdist smokes executed successfully.
+- Linux Python 3.11 passed 1,987 tests plus 72 minimum-pair adapter regressions and both
+  minimum/locked wheel/sdist profiles.
+- [Post-merge CodeQL](https://github.com/sahilmathur254/guardtrellis/actions/runs/42618483212)
+  completed Python analysis `2126327388` and Actions analysis `2126325290`, with zero
+  results and empty errors/warnings.
+
+This evidence applies to `153f73d`; any subsequent release-closeout commit needs its own
+CI before publication. The `0.2.0` metadata is prepared, but no release has been published.
+TestPyPI rehearsal and same-artifact PyPI promotion remain separately authorized actions.
 
 ## Alternatives and explicit exclusions
 
-Keeping SDK 2 until the separately approved migration preserves the existing `0.1.x`
+Keeping SDK 2 until the separately approved migration preserved the existing `0.1.x`
 optional dependency contract. Retaining HTTPX with SDK 3 was considered, but explicit
 HTTPX2 support was selected to align the mock and production paths. Supporting both
 majors or adding a `gemini3` extra would add ongoing validation and documentation
@@ -267,4 +290,5 @@ would need a separate design decision.
 No core API/detector/default changes, new privacy guarantees, generic provider wrapper,
 native async/streaming support, Vertex/enterprise integration, tools or automatic agent
 continuation, NLP model, hosted service, credential setup, paid/live requests, migration
-of other repositories, security-policy changes, merge, tag or publication is included.
+of other repositories or security-policy changes is included. Merge was subsequently
+authorized and completed through #97; tag creation and publication remain separate gates.

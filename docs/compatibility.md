@@ -125,8 +125,12 @@ OpenAI and Azure are currently mock-verified. Report vulnerabilities through the
 ## Gemini SDK 3 transition
 
 The accepted [Google GenAI 3 migration](google_genai3_migration_design.md), implemented
-under [#96](https://github.com/sahilmathur254/guardtrellis/issues/96), targets `0.2.0`.
-Its local implementation and validation precede separate review, merge and publication.
+under [#96](https://github.com/sahilmathur254/guardtrellis/issues/96), merged through
+[PR #97](https://github.com/sahilmathur254/guardtrellis/pull/97) for the unpublished
+`0.2.0` candidate. Native Linux/macOS/Windows CI and Python/Actions CodeQL passed at
+merged commit `153f73decef033fada78ae499d181bedbd289725`; the
+[Gemini verification record](gemini.md#verification-status) links the results.
+Publication requires separate authorization.
 This optional dependency-major transition does not remove a documented core API or change
 scanner/orchestration behavior, defaults, Python support or non-Gemini declared requirements.
 
