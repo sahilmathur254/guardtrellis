@@ -12,7 +12,7 @@ from datetime import UTC, datetime
 from importlib.metadata import version
 from pathlib import Path
 
-import httpx
+import httpx2
 from google import genai
 from google.genai import types
 
@@ -24,8 +24,10 @@ PROMPT = "Reply with exactly: Contact demo@example.org"
 TIMEOUT_MS = 20_000
 
 
-def make_client(*, api_key: str, transport: httpx.BaseTransport | None = None) -> genai.Client:
+def make_client(*, api_key: str, transport: httpx2.BaseTransport | None = None) -> genai.Client:
     """Own this client with a context manager. A missing transport permits live HTTP."""
+    if os.environ.get("GOOGLE_GENAI_HTTP_CLIENT", "").lower().strip() not in {"", "auto", "httpx2"}:
+        raise ValueError("This example requires the HTTPX2 backend.")
     return genai.Client(
         api_key=api_key,
         enterprise=False,
@@ -61,10 +63,8 @@ class GeminiModel:
             ),
             tools=[],
             automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
+            automatic_continuation=False,
         )
-        # Older supported SDKs predate automatic continuation and reject the field.
-        if "automatic_continuation" in type(config).model_fields:
-            config.automatic_continuation = False
         response = self.client.models.generate_content(
             model=MODEL,
             contents=text,
@@ -127,9 +127,9 @@ def make_guard() -> Guard:
     )
 
 
-def mock_response(request: httpx.Request) -> httpx.Response:
+def mock_response(request: httpx2.Request) -> httpx2.Response:
     """Fabricated fixture served in memory, without socket access."""
-    return httpx.Response(
+    return httpx2.Response(
         200,
         json={
             "candidates": [
@@ -164,7 +164,7 @@ def main(argv: list[str] | None = None) -> int:
 
     # Only the standalone command changes logging; importing this module does not.
     logging.disable(logging.CRITICAL)
-    transport = None if args.live else httpx.MockTransport(mock_response)
+    transport = None if args.live else httpx2.MockTransport(mock_response)
     try:
         with make_client(api_key=api_key, transport=transport) as client:
             model = GeminiModel(client)
@@ -184,7 +184,7 @@ def main(argv: list[str] | None = None) -> int:
                 "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                 "versions": {
                     "python": platform.python_version(),
-                    **{name: version(name) for name in ("guardtrellis", "google-genai", "httpx")},
+                    **{name: version(name) for name in ("guardtrellis", "google-genai", "httpx2")},
                 },
                 "model": MODEL,
                 "requests": model.requests,

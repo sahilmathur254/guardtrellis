@@ -39,6 +39,8 @@ uv run pytest
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy
+uv run --frozen python scripts/check_gemini_profile.py --profile minimum --regressions
+uv run --frozen python scripts/check_gemini_profile.py --profile locked
 uv run python evaluation/run.py --report-dir /tmp/guardtrellis-eval
 uv run python evaluation/policy_combinations/run.py --report-dir /tmp/guardtrellis-policies
 uv build --offline --no-build-isolation
@@ -90,6 +92,26 @@ exist in the environment. See the
 for separately opted-in live smokes;
 normal pytest and CI never make live provider calls. Build the sdist
 and wheel after updating packaged documentation or evaluation results.
+
+Gemini also has independent fresh environments for each wheel and source archive,
+constrained to its reviewed lock rather than the all-extras environment. The profile
+checker separately resolves both `google-genai==3.0.0` / `httpx2==2.12.0` and the locked
+Gemini dependency closure, asserts actual installed versions and backend selection, and
+executes the copied example outside the checkout under blocked sockets. An outer
+`uv sync --frozen` does not constrain a separate consumer installation. Run the minimum
+pair's installed checks with:
+
+```sh
+uv run --frozen python scripts/smoke_dist.py --gemini-only --gemini-profile minimum
+```
+
+Both profiles run on every native CI cell. Linux Python 3.11 additionally runs the
+minimum-pair regressions and wheel/sdist checks; the locked profile runs through the full
+matrix. The Gemini-only environments exclude OpenAI, FastAPI, LangGraph and legacy HTTPX.
+For wheel/sdist smokes, only the source-archive environment adds reviewed build tooling.
+The source profile checker seeds that tooling too; `--regressions` adds reviewed
+development tooling only after isolation checks. These isolated profiles supplement
+the existing core/OpenAI-only/all-extras consumer smokes.
 
 The CI matrix covers these combinations:
 

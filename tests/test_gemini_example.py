@@ -3,14 +3,16 @@
 import json
 import logging
 import os
+import socket
 import subprocess
 import sys
+from importlib.metadata import version
 from pathlib import Path
 
 import pytest
 
 pytest.importorskip("google.genai")
-import httpx
+import httpx2
 
 from examples import gemini_app as demo
 from guardtrellis import Action, Rejected
@@ -18,17 +20,44 @@ from guardtrellis import Action, Rejected
 ROOT = Path(__file__).resolve().parents[1]
 
 
+@pytest.fixture(autouse=True)
+def isolated_backend(monkeypatch):
+    monkeypatch.delenv("GOOGLE_GENAI_HTTP_CLIENT", raising=False)
+    previous_disable = logging.root.manager.disable
+    yield
+    logging.disable(previous_disable)
+
+
+@pytest.fixture
+def no_network(monkeypatch):
+    def blocked(*args, **kwargs):
+        pytest.fail("Socket access is forbidden in the Gemini regression tests")
+
+    monkeypatch.setattr(socket.socket, "connect", blocked)
+    monkeypatch.setattr(socket.socket, "connect_ex", blocked)
+    monkeypatch.setattr(socket, "create_connection", blocked)
+    monkeypatch.setattr(socket, "getaddrinfo", blocked)
+
+
+def synchronous_http_client(client):
+    # This test-only inspection is scoped to the SDK 3 backend/lifecycle contract.
+    assert version("google-genai").split(".")[0] == "3"
+    http_client = client._api_client._httpx_client
+    assert isinstance(http_client, httpx2.Client)
+    return http_client
+
+
 @pytest.fixture
 def provider():
     requests = []
-    response = demo.mock_response(httpx.Request("POST", "https://example.invalid")).json()
+    response = demo.mock_response(httpx2.Request("POST", "https://example.invalid")).json()
 
     def handle(request):
         requests.append(request)
-        return httpx.Response(200, json=response)
+        return httpx2.Response(200, json=response)
 
     with demo.make_client(
-        api_key="mock-key-never-print", transport=httpx.MockTransport(handle)
+        api_key="mock-key-never-print", transport=httpx2.MockTransport(handle)
     ) as client:
         yield demo.GeminiModel(client), requests, response
 
@@ -88,7 +117,9 @@ def test_split_output_secret_is_joined_and_blocked_before_delivery(provider):
     assert token not in repr(result) + repr(result.diagnostics()) + str(error.value)
 
 
-@pytest.mark.parametrize("finish_reason", ["MAX_TOKENS", "SAFETY", "RECITATION", "OTHER", None])
+@pytest.mark.parametrize(
+    "finish_reason", ["MAX_TOKENS", "SAFETY", "RECITATION", "OTHER", "MALFORMED_RESPONSE", None]
+)
 def test_noncompleted_response_is_not_delivered(provider, finish_reason):
     model, _, response = provider
     response["candidates"][0]["finishReason"] = finish_reason
@@ -112,10 +143,10 @@ def test_continuation_does_not_send_another_request_or_deliver_text(finish_reaso
         if len(requests) == 1:
             candidate["finishReason"] = finish_reason
             candidate["continuationToken"] = token
-        return httpx.Response(200, json=response)
+        return httpx2.Response(200, json=response)
 
     with demo.make_client(
-        api_key="mock-key-never-print", transport=httpx.MockTransport(handle)
+        api_key="mock-key-never-print", transport=httpx2.MockTransport(handle)
     ) as client:
         model = demo.GeminiModel(client)
         result = demo.make_guard().run("Fabricated test", model)
@@ -222,19 +253,19 @@ def test_provider_failures_are_generic_without_retry_or_redirect(failure):
     def handle(request):
         requests.append(request)
         if failure == "timeout":
-            raise httpx.ReadTimeout(private, request=request)
+            raise httpx2.ReadTimeout(private, request=request)
         if failure == "connection":
-            raise httpx.ConnectError(private, request=request)
+            raise httpx2.ConnectError(private, request=request)
         if failure == "invalid_json":
-            return httpx.Response(200, text=private)
-        return httpx.Response(
+            return httpx2.Response(200, text=private)
+        return httpx2.Response(
             failure,
             headers={"location": "https://example.invalid/elsewhere"},
             json={"error": {"message": private, "code": failure, "status": "MOCK_ERROR"}},
         )
 
     with demo.make_client(
-        api_key="mock-not-a-credential", transport=httpx.MockTransport(handle)
+        api_key="mock-not-a-credential", transport=httpx2.MockTransport(handle)
     ) as client:
         result = demo.make_guard().run("Fabricated test", demo.GeminiModel(client))
     assert len(requests) == 1
@@ -267,7 +298,7 @@ def test_live_reporting_uses_metadata_only_with_mocked_http(monkeypatch, capsys)
 
     def fake_live_client(*, api_key, transport):
         assert transport is None
-        return real_make_client(api_key=api_key, transport=httpx.MockTransport(handle))
+        return real_make_client(api_key=api_key, transport=httpx2.MockTransport(handle))
 
     monkeypatch.setenv("GUARDTRELLIS_GEMINI_LIVE", "1")
     monkeypatch.setenv("GEMINI_API_KEY", "mock-key-never-print")
@@ -282,7 +313,9 @@ def test_live_reporting_uses_metadata_only_with_mocked_http(monkeypatch, capsys)
     assert len(requests) == report["requests"] == 1
     assert report["passed"] and report["blocked_input_prevented_request"]
     assert report["mode"] == "live"  # Mocked reporting test, not real live evidence.
-    assert report["versions"]["google-genai"] and len(report["script_sha256"]) == 64
+    assert report["versions"]["google-genai"] == version("google-genai")
+    assert report["versions"]["httpx2"] == version("httpx2") and "httpx" not in report["versions"]
+    assert len(report["script_sha256"]) == 64
     for private in (
         "mock-key-never-print",
         "demo@example.org",
@@ -317,3 +350,212 @@ def test_default_command_stays_mocked_with_live_environment_and_other_google_set
     for private in ("demo@example.org", "mock-key-never-print", "mock-project-never-print"):
         assert private not in process.stdout + process.stderr
     assert process.stderr == ""
+
+
+@pytest.mark.parametrize("backend", [None, "", "auto", "httpx2", " AuTo ", " HTTPX2 ", "  "])
+def test_real_client_construction_selects_httpx2_without_network(monkeypatch, no_network, backend):
+    if backend is not None:
+        monkeypatch.setenv("GOOGLE_GENAI_HTTP_CLIENT", backend)
+    before = dict(os.environ)
+    with demo.make_client(api_key="mock-key-never-print", transport=None) as client:
+        http_client = synchronous_http_client(client)
+        assert not http_client.is_closed
+    assert http_client.is_closed
+    assert dict(os.environ) == before
+
+
+@pytest.mark.parametrize("backend", ["httpx", " HTTPX ", "synthetic-private-backend@example.org"])
+def test_conflicting_backend_fails_before_client_construction(
+    monkeypatch, no_network, caplog, backend
+):
+    monkeypatch.setenv("GOOGLE_GENAI_HTTP_CLIENT", backend)
+    monkeypatch.setattr(demo.genai, "Client", lambda **kwargs: pytest.fail("Unexpected client"))
+    before = dict(os.environ)
+    with pytest.raises(ValueError, match="^This example requires the HTTPX2 backend\\.$") as error:
+        demo.make_client(api_key="mock-key-never-print")
+    assert backend not in str(error.value) + caplog.text
+    assert not caplog.records
+    assert dict(os.environ) == before
+
+
+@pytest.mark.parametrize("backend", [None, "", "auto", "httpx2", " AuTo ", " HTTPX2 ", "  "])
+def test_default_command_uses_mock_and_explicit_settings_with_allowed_backend(
+    monkeypatch, no_network, capsys, backend
+):
+    if backend is not None:
+        monkeypatch.setenv("GOOGLE_GENAI_HTTP_CLIENT", backend)
+    for name, value in {
+        "GUARDTRELLIS_GEMINI_LIVE": "1",
+        "GEMINI_API_KEY": "mock-ambient-key-never-print",
+        "GOOGLE_API_KEY": "mock-other-key-never-print",
+        "GOOGLE_GENAI_USE_ENTERPRISE": "true",
+        "GOOGLE_GENAI_USE_VERTEXAI": "true",
+        "GOOGLE_GEMINI_BASE_URL": "https://private-base.example.invalid",
+        "GOOGLE_VERTEX_BASE_URL": "https://private-vertex.example.invalid",
+        "GOOGLE_GENAI_API_VERSION": "private-version-never-print",
+        "GOOGLE_CLOUD_PROJECT": "mock-project-never-print",
+        "GOOGLE_CLOUD_LOCATION": "mock-location-never-print",
+    }.items():
+        monkeypatch.setenv(name, value)
+    before = dict(os.environ)
+    requests = []
+    mock_response = demo.mock_response
+
+    def handle(request):
+        requests.append(request)
+        return mock_response(request)
+
+    monkeypatch.setattr(demo, "mock_response", handle)
+    assert demo.main([]) == 0
+    captured = capsys.readouterr()
+    report = json.loads(captured.out.splitlines()[0])
+    assert report["mode"] == "mock" and report["passed"]
+    assert report["requests"] == len(requests) == 1
+    assert report["blocked_input_prevented_request"]
+    request = requests[0]
+    assert isinstance(request, httpx2.Request)
+    assert str(request.url) == (
+        f"https://generativelanguage.googleapis.com/v1beta/models/{demo.MODEL}:generateContent"
+    )
+    assert request.headers["x-goog-api-key"] == "mock-not-a-credential"
+    assert "mock-not-a-credential" not in str(request.url)
+    assert report["versions"]["google-genai"] == version("google-genai")
+    assert report["versions"]["httpx2"] == version("httpx2") and "httpx" not in report["versions"]
+    assert "Contact [PII]" in captured.out
+    for private in (
+        "mock-ambient-key-never-print",
+        "mock-other-key-never-print",
+        "private-base.example.invalid",
+        "private-vertex.example.invalid",
+        "private-version-never-print",
+        "mock-project-never-print",
+        "mock-location-never-print",
+        "demo@example.org",
+        "mock-response-never-print",
+    ):
+        assert private not in captured.out + captured.err
+    assert not captured.err
+    assert dict(os.environ) == before
+
+
+@pytest.mark.parametrize("backend", ["httpx", " HTTPX ", "synthetic-private-backend@example.org"])
+def test_default_command_conflicting_backend_is_static_failure_before_construction(
+    monkeypatch, no_network, capsys, backend
+):
+    monkeypatch.setenv("GOOGLE_GENAI_HTTP_CLIENT", backend)
+    monkeypatch.setenv("GUARDTRELLIS_GEMINI_LIVE", "1")
+    monkeypatch.setenv("GEMINI_API_KEY", "mock-ambient-key-never-print")
+    monkeypatch.setattr(demo.genai, "Client", lambda **kwargs: pytest.fail("Unexpected client"))
+    before = dict(os.environ)
+    assert demo.main([]) == 1
+    captured = capsys.readouterr()
+    assert (
+        captured.out == "Provider smoke failed; no response or exception contents were printed.\n"
+    )
+    assert not captured.err
+    assert dict(os.environ) == before
+
+
+@pytest.mark.parametrize(
+    "outcome",
+    ["success", "input_block", "output_block", "provider_error", "invalid_json", "timeout"],
+)
+def test_used_synchronous_resources_close_on_success_and_failure(no_network, outcome):
+    streams = []
+    responses = []
+    requests = []
+
+    class TrackedStream(httpx2.SyncByteStream):
+        def __init__(self, data):
+            self.data = data
+            self.closed = False
+
+        def __iter__(self):
+            yield self.data
+
+        def close(self):
+            self.closed = True
+
+    def handle(request):
+        requests.append(request)
+        if outcome == "timeout":
+            raise httpx2.ReadTimeout("Synthetic private timeout", request=request)
+        body = demo.mock_response(request).json()
+        status = 200
+        if outcome == "output_block":
+            body["candidates"][0]["content"]["parts"] = [{"text": "ghp_" + "A" * 36}]
+        elif outcome == "provider_error":
+            status = 500
+            body = {"error": {"code": 500, "message": "Synthetic private error"}}
+        data = (
+            b"Synthetic private invalid JSON"
+            if outcome == "invalid_json"
+            else json.dumps(body).encode()
+        )
+        stream = TrackedStream(data)
+        streams.append(stream)
+        response = httpx2.Response(
+            status, headers={"content-type": "application/json"}, stream=stream, request=request
+        )
+        responses.append(response)
+        return response
+
+    class TrackedTransport(httpx2.MockTransport):
+        closed = False
+
+        def close(self):
+            self.closed = True
+            super().close()
+
+    transport = TrackedTransport(handle)
+    with demo.make_client(api_key="mock-key-never-print", transport=transport) as client:
+        http_client = synchronous_http_client(client)
+        result = demo.make_guard().run(
+            "ghp_" + "A" * 36 if outcome == "input_block" else "Fabricated test",
+            demo.GeminiModel(client),
+        )
+        assert not transport.closed and not http_client.is_closed
+    assert transport.closed and http_client.is_closed
+    assert all(response.is_closed for response in responses)
+    assert all(stream.closed for stream in streams)
+    assert len(requests) == (0 if outcome == "input_block" else 1)
+    if outcome == "success":
+        assert result.require_text() == "Contact [PII]"
+    else:
+        assert result.text is None
+        assert result.action == (Action.BLOCK if outcome.endswith("block") else Action.ERROR)
+    assert "Synthetic private" not in repr(result) + repr(result.diagnostics())
+
+
+@pytest.mark.parametrize("interruption", [KeyboardInterrupt, SystemExit])
+def test_caller_interruption_propagates_and_closes_used_synchronous_client(
+    monkeypatch, no_network, interruption
+):
+    transports = []
+    clients = []
+    requests = []
+    make_client = demo.make_client
+
+    class TrackedTransport(httpx2.MockTransport):
+        closed = False
+
+        def close(self):
+            self.closed = True
+            super().close()
+
+    def handle(request):
+        requests.append(request)
+        raise interruption("Synthetic private interruption")
+
+    def client_factory(*, api_key, transport):
+        owned_transport = TrackedTransport(handle)
+        transports.append(owned_transport)
+        client = make_client(api_key=api_key, transport=owned_transport)
+        clients.append(synchronous_http_client(client))
+        return client
+
+    monkeypatch.setattr(demo, "make_client", client_factory)
+    with pytest.raises(interruption, match="Synthetic private interruption"):
+        demo.main([])
+    assert len(requests) == len(clients) == len(transports) == 1
+    assert clients[0].is_closed and transports[0].closed

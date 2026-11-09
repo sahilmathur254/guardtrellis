@@ -14,8 +14,9 @@ uv run --frozen --extra gemini python examples/gemini_app.py
 uv run --frozen --extra gemini pytest tests/test_gemini_example.py
 ```
 
-The default command uses the real SDK with `httpx.MockTransport` and makes no network
-requests. It remains mocked even when credentials and live opt-in variables exist.
+The default command uses the real SDK with `httpx2.MockTransport` and makes no network
+requests. It remains mocked even when credentials and live opt-in variables exist;
+conflicting HTTP backend settings fail before client construction, as described below.
 The fabricated input is `Reply with exactly: Contact demo@example.org`; only
 `Reply with exactly: Contact [PII]` reaches the SDK. The mocked response contains another
 fabricated email so output redaction is exercised too. Only checked `Contact [PII]` is
@@ -23,8 +24,52 @@ printed after a JSON report. Mock token counts are fixture values, not real usag
 
 The reusable callback is `GeminiModel(client)`. Call `make_guard().run(user_text, model)`
 and deliver `result.require_text()` only after acceptance. Otherwise retain metadata from
-`result.diagnostics()`. The complete script owns the client in a context manager and closes
-it on both success and failure. Choose stage policies explicitly in your own application.
+`result.diagnostics()`. The complete script owns the synchronous client in a context manager
+and closes its used response/transport resources on success and failure. The SDK's sync
+context does not close its unused async client. Choose stage policies explicitly in your
+own application.
+
+## SDK 3 migration for 0.2.0
+
+The accepted [migration contract](google_genai3_migration_design.md) and
+[implementation #96](https://github.com/sahilmathur254/guardtrellis/issues/96) target
+`0.2.0`. Local implementation, mocked validation and candidate metadata are ready for
+review; native CI and publication remain separate gates. See the
+[local evidence](google_genai3_migration_design.md#local-implementation-evidence-2026-11-09).
+This does not establish package publication or a new live-provider result.
+Core GuardTrellis APIs, detector rules and non-Gemini requirements stay unchanged.
+
+The existing `[gemini]` extra moves to `google-genai>=3.0.0,<4` and `httpx2>=2.12,<3`.
+There is no parallel SDK 2 backend or second Gemini extra. The HTTPX2 floor is this
+project's supported minimum, stronger than Google's upstream `>=2.0.0` minimum.
+
+Applications that copied the SDK 2 example should update their imports and any supplied
+transport, request/response, timeout, authentication or exception objects to HTTPX2 types.
+Mixing `httpx` objects with an HTTPX2 client is not a supported adapter path. The callback
+still uses SDK-owned clients through `HttpOptions.client_args`; separately injected clients
+need their own explicit ownership and cleanup rules. Follow the
+[Google 3.0.0 migration notes](https://github.com/googleapis/python-genai/releases/tag/v3.0.0).
+
+HTTPX2 uses the operating system certificate trust store by default when `SSL_CERT_FILE`
+and `SSL_CERT_DIR` are unset. Review your host's certificate/proxy configuration when
+upgrading; retain certificate verification. A fixed logical API URL does not enforce
+network egress or establish the trust of a host proxy.
+
+This example fixes its backend to HTTPX2. `GOOGLE_GENAI_HTTP_CLIENT` may be unset, empty,
+`auto` or `httpx2`, with surrounding whitespace and letter case normalized. `httpx` and
+unknown values produce a static configuration failure before SDK client construction,
+without printing the rejected value or changing process environment variables. The
+restriction applies to this example, not to independently constructed SDK clients.
+Explicit Developer API mode, key, base URL and `v1beta` still override ambient Google
+API-version, enterprise/Vertex, key and base-URL settings. Default mock execution never
+becomes live because opt-in environment variables happen to exist.
+
+Applications retaining the old example can pin `guardtrellis[gemini]<0.2` and their own
+provider dependencies. That pin does not promise upstream availability or future fixes.
+Until `0.2.0` is separately published, the current `0.1.x` maintenance policy continues.
+After publication, maintenance follows `main` and the latest release in `0.2.x`; there is
+no promised parallel `0.1.x` backport line or support duration. See the
+[compatibility and support decision](compatibility.md#gemini-sdk-3-transition).
 
 ## One approved live request
 
@@ -57,8 +102,7 @@ Its request uses:
   effort and no returned thoughts. Minimal thinking does not guarantee zero reasoning tokens.
 - Complete text only, no streaming, tools, automatic function calls, files, or cached context.
 - One HTTP generation request, with retries, HTTP redirects, and automatic continuation
-  disabled; no automatic model fallback. Older supported SDKs without continuation support
-  retain their existing single-request behavior.
+  disabled; no automatic model fallback.
 
 Do not repeat an uncertain or failed request automatically. Quota, model access, authentication,
 or network failures stop the test. Provider-side processing may already have occurred.
@@ -77,8 +121,9 @@ configuration, or raw exception contents are printed. Record the source commit s
 The callback requires one model response with finish reason `STOP`, no prompt/candidate
 block signal, and nonblank text. It joins all text parts before output scanning, so a
 signature split across parts is still checked. Truncated, filtered, empty, thought, tool,
-code, or media output becomes `ERROR`; mixed text/non-text parts are rejected. Opaque thought
-signatures are ignored as metadata and never retained in results or reports. This is not
+code, media or `MALFORMED_RESPONSE` output becomes `ERROR`; mixed text/non-text parts are
+rejected. Opaque thought signatures are ignored as metadata and never retained in results
+or reports. This is not
 a semantic refusal or factual-quality detector: a refusal expressed as ordinary text is
 subject only to the configured scanners.
 
@@ -88,8 +133,10 @@ request or deliverable text. The SDK's callback invocation count alone does not 
 the number of HTTP requests; regressions check the actual transport boundary. Applications
 that copied an earlier example should adopt this configuration when updating the Gemini SDK.
 
-SDK/provider failures become a generic `callback_error` through `Guard.run`. The 20-second
-HTTP timeout bounds network phases/inactivity, not the complete wall-clock duration.
+SDK/provider and HTTPX2 transport failures become a generic `callback_error` through
+`Guard.run`. Pre-client configuration failures use the command's static failure path and
+do not represent a checked provider response. The 20-second HTTP timeout bounds network
+phases/inactivity, not the complete wall-clock duration.
 Synchronous callbacks have no Guard execution deadline. Async cancellation cannot terminate
 a running worker thread or undo a remote request; see the [async contract](api.md#limits-and-asynchronous-work).
 
@@ -100,16 +147,40 @@ Guard cannot undo provider processing, retention, billing, or callback side effe
 
 ## Verification status
 
-Ordinary tests and CI use mocks, including tests of the live reporting path. They verify
+Ordinary tests and CI use mocks, including tests of the live reporting path. They exercise
 actual HTTP serialization, redaction, zero requests for blocked input, checked complete
 output, malformed/unsupported responses, generic failures, and no retry/redirect/tool or
 continuation loop.
-Distribution smokes check core installs exclude the SDK, then run all examples with extras.
+The SDK 3 migration additionally requires no-network `transport=None` construction,
+environment-precedence and synchronous-cleanup regressions. Its separate dependency
+profiles constrain both `google-genai==3.0.0` and `httpx2==2.12.0` for the minimum pair and
+use the reviewed lock for the other profile, with actual installed-version assertions.
+Each wheel/source archive needs a fresh Gemini-only environment independent of other
+extras, plus the existing core/OpenAI-only/all-extras smokes. Locked installs must use
+locked exports or constraints; the outer checkout's `uv sync --frozen` alone does not
+constrain a separate consumer installation.
+
+Run the profile checks from a source checkout:
+
+```sh
+uv run --frozen python scripts/check_gemini_profile.py --profile minimum --regressions
+uv run --frozen python scripts/check_gemini_profile.py --profile locked
+uv build --offline --no-build-isolation
+uv run --frozen python scripts/smoke_dist.py
+uv run --frozen python scripts/smoke_dist.py --gemini-only --gemini-profile minimum
+```
+
+The minimum pair must resolve on Python 3.11–3.14 and pass construction, HTTPX2 mock,
+cleanup/privacy and wheel/sdist checks on Python 3.11. The locked profile must resolve
+on those Python versions and pass the full Linux matrix plus native macOS/Windows
+Python 3.12 and completed Python/Actions CodeQL uploads. These are acceptance gates,
+not execution results. Keeping changes local leaves native Windows CI pending; consult
+#96 for recorded local evidence and remaining review checks.
 
 ### Recorded live smoke: 2026-09-26
 
 The maintainer authorized one synthetic request using a privately supplied key for a
-Free Tier project. The exact command above passed with the following metadata:
+Free Tier project. The then-current command passed with the following metadata:
 
 | Evidence | Value |
 | --- | --- |

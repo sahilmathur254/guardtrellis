@@ -78,7 +78,7 @@ detector rules were unchanged by that addition. The published `0.1.10` release a
 schema-work rejection described in the [upgrade note](../CHANGELOG.md#0110);
 the [release record](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.10)
 links publication verification. The `0.1.11` release added the benchmark/control-mapping
-batch while preserving SDK behavior and dependency requirements. The `0.1.12` candidate
+batch while preserving SDK behavior and dependency requirements. The `0.1.12` release
 adds accepted retrieval/tool research and locked optional/development dependency
 maintenance, including the optional Gemini chain's pyasn1 security update. It preserves
 SDK behavior, defaults and declared dependency ranges; applications manage their own
@@ -121,6 +121,29 @@ Provider services, models, endpoint availability, and copied application adapter
 outside the core API guarantee. Shipped examples retain their stated verification scope;
 OpenAI and Azure are currently mock-verified. Report vulnerabilities through the existing
 [security reporting process](../SECURITY.md).
+
+## Gemini SDK 3 transition
+
+The accepted [Google GenAI 3 migration](google_genai3_migration_design.md), implemented
+under [#96](https://github.com/sahilmathur254/guardtrellis/issues/96), targets `0.2.0`.
+Its local implementation and validation precede separate review, merge and publication.
+This optional dependency-major transition does not remove a documented core API or change
+scanner/orchestration behavior, defaults, Python support or non-Gemini declared requirements.
+
+The existing `[gemini]` extra selects `google-genai>=3.0.0,<4` and `httpx2>=2.12,<3`.
+Applications copying the example must migrate HTTPX-specific objects and exceptions to
+HTTPX2, review OS certificate trust, and adopt the example's explicit backend environment
+restriction. See the [migration steps](gemini.md#sdk-3-migration-for-020). No SDK 2 branch
+or automatic HTTPX fallback is supported by that example.
+
+Until a separately authorized `0.2.0` publication, the current `0.1.x` maintenance policy
+above continues. After `0.2.0` publication, maintenance follows `main` and the latest
+published release, then in `0.2.x`, under the existing
+[security maintenance policy](../SECURITY.md#supported-versions). Existing `0.1.x` packages
+remain available; applications retaining SDK 2 can pin `guardtrellis[gemini]<0.2` and their
+own provider dependencies. A pin is not a promise of upstream service availability or fixes.
+There is no parallel `0.1.x` backport commitment, support lifetime or response deadline;
+continued older-series maintenance requires a separate announcement.
 
 ## Upgrading from an alpha
 

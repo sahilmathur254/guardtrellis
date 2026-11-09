@@ -1,6 +1,6 @@
 # Control coverage and evidence
 
-Snapshot: 2026-11-05. The
+Snapshot: 2026-11-09. The
 [`0.1.10` release](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.10) added
 schema-work limits, discarded async exception cleanup and release-artifact/build hardening.
 The local policy CLI and frozen detector/delivery evaluation shipped in `0.1.9`.
@@ -15,11 +15,19 @@ behavior or detector changes. Check package availability separately; see the
 
 The bounded [#35 retrieval/tool research](#retrieval-and-tool-trust-boundary-evidence)
 merged through [PR #91](https://github.com/sahilmathur254/guardtrellis/pull/91) and was
-accepted as completed research on 2026-11-05. Its evidence is part of the unpublished
-`0.1.12` candidate batch. Release preparation sets the SDK source version to `0.1.12`
-without changing its behavior or publishing a package. The
+accepted as completed research on 2026-11-05. Its evidence is part of the
+[`0.1.12` release](https://github.com/sahilmathur254/guardtrellis/releases/tag/v0.1.12). The
 [0.1.12 upgrade note](../CHANGELOG.md#0112) describes the separate dependency maintenance;
 the retained research baseline still describes SDK `0.1.11`.
+
+The accepted [Gemini SDK 3 migration](google_genai3_migration_design.md) and
+[#96 implementation](https://github.com/sahilmathur254/guardtrellis/issues/96) target
+`0.2.0`, with core behavior unchanged. Local implementation must separately validate
+minimum-pair and locked dependency profiles, real HTTPX2 construction under blocked
+sockets, request/environment/privacy/cleanup regressions and fresh Gemini-only wheel/sdist
+installs. Native Windows and exact-head Python/Actions CodeQL remain CI gates; this
+documentation does not claim they have run for the local changes. The dated SDK 2 live
+smoke below is preserved and does not validate the SDK 3 path.
 
 These matrices connect configured behavior to implementation, regression cases and
 retained evidence. Tests describe the checked contracts; consult the relevant CI run
@@ -49,6 +57,7 @@ policies and platforms. None is a general accuracy estimate or proof of host enf
 | Guard bounds Python character counts and per-scanner findings/edits. Async waits apply separately to each scanner/callback. After Guard returns timeout ERROR, late results cannot release checked data. | [API limits](api.md#limits-and-asynchronous-work), [timeout/cancellation tests](../tests/test_guard.py), [async tool tests](../tests/test_async_tools.py), [resource evidence](resource_limits.md). | Character limits are not ingress-byte/token limits. Sync calls have no deadline. Cancellation cannot forcibly stop threads, remote requests or event-loop-blocking code; blocking the event loop can delay timeout handling and allow a result after the configured interval. The host owns admission, concurrency, provider timeouts and process containment. |
 | Built-ins perform local checks without network calls, application logging or a request store. `diagnostics()` and built-in reprs omit payload text; `0.1.10` drains discarded Guard-owned async failures and returned Futures/Tasks. | [Result implementation](../src/guardtrellis/models.py), [error/privacy tests](../tests/test_guard.py), [async cleanup regressions](../tests/test_async_cleanup.py), [privacy and operations](limitations.md#privacy-and-operations). | Accepted text/arguments remain payload-bearing properties. Metadata includes offsets/counts; repr suppression is not secure erasure. Arbitrary background work remains caller-owned. Custom scanners, callbacks, provider SDKs, tracing, debuggers and host logs need their own controls. |
 | Optional OpenAI/Azure/Gemini examples pass checked input across mocked HTTP boundaries and check complete output. The Gemini example disables automatic continuation as of `0.1.7`. | [OpenAI tests](../tests/test_openai_example.py), [Azure tests](../tests/test_azure_openai_example.py), [Gemini HTTP tests](../tests/test_gemini_example.py), [Gemini implementation](../examples/gemini_app.py). | Callback counts alone do not prove HTTP request counts. OpenAI/Azure are mock-verified; the [dated Gemini live smoke](gemini.md#recorded-live-smoke-2026-09-26) used older source/SDK versions. The continuation regression is mocked, not a new live trial. Provider retention, billing and side effects remain outside Guard's control. |
+| The accepted `0.2.0` Gemini migration requires HTTPX2 for both mocked requests and unmocked client construction, static conflicting-backend rejection and synchronous cleanup. | [Accepted contract](google_genai3_migration_design.md), [migration guide](gemini.md#sdk-3-migration-for-020), [adapter regressions](../tests/test_gemini_example.py), [constrained profile checker](../scripts/check_gemini_profile.py), [isolated distribution checks](../scripts/smoke_dist.py). | Local implementation and validation are separate from native Windows/CodeQL and publication. Minimum-pair and lock profiles must assert actual versions; all-extras success cannot establish a Gemini-only installation. The sync context does not close the unused async client. No new live-provider, certificate-deployment, billing or availability evidence is claimed. |
 
 ## Selected OWASP 2025 mitigation mapping
 

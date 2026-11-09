@@ -13,6 +13,15 @@ import sys
 import tempfile
 from pathlib import Path
 
+from gemini_profiles import (
+    PROFILES,
+    assert_gemini_profile,
+    build_options,
+    fresh_environment,
+    profile_constraints,
+    run_mocked_example,
+)
+
 ROOT = Path(__file__).resolve().parents[1]
 CORE_EXAMPLES = (
     "plain_callable.py",
@@ -142,6 +151,8 @@ def smoke_cli(python: Path, work: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dist-dir", type=Path, default=ROOT / "dist")
+    parser.add_argument("--gemini-profile", choices=PROFILES, default="locked")
+    parser.add_argument("--gemini-only", action="store_true")
     args = parser.parse_args()
     directory = args.dist_dir.resolve()
     wheels = list(directory.glob("*.whl"))
@@ -166,6 +177,11 @@ def main() -> None:
         ),
     )
     for artifact in wheels + sdists:
+        # Gemini's environment is fresh for each artifact and profile. Running it
+        # earlier in the shared stages below would still leak core/OpenAI extras.
+        smoke_gemini(artifact, args.gemini_profile)
+        if args.gemini_only:
+            continue
         with tempfile.TemporaryDirectory(prefix="guardtrellis-install-") as directory:
             work = Path(directory)
             environment = work / "venv"
@@ -233,6 +249,35 @@ def main() -> None:
                     shutil.copyfile(ROOT / "examples" / filename, example)
                     subprocess.run([str(python), "-I", str(example)], cwd=work, check=True)
             print(f"Verified {artifact.name}", flush=True)
+
+
+def smoke_gemini(artifact: Path, profile: str) -> None:
+    with tempfile.TemporaryDirectory(prefix=f"guardtrellis-gemini-{profile}-") as directory:
+        work = Path(directory)
+        python = fresh_environment(work)
+        constraints, expected = profile_constraints(work, profile)
+        options = build_options(python, work, artifact)
+        subprocess.run(
+            [
+                "uv",
+                "pip",
+                "install",
+                "--python",
+                str(python),
+                "--index-url",
+                "https://pypi.org/simple",
+                "--constraint",
+                str(constraints),
+                *options,
+                f"{artifact}[gemini]",
+            ],
+            cwd=work,
+            check=True,
+        )
+        subprocess.run(["uv", "pip", "check", "--python", str(python)], check=True)
+        assert_gemini_profile(python, work, expected)
+        run_mocked_example(python, work, expected)
+        print(f"Verified {artifact.name}: Gemini-only {profile}", flush=True)
 
 
 if __name__ == "__main__":
