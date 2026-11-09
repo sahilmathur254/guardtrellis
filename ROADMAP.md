@@ -63,7 +63,7 @@ observed integration gaps over adding scanner families or framework wrappers for
 
 | Order | Workstream | Next outcome | Tracking |
 | --- | --- | --- | --- |
-| Local implementation ready for review | Gemini SDK 3 / HTTPX2 migration | Review the local migration and constrained-profile evidence, then verify native CI after an authorized push; preserve core behavior. | [#96](https://github.com/sahilmathur254/guardtrellis/issues/96); Now, P2; plan accepted 2026-11-09; targets `0.2.0`; dependency-only [#95](https://github.com/sahilmathur254/guardtrellis/pull/95) stays draft/blocked |
+| Merged; publication pending | Gemini SDK 3 / HTTPX2 migration | Complete release closeout, then obtain publication approval and rehearse/promote the same artifacts; preserve core behavior. | [#96](https://github.com/sahilmathur254/guardtrellis/issues/96) Done through [#97](https://github.com/sahilmathur254/guardtrellis/pull/97); targets `0.2.0`; dependency-only [#95](https://github.com/sahilmathur254/guardtrellis/pull/95) closed as superseded |
 | Completed; follow-ups as needed | Tool-result handoff | Use the checked tool-result recipe before the next model call or agent-state insertion, using the existing API. | [#44](https://github.com/sahilmathur254/guardtrellis/issues/44) closed; shipped in `0.1.4` |
 | Completed; shared API deferred | Structured values | Build on the bounded decoded `search.query` recipe shipped in `0.1.3`; require a concrete caller gap before a shared checker. | Design [#11](https://github.com/sahilmathur254/guardtrellis/issues/11); implementation [#41](https://github.com/sahilmathur254/guardtrellis/issues/41) closed |
 | Completed; follow-ups as needed | Escaped JSON contact workflow | Use the fixed two-field application helper, whole-call budgets and checked delivery without changing SDK defaults. | Design [#50](https://github.com/sahilmathur254/guardtrellis/issues/50) accepted 2026-10-18; implementation [#62](https://github.com/sahilmathur254/guardtrellis/issues/62) closed; shipped in `0.1.5` |
@@ -89,9 +89,10 @@ default, and no delivery date is promised.
 
 The [accepted design](docs/google_genai3_migration_design.md) and
 [#96 implementation plan](https://github.com/sahilmathur254/guardtrellis/issues/96)
-were accepted on 2026-11-09. Local implementation is ready for review; commits, pushes,
-merges and publication remain separate gates. #95's dependency-only cross-major range
-does not satisfy the contract and remains held as a draft.
+were accepted on 2026-11-09 and implemented through merged
+[PR #97](https://github.com/sahilmathur254/guardtrellis/pull/97). #96 is closed and Done;
+#95's dependency-only cross-major proposal is closed as superseded. The `0.2.0` source
+candidate remains unpublished.
 
 The bounded scope changes only the existing optional Gemini requirements, source example,
 its regressions, installed validation and migration/release guidance. It selects
@@ -100,24 +101,27 @@ and checked delivery, rejects conflicting backend settings before construction, 
 retains generic errors and used synchronous-resource cleanup. There is no new core API,
 scanner behavior, async Gemini interface, live-provider check or companion/demo migration.
 
-Two constrained profiles must independently resolve in fresh Gemini-only environments:
-the declared minimum `google-genai==3.0.0` / `httpx2==2.12.0`, and the reviewed lock.
-Both require actual installed-version assertions on Python 3.11–3.14. The minimum pair
-also needs no-network construction, HTTPX2 mock/privacy/cleanup regressions and isolated
-wheel/sdist smokes on Python 3.11; the lock needs the full native matrix and completed
-Python/Actions CodeQL uploads. Existing core/OpenAI-only/all-extras smokes and frozen
-evaluation identities remain intact. Local checks cannot establish native Windows CI.
+Two constrained profiles passed in fresh Gemini-only environments: the declared minimum
+`google-genai==3.0.0` / `httpx2==2.12.0`, and the reviewed lock with HTTPX2 `2.16.0`.
+Both asserted actual installed versions across Python 3.11–3.14. Linux Python 3.11 also
+passed the minimum pair's no-network construction, HTTPX2 mock/privacy/cleanup regressions
+and isolated wheel/sdist smokes. The full native Linux/macOS/Windows matrix and actual
+Python/Actions CodeQL uploads passed after merge at
+`153f73decef033fada78ae499d181bedbd289725`; see the
+[native evidence](docs/google_genai3_migration_design.md#merge-and-native-ci-evidence-2026-11-09).
+Existing core/OpenAI-only/all-extras smokes and frozen evaluation identities remain intact.
 
-After functional validation, local `0.2.0` version/changelog/generated installation pins
-received a separate review on the migration branch. They must accompany it before merge
-to `main`; native CI remains pending. The [local validation record](docs/google_genai3_migration_design.md#local-implementation-evidence-2026-11-09)
-qualifies the passing tests, profiles, evaluations and installation checks. The
+After functional validation, `0.2.0` version/changelog/generated installation pins received
+a separate review and merged with the migration. The
+[local validation record](docs/google_genai3_migration_design.md#local-implementation-evidence-2026-11-09)
+is retained alongside the subsequent native evidence. The
 [SDK 3 migration guide](docs/gemini.md#sdk-3-migration-for-020) records HTTPX2 types,
 certificate trust and environment changes. The
 [support decision](docs/compatibility.md#gemini-sdk-3-transition) follows latest-release/main
 maintenance after publication without promising a parallel `0.1.x` backport line.
-Publication still requires separate authorization, exact-main Windows/CodeQL checks,
-TestPyPI rehearsal and promotion of the same artifacts to PyPI.
+Publication still requires separate authorization, green Windows/CodeQL checks on the
+final release commit, TestPyPI rehearsal and promotion of the same artifacts to PyPI.
+Any release-closeout commit needs its own CI; the merge evidence above applies to `153f73d`.
 
 ## Completed 0.1.12: maintenance and accepted retrieval/tool research
 

@@ -32,11 +32,15 @@ own application.
 ## SDK 3 migration for 0.2.0
 
 The accepted [migration contract](google_genai3_migration_design.md) and
-[implementation #96](https://github.com/sahilmathur254/guardtrellis/issues/96) target
-`0.2.0`. Local implementation, mocked validation and candidate metadata are ready for
-review; native CI and publication remain separate gates. See the
-[local evidence](google_genai3_migration_design.md#local-implementation-evidence-2026-11-09).
-This does not establish package publication or a new live-provider result.
+[implementation #96](https://github.com/sahilmathur254/guardtrellis/issues/96) merged through
+[PR #97](https://github.com/sahilmathur254/guardtrellis/pull/97) as
+`153f73decef033fada78ae499d181bedbd289725`, preparing the unpublished `0.2.0` candidate.
+[Post-merge native CI](https://github.com/sahilmathur254/guardtrellis/actions/runs/42618484210)
+and [Python/Actions CodeQL](https://github.com/sahilmathur254/guardtrellis/actions/runs/42618483212)
+passed at that commit. Publication remains a separate gate; no new live-provider result
+is claimed. The earlier
+[local evidence](google_genai3_migration_design.md#local-implementation-evidence-2026-11-09)
+retains its original validation scope.
 Core GuardTrellis APIs, detector rules and non-Gemini requirements stay unchanged.
 
 The existing `[gemini]` extra moves to `google-genai>=3.0.0,<4` and `httpx2>=2.12,<3`.
@@ -170,12 +174,18 @@ uv run --frozen python scripts/smoke_dist.py
 uv run --frozen python scripts/smoke_dist.py --gemini-only --gemini-profile minimum
 ```
 
-The minimum pair must resolve on Python 3.11–3.14 and pass construction, HTTPX2 mock,
-cleanup/privacy and wheel/sdist checks on Python 3.11. The locked profile must resolve
-on those Python versions and pass the full Linux matrix plus native macOS/Windows
-Python 3.12 and completed Python/Actions CodeQL uploads. These are acceptance gates,
-not execution results. Keeping changes local leaves native Windows CI pending; consult
-#96 for recorded local evidence and remaining review checks.
+At merged commit `153f73decef033fada78ae499d181bedbd289725`, the
+[native matrix](https://github.com/sahilmathur254/guardtrellis/actions/runs/42618484210)
+passed both fresh profiles on Linux Python 3.11–3.14 and macOS/Windows Python 3.12.
+The minimum pair was SDK 3.0.0 / HTTPX2 2.12.0; the reviewed lock was SDK 3.0.0 /
+HTTPX2 2.16.0. Linux Python 3.11 also passed all 72 minimum-pair adapter regressions
+and minimum-pair wheel/sdist checks. Windows passed 1,907 tests with 80 expected
+platform skips, all fourteen evaluations and locked Gemini-only plus existing installation
+smokes. Completed
+[Python and Actions CodeQL uploads](https://github.com/sahilmathur254/guardtrellis/actions/runs/42618483212)
+reported zero results and no errors or warnings. These are mocked compatibility results;
+they do not establish publication, provider availability or a new live smoke. Future source
+changes need their own exact-commit verification before publication.
 
 ### Recorded live smoke: 2026-09-26
 
